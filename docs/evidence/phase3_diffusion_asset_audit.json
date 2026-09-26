@@ -1,0 +1,26 @@
+{
+  "phase": "PHASE3_DIFFUSION_ASSET_BUILDER",
+  "dataset": "baby",
+  "source_checkpoint_sha256": "aa389ef8576e491ffb56eaec9d165444487bef9c1e542f280e991e2e063cc1cb",
+  "source_checkpoint_epoch": 37,
+  "embeddings_sha256": "48522f88766ee88f3f4867896f5b26faac7e560ad5d09e7ce8608262355d41cc",
+  "interaction_sha256": "9ef5de9a05949d973928cca113aacba12067ff8f104e310ef28ea42db00c17b1",
+  "condition_formula": "Norm[c_collab + beta*(c_final-c_collab)]",
+  "condition_endpoint_shape": [
+    7050,
+    64
+  ],
+  "train_item_count": 7047,
+  "item_selection": "unique itemID appearing in x_label==0 TRAIN only",
+  "text_shape": [
+    7050,
+    384
+  ],
+  "visual_shape": [
+    7050,
+    4096
+  ],
+  "joint_state_dim": 4480,
+  "TEST_ACCESSED": false,
+  "TRAIN_ONLY_ITEM_AUDIT": "PASS"
+}

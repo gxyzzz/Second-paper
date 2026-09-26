@@ -1,0 +1,9 @@
+{
+  "candidate_items_exact": true,
+  "users_exact": true,
+  "full_scores_exact": true,
+  "full_score_max_abs_diff": 0.0,
+  "ranking_ids_exact": true,
+  "metrics_exact": true,
+  "DIFFUSION_INTEGRATION_IDENTITY": "PASS"
+}

@@ -28,7 +28,8 @@ def _metrics(items, scores, users, eval_sets):
 
 
 def run(assets_dir: Path, out_dir: Path, smoke_users: int | None = None,
-        config_path: Path | None = None) -> dict:
+        config_path: Path | None = None, text_path: Path | None = None,
+        image_path: Path | None = None) -> dict:
     out_dir.mkdir(parents=True, exist_ok=True)
     config_path = config_path or (ROOT / "src/configs/second_paper.yaml")
     full_config = yaml.safe_load(config_path.read_text(encoding="utf-8"))
@@ -81,8 +82,8 @@ def run(assets_dir: Path, out_dir: Path, smoke_users: int | None = None,
         pseudo_users = pseudo_users[:pseudo_limit]
         pseudo_items = pseudo_items[:pseudo_limit]
 
-    text_path = ROOT / "data/baby/text_feat.npy"
-    image_path = ROOT / "data/baby/image_feat.npy"
+    text_path = text_path or (ROOT / "data/baby/text_feat.npy")
+    image_path = image_path or (ROOT / "data/baby/image_feat.npy")
     metadata_path = ROOT / "data/baby/metadata_text_cache.jsonl"
 
     z_text_train, text_train_audit = semantic_z_for_candidates(
@@ -282,13 +283,17 @@ def main():
     parser.add_argument("--assets", required=True)
     parser.add_argument("--out", required=True)
     parser.add_argument("--smoke-users", type=int)
+    parser.add_argument("--text-feature")
+    parser.add_argument("--image-feature")
     parser.add_argument(
         "--config",
         default=str(ROOT / "src/configs/second_paper.yaml"),
     )
     args = parser.parse_args()
     result = run(
-        Path(args.assets), Path(args.out), args.smoke_users, Path(args.config)
+        Path(args.assets), Path(args.out), args.smoke_users, Path(args.config),
+        Path(args.text_feature) if args.text_feature else None,
+        Path(args.image_feature) if args.image_feature else None,
     )
     if args.smoke_users is None:
         if result["FULL_PORTABILITY"] != "PASS":

@@ -1,0 +1,64 @@
+{
+  "phase": "PHASE3_DIFFUSION_INTEGRATION_SMOKE",
+  "architecture": [
+    4480,
+    1024,
+    512,
+    1024,
+    4480
+  ],
+  "prediction": "x0",
+  "schedule": "cosine",
+  "diffusion_steps": 50,
+  "time_embedding_dim": 64,
+  "lambda_ctr": 0.1,
+  "p_uncond": 0.15,
+  "optimizer": "AdamW",
+  "lr": 0.001,
+  "weight_decay": 0.0001,
+  "condition_formula": "Norm[c_collab + beta*(c_final-c_collab)]",
+  "condition_shapes": {
+    "0.0": [
+      7050,
+      64
+    ],
+    "0.5": [
+      7050,
+      64
+    ],
+    "1.0": [
+      7050,
+      64
+    ]
+  },
+  "condition_beta_range": [
+    0.0,
+    1.0
+  ],
+  "train_item_count": 7047,
+  "TRAIN_ONLY_ITEM_AUDIT": "PASS",
+  "small_batch_forward": "PASS",
+  "small_batch_backward": "PASS",
+  "loss": 0.07115916162729263,
+  "loss_detail": {
+    "loss_rec": 0.0018444521119818091,
+    "e_text": 0.00306204566732049,
+    "e_visual": 0.0006268585566431284,
+    "unconditional_ratio": 0.375,
+    "loss_ctr": 0.6931471228599548,
+    "ctr_e_true": 0.0018440964631736279,
+    "ctr_e_shuffled": 0.0018442333675920963
+  },
+  "checkpoint_save_load": "PASS",
+  "purified_text_shape": [
+    8,
+    384
+  ],
+  "purified_visual_shape": [
+    8,
+    4096
+  ],
+  "finite_check": "PASS",
+  "rho0_feature_identity": "PASS",
+  "DIFFUSION_FORMAL_TRAINING": "NOT_STARTED"
+}
