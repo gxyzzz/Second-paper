@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.pytest_cache/
+.mypy_cache/
+
+# Environments / IDE
+.venv/
+venv/
+.env
+.idea/
+.vscode/
+
+# Training outputs
+src/saved/
+src/log/
+src/recommend_topk/
+saved/
+log/
+logs/
+results/*
+!results/.gitkeep
+checkpoints/
+runs/
+outputs/
+*.pth
+*.ckpt
+
+# Local datasets and generated graph/features.
+# Keep the upstream data instructions tracked.
+data/*
+!data/README.md
+*.npy
+*.npz
+*.pt
+*.pkl
+
+# OS / temp
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
