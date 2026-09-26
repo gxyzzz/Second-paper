@@ -9,9 +9,9 @@ inter_splitting_label: 'x_label'
 filter_out_cod_start_users: True
 is_multimodal_model: True
 
-checkpoint_dir: 'saved'
+checkpoint_dir: '../runs/checkpoints'
 save_recommended_topk: True
-recommend_topk: 'recommend_topk/'
+recommend_topk: '../runs/recommend_topk/'
 
 embedding_size: 64
 weight_decay: 0.0
