@@ -2,17 +2,30 @@
 
 Clean reproducible source repository for the second multimodal recommendation paper.
 
-## Current phase
+## Current research pipeline
 
-This repository is bootstrapped from the official **MSCA (WWW 2026)** implementation and keeps the MMRec-style training/evaluation structure.
+Second-paper now uses one dataset-generic implementation for Baby, Sports, and Electronics (internal dataset id: elec).
 
-- Frozen upstream: `recomall/MSCA`
-- Frozen upstream commit: `48455de8efa943e16d49db665e7f2fcb0c6c5e17`
-- Phase 0 scope: vanilla MSCA baseline and Phase 1 preparation only
-- Planned research extensions: **CoLiftRec** and **Condition-Adaptive Diffusion Semantic Purification**
-- CoLiftRec and Diffusion are intentionally **not** integrated in Phase 0.
+Pipeline:
 
-The upstream `LICENSE` is retained unchanged. See `PROVENANCE.md` for the exact import provenance and reproducibility rules.
+    from-scratch MSCA
+      -> current-run Top100 / embeddings
+      -> frozen CoLiftRec
+      -> Condition-Adaptive Diffusion Semantic Purification
+      -> Validation-only selector
+
+Current discipline:
+
+- MSCA starts from random initialization with seed 999.
+- Training and early stopping use TRAIN and Validation only.
+- CoLiftRec parameters are frozen per dataset and are not re-searched.
+- Diffusion consumes native Text384 + Visual4096 and current-run MSCA condition endpoints only.
+- Diffusion checkpoints are selected by a fixed TRAIN-item 95/5 denoising train/monitor split.
+- Recommendation Validation is used only after Diffusion training has frozen.
+- Test is an explicit post-freeze operation and is never used for model/config selection.
+- Historical checkpoints, Top100 caches, purified features, and ranking caches are not runtime dependencies.
+
+Main commands are documented by the dataset-generic entry points under src/pipelines and scripts/diffusion_train.py / scripts/diffusion_validate.py.
 
 ## Reproducibility policy
 

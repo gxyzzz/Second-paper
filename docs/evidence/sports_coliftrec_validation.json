@@ -1,0 +1,109 @@
+{
+  "phase": "COLIFTREC_VALIDATION",
+  "dataset": "sports",
+  "display_name": "Sports",
+  "mode": "formal",
+  "source_checkpoint_sha256": "9e67e3f64f9b7ac840f8b27e2950bec061801012c694bb17eb77eefbcf883d97",
+  "source_checkpoint_epoch": 72,
+  "dataset_config": "/home/gxy/code/Second-paper/src/configs/second_paper/sports.yaml",
+  "config": {
+    "lambda_text": 0.0,
+    "lambda_attribute": 1.0,
+    "lambda_visual": 1.0,
+    "alpha_text": 0.25,
+    "alpha_attribute": 0.2,
+    "alpha_visual": 0.025
+  },
+  "branches_enabled": {
+    "text": true,
+    "attribute": true,
+    "visual": true
+  },
+  "metrics": {
+    "MSCA_CANONICAL": {
+      "R10": 0.07957657554963972,
+      "N10": 0.04392129803909843,
+      "R20": 0.11789857521286645,
+      "N20": 0.05368023623883014,
+      "R50": 0.18367854252590127,
+      "N50": 0.06681564834425757
+    },
+    "MSCA_COLIFTREC_TV": {
+      "R10": 0.07964680421417143,
+      "N10": 0.04421384913869854,
+      "R20": 0.1190782039628643,
+      "N20": 0.05428333144128059,
+      "R50": 0.18625727220306346,
+      "N50": 0.0676987741429231
+    },
+    "MSCA_TV_PLUS_RAW_ATTRIBUTE": {
+      "R10": 0.08169186292533498,
+      "N10": 0.04519181544796087,
+      "R20": 0.12041746344230407,
+      "N20": 0.055084504738281956,
+      "R50": 0.188985509188843,
+      "N50": 0.06880263311454289
+    },
+    "MSCA_FULL_COLIFTREC_TAV": {
+      "R10": 0.0820812418542386,
+      "N10": 0.045250089048096354,
+      "R20": 0.12050663256484587,
+      "N20": 0.05506696571623736,
+      "R50": 0.18941624499797086,
+      "N50": 0.0688579782063425
+    }
+  },
+  "deltas_vs_msca": {
+    "MSCA_CANONICAL": {
+      "R10": 0.0,
+      "N10": 0.0,
+      "R20": 0.0,
+      "N20": 0.0,
+      "R50": 0.0,
+      "N50": 0.0
+    },
+    "MSCA_COLIFTREC_TV": {
+      "R10": 7.022866453171295e-05,
+      "N10": 0.00029255109960010794,
+      "R20": 0.0011796287499978436,
+      "N20": 0.0006030952024504502,
+      "R50": 0.0025787296771621893,
+      "N50": 0.0008831257986655211
+    },
+    "MSCA_TV_PLUS_RAW_ATTRIBUTE": {
+      "R10": 0.00211528737569526,
+      "N10": 0.0012705174088624427,
+      "R20": 0.0025188882294376186,
+      "N20": 0.0014042684994518134,
+      "R50": 0.005306966662941726,
+      "N50": 0.001986984770285319
+    },
+    "MSCA_FULL_COLIFTREC_TAV": {
+      "R10": 0.0025046663045988765,
+      "N10": 0.0013287910089979232,
+      "R20": 0.002608057351979415,
+      "N20": 0.0013867294774072142,
+      "R50": 0.005737702472069589,
+      "N50": 0.0020423298620849267
+    }
+  },
+  "full_vs_msca_primary_positive_count": 4,
+  "full_vs_tv_primary_positive_count": 4,
+  "full_vs_raw_attribute_primary_positive_count": 3,
+  "historical_msca_validation": {
+    "R10": 0.07987405696965612,
+    "N10": 0.04399077843473743,
+    "R20": 0.11829516536096335,
+    "N20": 0.05377308821647508,
+    "R50": 0.18326167237618096,
+    "N50": 0.06674690221296206
+  },
+  "alpha_zero_identity": {
+    "ranking_ids_exact": true,
+    "metrics_exact": true,
+    "score_coordinate": "row-z(MSCA candidate scores)",
+    "PASS": true
+  },
+  "TEST_ACCESSED": false,
+  "TEST_USED_FOR_SELECTION": false
+}

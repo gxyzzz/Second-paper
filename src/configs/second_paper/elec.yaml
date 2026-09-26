@@ -22,3 +22,10 @@ diffusion:
   guidance_candidates: [1.5, 2.0]
   rho_text_candidates: [0.25, 0.5, 0.75, 1.0]
   rho_visual_candidates: [0.5, 0.75, 1.0]
+historical_msca_validation:
+  R10: 0.05008156853969141
+  N10: 0.02787977057635714
+  R20: 0.07388614909135
+  N20: 0.03395789259380927
+  R50: 0.11730918583262642
+  N50: 0.042670626887756705
