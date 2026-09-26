@@ -1,0 +1,44 @@
+{
+  "phase": "PHASE2_COLIFTREC_FROZEN_TEST",
+  "dataset": "baby",
+  "source_checkpoint_sha256": "aa389ef8576e491ffb56eaec9d165444487bef9c1e542f280e991e2e063cc1cb",
+  "source_checkpoint_epoch": 37,
+  "parameters": {
+    "lambda_text": 1.0,
+    "lambda_attribute": 0.75,
+    "lambda_visual": 0.25,
+    "alpha_text": 0.25,
+    "alpha_attribute": 0.15,
+    "alpha_visual": 0.025
+  },
+  "parameters_frozen_from_validation": true,
+  "MSCA_CANONICAL": {
+    "R10": 0.06975933340680064,
+    "N10": 0.03805872116677564,
+    "R20": 0.10383620022730333,
+    "N20": 0.04685221810175405,
+    "R50": 0.17140490291685972,
+    "N50": 0.06057006258416349
+  },
+  "MSCA_FULL_COLIFTREC_TAV": {
+    "R10": 0.07239374793373252,
+    "N10": 0.03979682175034102,
+    "R20": 0.10820199385768943,
+    "N20": 0.049028392301882114,
+    "R50": 0.17597763069478162,
+    "N50": 0.06281241228974645
+  },
+  "deltas_full_vs_msca": {
+    "R10": 0.0026344145269318747,
+    "N10": 0.0017381005835653829,
+    "R20": 0.004365793630386097,
+    "N20": 0.002176174200128063,
+    "R50": 0.004572727777921892,
+    "N50": 0.0022423497055829578
+  },
+  "primary_positive_count": 4,
+  "overall_positive_count": 6,
+  "BABY_COLIFTREC_TEST_RUN_COUNT": 1,
+  "TEST_USED_FOR_SELECTION": false,
+  "NO_POST_TEST_TUNING": true
+}

@@ -1,0 +1,76 @@
+{
+  "interaction_sha256": "9ef5de9a05949d973928cca113aacba12067ff8f104e310ef28ea42db00c17b1",
+  "test_users": 19445,
+  "pseudo_train_users": 19445,
+  "candidate_shape": [
+    19445,
+    100
+  ],
+  "history_definition": "x_label==0 TRAIN only",
+  "target_definition": "x_label==2 TEST only",
+  "candidate_definition": "current-run frozen MSCA Top100 with TRAIN positives masked",
+  "background_definition": "TRAIN-only pseudo histories with last TRAIN interaction removed",
+  "text_train": {
+    "feature_path": "/home/gxy/code/Second-paper/data/baby/text_feat.npy",
+    "feature_shape": [
+      7050,
+      384
+    ],
+    "feature_dtype": "float32",
+    "feature_sha256": "6667f2ad655c9ecc97cb3383f58988864ef51ec0b39c158b15986c66769f2dc4",
+    "definition": "L2 item rows; mean TRAIN-history profile; L2 profile; cosine; row-z"
+  },
+  "text_test": {
+    "feature_path": "/home/gxy/code/Second-paper/data/baby/text_feat.npy",
+    "feature_shape": [
+      7050,
+      384
+    ],
+    "feature_dtype": "float32",
+    "feature_sha256": "6667f2ad655c9ecc97cb3383f58988864ef51ec0b39c158b15986c66769f2dc4",
+    "definition": "L2 item rows; mean TRAIN-history profile; L2 profile; cosine; row-z"
+  },
+  "visual_train": {
+    "feature_path": "/home/gxy/code/Second-paper/data/baby/image_feat.npy",
+    "feature_shape": [
+      7050,
+      4096
+    ],
+    "feature_dtype": "float64",
+    "feature_sha256": "36c3be592b98506189a7d5de71b21577cf626f0293b539d861534673b3e9fd70",
+    "definition": "L2 item rows; mean TRAIN-history profile; L2 profile; cosine; row-z"
+  },
+  "visual_test": {
+    "feature_path": "/home/gxy/code/Second-paper/data/baby/image_feat.npy",
+    "feature_shape": [
+      7050,
+      4096
+    ],
+    "feature_dtype": "float64",
+    "feature_sha256": "36c3be592b98506189a7d5de71b21577cf626f0293b539d861534673b3e9fd70",
+    "definition": "L2 item rows; mean TRAIN-history profile; L2 profile; cosine; row-z"
+  },
+  "attribute": {
+    "metadata_path": "/home/gxy/code/Second-paper/data/baby/metadata_text_cache.jsonl",
+    "metadata_sha256": "eb8d5937b574af8d5b54f4a406a790c8770c3ba4f0fd0e5183a570adb634a789",
+    "rows": 7050,
+    "title_vocab_size": 8921,
+    "description_vocab_size": 49309,
+    "brand_vocab_size": 736,
+    "tfidf_min_df": 2,
+    "tfidf_max_df": 0.8,
+    "description_len": 128,
+    "fields": [
+      "title",
+      "brand",
+      "description"
+    ],
+    "weights": {
+      "title": 0.45,
+      "brand": 0.2,
+      "description": 0.35
+    }
+  },
+  "TEST_ACCESSED": true,
+  "TEST_USED_FOR_SELECTION": false
+}

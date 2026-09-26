@@ -82,3 +82,31 @@ Gates:
 - Full vs raw Attribute primary positive: 4/4
 
 PHASE2_COLIFTREC_BABY = PASS
+
+## Frozen Baby Test
+
+After all Validation-side gates passed, the frozen Baby CoLiftRec parameters were evaluated once on x_label == 2 Test targets. User semantic histories and generic backgrounds remain TRAIN-only.
+
+| Method | R10 | N10 | R20 | N20 | R50 | N50 |
+|---|---:|---:|---:|---:|---:|---:|
+| MSCA | 0.06975933 | 0.03805872 | 0.10383620 | 0.04685222 | 0.17140490 | 0.06057006 |
+| MSCA + Full CoLiftRec T/A/V | 0.07239375 | 0.03979682 | 0.10820199 | 0.04902839 | 0.17597763 | 0.06281241 |
+
+Full CoLiftRec delta vs current-run MSCA:
+
+- R10: +0.00263441
+- N10: +0.00173810
+- R20: +0.00436579
+- N20: +0.00217617
+- R50: +0.00457273
+- N50: +0.00224235
+
+Frozen Test gates:
+
+- primary positive: 4/4
+- overall positive: 6/6
+- BABY_COLIFTREC_TEST_RUN_COUNT = 1
+- TEST_USED_FOR_SELECTION = false
+- NO_POST_TEST_TUNING = true
+
+PHASE2_COLIFTREC_BABY = COMPLETE
