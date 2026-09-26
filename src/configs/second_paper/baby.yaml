@@ -1,0 +1,31 @@
+dataset: baby
+display_name: Baby
+paths:
+  interaction: data/baby/baby.inter
+  text_feature: data/baby/text_feat.npy
+  visual_feature: data/baby/image_feat.npy
+  metadata: data/baby/metadata_text_cache.jsonl
+coliftrec:
+  top_l: 100
+  text: {enabled: true, lambda: 1.0, alpha: 0.25}
+  attribute:
+    enabled: true
+    lambda: 0.75
+    alpha: 0.15
+    tfidf_min_df: 2
+    tfidf_max_df: 0.8
+    description_len: 128
+  visual: {enabled: true, lambda: 0.25, alpha: 0.025}
+diffusion:
+  beta_candidates: [0.5, 1.0]
+  t_edit_candidates: [3, 5, 7]
+  guidance_candidates: [1.5, 2.0]
+  rho_text_candidates: [0.25, 0.5, 0.75, 1.0]
+  rho_visual_candidates: [0.5, 0.75, 1.0]
+historical_msca_validation:
+  R10: 0.06727558804442323
+  N10: 0.03675184086609903
+  R20: 0.10258555877995323
+  N20: 0.04572823804624801
+  R50: 0.16836029360200092
+  N50: 0.05889246778850828

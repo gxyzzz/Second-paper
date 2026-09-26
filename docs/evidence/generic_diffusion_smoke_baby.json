@@ -1,0 +1,41 @@
+{
+  "phase": "DIFFUSION_GENERIC_SMOKE",
+  "dataset": "baby",
+  "beta": 0.5,
+  "n_items": 7050,
+  "embedding_dim": 64,
+  "train_item_count": 7047,
+  "text_dim": 384,
+  "visual_dim": 4096,
+  "joint_dim": 4480,
+  "condition_shape": [
+    7050,
+    64
+  ],
+  "small_batch_forward": "PASS",
+  "small_batch_backward": "PASS",
+  "checkpoint_save_load": "PASS",
+  "purified_text_shape": [
+    8,
+    384
+  ],
+  "purified_visual_shape": [
+    8,
+    4096
+  ],
+  "finite_check": "PASS",
+  "rho0_feature_identity": "PASS",
+  "TRAIN_ONLY_ITEM_AUDIT": "PASS",
+  "TEST_ACCESSED": false,
+  "DIFFUSION_FORMAL_TRAINING": "NOT_STARTED",
+  "loss": 0.07115916162729263,
+  "loss_detail": {
+    "loss_rec": 0.0018444521119818091,
+    "e_text": 0.00306204566732049,
+    "e_visual": 0.0006268585566431284,
+    "unconditional_ratio": 0.375,
+    "loss_ctr": 0.6931471228599548,
+    "ctr_e_true": 0.0018440964631736279,
+    "ctr_e_shuffled": 0.0018442333675920963
+  }
+}

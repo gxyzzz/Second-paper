@@ -74,6 +74,8 @@ class Config(object):
         file_list.append(os.path.join(cur_dir, "overall.yaml"))
         file_list.append(os.path.join(cur_dir, "dataset", "{}.yaml".format(config_dict['dataset'])))
         file_list.append(os.path.join(cur_dir, "model", "{}.yaml".format(config_dict['model'])))
+        # Optional dataset-specific model override, loaded after the base model config.
+        file_list.append(os.path.join(cur_dir, "model", str(config_dict['model']), "{}.yaml".format(config_dict['dataset'])))
         if mg:
             file_list.append(os.path.join(cur_dir, "mg.yaml"))
 

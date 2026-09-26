@@ -1,0 +1,39 @@
+{
+  "dataset": "elec",
+  "display_name": "Electronics",
+  "interaction": {
+    "path": "/home/gxy/code/MSCA/data/elec/elec.inter",
+    "sha256": "3586c6ab2d4b2a7a0f69c5f6149dbdf7a229a092c37cfee1244f49734afa8fb5",
+    "interactions": 1689188,
+    "train": 1254441,
+    "validation": 211296,
+    "test": 223451,
+    "n_users": 192403,
+    "n_items": 63001
+  },
+  "text": {
+    "path": "/home/gxy/code/MSCA/data/elec/text_feat.npy",
+    "sha256": "ae49f620ad95301914b17eab868f9c06e4da02a699a8db036e1b077eeedbc239",
+    "shape": [
+      63001,
+      384
+    ],
+    "dtype": "float32"
+  },
+  "visual": {
+    "path": "/home/gxy/code/MSCA/data/elec/image_feat.npy",
+    "sha256": "1cdaa24a8493a66362845913412c868a011324f2e9060150245df026f8f89cb0",
+    "shape": [
+      63001,
+      4096
+    ],
+    "dtype": "float64"
+  },
+  "metadata": {
+    "path": "/home/gxy/code/DiCalRec/data/electronics/metadata_text_cache.jsonl",
+    "sha256": "bbd0f7731a7d7fc3fa4e49205b64ff5ef96caffead3c5fe78bbfc83f603a4d83",
+    "rows": 63001
+  },
+  "TEST_ACCESSED_FOR_TARGETS": false,
+  "note": "x_label counts are provenance metadata only; Test targets are not evaluated."
+}

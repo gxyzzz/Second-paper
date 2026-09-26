@@ -12,7 +12,7 @@ from modules.coliftrec import CoLiftConfig, score_coliftrec
 from modules.ranking import rank_by_score, row_zscore
 from pipelines.msca_assets import build_train_histories_and_validation
 
-CONFIG = yaml.safe_load((ROOT / "src/configs/second_paper.yaml").read_text())
+CONFIG = yaml.safe_load((ROOT / "src/configs/second_paper/baby.yaml").read_text())
 ccfg = CONFIG["coliftrec"]
 frozen = CoLiftConfig(
     lambda_text=float(ccfg["text"]["lambda"]),

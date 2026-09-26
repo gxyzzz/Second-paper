@@ -1,0 +1,39 @@
+{
+  "dataset": "sports",
+  "display_name": "Sports",
+  "interaction": {
+    "path": "/home/gxy/code/MSCA/data/sports/sports.inter",
+    "sha256": "b8a43979c7984a01a8ab9713ea29a3cf13a65b1784dbadc2162fa932daf1c6a0",
+    "interactions": 296337,
+    "train": 218409,
+    "validation": 37899,
+    "test": 40029,
+    "n_users": 35598,
+    "n_items": 18357
+  },
+  "text": {
+    "path": "/home/gxy/code/MSCA/data/sports/text_feat.npy",
+    "sha256": "27d6087f0d8644b8245c60052425530c6446dffe61024b8126db0009ad94de84",
+    "shape": [
+      18357,
+      384
+    ],
+    "dtype": "float32"
+  },
+  "visual": {
+    "path": "/home/gxy/code/MSCA/data/sports/image_feat.npy",
+    "sha256": "222f924a0694b6c7e2bc26ea4bc2ef4ec89f7045aa5105ef463af8455c7a7695",
+    "shape": [
+      18357,
+      4096
+    ],
+    "dtype": "float64"
+  },
+  "metadata": {
+    "path": "/home/gxy/code/DiCalRec/data/sports/metadata_text_cache.jsonl",
+    "sha256": "aa0aa90ef9b64dd60d27907cea25c691f66cc0b2fc0e604d91ea5c5c018dc7b0",
+    "rows": 18357
+  },
+  "TEST_ACCESSED_FOR_TARGETS": false,
+  "note": "x_label counts are provenance metadata only; Test targets are not evaluated."
+}

@@ -1,0 +1,31 @@
+dataset: sports
+display_name: Sports
+paths:
+  interaction: data/sports/sports.inter
+  text_feature: data/sports/text_feat.npy
+  visual_feature: data/sports/image_feat.npy
+  metadata: data/sports/metadata_text_cache.jsonl
+coliftrec:
+  top_l: 100
+  text: {enabled: true, lambda: 0.0, alpha: 0.25}
+  attribute:
+    enabled: true
+    lambda: 1.0
+    alpha: 0.20
+    tfidf_min_df: 2
+    tfidf_max_df: 0.8
+    description_len: 128
+  visual: {enabled: true, lambda: 1.0, alpha: 0.025}
+diffusion:
+  beta_candidates: [0.5, 1.0]
+  t_edit_candidates: [3, 5, 7]
+  guidance_candidates: [1.5, 2.0]
+  rho_text_candidates: [0.25, 0.5, 0.75, 1.0]
+  rho_visual_candidates: [0.5, 0.75, 1.0]
+historical_msca_validation:
+  R10: 0.07987405696965612
+  N10: 0.04399077843473743
+  R20: 0.11829516536096335
+  N20: 0.05377308821647508
+  R50: 0.18326167237618096
+  N50: 0.06674690221296206
