@@ -167,8 +167,12 @@ def finalize(dataset,diff_dir,grid):
  if cross[f"{dataset.upper()}_DIFFUSION_UPGRADE_PASS"] and eligible: final=max(eligible,key=lambda r:r["U"]); reason="CROSSFIT_PASS_FULL_VALIDATION_MAX_U"
  else: final=shortlist[0]; reason="CROSSFIT_FAIL_NO_DIFFUSION"
  bm=[json.loads((evid/f"beta_{btag(b)}_training.json").read_text()) for b in (0.5,1.0)]
+ asset_audit=json.loads((diff_dir/"assets"/"audit.json").read_text())
+ selected_meta=None if final["id"]=="NO_DIFFUSION" else next(x for x in bm if float(x["beta"])==float(final["beta"]))
  freeze={"phase":f"{dataset.upper()}_DIFFUSION_FROZEN_BEFORE_TEST","dataset":dataset,"final_config":final,"final_reason":reason,
          "msca_checkpoint_sha256":bm[0]["source_msca_checkpoint_sha256"],"beta_checkpoint_sha256":None if final["id"]=="NO_DIFFUSION" else final["checkpoint_sha256"],
+         "canonical_text_sha256":asset_audit["text_sha256"],"canonical_visual_sha256":asset_audit["visual_sha256"],
+         "selected_condition_sha256":None if selected_meta is None else selected_meta["condition_sha256"],
          "candidate_pool_sha256":sha256(pool_path),"selected_beta":None if final["id"]=="NO_DIFFUSION" else final["beta"],
          "t_edit":None if final["id"]=="NO_DIFFUSION" else final["t_edit"],"guidance":None if final["id"]=="NO_DIFFUSION" else final["guidance"],
          "rho_T":0. if final["id"]=="NO_DIFFUSION" else final["rho_T"],"rho_V":0. if final["id"]=="NO_DIFFUSION" else final["rho_V"],
