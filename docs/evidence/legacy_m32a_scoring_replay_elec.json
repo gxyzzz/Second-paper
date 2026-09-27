@@ -1,0 +1,51 @@
+{
+  "phase": "LEGACY_M32A_SCORING_REPLAY",
+  "dataset": "elec",
+  "anchor": {
+    "beta": 0.5,
+    "t_edit": 3,
+    "guidance": 2.0,
+    "rho_T": 1.0,
+    "rho_V": 1.0
+  },
+  "ranking_ids_exact": true,
+  "score_max_abs_diff_vs_legacy": 0.0,
+  "raw_text_lift_max_abs_diff_vs_saved": 0.0,
+  "raw_visual_lift_max_abs_diff_vs_saved": 0.0,
+  "edited_text_lift_max_abs_diff": 0.0,
+  "edited_visual_lift_max_abs_diff": 0.0,
+  "metrics": {
+    "R10": 0.051801741408657044,
+    "N10": 0.028691745545804375,
+    "R20": 0.07630003205352168,
+    "N20": 0.03493101866179936,
+    "R50": 0.11990409559689214,
+    "N50": 0.043696868008991176
+  },
+  "legacy_runtime_metrics": {
+    "R10": 0.051801741408657044,
+    "N10": 0.028691745545804375,
+    "R20": 0.07630003205352168,
+    "N20": 0.03493101866179936,
+    "R50": 0.11990409559689214,
+    "N50": 0.043696868008991176
+  },
+  "historical_expected_metrics": {
+    "R10": 0.051801741408657044,
+    "N10": 0.028691745545804375,
+    "R20": 0.07630003205352168,
+    "N20": 0.03493101866179936,
+    "R50": 0.11990409559689214,
+    "N50": 0.043696868008991176
+  },
+  "metric_abs_diff": {
+    "R10": 0.0,
+    "N10": 0.0,
+    "R20": 0.0,
+    "N20": 0.0,
+    "R50": 0.0,
+    "N50": 0.0
+  },
+  "TEST_ACCESSED": false,
+  "LEGACY_M32A_SCORING_REPLAY_ELEC": "PASS"
+}

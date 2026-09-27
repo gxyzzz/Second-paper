@@ -1,0 +1,59 @@
+{
+  "phase": "LEGACY_M31A_SCORING_REPLAY",
+  "dataset": "sports",
+  "anchor": {
+    "beta": 1.0,
+    "t_edit": 5,
+    "guidance": 1.5,
+    "rho_T": 0.75,
+    "rho_V": 0.75
+  },
+  "ranking_ids_exact": true,
+  "score_max_abs_diff_vs_legacy": 0.0,
+  "raw_text_lift_max_abs_diff": 0.0,
+  "raw_visual_lift_max_abs_diff": 0.0,
+  "edited_text_lift_max_abs_diff": 0.0,
+  "edited_visual_lift_max_abs_diff": 0.0,
+  "base_metrics": {
+    "R10": 0.08190426561961868,
+    "N10": 0.04526862680479137,
+    "R20": 0.1206555173336531,
+    "N20": 0.05516281178655487,
+    "R50": 0.18927344671342303,
+    "N50": 0.06889620802959184
+  },
+  "base_metric_abs_diff": {
+    "R10": 0.0,
+    "N10": 0.0,
+    "R20": 0.0,
+    "N20": 0.0,
+    "R50": 0.0,
+    "N50": 0.0
+  },
+  "metrics": {
+    "R10": 0.08302675377438391,
+    "N10": 0.045677385784304365,
+    "R20": 0.12080957463911954,
+    "N20": 0.05533195257656561,
+    "R50": 0.1887841870171854,
+    "N50": 0.06895728654133629
+  },
+  "historical_expected_metrics": {
+    "R10": 0.08302675377438391,
+    "N10": 0.045677385784304365,
+    "R20": 0.12080957463911954,
+    "N20": 0.05533195257656561,
+    "R50": 0.1887841870171854,
+    "N50": 0.06895728654133629
+  },
+  "metric_abs_diff": {
+    "R10": 0.0,
+    "N10": 0.0,
+    "R20": 0.0,
+    "N20": 0.0,
+    "R50": 0.0,
+    "N50": 0.0
+  },
+  "TEST_ACCESSED": false,
+  "LEGACY_M31A_SCORING_REPLAY_SPORTS": "PASS"
+}

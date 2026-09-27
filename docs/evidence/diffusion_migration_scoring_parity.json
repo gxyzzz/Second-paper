@@ -1,0 +1,11 @@
+{
+  "phase": "LEGACY_REPLAY_PARITY_GATE",
+  "LEGACY_M31A_SCORING_REPLAY_BABY": "PASS",
+  "LEGACY_M31A_SCORING_REPLAY_SPORTS": "PASS",
+  "LEGACY_M32A_SCORING_REPLAY_ELEC": "PASS",
+  "DIFFUSION_MIGRATION_SCORING": "VALID",
+  "ranking_ids_exact_all_domains": true,
+  "metric_max_abs_diff_all_domains": 0.0,
+  "TEST_ACCESSED": false,
+  "legacy_repository_role": "READ_ONLY_TEST_FIXTURE_ONLY"
+}
