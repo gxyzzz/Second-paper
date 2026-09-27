@@ -101,7 +101,7 @@ def run_grid(dataset,diff_dir,ctx,manifest):
  rows=[{"id":"NO_DIFFUSION","kind":"NO_DIFFUSION","per_user_index":0,"rho_T":0.,"rho_V":0.,"metrics":base_metrics,"U":0.,"primary_positive_count":0,"sum_primary_delta":0.}]
  total_candidates=1+len(manifest)*len(rho_t)*len(rho_v)
  per_path=diff_dir/"validation_per_user_primary.npy"
- per=np.lib.format.open_memmap(per_path,mode="w+",dtype=np.float32,
+ per=np.lib.format.open_memmap(per_path,mode="w+",dtype=np.float64,
                                shape=(total_candidates,len(base_per),len(PRIMARY)))
  per[0]=base_per
  at=float(cfg["coliftrec"]["text"]["alpha"]); av=float(cfg["coliftrec"]["visual"]["alpha"]); idx=1
