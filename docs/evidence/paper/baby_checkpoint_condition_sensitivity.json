@@ -1,0 +1,181 @@
+{
+  "phase": "BABY_A5_MSCA_CHECKPOINT_CONDITION_SENSITIVITY",
+  "dataset": "baby",
+  "item_count": 7050,
+  "legacy_checkpoint_sha256": "6e5b1383fc633af6f83b4b8089f7f40946bd0c8d45a727fa8f4ea9ded96e223e",
+  "current_checkpoint_sha256": "aa389ef8576e491ffb56eaec9d165444487bef9c1e542f280e991e2e063cc1cb",
+  "collab_old_vs_current": {
+    "cosine": {
+      "mean": 0.9961670376520754,
+      "std": 0.020595887687991567,
+      "p10": 0.9950878567904032,
+      "p50": 0.9968114254181522,
+      "p90": 0.9978707503042575
+    },
+    "l2_displacement": {
+      "mean": 0.08131008762623822,
+      "std": 0.014266412172497758,
+      "p10": 0.06521009583305035,
+      "p50": 0.07984627943024913,
+      "p90": 0.09907273253835361
+    }
+  },
+  "final_old_vs_current": {
+    "cosine": {
+      "mean": 0.9957552759960557,
+      "std": 0.004657150116018056,
+      "p10": 0.9933294173464265,
+      "p50": 0.9969152096424077,
+      "p90": 0.998014687749126
+    },
+    "l2_displacement": {
+      "mean": 0.08663602503905106,
+      "std": 0.03136314992664984,
+      "p10": 0.06301289129700205,
+      "p50": 0.07854667807081034,
+      "p90": 0.11550396229736494
+    }
+  },
+  "collab_vs_final_old": {
+    "mean": 0.9643512888623621,
+    "std": 0.03246731813094922,
+    "p10": 0.9329331992916564,
+    "p50": 0.9709545984595191,
+    "p90": 0.9893347304303751
+  },
+  "collab_vs_final_current": {
+    "mean": 0.965644376459218,
+    "std": 0.03194532408167566,
+    "p10": 0.9349939016667981,
+    "p50": 0.9721177838559203,
+    "p90": 0.990092439667065
+  },
+  "condition_old_vs_current_by_beta": {
+    "0.0": {
+      "cosine": {
+        "mean": 0.9961670376520754,
+        "std": 0.020595887687991567,
+        "p10": 0.9950878567904032,
+        "p50": 0.9968114254181522,
+        "p90": 0.9978707503042575
+      },
+      "l2_displacement": {
+        "mean": 0.08131008762623822,
+        "std": 0.014266412172497758,
+        "p10": 0.06521009583305035,
+        "p50": 0.07984627943024913,
+        "p90": 0.09907273253835361
+      }
+    },
+    "0.25": {
+      "cosine": {
+        "mean": 0.9964947927259346,
+        "std": 0.001686084024105184,
+        "p10": 0.9948242417283376,
+        "p50": 0.9968292980603799,
+        "p90": 0.9979370847743936
+      },
+      "l2_displacement": {
+        "mean": 0.08205176994775228,
+        "std": 0.016670980672176827,
+        "p10": 0.06423262762055269,
+        "p50": 0.07963293207068195,
+        "p90": 0.10174240281611854
+      }
+    },
+    "0.5": {
+      "cosine": {
+        "mean": 0.9962595677876767,
+        "std": 0.0026219392660878135,
+        "p10": 0.994229425460419,
+        "p50": 0.9968648818373653,
+        "p90": 0.9979823523619925
+      },
+      "l2_displacement": {
+        "mean": 0.08369123748855213,
+        "std": 0.021832113784091542,
+        "p10": 0.06352397401005296,
+        "p50": 0.0791848238317269,
+        "p90": 0.1074297400674894
+      }
+    },
+    "0.75": {
+      "cosine": {
+        "mean": 0.9960048625520893,
+        "std": 0.0036698959064393826,
+        "p10": 0.9937984042441816,
+        "p50": 0.9968913050336328,
+        "p90": 0.9979938919856095
+      },
+      "l2_displacement": {
+        "mean": 0.08524487358782976,
+        "std": 0.026899561758817025,
+        "p10": 0.06334205576692024,
+        "p50": 0.078850427584333,
+        "p90": 0.11136960730023739
+      }
+    },
+    "1.0": {
+      "cosine": {
+        "mean": 0.9957552759960557,
+        "std": 0.004657150116018056,
+        "p10": 0.9933294173464265,
+        "p50": 0.9969152096424077,
+        "p90": 0.998014687749126
+      },
+      "l2_displacement": {
+        "mean": 0.08663602503905106,
+        "std": 0.03136314992664984,
+        "p10": 0.06301289129700205,
+        "p50": 0.07854667807081034,
+        "p90": 0.11550396229736494
+      }
+    }
+  },
+  "legacy_assets": {
+    "0.0": {
+      "path": "/home/gxy/code/DiCalRec/experiments/m31b_condition_purity_guided_native_tv_purification/outputs/assets/baby_condition_beta_0p00.npy",
+      "sha256": "95e13bc9e725717ccdfa360775b3740f7cf212f95e48689a9ddb19561e12e116"
+    },
+    "0.25": {
+      "path": "/home/gxy/code/DiCalRec/experiments/m31b_condition_purity_guided_native_tv_purification/outputs/assets/baby_condition_beta_0p25.npy",
+      "sha256": "76a0a51d47496c0d9b4f9cb6814531f9fd2c2b308304d3d6eb1cf382caa667bd"
+    },
+    "0.5": {
+      "path": "/home/gxy/code/DiCalRec/experiments/m31b_condition_purity_guided_native_tv_purification/outputs/assets/baby_condition_beta_0p50.npy",
+      "sha256": "a08e13eb61d15a3da7270b97d6d2c62e0e7eef7d7dc5dadef72c88eff337ddaa"
+    },
+    "0.75": {
+      "path": "/home/gxy/code/DiCalRec/experiments/m31b_condition_purity_guided_native_tv_purification/outputs/assets/baby_condition_beta_0p75.npy",
+      "sha256": "694b10d308c9a39eb8ffddbebb906ea60c4448e628ffe516579d7a3abc22e3e4"
+    },
+    "1.0": {
+      "path": "/home/gxy/code/DiCalRec/experiments/m31b_condition_purity_guided_native_tv_purification/outputs/assets/baby_condition_beta_1p00.npy",
+      "sha256": "0c951a5cf9b074dc30fcac46d584d484090875cd87dbf94e1ed00af1981da04e"
+    }
+  },
+  "current_assets": {
+    "0.0": {
+      "path": "runs/diffusion_rescue/baby_condition_rescue/assets/condition_beta_0p0.npy",
+      "sha256": "e4006686eb4be7eac5a7c6972c42d57815f712f8ee7b393d916fdca9d40f981d"
+    },
+    "0.25": {
+      "path": "runs/diffusion_rescue/baby_condition_rescue/assets/condition_beta_0p2.npy",
+      "sha256": "9a75c7a4a46a0eed6ef2c0e396491218fdccd2b27e25b8ffcc9bf5b553fc2ca1"
+    },
+    "0.5": {
+      "path": "runs/diffusion_rescue/baby_condition_rescue/assets/condition_beta_0p5.npy",
+      "sha256": "a7f5be2c5a2fd8351bd041a6d805df017b1cecc20353c7065c1215186260c1f4"
+    },
+    "0.75": {
+      "path": "runs/diffusion_rescue/baby_condition_rescue/assets/condition_beta_0p8.npy",
+      "sha256": "346d4469e03b301e6365896ea76c13871cd1454895b3744fe7366a6120fa7d8d"
+    },
+    "1.0": {
+      "path": "runs/diffusion_rescue/baby_condition_rescue/assets/condition_beta_1p0.npy",
+      "sha256": "bfa7334b86191bfecfe11bcad86f524d334c175f3494c07b20e5989d78904cbc"
+    }
+  },
+  "selected_beta_condition_displacement": "PENDING_A3_SELECTION",
+  "TEST_ACCESSED": false
+}
