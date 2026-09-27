@@ -1,0 +1,221 @@
+{
+  "assets": [
+    {
+      "beta": 0.5,
+      "t_edit": 3,
+      "guidance": 1.5,
+      "K": 4,
+      "noise_seeds": [
+        20261141,
+        20261142,
+        20261143,
+        20261144
+      ],
+      "checkpoint_sha256": "ffc3b3e2378646f977f1aaeb84dfbc0868c85d0f97bd2129f64045f624bbecba",
+      "text_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_0p5/t3_g1p5_text.npy",
+      "text_sha256": "79b493592df91f3e4e920827c4bbab6d9b5006391c489a7ccd16ac13f438195d",
+      "visual_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_0p5/t3_g1p5_visual.npy",
+      "visual_sha256": "8b3a491b770866f7961efe1d476be86edb9ba1c97498d8f1e481b3de05aa4c46",
+      "runtime_sec": 7.772884130477905
+    },
+    {
+      "beta": 0.5,
+      "t_edit": 3,
+      "guidance": 2.0,
+      "K": 4,
+      "noise_seeds": [
+        20261141,
+        20261142,
+        20261143,
+        20261144
+      ],
+      "checkpoint_sha256": "ffc3b3e2378646f977f1aaeb84dfbc0868c85d0f97bd2129f64045f624bbecba",
+      "text_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_0p5/t3_g2p0_text.npy",
+      "text_sha256": "eb55e0da2de37cdd6a0a740629e847f6978f5ca37584ec3b099dddae100e6064",
+      "visual_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_0p5/t3_g2p0_visual.npy",
+      "visual_sha256": "b3991c78737f3b77d2947832fff5af6c49446ab5df4c78696f4c95896d3546c2",
+      "runtime_sec": 7.278064012527466
+    },
+    {
+      "beta": 0.5,
+      "t_edit": 5,
+      "guidance": 1.5,
+      "K": 4,
+      "noise_seeds": [
+        20261141,
+        20261142,
+        20261143,
+        20261144
+      ],
+      "checkpoint_sha256": "ffc3b3e2378646f977f1aaeb84dfbc0868c85d0f97bd2129f64045f624bbecba",
+      "text_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_0p5/t5_g1p5_text.npy",
+      "text_sha256": "7d777abfaca234ce87e7bef51023b9aac7708a0c93f7f9e0f7332481449ebe3c",
+      "visual_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_0p5/t5_g1p5_visual.npy",
+      "visual_sha256": "5b19bd1592b16d8769a96ecd6d1f07dea1a750698d97ac401dfccfddd21b950a",
+      "runtime_sec": 9.442810535430908
+    },
+    {
+      "beta": 0.5,
+      "t_edit": 5,
+      "guidance": 2.0,
+      "K": 4,
+      "noise_seeds": [
+        20261141,
+        20261142,
+        20261143,
+        20261144
+      ],
+      "checkpoint_sha256": "ffc3b3e2378646f977f1aaeb84dfbc0868c85d0f97bd2129f64045f624bbecba",
+      "text_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_0p5/t5_g2p0_text.npy",
+      "text_sha256": "9faf62b652182d2d876e10f7d02ededdbf82b9a14efeceebe3332f1f9f7a0314",
+      "visual_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_0p5/t5_g2p0_visual.npy",
+      "visual_sha256": "9638f74d9e5f658738c59e4f2d177a30a2c5cde72577c557ba4a4950f31f2986",
+      "runtime_sec": 9.536365270614624
+    },
+    {
+      "beta": 0.5,
+      "t_edit": 7,
+      "guidance": 1.5,
+      "K": 4,
+      "noise_seeds": [
+        20261141,
+        20261142,
+        20261143,
+        20261144
+      ],
+      "checkpoint_sha256": "ffc3b3e2378646f977f1aaeb84dfbc0868c85d0f97bd2129f64045f624bbecba",
+      "text_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_0p5/t7_g1p5_text.npy",
+      "text_sha256": "c246dc3efbfe47e1ab50a4e42e20d80ab5365249c6e94d0c306595e88dca656a",
+      "visual_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_0p5/t7_g1p5_visual.npy",
+      "visual_sha256": "1b0b7adb78c2c9f8564697694488d4fbe910c3c2768524c17a9dbe4897baa4fb",
+      "runtime_sec": 11.556299209594727
+    },
+    {
+      "beta": 0.5,
+      "t_edit": 7,
+      "guidance": 2.0,
+      "K": 4,
+      "noise_seeds": [
+        20261141,
+        20261142,
+        20261143,
+        20261144
+      ],
+      "checkpoint_sha256": "ffc3b3e2378646f977f1aaeb84dfbc0868c85d0f97bd2129f64045f624bbecba",
+      "text_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_0p5/t7_g2p0_text.npy",
+      "text_sha256": "4e6c4107f8baeebdc04ebf0b6c011d9d43c0c8466a860cbb8b5d037578e06f82",
+      "visual_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_0p5/t7_g2p0_visual.npy",
+      "visual_sha256": "e61ca5d7ae27ef3f6ce0f1184d9e8d3a838abdee40d11ede4ab4b285d3894b50",
+      "runtime_sec": 11.549267053604126
+    },
+    {
+      "beta": 1.0,
+      "t_edit": 3,
+      "guidance": 1.5,
+      "K": 4,
+      "noise_seeds": [
+        20261141,
+        20261142,
+        20261143,
+        20261144
+      ],
+      "checkpoint_sha256": "dc66d232d3737d1a62da8f290fbf767ba39fa2eff45fd91b5f8a47cbe233c69a",
+      "text_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_1p0/t3_g1p5_text.npy",
+      "text_sha256": "de885e23fff4a13b29b82d03c325c83a26249b67cea654b571e4ce1e76c894ef",
+      "visual_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_1p0/t3_g1p5_visual.npy",
+      "visual_sha256": "782cbe3e71ffed0a420b28bcfdd8a9ddd4b4d0af328e4a5424cebd7550602e6d",
+      "runtime_sec": 7.488197088241577
+    },
+    {
+      "beta": 1.0,
+      "t_edit": 3,
+      "guidance": 2.0,
+      "K": 4,
+      "noise_seeds": [
+        20261141,
+        20261142,
+        20261143,
+        20261144
+      ],
+      "checkpoint_sha256": "dc66d232d3737d1a62da8f290fbf767ba39fa2eff45fd91b5f8a47cbe233c69a",
+      "text_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_1p0/t3_g2p0_text.npy",
+      "text_sha256": "0484605a3b3b1e24b81c7bcd7fbbb1359af7679e6421034464305334388ed296",
+      "visual_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_1p0/t3_g2p0_visual.npy",
+      "visual_sha256": "72ef5814eea588f94951df10c3c978dd8caa511de381594f8943fbb0008fab39",
+      "runtime_sec": 7.4757468700408936
+    },
+    {
+      "beta": 1.0,
+      "t_edit": 5,
+      "guidance": 1.5,
+      "K": 4,
+      "noise_seeds": [
+        20261141,
+        20261142,
+        20261143,
+        20261144
+      ],
+      "checkpoint_sha256": "dc66d232d3737d1a62da8f290fbf767ba39fa2eff45fd91b5f8a47cbe233c69a",
+      "text_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_1p0/t5_g1p5_text.npy",
+      "text_sha256": "d77f5de7191e7d4b567beb7e6c6be153c5e68c90a79c816b30bd56c9ee388229",
+      "visual_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_1p0/t5_g1p5_visual.npy",
+      "visual_sha256": "e2ba10fbb80cdedb52757d62fcaaede49dacaa63340bd1b4f96bf6720df21c3f",
+      "runtime_sec": 9.55184817314148
+    },
+    {
+      "beta": 1.0,
+      "t_edit": 5,
+      "guidance": 2.0,
+      "K": 4,
+      "noise_seeds": [
+        20261141,
+        20261142,
+        20261143,
+        20261144
+      ],
+      "checkpoint_sha256": "dc66d232d3737d1a62da8f290fbf767ba39fa2eff45fd91b5f8a47cbe233c69a",
+      "text_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_1p0/t5_g2p0_text.npy",
+      "text_sha256": "04f73a0265e914ec61c2348c224d0bb36d5e4c6b4f2c6544c93d830ec4f2ce80",
+      "visual_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_1p0/t5_g2p0_visual.npy",
+      "visual_sha256": "32702404f735783b1c04537d6463f2ee3fede40c1bdc3a94cae8830d617873cc",
+      "runtime_sec": 9.59500241279602
+    },
+    {
+      "beta": 1.0,
+      "t_edit": 7,
+      "guidance": 1.5,
+      "K": 4,
+      "noise_seeds": [
+        20261141,
+        20261142,
+        20261143,
+        20261144
+      ],
+      "checkpoint_sha256": "dc66d232d3737d1a62da8f290fbf767ba39fa2eff45fd91b5f8a47cbe233c69a",
+      "text_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_1p0/t7_g1p5_text.npy",
+      "text_sha256": "443ca3b4eb7d4702ecf3101d8281c4870640fe2b59a89ab5bb26c03a89dea734",
+      "visual_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_1p0/t7_g1p5_visual.npy",
+      "visual_sha256": "179f68df743fa65c7385fe9b851e1c2997d3f940307941cd2800776dce0710b4",
+      "runtime_sec": 11.62092638015747
+    },
+    {
+      "beta": 1.0,
+      "t_edit": 7,
+      "guidance": 2.0,
+      "K": 4,
+      "noise_seeds": [
+        20261141,
+        20261142,
+        20261143,
+        20261144
+      ],
+      "checkpoint_sha256": "dc66d232d3737d1a62da8f290fbf767ba39fa2eff45fd91b5f8a47cbe233c69a",
+      "text_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_1p0/t7_g2p0_text.npy",
+      "text_sha256": "201d18440b04360f28d3b14047500bcd2c80cccf58d0508b753695655c91c4bf",
+      "visual_path": "runs/diffusion_repro/elec_m32_formal/purified/beta_1p0/t7_g2p0_visual.npy",
+      "visual_sha256": "e5aa88e2387346deb9443ab8a84fb5344705737f5334f07562928fdf246da8ea",
+      "runtime_sec": 11.64596700668335
+    }
+  ],
+  "TEST_ACCESSED": false
+}
