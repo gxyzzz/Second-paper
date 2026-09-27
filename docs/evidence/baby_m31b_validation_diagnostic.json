@@ -1,0 +1,72 @@
+{
+  "phase": "BABY_M31B_VALIDATION_ONLY_DIAGNOSTIC",
+  "dataset": "baby",
+  "candidate_count": 320,
+  "checkpoint_sha256": "37e43f95105529a976152aafc9ab9bdbecdce529a43e835d73adfb3dedb988e9",
+  "training_protocol": "m31_fixed_all_items",
+  "training_seed": 20261101,
+  "purification_seeds": [
+    20261001,
+    20261002,
+    20261003,
+    20261004
+  ],
+  "t_edit_candidates": [
+    5,
+    10,
+    15,
+    20,
+    30
+  ],
+  "guidance_candidates": [
+    0.5,
+    1.0,
+    1.5,
+    2.0
+  ],
+  "rho_candidates": [
+    0.25,
+    0.5,
+    0.75,
+    1.0
+  ],
+  "base_metrics": {
+    "R10": 0.07253278477757778,
+    "N10": 0.03890351109319988,
+    "R20": 0.10686472223242602,
+    "N20": 0.047633884107449335,
+    "R50": 0.1740995359316264,
+    "N50": 0.0610502963195255
+  },
+  "best_by_U": {
+    "t_edit": 5,
+    "guidance": 0.5,
+    "rho_T": 0.25,
+    "rho_V": 0.25,
+    "metrics": {
+      "R10": 0.0721470815119568,
+      "N10": 0.03876508261314073,
+      "R20": 0.10712614333468023,
+      "N20": 0.04766556023742151,
+      "R50": 0.17424953164603454,
+      "N50": 0.06104999984104639
+    },
+    "delta_vs_full_coliftrec": {
+      "R10": -0.00038570326562098467,
+      "N10": -0.00013842848005914815,
+      "R20": 0.0002614211022542168,
+      "N20": 3.167612997217323e-05,
+      "R50": 0.00014999571440815762,
+      "N50": -2.964784791073538e-07
+    },
+    "U": -0.0014411549451641002,
+    "primary_positive_count": 2,
+    "sum_primary_delta": -0.00023103451345374282
+  },
+  "eligible_count": 0,
+  "best_eligible": null,
+  "VALIDATION_ONLY": true,
+  "TEST_ACCESSED": false,
+  "TEST_USED_FOR_SELECTION": false,
+  "scientific_role": "development analysis after exact M31 anchor failed on current-run MSCA"
+}

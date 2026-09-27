@@ -22,6 +22,7 @@ def main():
 
     legacy=load(ROOT/"docs/evidence/diffusion_migration_scoring_parity.json")
     baby=load(ROOT/"docs/evidence/baby_m31_current_run_anchor.json")
+    baby_diag=load(ROOT/"docs/evidence/baby_m31b_validation_diagnostic.json",required=False)
     sports=load(ROOT/"docs/evidence/sports_m31_current_run_anchor.json")
     sports_test=load(ROOT/"runs/test/sports_current_frozen/summary.json",required=False)
     elec_base=load(ROOT/"docs/evidence/elec_coliftrec_validation.json")
@@ -40,6 +41,7 @@ def main():
         "delta_diffusion_vs_full":baby["delta_vs_full_coliftrec"],
         "U":baby["U"],"primary_positive_count":baby["primary_positive_count"],
         "test_status":"CLOSED",
+        "m31b_validation_only_diagnostic":baby_diag,
       },
       "sports":{
         "status":"PASS" if sports.get("SPORTS_M31_CURRENT_RUN_REPRO")=="PASS" else "FAIL",
