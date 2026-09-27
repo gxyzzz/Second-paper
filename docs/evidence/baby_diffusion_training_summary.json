@@ -1,0 +1,61 @@
+{
+  "phase": "BABY_DIFFUSION_FORMAL_TRAINING",
+  "training_discipline": {
+    "train_monitor_split": "95/5 TRAIN-item only",
+    "split_seed": 20261101,
+    "max_epochs": 80,
+    "min_epochs": 25,
+    "patience": 8
+  },
+  "betas": {
+    "0p5": {
+      "beta": 0.5,
+      "best_epoch": 79,
+      "best_monitor_objective": 0.0701916515827179,
+      "stop_epoch": 80,
+      "stop_reason": "MAX_EPOCHS_REACHED",
+      "checkpoint_sha256": "bcbfe8c8108bce1888bad540ec127f7ff3ad5c60135c4f642b8f7ad2aed869ac",
+      "source_msca_checkpoint_sha256": "aa389ef8576e491ffb56eaec9d165444487bef9c1e542f280e991e2e063cc1cb",
+      "mechanism": {
+        "true_text": 0.0015922163147479296,
+        "true_visual": 0.00018214451847597957,
+        "true_balanced": 0.000887180445715785,
+        "shuf_text": 0.0022189775481820107,
+        "shuf_visual": 0.00020980823319405317,
+        "shuf_balanced": 0.0012143929488956928,
+        "null_text": 0.0018586618825793266,
+        "null_visual": 0.00019051428535021842,
+        "null_balanced": 0.0010245880112051964,
+        "true_better_shuffled_balanced": true,
+        "true_better_null_balanced": true
+      },
+      "TEST_ACCESSED": false,
+      "VALIDATION_RANKING_USED_FOR_TRAINING": false
+    },
+    "1p0": {
+      "beta": 1.0,
+      "best_epoch": 77,
+      "best_monitor_objective": 0.07017101347446442,
+      "stop_epoch": 80,
+      "stop_reason": "MAX_EPOCHS_REACHED",
+      "checkpoint_sha256": "713259303aac80b9d7b28eab18f1face704d4270965202a8caaae8b27a506cd9",
+      "source_msca_checkpoint_sha256": "aa389ef8576e491ffb56eaec9d165444487bef9c1e542f280e991e2e063cc1cb",
+      "mechanism": {
+        "true_text": 0.0015443494776263833,
+        "true_visual": 0.0001812965056160465,
+        "true_balanced": 0.0008628229261375964,
+        "shuf_text": 0.0022748811170458794,
+        "shuf_visual": 0.0002140390279237181,
+        "shuf_balanced": 0.0012444601161405444,
+        "null_text": 0.0018650691490620375,
+        "null_visual": 0.00019075318414252251,
+        "null_balanced": 0.001027911202982068,
+        "true_better_shuffled_balanced": true,
+        "true_better_null_balanced": true
+      },
+      "TEST_ACCESSED": false,
+      "VALIDATION_RANKING_USED_FOR_TRAINING": false
+    }
+  },
+  "BABY_DIFFUSION_TEST": "CLOSED"
+}
