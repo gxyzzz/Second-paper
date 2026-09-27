@@ -11,21 +11,25 @@ from diffusion_validate import (
 BETAS=[0.0,0.25,0.5,0.75,1.0]
 ROOT=Path(__file__).resolve().parents[1]
 
-def paths(root,beta):
+def paths(root,beta,shard_tag=None):
     tag=btag(beta); jobs=root/"jobs"
-    return jobs/f"score_beta_{tag}.json",jobs/f"score_beta_{tag}_per.npy"
+    suffix="" if shard_tag is None else f"_{shard_tag}"
+    return jobs/f"score_beta_{tag}{suffix}.json",jobs/f"score_beta_{tag}{suffix}_per.npy"
 
-def score_beta(beta,root,msca_assets,coliftrec_dir,smoke=False):
+def score_beta(beta,root,msca_assets,coliftrec_dir,smoke=False,t_values=None,shard_tag=None):
     ctx=build_context("baby",msca_assets,coliftrec_dir); cfg=ctx["cfg"]; p=ctx["paths"]
     raw_lt=semantic_lift(p["text_feature"],ctx,"text"); raw_lv=semantic_lift(p["visual_feature"],ctx,"visual")
     base_metrics=metrics_at(ctx["base_ranked"],ctx["users"],ctx["eval_sets"])
     at=float(cfg["coliftrec"]["text"]["alpha"]); av=float(cfg["coliftrec"]["visual"]["alpha"])
     ts=[int(x) for x in cfg["diffusion"]["t_edit_candidates"]]
+    if t_values is not None:
+        ts=[t for t in ts if t in set(int(x) for x in t_values)]
+        if not ts: raise RuntimeError(("empty t shard",t_values))
     gs=[float(x) for x in cfg["diffusion"]["guidance_candidates"]]
     rs=[float(x) for x in cfg["diffusion"]["rho_text_candidates"]]
     if smoke: ts=ts[:1]; gs=gs[:1]; rs=rs[:1]
     n=len(ts)*len(gs)*len(rs)*len(rs)
-    jp,pp=paths(root,beta)
+    jp,pp=paths(root,beta,shard_tag)
     if smoke:
         jp=root/"jobs"/f"smoke_score_beta_{btag(beta)}.json"
         pp=root/"jobs"/f"smoke_score_beta_{btag(beta)}_per.npy"
@@ -58,18 +62,21 @@ def score_beta(beta,root,msca_assets,coliftrec_dir,smoke=False):
                     idx+=1
             print("SCORE_PROGRESS",beta,t,g,idx,flush=True)
     per.flush(); del per
-    out={"phase":"BABY_A2_PARALLEL_BETA_SCORE","beta":beta,"candidate_count":len(rows),
+    out={"phase":"BABY_A2_PARALLEL_BETA_SCORE","beta":beta,"shard_tag":shard_tag,"t_values":ts,"candidate_count":len(rows),
          "base_metrics":base_metrics,"rows":rows,"per_user_path":str(pp),"per_user_sha256":sha256(pp),
          "VALIDATION_ONLY":True,"TEST_ACCESSED":False}
     jp.write_text(json.dumps(out,indent=2)+"\n")
-    print("SCORE_BETA_COMPLETE",beta,len(rows),max(x["U"] for x in rows),flush=True)
+    print("SCORE_BETA_COMPLETE",beta,shard_tag,len(rows),max(x["U"] for x in rows),flush=True)
 
 def combine(root,msca_assets,coliftrec_dir):
     zs=[]
     for b in BETAS:
-        jp,pp=paths(root,b); z=json.loads(jp.read_text())
-        if z["candidate_count"]!=625 or z["TEST_ACCESSED"] is not False: raise RuntimeError(("beta score invalid",b))
-        zs.append((b,z,np.load(pp,mmap_mode="r",allow_pickle=False)))
+        for t in [2,3,5,7,10]:
+            shard=f"t{t}"
+            jp,pp=paths(root,b,shard); z=json.loads(jp.read_text())
+            if z["candidate_count"]!=125 or z["TEST_ACCESSED"] is not False or z.get("t_values")!=[t]:
+                raise RuntimeError(("score shard invalid",b,t))
+            zs.append((b,t,z,np.load(pp,mmap_mode="r",allow_pickle=False)))
     ctx=build_context("baby",msca_assets,coliftrec_dir)
     base_metrics=metrics_at(ctx["base_ranked"],ctx["users"],ctx["eval_sets"])
     base_per=per_user_primary(ctx["base_ranked"],ctx["users"],ctx["eval_sets"])
@@ -79,7 +86,7 @@ def combine(root,msca_assets,coliftrec_dir):
     rows=[{"id":"NO_DIFFUSION","kind":"NO_DIFFUSION","per_user_index":0,"rho_T":0.0,"rho_V":0.0,
            "metrics":base_metrics,"U":0.0,"primary_positive_count":0,"sum_primary_delta":0.0}]
     gi=1
-    for b,z,a in zs:
+    for b,t,z,a in zs:
         for r in z["rows"]:
             x=dict(r); li=x.pop("local_index"); x["id"]=f"b_c{gi:04d}"; x["kind"]="DIFFUSION"; x["per_user_index"]=gi
             rows.append(x); mm[gi]=a[li]; gi+=1
@@ -124,11 +131,12 @@ def combine(root,msca_assets,coliftrec_dir):
 
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument("--mode",choices=["score","combine","smoke"],required=True)
-    ap.add_argument("--beta",type=float); ap.add_argument("--root",default="runs/diffusion_rescue/baby_condition_rescue")
+    ap.add_argument("--beta",type=float); ap.add_argument("--t-values",nargs="*",type=int); ap.add_argument("--shard-tag")
+    ap.add_argument("--root",default="runs/diffusion_rescue/baby_condition_rescue")
     ap.add_argument("--msca-assets",default="runs/assets/msca_baby_seed999")
     ap.add_argument("--coliftrec-dir",default="runs/generic_refactor/baby_formal"); a=ap.parse_args()
     root=Path(a.root); (root/"jobs").mkdir(parents=True,exist_ok=True)
-    if a.mode=="score": score_beta(a.beta,root,Path(a.msca_assets),Path(a.coliftrec_dir),False)
-    elif a.mode=="smoke": score_beta(a.beta,root,Path(a.msca_assets),Path(a.coliftrec_dir),True)
+    if a.mode=="score": score_beta(a.beta,root,Path(a.msca_assets),Path(a.coliftrec_dir),False,a.t_values,a.shard_tag)
+    elif a.mode=="smoke": score_beta(a.beta,root,Path(a.msca_assets),Path(a.coliftrec_dir),True,a.t_values,a.shard_tag)
     else: combine(root,Path(a.msca_assets),Path(a.coliftrec_dir))
 if __name__=="__main__": main()
