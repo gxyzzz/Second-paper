@@ -1,0 +1,55 @@
+{
+  "phase": "BABY_M31_CURRENT_RUN_STABLE_ANCHOR",
+  "dataset": "baby",
+  "base_metrics": {
+    "R10": 0.07253278477757778,
+    "N10": 0.03890351109319988,
+    "R20": 0.10686472223242602,
+    "N20": 0.047633884107449335,
+    "R50": 0.1740995359316264,
+    "N50": 0.0610502963195255
+  },
+  "metrics": {
+    "R10": 0.0720056569812291,
+    "N10": 0.03861128503715201,
+    "R20": 0.10665044264041437,
+    "N20": 0.04746079690194845,
+    "R50": 0.1739383976784336,
+    "N50": 0.06090585708505813
+  },
+  "delta_vs_full_coliftrec": {
+    "R10": -0.0005271277963486837,
+    "N10": -0.00029222605604786733,
+    "R20": -0.00021427959201164581,
+    "N20": -0.00017308720550088252,
+    "R50": -0.00016113825319277741,
+    "N50": -0.00014443923446737228
+  },
+  "U": -0.005104462266920099,
+  "primary_positive_count": 0,
+  "sum_primary_delta": -0.0012067206499090793,
+  "anchor": {
+    "beta": 1.0,
+    "t_edit": 5,
+    "guidance": 1.5,
+    "rho_T": 0.25,
+    "rho_V": 1.0
+  },
+  "training_protocol": "m31_fixed_all_items",
+  "train_scope": "all_catalog_items",
+  "training_seed": 20261101,
+  "purification_seeds": [
+    20261001,
+    20261002,
+    20261003,
+    20261004
+  ],
+  "diffusion_checkpoint_sha256": "37e43f95105529a976152aafc9ab9bdbecdce529a43e835d73adfb3dedb988e9",
+  "text_sha256": "d96a5b6a4d4e016af180b8f62a3cc8aba4a0761ccd79309a7b93d88f7b2480c1",
+  "visual_sha256": "9457ec8a7d6d3fbb98437cc8e36c87ac1da2eb25349ccf1eb2d5b6cf83450e7f",
+  "VALIDATION_TARGET_USED_FOR_TRAINING": false,
+  "TEST_TARGET_USED": false,
+  "TEST_USED_FOR_SELECTION": false,
+  "BABY_M31_CURRENT_RUN_REPRO": "FAIL",
+  "DIFFUSION_BACKBONE_CHECKPOINT_SENSITIVITY": "OBSERVED"
+}

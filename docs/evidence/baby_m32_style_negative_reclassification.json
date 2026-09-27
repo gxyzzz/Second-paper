@@ -1,0 +1,31 @@
+{
+  "phase": "BABY_M32_STYLE_PROTOCOL_RECLASSIFICATION",
+  "previous_evidence_file": "docs/evidence/baby_diffusion_validation_summary.json",
+  "previous_final_config": {
+    "id": "NO_DIFFUSION",
+    "kind": "NO_DIFFUSION",
+    "per_user_index": 0,
+    "rho_T": 0.0,
+    "rho_V": 0.0,
+    "metrics": {
+      "R10": 0.07253278477757778,
+      "N10": 0.03890351109319988,
+      "R20": 0.10686472223242602,
+      "N20": 0.047633884107449335,
+      "R50": 0.1740995359316264,
+      "N50": 0.0610502963195255
+    },
+    "U": 0.0,
+    "primary_positive_count": 0,
+    "sum_primary_delta": 0.0,
+    "source_tag": "NO_DIFFUSION"
+  },
+  "previous_result_role": "NEGATIVE_DIAGNOSTIC_ONLY",
+  "M32_STYLE_PROTOCOL_ON_BABY": "NEGATIVE_DIAGNOSTIC",
+  "reason": "Training protocol drift: Baby historical positive evidence used M31 fixed-all-items/fixed-80-epoch protocol, not M32 95/5 monitor selection.",
+  "SCIENTIFIC_CONCLUSION_REVOKED": [
+    "from-scratch Diffusion on Baby has no ranking utility",
+    "representation improvement != ranking improvement was re-proven by this run"
+  ],
+  "TEST_ACCESSED": false
+}
