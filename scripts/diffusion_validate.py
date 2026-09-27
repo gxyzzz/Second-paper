@@ -119,7 +119,7 @@ def run_grid(dataset,diff_dir,ctx,manifest):
     per.append(pu); idx+=1
   del lt,lv; gc.collect()
  per_path=diff_dir/"validation_per_user_primary.npy"; np.save(per_path,np.stack(per),allow_pickle=False)
- grid={"phase":"BABY_DIFFUSION_VALIDATION_GRID","dataset":dataset,"candidate_count":len(rows),"diffusion_candidate_count":len(rows)-1,
+ grid={"phase":f"{dataset.upper()}_DIFFUSION_VALIDATION_GRID","dataset":dataset,"candidate_count":len(rows),"diffusion_candidate_count":len(rows)-1,
        "rho_T":rho_t,"rho_V":rho_v,"base_metrics":base_metrics,"rows":rows,"per_user_path":str(per_path),"per_user_sha256":sha256(per_path),
        "VALIDATION_ONLY":True,"TEST_ACCESSED":False}
  (evid/f"{dataset}_validation_grid.json").write_text(json.dumps(grid,indent=2)+"\n"); return grid
@@ -169,8 +169,13 @@ def finalize(dataset,diff_dir,grid):
  bm=[json.loads((evid/f"beta_{btag(b)}_training.json").read_text()) for b in (0.5,1.0)]
  asset_audit=json.loads((diff_dir/"assets"/"audit.json").read_text())
  selected_meta=None if final["id"]=="NO_DIFFUSION" else next(x for x in bm if float(x["beta"])==float(final["beta"]))
+ cfg=load_dataset_config(dataset); dcfg=cfg["diffusion"]
  freeze={"phase":f"{dataset.upper()}_DIFFUSION_FROZEN_BEFORE_TEST","dataset":dataset,"final_config":final,"final_reason":reason,
-         "msca_checkpoint_sha256":bm[0]["source_msca_checkpoint_sha256"],"beta_checkpoint_sha256":None if final["id"]=="NO_DIFFUSION" else final["checkpoint_sha256"],
+         "msca_checkpoint_sha256":bm[0]["source_msca_checkpoint_sha256"],"coliftrec_config":cfg["coliftrec"],
+         "beta_checkpoint_sha256":None if final["id"]=="NO_DIFFUSION" else final["checkpoint_sha256"],
+         "training_protocol":dcfg["training_protocol"],"train_item_definition":dcfg["train_scope"],
+         "training_seed":None if selected_meta is None else selected_meta.get("training_seed"),
+         "purification_seeds":[int(x) for x in dcfg["purification_seeds"]],
          "canonical_text_sha256":asset_audit["text_sha256"],"canonical_visual_sha256":asset_audit["visual_sha256"],
          "selected_condition_sha256":None if selected_meta is None else selected_meta["condition_sha256"],
          "candidate_pool_sha256":sha256(pool_path),"selected_beta":None if final["id"]=="NO_DIFFUSION" else final["beta"],
