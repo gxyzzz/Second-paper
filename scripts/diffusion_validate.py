@@ -12,7 +12,7 @@ from pipelines.msca_assets import build_train_histories_and_validation
 
 PRIMARY=["R10","N10","R20","N20"]; SECONDARY=["R50","N50"]; ALL=PRIMARY+SECONDARY
 CROSSFIT_SEEDS=[20261111,20261112,20261113,20261114,20261115]
-MAX_SHORTLIST=8; DEVICE="cuda"; PURIFY_BATCH=256
+MAX_SHORTLIST=8; BABY_MAX_SHORTLIST=10; DEVICE="cuda"; PURIFY_BATCH=256
 
 def sha256(path):
  h=hashlib.sha256()
@@ -99,7 +99,12 @@ def run_grid(dataset,diff_dir,ctx,manifest):
  base_metrics=metrics_at(ctx["base_ranked"],ctx["users"],ctx["eval_sets"]); base_per=per_user_primary(ctx["base_ranked"],ctx["users"],ctx["eval_sets"])
  rho_t=[float(x) for x in cfg["diffusion"]["rho_text_candidates"]]; rho_v=[float(x) for x in cfg["diffusion"]["rho_visual_candidates"]]
  rows=[{"id":"NO_DIFFUSION","kind":"NO_DIFFUSION","per_user_index":0,"rho_T":0.,"rho_V":0.,"metrics":base_metrics,"U":0.,"primary_positive_count":0,"sum_primary_delta":0.}]
- per=[base_per]; at=float(cfg["coliftrec"]["text"]["alpha"]); av=float(cfg["coliftrec"]["visual"]["alpha"]); idx=1
+ total_candidates=1+len(manifest)*len(rho_t)*len(rho_v)
+ per_path=diff_dir/"validation_per_user_primary.npy"
+ per=np.lib.format.open_memmap(per_path,mode="w+",dtype=np.float32,
+                               shape=(total_candidates,len(base_per),len(PRIMARY)))
+ per[0]=base_per
+ at=float(cfg["coliftrec"]["text"]["alpha"]); av=float(cfg["coliftrec"]["visual"]["alpha"]); idx=1
  for ai,a in enumerate(manifest):
   tp=Path(a["text_path"]); vp=Path(a["visual_path"]); lt={}; lv={}
   for r in rho_t: lt[r]=lift_for_rho(raw_t,tp,r,ctx,"text",tmp/f"a{ai}_t_{r}.npy")
@@ -116,22 +121,28 @@ def run_grid(dataset,diff_dir,ctx,manifest):
       "rho_T":rt,"rho_V":rv,"checkpoint_sha256":a["checkpoint_sha256"],"text_sha256":a["text_sha256"],"visual_sha256":a["visual_sha256"],
       "metrics":met,"delta_vs_no_diffusion":delta,"U":float(np.mean([delta[k]/base_metrics[k] for k in PRIMARY])),
       "primary_positive_count":int(sum(delta[k]>0 for k in PRIMARY)),"sum_primary_delta":float(sum(delta[k] for k in PRIMARY))})
-    per.append(pu); idx+=1
+    per[idx]=pu; idx+=1
   del lt,lv; gc.collect()
- per_path=diff_dir/"validation_per_user_primary.npy"; np.save(per_path,np.stack(per),allow_pickle=False)
+ per.flush(); del per
  grid={"phase":f"{dataset.upper()}_DIFFUSION_VALIDATION_GRID","dataset":dataset,"candidate_count":len(rows),"diffusion_candidate_count":len(rows)-1,
        "rho_T":rho_t,"rho_V":rho_v,"base_metrics":base_metrics,"rows":rows,"per_user_path":str(per_path),"per_user_sha256":sha256(per_path),
        "VALIDATION_ONLY":True,"TEST_ACCESSED":False}
  (evid/f"{dataset}_validation_grid.json").write_text(json.dumps(grid,indent=2)+"\n"); return grid
 
 def make_shortlist(grid):
- diff=grid["rows"][1:]; anchor=grid["rows"][0]; b05=max([r for r in diff if r["beta"]==0.5],key=lambda r:r["U"]); b10=max([r for r in diff if r["beta"]==1.0],key=lambda r:r["U"])
- proposed=[(anchor,"NO_DIFFUSION"),(b05,"BEST_BETA_0P5"),(b10,"BEST_BETA_1P0")]+[(r,f"OVERALL_{i}") for i,r in enumerate(sorted(diff,key=lambda x:x["U"],reverse=True),1)]
+ diff=grid["rows"][1:]; anchor=grid["rows"][0]
+ eligible=[r for r in diff if r["primary_positive_count"]>=3 and r["U"]>0 and r["sum_primary_delta"]>0]
+ proposed=[(anchor,"NO_DIFFUSION")]
+ for beta in sorted({float(r["beta"]) for r in diff}):
+  xs=[r for r in eligible if float(r["beta"])==beta]
+  if xs: proposed.append((max(xs,key=lambda x:x["U"]),f"BEST_ELIGIBLE_BETA_{beta}"))
+ proposed += [(r,f"OVERALL_{i}") for i,r in enumerate(sorted(eligible,key=lambda x:x["U"],reverse=True),1)]
+ limit=BABY_MAX_SHORTLIST if grid.get("dataset")=="baby" else MAX_SHORTLIST
  out=[]; seen=set()
  for r,tag in proposed:
   if r["id"] in seen: continue
   x=dict(r); x["source_tag"]=tag; out.append(x); seen.add(r["id"])
-  if len(out)>=MAX_SHORTLIST: break
+  if len(out)>=limit: break
  return out
 
 def eval_indices(arr,base,idx):
@@ -160,16 +171,18 @@ def crossfit(dataset,pool,grid):
 
 def finalize(dataset,diff_dir,grid):
  diff_dir=Path(diff_dir); evid=diff_dir/"evidence"; shortlist=make_shortlist(grid)
- pool={"phase":"FROZEN_CANDIDATE_POOL","dataset":dataset,"MAX_SHORTLIST":MAX_SHORTLIST,"frozen_before_crossfit":True,"configs":shortlist,"TEST_ACCESSED":False}
+ limit=BABY_MAX_SHORTLIST if dataset=="baby" else MAX_SHORTLIST
+ pool={"phase":"FROZEN_CANDIDATE_POOL","dataset":dataset,"MAX_SHORTLIST":limit,"frozen_before_crossfit":True,"configs":shortlist,"TEST_ACCESSED":False}
  pool_path=evid/f"{dataset.upper()}_DIFFUSION_FROZEN_CANDIDATE_POOL.json"; pool_path.write_text(json.dumps(pool,indent=2)+"\n")
  cross=crossfit(dataset,pool,grid); (evid/f"{dataset}_crossfit_summary.json").write_text(json.dumps(cross,indent=2)+"\n")
  eligible=[r for r in shortlist if r["id"]!="NO_DIFFUSION" and r["primary_positive_count"]>=3 and r["U"]>0 and r["sum_primary_delta"]>0]
  if cross[f"{dataset.upper()}_DIFFUSION_UPGRADE_PASS"] and eligible: final=max(eligible,key=lambda r:r["U"]); reason="CROSSFIT_PASS_FULL_VALIDATION_MAX_U"
  else: final=shortlist[0]; reason="CROSSFIT_FAIL_NO_DIFFUSION"
- bm=[json.loads((evid/f"beta_{btag(b)}_training.json").read_text()) for b in (0.5,1.0)]
+ cfg=load_dataset_config(dataset); dcfg=cfg["diffusion"]
+ betas=[float(x) for x in dcfg["beta_candidates"]]
+ bm=[json.loads((evid/f"beta_{btag(b)}_training.json").read_text()) for b in betas]
  asset_audit=json.loads((diff_dir/"assets"/"audit.json").read_text())
  selected_meta=None if final["id"]=="NO_DIFFUSION" else next(x for x in bm if float(x["beta"])==float(final["beta"]))
- cfg=load_dataset_config(dataset); dcfg=cfg["diffusion"]
  freeze={"phase":f"{dataset.upper()}_DIFFUSION_FROZEN_BEFORE_TEST","dataset":dataset,"final_config":final,"final_reason":reason,
          "msca_checkpoint_sha256":bm[0]["source_msca_checkpoint_sha256"],"coliftrec_config":cfg["coliftrec"],
          "beta_checkpoint_sha256":None if final["id"]=="NO_DIFFUSION" else final["checkpoint_sha256"],
@@ -184,15 +197,56 @@ def finalize(dataset,diff_dir,grid):
          "validation_metrics":final["metrics"],"crossfit_summary":cross,"TEST_USED_FOR_SELECTION":False,f"{dataset.upper()}_DIFFUSION_TEST":"CLOSED"}
  (evid/f"{dataset.upper()}_DIFFUSION_FROZEN_BEFORE_TEST.json").write_text(json.dumps(freeze,indent=2)+"\n"); return freeze
 
+def baby_grid_summary(diff,grid):
+ rows=grid["rows"][1:]
+ def eligible(r): return r["U"]>0 and r["primary_positive_count"]>=3 and r["sum_primary_delta"]>0
+ def depth_safe(r):
+  d=r["delta_vs_no_diffusion"]
+  return d["R50"]>=-5e-4 and d["N50"]>=-5e-4
+ by_beta={}
+ for beta in sorted({float(r["beta"]) for r in rows}):
+  xs=[r for r in rows if float(r["beta"])==beta]
+  by_beta[str(beta)]={
+   "eligible_config_count":int(sum(eligible(r) for r in xs)),
+   "mean_U":float(np.mean([r["U"] for r in xs])),
+   "best_U":float(max(r["U"] for r in xs)),
+   "primary_4of4_count":int(sum(r["primary_positive_count"]==4 for r in xs)),
+   "depth_safe_count":int(sum(depth_safe(r) for r in xs)),
+   "best_config":max(xs,key=lambda r:r["U"]),
+  }
+ ds=[r for r in rows if depth_safe(r)]
+ out={"phase":"BABY_A2_FULL_BETA_VALIDATION_GRID","dataset":"baby",
+      "candidate_count":len(rows),"eligible_count":int(sum(eligible(r) for r in rows)),
+      "beta_summary":by_beta,
+      "top20_U":sorted(rows,key=lambda r:r["U"],reverse=True)[:20],
+      "top20_sum_primary":sorted(rows,key=lambda r:r["sum_primary_delta"],reverse=True)[:20],
+      "top20_depth_safe":sorted(ds,key=lambda r:r["U"],reverse=True)[:20],
+      "VALIDATION_ONLY":True,"TEST_ACCESSED":False}
+ (Path(diff)/"evidence"/"baby_a2_full_grid_summary.json").write_text(json.dumps(out,indent=2)+"\n")
+ return out
+
 def main():
  ap=argparse.ArgumentParser(); ap.add_argument("--dataset",default="baby"); ap.add_argument("--msca-assets",required=True); ap.add_argument("--coliftrec-dir",required=True); ap.add_argument("--diffusion-dir",required=True); a=ap.parse_args()
  diff=Path(a.diffusion_dir); evid=diff/"evidence"; evid.mkdir(parents=True,exist_ok=True)
- for beta in (0.5,1.0):
+ cfg=load_dataset_config(a.dataset)
+ for beta in [float(x) for x in cfg["diffusion"]["beta_candidates"]]:
   p=evid/f"beta_{btag(beta)}_training.json"; c=diff/"checkpoints"/f"{a.dataset}_beta_{btag(beta)}.pt"
   if not p.exists() or not c.exists(): raise RuntimeError(("formal training missing",beta))
   meta=json.loads(p.read_text())
   if meta["TEST_ACCESSED"] is not False or meta["VALIDATION_RANKING_USED_FOR_TRAINING"] is not False: raise RuntimeError("training discipline fail")
   if sha256(c)!=meta["checkpoint_sha256"]: raise RuntimeError("checkpoint sha mismatch")
- manifest=generate_assets(a.dataset,diff); ctx=build_context(a.dataset,a.msca_assets,a.coliftrec_dir); grid=run_grid(a.dataset,diff,ctx,manifest); freeze=finalize(a.dataset,diff,grid)
+ manifest=generate_assets(a.dataset,diff); ctx=build_context(a.dataset,a.msca_assets,a.coliftrec_dir); grid=run_grid(a.dataset,diff,ctx,manifest)
+ if a.dataset=="baby":
+  summary=baby_grid_summary(diff,grid)
+  if summary["eligible_count"]==0:
+   fail={"phase":"BABY_DIFFUSION_CONDITION_SEARCH_FAIL","reason":"FULL_BETA_GRID_ELIGIBLE_ZERO",
+         "BABY_DIFFUSION_TEST":"CLOSED","TEST_USED_FOR_SELECTION":False}
+   (evid/"BABY_DIFFUSION_CONDITION_SEARCH_FAIL.json").write_text(json.dumps(fail,indent=2)+"\n")
+   print("BABY_DIFFUSION_CONDITION_SEARCH_FAIL",json.dumps(fail,sort_keys=True),flush=True); return
+ freeze=finalize(a.dataset,diff,grid)
+ if a.dataset=="baby" and not freeze["crossfit_summary"]["BABY_DIFFUSION_UPGRADE_PASS"]:
+  fail={"phase":"BABY_DIFFUSION_CONDITION_SEARCH_FAIL","reason":"CROSSFIT_FAIL",
+        "crossfit_summary":freeze["crossfit_summary"],"BABY_DIFFUSION_TEST":"CLOSED","TEST_USED_FOR_SELECTION":False}
+  (evid/"BABY_DIFFUSION_CONDITION_SEARCH_FAIL.json").write_text(json.dumps(fail,indent=2)+"\n")
  print(f"{a.dataset.upper()}_DIFFUSION_PRETEST_FREEZE_COMPLETE",json.dumps({"final":cfg_tuple(freeze["final_config"]),"upgrade":freeze["crossfit_summary"][f"{a.dataset.upper()}_DIFFUSION_UPGRADE_PASS"],f"{a.dataset.upper()}_DIFFUSION_TEST":"CLOSED"},sort_keys=True),flush=True)
 if __name__=="__main__": main()
