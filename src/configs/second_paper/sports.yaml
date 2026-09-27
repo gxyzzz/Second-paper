@@ -7,21 +7,42 @@ paths:
   metadata: data/sports/metadata_text_cache.jsonl
 coliftrec:
   top_l: 100
-  text: {enabled: true, lambda: 0.0, alpha: 0.25}
+  text:
+    enabled: true
+    lambda: 0.0
+    alpha: 0.25
   attribute:
     enabled: true
     lambda: 1.0
-    alpha: 0.20
+    alpha: 0.2
     tfidf_min_df: 2
     tfidf_max_df: 0.8
     description_len: 128
-  visual: {enabled: true, lambda: 1.0, alpha: 0.025}
+  visual:
+    enabled: true
+    lambda: 1.0
+    alpha: 0.025
 diffusion:
-  beta_candidates: [0.5, 1.0]
-  t_edit_candidates: [3, 5, 7]
-  guidance_candidates: [1.5, 2.0]
-  rho_text_candidates: [0.25, 0.5, 0.75, 1.0]
-  rho_visual_candidates: [0.5, 0.75, 1.0]
+  beta_candidates:
+  - 1.0
+  t_edit_candidates:
+  - 5
+  guidance_candidates:
+  - 1.5
+  rho_text_candidates:
+  - 0.75
+  rho_visual_candidates:
+  - 0.75
+  training_protocol: m31_fixed_all_items
+  train_scope: all_catalog_items
+  epochs: 80
+  checkpoint_selection: final_epoch
+  training_seed: 20261101
+  purification_seeds:
+  - 20261001
+  - 20261002
+  - 20261003
+  - 20261004
 historical_msca_validation:
   R10: 0.07987405696965612
   N10: 0.04399077843473743

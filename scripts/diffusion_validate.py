@@ -11,7 +11,6 @@ from pipelines.dataset_config import load_dataset_config
 from pipelines.msca_assets import build_train_histories_and_validation
 
 PRIMARY=["R10","N10","R20","N20"]; SECONDARY=["R50","N50"]; ALL=PRIMARY+SECONDARY
-K4_SEEDS=[20261001,20261002,20261003,20261004]
 CROSSFIT_SEEDS=[20261111,20261112,20261113,20261114,20261115]
 MAX_SHORTLIST=8; DEVICE="cuda"; PURIFY_BATCH=256
 
@@ -74,6 +73,7 @@ def metrics_from_per(a): return {k:float(v) for k,v in zip(PRIMARY,np.asarray(a)
 
 def generate_assets(dataset,diff_dir):
  cfg=load_dataset_config(dataset); paths=cfg["resolved_paths"]; diff_dir=Path(diff_dir); pur=diff_dir/"purified"; pur.mkdir(parents=True,exist_ok=True)
+ purification_seeds=[int(x) for x in cfg["diffusion"]["purification_seeds"]]
  raw_t=np.load(paths["text_feature"],mmap_mode="r",allow_pickle=False); raw_v=np.load(paths["visual_feature"],mmap_mode="r",allow_pickle=False)
  ids=np.arange(len(raw_t),dtype=np.int64); manifest=[]
  for beta in [float(x) for x in cfg["diffusion"]["beta_candidates"]]:
@@ -83,9 +83,9 @@ def generate_assets(dataset,diff_dir):
     d=pur/f"beta_{btag(beta)}"; d.mkdir(parents=True,exist_ok=True); stem=d/f"t{t}_g{gtag(g)}"
     tp=Path(str(stem)+"_text.npy"); vp=Path(str(stem)+"_visual.npy"); mp=Path(str(stem)+".json")
     if tp.exists() and vp.exists() and mp.exists(): manifest.append(json.loads(mp.read_text())); continue
-    t0=time.time(); ot,ov=purify_indices(model,raw_t,raw_v,cond,ids,t_edit=t,guidance=g,seeds=tuple(K4_SEEDS),batch=PURIFY_BATCH,device=DEVICE)
+    t0=time.time(); ot,ov=purify_indices(model,raw_t,raw_v,cond,ids,t_edit=t,guidance=g,seeds=tuple(purification_seeds),batch=PURIFY_BATCH,device=DEVICE)
     np.save(tp,ot.astype(np.float32)); np.save(vp,ov.astype(np.float32))
-    ev={"beta":beta,"t_edit":t,"guidance":g,"K":4,"noise_seeds":K4_SEEDS,"checkpoint_sha256":sha256(ck),
+    ev={"beta":beta,"t_edit":t,"guidance":g,"K":4,"noise_seeds":purification_seeds,"checkpoint_sha256":sha256(ck),
         "text_path":str(tp),"text_sha256":sha256(tp),"visual_path":str(vp),"visual_sha256":sha256(vp),"runtime_sec":time.time()-t0}
     mp.write_text(json.dumps(ev,indent=2)+"\n"); manifest.append(ev); del ot,ov; torch.cuda.empty_cache(); gc.collect()
   del model; torch.cuda.empty_cache(); gc.collect()

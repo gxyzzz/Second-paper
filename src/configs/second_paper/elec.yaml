@@ -7,21 +7,55 @@ paths:
   metadata: data/elec/metadata_text_cache.jsonl
 coliftrec:
   top_l: 100
-  text: {enabled: true, lambda: 1.0, alpha: 0.20}
+  text:
+    enabled: true
+    lambda: 1.0
+    alpha: 0.2
   attribute:
     enabled: true
     lambda: 1.0
-    alpha: 0.20
+    alpha: 0.2
     tfidf_min_df: 2
     tfidf_max_df: 0.8
     description_len: 128
-  visual: {enabled: true, lambda: 0.25, alpha: 0.025}
+  visual:
+    enabled: true
+    lambda: 0.25
+    alpha: 0.025
 diffusion:
-  beta_candidates: [0.5, 1.0]
-  t_edit_candidates: [3, 5, 7]
-  guidance_candidates: [1.5, 2.0]
-  rho_text_candidates: [0.25, 0.5, 0.75, 1.0]
-  rho_visual_candidates: [0.5, 0.75, 1.0]
+  beta_candidates:
+  - 0.5
+  - 1.0
+  t_edit_candidates:
+  - 3
+  - 5
+  - 7
+  guidance_candidates:
+  - 1.5
+  - 2.0
+  rho_text_candidates:
+  - 0.25
+  - 0.5
+  - 0.75
+  - 1.0
+  rho_visual_candidates:
+  - 0.5
+  - 0.75
+  - 1.0
+  training_protocol: m32_train_monitor
+  train_scope: train_interaction_items
+  split_seed: 20261101
+  train_seed_base: 20261121
+  monitor_noise_seed: 20261131
+  max_epochs: 80
+  min_epochs: 25
+  patience: 8
+  checkpoint_selection: best_monitor
+  purification_seeds:
+  - 20261141
+  - 20261142
+  - 20261143
+  - 20261144
 historical_msca_validation:
   R10: 0.05008156853969141
   N10: 0.02787977057635714
