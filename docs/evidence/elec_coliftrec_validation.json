@@ -1,0 +1,109 @@
+{
+  "phase": "COLIFTREC_VALIDATION",
+  "dataset": "elec",
+  "display_name": "Electronics",
+  "mode": "formal",
+  "source_checkpoint_sha256": "feb59676681335bdff8df0ac016e7116e348b7fadb583cc129015cbfdeff461a",
+  "source_checkpoint_epoch": 26,
+  "dataset_config": "/home/gxy/code/Second-paper/src/configs/second_paper/elec.yaml",
+  "config": {
+    "lambda_text": 1.0,
+    "lambda_attribute": 1.0,
+    "lambda_visual": 0.25,
+    "alpha_text": 0.2,
+    "alpha_attribute": 0.2,
+    "alpha_visual": 0.025
+  },
+  "branches_enabled": {
+    "text": true,
+    "attribute": true,
+    "visual": true
+  },
+  "metrics": {
+    "MSCA_CANONICAL": {
+      "R10": 0.04994083487459741,
+      "N10": 0.027775278164608373,
+      "R20": 0.0738837093284169,
+      "N20": 0.0338917748990925,
+      "R50": 0.11738681108198701,
+      "N50": 0.04262253605471887
+    },
+    "MSCA_COLIFTREC_TV": {
+      "R10": 0.05028831203933099,
+      "N10": 0.02794180853367674,
+      "R20": 0.07465177844460476,
+      "N20": 0.03415906705323036,
+      "R50": 0.11859943991805522,
+      "N50": 0.042969715492445326
+    },
+    "MSCA_TV_PLUS_RAW_ATTRIBUTE": {
+      "R10": 0.05126344143475529,
+      "N10": 0.028382511884018,
+      "R20": 0.07572226985287063,
+      "N20": 0.0346204558646523,
+      "R50": 0.11970811811591296,
+      "N50": 0.04345804655908149
+    },
+    "MSCA_FULL_COLIFTREC_TAV": {
+      "R10": 0.05137303508550994,
+      "N10": 0.028435387212204326,
+      "R20": 0.07575834432645387,
+      "N20": 0.034649414986707316,
+      "R50": 0.12004134661357023,
+      "N50": 0.04354446748355532
+    }
+  },
+  "deltas_vs_msca": {
+    "MSCA_CANONICAL": {
+      "R10": 0.0,
+      "N10": 0.0,
+      "R20": 0.0,
+      "N20": 0.0,
+      "R50": 0.0,
+      "N50": 0.0
+    },
+    "MSCA_COLIFTREC_TV": {
+      "R10": 0.00034747716473357976,
+      "N10": 0.00016653036906836768,
+      "R20": 0.0007680691161878611,
+      "N20": 0.00026729215413785756,
+      "R50": 0.001212628836068208,
+      "N50": 0.0003471794377264553
+    },
+    "MSCA_TV_PLUS_RAW_ATTRIBUTE": {
+      "R10": 0.0013226065601578754,
+      "N10": 0.0006072337194096278,
+      "R20": 0.0018385605244537334,
+      "N20": 0.0007286809655598012,
+      "R50": 0.002321307033925954,
+      "N50": 0.0008355105043626188
+    },
+    "MSCA_FULL_COLIFTREC_TAV": {
+      "R10": 0.001432200210912525,
+      "N10": 0.000660109047595954,
+      "R20": 0.0018746349980369725,
+      "N20": 0.0007576400876148151,
+      "R50": 0.0026545355315832214,
+      "N50": 0.0009219314288364464
+    }
+  },
+  "full_vs_msca_primary_positive_count": 4,
+  "full_vs_tv_primary_positive_count": 4,
+  "full_vs_raw_attribute_primary_positive_count": 4,
+  "historical_msca_validation": {
+    "R10": 0.05008156853969141,
+    "N10": 0.02787977057635714,
+    "R20": 0.07388614909135,
+    "N20": 0.03395789259380927,
+    "R50": 0.11730918583262642,
+    "N50": 0.042670626887756705
+  },
+  "alpha_zero_identity": {
+    "ranking_ids_exact": true,
+    "metrics_exact": true,
+    "score_coordinate": "row-z(MSCA candidate scores)",
+    "PASS": true
+  },
+  "TEST_ACCESSED": false,
+  "TEST_USED_FOR_SELECTION": false
+}
