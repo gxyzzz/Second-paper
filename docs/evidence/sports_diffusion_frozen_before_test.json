@@ -1,0 +1,63 @@
+{
+  "phase": "SPORTS_DIFFUSION_FROZEN_BEFORE_TEST",
+  "dataset": "sports",
+  "status": "FROZEN_STABLE_M31_ANCHOR",
+  "msca_checkpoint_sha256": "9e67e3f64f9b7ac840f8b27e2950bec061801012c694bb17eb77eefbcf883d97",
+  "coliftrec_config": {
+    "top_l": 100,
+    "text": {
+      "enabled": true,
+      "lambda": 0.0,
+      "alpha": 0.25
+    },
+    "attribute": {
+      "enabled": true,
+      "lambda": 1.0,
+      "alpha": 0.2,
+      "tfidf_min_df": 2,
+      "tfidf_max_df": 0.8,
+      "description_len": 128
+    },
+    "visual": {
+      "enabled": true,
+      "lambda": 1.0,
+      "alpha": 0.025
+    }
+  },
+  "diffusion_checkpoint_sha256": "403c2c445849fb84af2f24b21002cb6cd672d807e8ed354ae5e578d38cc2b7c2",
+  "training_protocol": "m31_fixed_all_items",
+  "train_item_definition": "all catalog items np.arange(n_items)",
+  "training_seed": 20261101,
+  "purification_seeds": [
+    20261001,
+    20261002,
+    20261003,
+    20261004
+  ],
+  "beta": 1.0,
+  "t_edit": 5,
+  "guidance": 1.5,
+  "rho_T": 0.75,
+  "rho_V": 0.75,
+  "validation_metrics": {
+    "R10": 0.08297564291297473,
+    "N10": 0.04563025097614125,
+    "R20": 0.12072618190024052,
+    "N20": 0.055277059394141785,
+    "R50": 0.18906650624860294,
+    "N50": 0.06896812312761409
+  },
+  "delta_vs_full_coliftrec": {
+    "R10": 0.0008944010587361301,
+    "N10": 0.0003801619280448948,
+    "R20": 0.00021954933539465593,
+    "N20": 0.0002100936779044285,
+    "R50": -0.00034973874936791716,
+    "N50": 0.00011014492127159325
+  },
+  "U": 0.006233752979880991,
+  "primary_positive_count": 4,
+  "sum_primary_delta": 0.0017042060000801093,
+  "TEST_USED_FOR_SELECTION": false,
+  "SPORTS_DIFFUSION_TEST": "CLOSED"
+}

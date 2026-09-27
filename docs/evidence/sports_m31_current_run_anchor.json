@@ -1,0 +1,54 @@
+{
+  "phase": "SPORTS_M31_CURRENT_RUN_STABLE_ANCHOR",
+  "dataset": "sports",
+  "base_metrics": {
+    "R10": 0.0820812418542386,
+    "N10": 0.045250089048096354,
+    "R20": 0.12050663256484587,
+    "N20": 0.05506696571623736,
+    "R50": 0.18941624499797086,
+    "N50": 0.0688579782063425
+  },
+  "metrics": {
+    "R10": 0.08297564291297473,
+    "N10": 0.04563025097614125,
+    "R20": 0.12072618190024052,
+    "N20": 0.055277059394141785,
+    "R50": 0.18906650624860294,
+    "N50": 0.06896812312761409
+  },
+  "delta_vs_full_coliftrec": {
+    "R10": 0.0008944010587361301,
+    "N10": 0.0003801619280448948,
+    "R20": 0.00021954933539465593,
+    "N20": 0.0002100936779044285,
+    "R50": -0.00034973874936791716,
+    "N50": 0.00011014492127159325
+  },
+  "U": 0.006233752979880991,
+  "primary_positive_count": 4,
+  "sum_primary_delta": 0.0017042060000801093,
+  "anchor": {
+    "beta": 1.0,
+    "t_edit": 5,
+    "guidance": 1.5,
+    "rho_T": 0.75,
+    "rho_V": 0.75
+  },
+  "training_protocol": "m31_fixed_all_items",
+  "train_scope": "all_catalog_items",
+  "training_seed": 20261101,
+  "purification_seeds": [
+    20261001,
+    20261002,
+    20261003,
+    20261004
+  ],
+  "diffusion_checkpoint_sha256": "403c2c445849fb84af2f24b21002cb6cd672d807e8ed354ae5e578d38cc2b7c2",
+  "text_sha256": "82e5f75e4712701785a02a6c8cbf1a377a04a78284bcbbd9977c9658d0f5f010",
+  "visual_sha256": "8dc7daf44011cb25f48bd8eef8e5ed293d8ee7b77db3628ecb15135b7e86e756",
+  "VALIDATION_TARGET_USED_FOR_TRAINING": false,
+  "TEST_TARGET_USED": false,
+  "TEST_USED_FOR_SELECTION": false,
+  "SPORTS_M31_CURRENT_RUN_REPRO": "PASS"
+}
