@@ -204,8 +204,10 @@ def run_m32(dataset,cfg,asset_audit,raw_t,raw_v,collab,final,out_dir,mode,betas,
                   "VALIDATION_RANKING_USED_FOR_TRAINING":False,"TEST_ACCESSED":False}
             (evidence_dir/f"beta_{beta_tag(beta)}_training.json").write_text(json.dumps(meta,indent=2)+"\n")
         del model,opt,best; torch.cuda.empty_cache(); gc.collect()
-def run(dataset,msca_assets,out_dir,mode,betas_override=None):
+def run(dataset,msca_assets,out_dir,mode,betas_override=None,training_seed_override=None):
     cfg=load_dataset_config(dataset); dataset=cfg["dataset"]; paths=cfg["resolved_paths"]; dcfg=cfg["diffusion"]
+    if training_seed_override is not None:
+        dcfg["training_seed"]=int(training_seed_override)
     out_dir=Path(out_dir); asset_dir=out_dir/"assets"; checkpoint_dir=out_dir/"checkpoints"; evidence_dir=out_dir/"evidence"
     for p in (asset_dir,checkpoint_dir,evidence_dir): p.mkdir(parents=True,exist_ok=True)
     asset_audit=build_current_run_assets(dataset,Path(msca_assets),asset_dir)
@@ -232,5 +234,6 @@ if __name__=="__main__":
     ap.add_argument("--out",required=True)
     ap.add_argument("--mode",choices=["smoke","formal"],required=True)
     ap.add_argument("--betas",nargs="*",type=float)
+    ap.add_argument("--training-seed",type=int)
     a=ap.parse_args()
-    run(a.dataset,a.msca_assets,a.out,a.mode,a.betas)
+    run(a.dataset,a.msca_assets,a.out,a.mode,a.betas,a.training_seed)
