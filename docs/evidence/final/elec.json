@@ -90,9 +90,9 @@
   "diffusion_checkpoint_sha256": "ffc3b3e2378646f977f1aaeb84dfbc0868c85d0f97bd2129f64045f624bbecba",
   "publication_config_sha256": "e9411cc2157f351607ea073b786116b71297519c28a9944e75d2dace7f280dce",
   "sources": {
-    "validation_coliftrec": "docs/evidence/elec_coliftrec_validation.json",
-    "validation_diffusion": "docs/evidence/elec_ELEC_DIFFUSION_FROZEN_BEFORE_TEST.json",
-    "test": "docs/evidence/elec_current_run_frozen_test.json"
+    "validation_coliftrec": "docs/evidence/archive/development/elec_coliftrec_validation.json",
+    "validation_diffusion": "docs/evidence/archive/development/elec_ELEC_DIFFUSION_FROZEN_BEFORE_TEST.json",
+    "test": "docs/evidence/archive/development/elec_current_run_frozen_test.json"
   },
   "phase": "PUBLICATION_FINAL_FROZEN_RESULTS",
   "TEST_USED_FOR_SELECTION": false,

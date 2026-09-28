@@ -161,11 +161,11 @@
       "exact_match": true,
       "source_evidence": [
         {
-          "path": "docs/evidence/sports_diffusion_frozen_before_test.json",
+          "path": "docs/evidence/archive/development/sports_diffusion_frozen_before_test.json",
           "sha256": "95bf1b35b4354c085659532a601bc3cb3ae9561944aa43e487de11e13209314f"
         },
         {
-          "path": "docs/evidence/sports_m31_exact_training.json",
+          "path": "docs/evidence/archive/development/sports_m31_exact_training.json",
           "sha256": "43a2e47054074b3e64f6a41d3b963e5fdf92db28f184db3ad5128ce286c0196e"
         }
       ]
@@ -252,11 +252,11 @@
       "exact_match": true,
       "source_evidence": [
         {
-          "path": "docs/evidence/elec_ELEC_DIFFUSION_FROZEN_BEFORE_TEST.json",
+          "path": "docs/evidence/archive/development/elec_ELEC_DIFFUSION_FROZEN_BEFORE_TEST.json",
           "sha256": "e81d4954a10c28a75346db417e0fa637dddde359fca3a3afd38dcd24c70b7975"
         },
         {
-          "path": "docs/evidence/elec_m32_beta_0p5_training.json",
+          "path": "docs/evidence/archive/development/elec_m32_beta_0p5_training.json",
           "sha256": "136cb9cc413527d8138a82b85c04c3b263c6181258173969e3733e9c4b1af5a3"
         }
       ]

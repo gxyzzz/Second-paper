@@ -194,9 +194,9 @@
       "diffusion_checkpoint_sha256": "403c2c445849fb84af2f24b21002cb6cd672d807e8ed354ae5e578d38cc2b7c2",
       "publication_config_sha256": "e9411cc2157f351607ea073b786116b71297519c28a9944e75d2dace7f280dce",
       "sources": {
-        "validation_coliftrec": "docs/evidence/sports_coliftrec_validation.json",
-        "validation_diffusion": "docs/evidence/sports_m31_current_run_anchor.json",
-        "test": "docs/evidence/sports_current_run_frozen_test.json"
+        "validation_coliftrec": "docs/evidence/archive/development/sports_coliftrec_validation.json",
+        "validation_diffusion": "docs/evidence/archive/development/sports_m31_current_run_anchor.json",
+        "test": "docs/evidence/archive/development/sports_current_run_frozen_test.json"
       },
       "phase": "PUBLICATION_FINAL_FROZEN_RESULTS",
       "TEST_USED_FOR_SELECTION": false,
@@ -294,9 +294,9 @@
       "diffusion_checkpoint_sha256": "ffc3b3e2378646f977f1aaeb84dfbc0868c85d0f97bd2129f64045f624bbecba",
       "publication_config_sha256": "e9411cc2157f351607ea073b786116b71297519c28a9944e75d2dace7f280dce",
       "sources": {
-        "validation_coliftrec": "docs/evidence/elec_coliftrec_validation.json",
-        "validation_diffusion": "docs/evidence/elec_ELEC_DIFFUSION_FROZEN_BEFORE_TEST.json",
-        "test": "docs/evidence/elec_current_run_frozen_test.json"
+        "validation_coliftrec": "docs/evidence/archive/development/elec_coliftrec_validation.json",
+        "validation_diffusion": "docs/evidence/archive/development/elec_ELEC_DIFFUSION_FROZEN_BEFORE_TEST.json",
+        "test": "docs/evidence/archive/development/elec_current_run_frozen_test.json"
       },
       "phase": "PUBLICATION_FINAL_FROZEN_RESULTS",
       "TEST_USED_FOR_SELECTION": false,

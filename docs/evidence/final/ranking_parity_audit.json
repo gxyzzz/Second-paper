@@ -46,7 +46,7 @@
       "new_ranked_items_sha256": "feb6eb26d1ef9d444a501c05480daa1d107fb91006ac54e662887adca3abea4e"
     },
     "sports": {
-      "old_summary": "docs/evidence/sports_current_run_frozen_test.json",
+      "old_summary": "docs/evidence/archive/development/sports_current_run_frozen_test.json",
       "new_summary": "runs/refactor_parity/sports/test_v2/summary.json",
       "old_scores": "runs/test/sports_current_frozen/test_scores.npz",
       "new_ranked_items": "runs/refactor_parity/sports/test_v2/ranked_items.npz",
@@ -89,7 +89,7 @@
       "new_ranked_items_sha256": "6c6e663e5ba2999e22ea502d0074478b27b823cffea0e24ae0ce970a62c73959"
     },
     "elec": {
-      "old_summary": "docs/evidence/elec_current_run_frozen_test.json",
+      "old_summary": "docs/evidence/archive/development/elec_current_run_frozen_test.json",
       "new_summary": "runs/refactor_parity/elec/test_v2/summary.json",
       "old_scores": "runs/test/elec_current_frozen/test_scores.npz",
       "new_ranked_items": "runs/refactor_parity/elec/test_v2/ranked_items.npz",
