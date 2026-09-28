@@ -14,3 +14,4 @@ text_feature_file: 'text_feat.npy'
 user_graph_dict_file: 'user_graph_dict.npy'
 
 field_separator: "\t"
+metadata_file: 'metadata_text_cache.jsonl'

@@ -1,0 +1,66 @@
+model: CoLiftRecDiffusion
+backbone:
+  model: MSCA
+  seed: 999
+common:
+  top_l: 100
+  attribute:
+    tfidf_min_df: 2
+    tfidf_max_df: 0.8
+    description_len: 128
+datasets:
+  baby:
+    coliftrec:
+      text: {lambda: 1.0, alpha: 0.25}
+      attribute: {lambda: 0.75, alpha: 0.15}
+      visual: {lambda: 0.25, alpha: 0.025}
+    diffusion:
+      training_protocol: m31_fixed_all_items
+      train_scope: all_catalog_items
+      epochs: 80
+      checkpoint_selection: final_epoch
+      beta: 0.5
+      training_seed: 20261501
+      t_edit: 3
+      guidance: 2.0
+      rho_text: 0.25
+      rho_visual: 1.0
+      purification_seeds: [20261001, 20261002, 20261003, 20261004]
+  sports:
+    coliftrec:
+      text: {lambda: 0.0, alpha: 0.25}
+      attribute: {lambda: 1.0, alpha: 0.20}
+      visual: {lambda: 1.0, alpha: 0.025}
+    diffusion:
+      training_protocol: m31_fixed_all_items
+      train_scope: all_catalog_items
+      epochs: 80
+      checkpoint_selection: final_epoch
+      beta: 1.0
+      training_seed: 20261101
+      t_edit: 5
+      guidance: 1.5
+      rho_text: 0.75
+      rho_visual: 0.75
+      purification_seeds: [20261001, 20261002, 20261003, 20261004]
+  elec:
+    coliftrec:
+      text: {lambda: 1.0, alpha: 0.20}
+      attribute: {lambda: 1.0, alpha: 0.20}
+      visual: {lambda: 0.25, alpha: 0.025}
+    diffusion:
+      training_protocol: m32_train_monitor
+      train_scope: train_interaction_items
+      beta: 0.5
+      training_seed: 20261621
+      t_edit: 7
+      guidance: 2.0
+      rho_text: 1.0
+      rho_visual: 1.0
+      split_seed: 20261101
+      monitor_noise_seed: 20261131
+      max_epochs: 80
+      min_epochs: 25
+      patience: 8
+      checkpoint_selection: best_monitor
+      purification_seeds: [20261141, 20261142, 20261143, 20261144]

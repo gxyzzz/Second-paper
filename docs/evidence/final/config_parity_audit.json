@@ -1,0 +1,267 @@
+{
+  "phase": "THREE_DOMAIN_CONFIG_PARITY_AUDIT",
+  "publication_config": "src/configs/model/CoLiftRecDiffusion.yaml",
+  "publication_config_sha256": "e9411cc2157f351607ea073b786116b71297519c28a9944e75d2dace7f280dce",
+  "backbone_seed_policy": "seed999 unified across Baby/Sports/Electronics",
+  "rows": {
+    "baby": {
+      "old_frozen": {
+        "backbone_seed": 999,
+        "top_l": 100,
+        "attribute_common": {
+          "tfidf_min_df": 2,
+          "tfidf_max_df": 0.8,
+          "description_len": 128
+        },
+        "coliftrec": {
+          "lambda_T": 1.0,
+          "lambda_A": 0.75,
+          "lambda_V": 0.25,
+          "alpha_T": 0.25,
+          "alpha_A": 0.15,
+          "alpha_V": 0.025
+        },
+        "diffusion": {
+          "training_protocol": "m31_fixed_all_items",
+          "train_scope": "all_catalog_items",
+          "epochs": 80,
+          "checkpoint_selection": "final_epoch",
+          "beta": 0.5,
+          "training_seed": 20261501,
+          "t_edit": 3,
+          "guidance": 2.0,
+          "rho_T": 0.25,
+          "rho_V": 1.0,
+          "purification_seeds": [
+            20261001,
+            20261002,
+            20261003,
+            20261004
+          ]
+        }
+      },
+      "new_publication": {
+        "backbone_seed": 999,
+        "top_l": 100,
+        "attribute_common": {
+          "tfidf_min_df": 2,
+          "tfidf_max_df": 0.8,
+          "description_len": 128
+        },
+        "coliftrec": {
+          "lambda_T": 1.0,
+          "lambda_A": 0.75,
+          "lambda_V": 0.25,
+          "alpha_T": 0.25,
+          "alpha_A": 0.15,
+          "alpha_V": 0.025
+        },
+        "diffusion": {
+          "training_protocol": "m31_fixed_all_items",
+          "train_scope": "all_catalog_items",
+          "beta": 0.5,
+          "training_seed": 20261501,
+          "t_edit": 3,
+          "guidance": 2.0,
+          "rho_T": 0.25,
+          "rho_V": 1.0,
+          "checkpoint_selection": "final_epoch",
+          "purification_seeds": [
+            20261001,
+            20261002,
+            20261003,
+            20261004
+          ],
+          "epochs": 80
+        }
+      },
+      "exact_match": true,
+      "source_evidence": [
+        {
+          "path": "runs/test/baby_multiseed/seed999/summary.json",
+          "sha256": "6ab283ae2c5db754f063abd13fdb35fb68f4f4b892609d52ea3eba896cbc1c43"
+        },
+        {
+          "path": "runs/diffusion_rescue/baby_historical_seed_replay/beta_0p5/evidence/beta_0p5_training.json",
+          "sha256": "96d14cab76af0148ed31cf6dcd50ef90ccde4fc3c3f90d82177960d7aa479564"
+        }
+      ]
+    },
+    "sports": {
+      "old_frozen": {
+        "backbone_seed": 999,
+        "top_l": 100,
+        "attribute_common": {
+          "tfidf_min_df": 2,
+          "tfidf_max_df": 0.8,
+          "description_len": 128
+        },
+        "coliftrec": {
+          "lambda_T": 0.0,
+          "lambda_A": 1.0,
+          "lambda_V": 1.0,
+          "alpha_T": 0.25,
+          "alpha_A": 0.2,
+          "alpha_V": 0.025
+        },
+        "diffusion": {
+          "training_protocol": "m31_fixed_all_items",
+          "train_scope": "all_catalog_items",
+          "epochs": 80,
+          "checkpoint_selection": "final_epoch",
+          "beta": 1.0,
+          "training_seed": 20261101,
+          "t_edit": 5,
+          "guidance": 1.5,
+          "rho_T": 0.75,
+          "rho_V": 0.75,
+          "purification_seeds": [
+            20261001,
+            20261002,
+            20261003,
+            20261004
+          ]
+        }
+      },
+      "new_publication": {
+        "backbone_seed": 999,
+        "top_l": 100,
+        "attribute_common": {
+          "tfidf_min_df": 2,
+          "tfidf_max_df": 0.8,
+          "description_len": 128
+        },
+        "coliftrec": {
+          "lambda_T": 0.0,
+          "lambda_A": 1.0,
+          "lambda_V": 1.0,
+          "alpha_T": 0.25,
+          "alpha_A": 0.2,
+          "alpha_V": 0.025
+        },
+        "diffusion": {
+          "training_protocol": "m31_fixed_all_items",
+          "train_scope": "all_catalog_items",
+          "beta": 1.0,
+          "training_seed": 20261101,
+          "t_edit": 5,
+          "guidance": 1.5,
+          "rho_T": 0.75,
+          "rho_V": 0.75,
+          "checkpoint_selection": "final_epoch",
+          "purification_seeds": [
+            20261001,
+            20261002,
+            20261003,
+            20261004
+          ],
+          "epochs": 80
+        }
+      },
+      "exact_match": true,
+      "source_evidence": [
+        {
+          "path": "docs/evidence/sports_diffusion_frozen_before_test.json",
+          "sha256": "95bf1b35b4354c085659532a601bc3cb3ae9561944aa43e487de11e13209314f"
+        },
+        {
+          "path": "docs/evidence/sports_m31_exact_training.json",
+          "sha256": "43a2e47054074b3e64f6a41d3b963e5fdf92db28f184db3ad5128ce286c0196e"
+        }
+      ]
+    },
+    "elec": {
+      "old_frozen": {
+        "backbone_seed": 999,
+        "top_l": 100,
+        "attribute_common": {
+          "tfidf_min_df": 2,
+          "tfidf_max_df": 0.8,
+          "description_len": 128
+        },
+        "coliftrec": {
+          "lambda_T": 1.0,
+          "lambda_A": 1.0,
+          "lambda_V": 0.25,
+          "alpha_T": 0.2,
+          "alpha_A": 0.2,
+          "alpha_V": 0.025
+        },
+        "diffusion": {
+          "training_protocol": "m32_train_monitor",
+          "train_scope": "train_interaction_items",
+          "checkpoint_selection": "best_monitor",
+          "beta": 0.5,
+          "training_seed": 20261621,
+          "t_edit": 7,
+          "guidance": 2.0,
+          "rho_T": 1.0,
+          "rho_V": 1.0,
+          "split_seed": 20261101,
+          "monitor_noise_seed": 20261131,
+          "max_epochs": 80,
+          "min_epochs": 25,
+          "patience": 8,
+          "purification_seeds": [
+            20261141,
+            20261142,
+            20261143,
+            20261144
+          ]
+        }
+      },
+      "new_publication": {
+        "backbone_seed": 999,
+        "top_l": 100,
+        "attribute_common": {
+          "tfidf_min_df": 2,
+          "tfidf_max_df": 0.8,
+          "description_len": 128
+        },
+        "coliftrec": {
+          "lambda_T": 1.0,
+          "lambda_A": 1.0,
+          "lambda_V": 0.25,
+          "alpha_T": 0.2,
+          "alpha_A": 0.2,
+          "alpha_V": 0.025
+        },
+        "diffusion": {
+          "training_protocol": "m32_train_monitor",
+          "train_scope": "train_interaction_items",
+          "beta": 0.5,
+          "training_seed": 20261621,
+          "t_edit": 7,
+          "guidance": 2.0,
+          "rho_T": 1.0,
+          "rho_V": 1.0,
+          "checkpoint_selection": "best_monitor",
+          "purification_seeds": [
+            20261141,
+            20261142,
+            20261143,
+            20261144
+          ],
+          "split_seed": 20261101,
+          "monitor_noise_seed": 20261131,
+          "max_epochs": 80,
+          "min_epochs": 25,
+          "patience": 8
+        }
+      },
+      "exact_match": true,
+      "source_evidence": [
+        {
+          "path": "docs/evidence/elec_ELEC_DIFFUSION_FROZEN_BEFORE_TEST.json",
+          "sha256": "e81d4954a10c28a75346db417e0fa637dddde359fca3a3afd38dcd24c70b7975"
+        },
+        {
+          "path": "docs/evidence/elec_m32_beta_0p5_training.json",
+          "sha256": "136cb9cc413527d8138a82b85c04c3b263c6181258173969e3733e9c4b1af5a3"
+        }
+      ]
+    }
+  },
+  "THREE_DOMAIN_CONFIG_PARITY": "PASS",
+  "NO_DEVELOPMENT_SEARCH_SPACE_IN_FINAL_CONFIG": true
+}
