@@ -1,0 +1,138 @@
+{
+  "phase": "BABY_DIFFUSION_SEED_COMPARISON",
+  "dataset": "baby",
+  "fixed_config": {
+    "beta": 0.5,
+    "t_edit": 3,
+    "guidance": 2.0,
+    "rho_T": 0.25,
+    "rho_V": 1.0,
+    "purification_seeds": [
+      20261001,
+      20261002,
+      20261003,
+      20261004
+    ]
+  },
+  "seed_20261101": {
+    "training": {
+      "training_seed": 20261101,
+      "checkpoint_sha256": "bc5e8c86e0001b0d230a51f3b51cc4a29e4f5e2cfa3c4146b8fcd782301bf227",
+      "final_train_loss": 0.07016100320621585,
+      "final_train_rec": 0.0008677620520478392,
+      "true_balanced": 0.0008428372093476355,
+      "shuffled_balanced": 0.0012419329723343253,
+      "null_balanced": 0.0010374704143032432,
+      "TRUE_LT_SHUFFLED": true,
+      "TRUE_LT_NULL": true
+    },
+    "ranking": {
+      "metrics": {
+        "R10": 0.07229450587126082,
+        "N10": 0.038752841590676546,
+        "R20": 0.1068475798650651,
+        "N20": 0.04757778336151891,
+        "R50": 0.173651263025138,
+        "N50": 0.060912951700252384
+      },
+      "delta_vs_full_coliftrec": {
+        "R10": -0.00023827890631696047,
+        "N10": -0.00015066950252333455,
+        "R20": -1.7142367360917232e-05,
+        "N20": -5.610074593042497e-05,
+        "R50": -0.0004482729064883839,
+        "N50": -0.00013734461927311648
+      },
+      "U": -0.0021240457627561935,
+      "primary_positive_count": 0
+    },
+    "purified_displacement": {
+      "text": {
+        "normalized_l2_mean": 0.8450219035148621,
+        "normalized_l2_std": 0.14121706783771515,
+        "cosine_mean": 0.6329979300498962,
+        "cosine_std": 0.11964248865842819
+      },
+      "visual": {
+        "normalized_l2_mean": 0.981820821762085,
+        "normalized_l2_std": 0.11907776445150375,
+        "cosine_mean": 0.5109241604804993,
+        "cosine_std": 0.11470691859722137
+      }
+    },
+    "eligible_count": 15,
+    "crossfit": {
+      "OOF_mean_delta_U": -0.0012126692449160948,
+      "P_delta_U_gt_0": 0.24,
+      "positive_folds": 6,
+      "total_folds": 25,
+      "repeat_positive_mean_count": 0,
+      "PASS": false
+    }
+  },
+  "seed_20261501": {
+    "training": {
+      "training_seed": 20261501,
+      "checkpoint_sha256": "289a421e34b7aef1c06d7f36be202354de130d71998a80540f878d2778e352ab",
+      "final_train_loss": 0.07016208421253989,
+      "final_train_rec": 0.0008687247072366324,
+      "true_balanced": 0.0008360135834664106,
+      "shuffled_balanced": 0.0012218616902828217,
+      "null_balanced": 0.0010391356190666556,
+      "TRUE_LT_SHUFFLED": true,
+      "TRUE_LT_NULL": true
+    },
+    "ranking": {
+      "metrics": {
+        "R10": 0.07229022027942059,
+        "N10": 0.038727015572241584,
+        "R20": 0.10660758672201204,
+        "N20": 0.04749501865738483,
+        "R50": 0.1736795479312835,
+        "N50": 0.06089562518711908
+      },
+      "delta_vs_full_coliftrec": {
+        "R10": -0.00024256449815719672,
+        "N10": -0.00017649552095829607,
+        "R20": -0.00025713551041398053,
+        "N20": -0.0001388654500645084,
+        "R50": -0.00041998800034287465,
+        "N50": -0.00015467113240642122
+      },
+      "U": -0.003300599808239091,
+      "primary_positive_count": 0
+    },
+    "purified_displacement": {
+      "text": {
+        "normalized_l2_mean": 0.8434121608734131,
+        "normalized_l2_std": 0.13739244639873505,
+        "cosine_mean": 0.6348896622657776,
+        "cosine_std": 0.11661454290151596
+      },
+      "visual": {
+        "normalized_l2_mean": 0.9818370938301086,
+        "normalized_l2_std": 0.11681217700242996,
+        "cosine_mean": 0.5111753940582275,
+        "cosine_std": 0.11206401139497757
+      }
+    },
+    "eligible_count": 21,
+    "crossfit": {
+      "OOF_mean_delta_U": -0.0018299692000114027,
+      "P_delta_U_gt_0": 0.16,
+      "positive_folds": 4,
+      "total_folds": 25,
+      "repeat_positive_mean_count": 0,
+      "PASS": false
+    }
+  },
+  "historical_minus_old": {
+    "R10": -4.285591840236247e-06,
+    "N10": -2.5826018434961517e-05,
+    "R20": -0.0002399931430530633,
+    "N20": -8.276470413408343e-05,
+    "U": -0.0011765540454828976
+  },
+  "VALIDATION_ONLY": true,
+  "TEST_ACCESSED": false
+}

@@ -86,7 +86,7 @@ def main():
             c["checkpoint_sha256"]=p["checkpoint_sha256"]; c["condition_sha256"]=p["condition_sha256"]
     pool["phase"]="BABY_HISTORICAL_SEED_FROZEN_CANDIDATE_POOL"; pool["seed_protocol"]=PROTOCOL
     pp=E/"BABY_HISTORICAL_SEED_FROZEN_CANDIDATE_POOL.json"; pp.write_text(json.dumps(pool,indent=2)+"\n")
-    cross=json.loads((E/"baby_crossfit_summary.json").read_text())
+    cross=json.loads((E/"baby_a3_crossfit_summary.json").read_text())
     cross["seed_protocol"]=PROTOCOL
     (E/"historical_baby_crossfit_summary.json").write_text(json.dumps(cross,indent=2)+"\n")
     passed=bool(cross["BABY_DIFFUSION_UPGRADE_PASS"])

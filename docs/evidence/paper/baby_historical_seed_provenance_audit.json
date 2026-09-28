@@ -1,0 +1,49 @@
+{
+  "phase": "BABY_HISTORICAL_SEED_PROVENANCE_AUDIT",
+  "seed_protocol": "HISTORICAL_M31B_EXACT",
+  "beta_provenance": {
+    "0.0": {
+      "training_seed": 20261001,
+      "checkpoint_sha256": "25f7800f5619daa7fab3692b3fab2b3f2fafa4bfc05d5deb71ce219beda70d0f",
+      "condition_sha256": "e4006686eb4be7eac5a7c6972c42d57815f712f8ee7b393d916fdca9d40f981d",
+      "purified_pair_count": 25,
+      "training_evidence": "runs/diffusion_rescue/baby_historical_seed_replay/beta_0p0/evidence/beta_0p0_training.json"
+    },
+    "0.25": {
+      "training_seed": 20261251,
+      "checkpoint_sha256": "cbd0bc2ecfc127fca3bfe9c3ecc951e77e05cc407350f6e0fb7a0f925bf87f88",
+      "condition_sha256": "9a75c7a4a46a0eed6ef2c0e396491218fdccd2b27e25b8ffcc9bf5b553fc2ca1",
+      "purified_pair_count": 25,
+      "training_evidence": "runs/diffusion_rescue/baby_historical_seed_replay/beta_0p25/evidence/beta_0p2_training.json"
+    },
+    "0.5": {
+      "training_seed": 20261501,
+      "checkpoint_sha256": "289a421e34b7aef1c06d7f36be202354de130d71998a80540f878d2778e352ab",
+      "condition_sha256": "a7f5be2c5a2fd8351bd041a6d805df017b1cecc20353c7065c1215186260c1f4",
+      "purified_pair_count": 25,
+      "training_evidence": "runs/diffusion_rescue/baby_historical_seed_replay/beta_0p5/evidence/beta_0p5_training.json"
+    },
+    "0.75": {
+      "training_seed": 20261751,
+      "checkpoint_sha256": "dfe1e1429c25a4652c7db40018a0bd3682a847eab29a880898605dee265face7",
+      "condition_sha256": "346d4469e03b301e6365896ea76c13871cd1454895b3744fe7366a6120fa7d8d",
+      "purified_pair_count": 25,
+      "training_evidence": "runs/diffusion_rescue/baby_historical_seed_replay/beta_0p75/evidence/beta_0p8_training.json"
+    },
+    "1.0": {
+      "training_seed": 20261101,
+      "checkpoint_sha256": "37e43f95105529a976152aafc9ab9bdbecdce529a43e835d73adfb3dedb988e9",
+      "condition_sha256": "bfa7334b86191bfecfe11bcad86f524d334c175f3494c07b20e5989d78904cbc",
+      "purified_pair_count": 25,
+      "training_evidence": "runs/diffusion_repro/baby_m31_formal/evidence/beta_1p0_training.json"
+    }
+  },
+  "purification_seeds": [
+    20261001,
+    20261002,
+    20261003,
+    20261004
+  ],
+  "PASS": true,
+  "TEST_ACCESSED": false
+}
