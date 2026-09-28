@@ -1,0 +1,48 @@
+{
+  "phase": "BABY_CANONICAL_BACKBONE_FROZEN_BEFORE_MULTISEED_TEST",
+  "dataset": "baby",
+  "canonical_seed": 1000,
+  "selection_metric": "MSCA_VALIDATION_R20",
+  "selection_does_not_use_diffusion": true,
+  "selection_does_not_use_test": true,
+  "candidate_seeds": [
+    999,
+    1000,
+    1001,
+    1002
+  ],
+  "msca_validation_R20": {
+    "999": 0.10347267629088149,
+    "1000": 0.10425400090609657,
+    "1001": 0.10302801552608702,
+    "1002": 0.10311525793140604
+  },
+  "canonical_best_epoch": 45,
+  "canonical_checkpoint_sha256": "39267b02da4aee97613805a5d2fd54971e3777a3dc57b02afb17688fe7053948",
+  "all_seed_checkpoints": {
+    "999": {
+      "best_epoch": 37,
+      "checkpoint_sha256": "aa389ef8576e491ffb56eaec9d165444487bef9c1e542f280e991e2e063cc1cb"
+    },
+    "1000": {
+      "best_epoch": 45,
+      "checkpoint_sha256": "39267b02da4aee97613805a5d2fd54971e3777a3dc57b02afb17688fe7053948"
+    },
+    "1001": {
+      "best_epoch": 40,
+      "checkpoint_sha256": "6789e7f3e2a9878cbbcad9e49f1388e474f27313053fe1a1fd5eaf642edf8e07"
+    },
+    "1002": {
+      "best_epoch": 37,
+      "checkpoint_sha256": "450f01580d9c044dca9bfee0befceaf2fc338bd06a92ff546dd9bbc07c62bc30"
+    }
+  },
+  "source_validation_evidence": "docs/evidence/paper/baby_backbone_robustness_summary.json",
+  "source_validation_TEST_ACCESSED": false,
+  "BABY_METHOD_SEARCH": "CLOSED",
+  "BABY_PARAMETER_SEARCH": "CLOSED",
+  "BABY_SEED_SEARCH": "CLOSED",
+  "TEST_STATUS_AT_FREEZE": "CLOSED",
+  "TEST_USED_FOR_SELECTION": false,
+  "NO_POST_TEST_TUNING": true
+}
