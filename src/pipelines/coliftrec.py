@@ -173,7 +173,6 @@ def run(dataset: str, assets_dir: Path, out_dir: Path, smoke_users: int | None =
         "full_vs_msca_primary_positive_count": int(sum(full[k] > baseline[k] for k in PRIMARY)),
         "full_vs_tv_primary_positive_count": int(sum(full[k] > tv[k] for k in PRIMARY)),
         "full_vs_raw_attribute_primary_positive_count": int(sum(full[k] > raw_a[k] for k in PRIMARY)),
-        "historical_msca_validation": cfg.get("historical_msca_validation"),
         "alpha_zero_identity": identity_gate,
         "TEST_ACCESSED": False,
         "TEST_USED_FOR_SELECTION": False,

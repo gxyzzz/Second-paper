@@ -1,0 +1,139 @@
+{
+  "phase": "THREE_DOMAIN_REFACTOR_RANKING_PARITY_AUDIT",
+  "publication_seed": 999,
+  "rows": {
+    "baby": {
+      "old_summary": "runs/test/baby_multiseed/seed999/summary.json",
+      "new_summary": "runs/refactor_parity/baby/test/summary.json",
+      "old_scores": "runs/test/baby_multiseed/seed999/test_scores.npz",
+      "new_ranked_items": "runs/refactor_parity/baby/test/ranked_items.npz",
+      "users_exact": true,
+      "ranked_items_exact": {
+        "msca": true,
+        "full_coliftrec": true,
+        "diffusion": true
+      },
+      "all_ranked_items_exact": true,
+      "metric_diffs": {
+        "MSCA": {
+          "R10": 0.0,
+          "N10": 0.0,
+          "R20": 0.0,
+          "N20": 0.0,
+          "R50": 0.0,
+          "N50": 0.0
+        },
+        "MSCA_FULL_COLIFTREC_TAV": {
+          "R10": 0.0,
+          "N10": 0.0,
+          "R20": 0.0,
+          "N20": 0.0,
+          "R50": 0.0,
+          "N50": 0.0
+        },
+        "MSCA_FULL_COLIFTREC_DIFFUSION": {
+          "R10": 0.0,
+          "N10": 0.0,
+          "R20": 0.0,
+          "N20": 0.0,
+          "R50": 0.0,
+          "N50": 0.0
+        }
+      },
+      "metric_max_abs_diff": 0.0,
+      "metric_exact": true,
+      "old_scores_sha256": "cea0b32770b5865e327be141fa21eea10a9a9a117fb9c720490bb5264dc4cedc",
+      "new_ranked_items_sha256": "feb6eb26d1ef9d444a501c05480daa1d107fb91006ac54e662887adca3abea4e"
+    },
+    "sports": {
+      "old_summary": "docs/evidence/sports_current_run_frozen_test.json",
+      "new_summary": "runs/refactor_parity/sports/test_v2/summary.json",
+      "old_scores": "runs/test/sports_current_frozen/test_scores.npz",
+      "new_ranked_items": "runs/refactor_parity/sports/test_v2/ranked_items.npz",
+      "users_exact": true,
+      "ranked_items_exact": {
+        "msca": true,
+        "full_coliftrec": true,
+        "diffusion": true
+      },
+      "all_ranked_items_exact": true,
+      "metric_diffs": {
+        "MSCA": {
+          "R10": 0.0,
+          "N10": 0.0,
+          "R20": 0.0,
+          "N20": 0.0,
+          "R50": 0.0,
+          "N50": 0.0
+        },
+        "MSCA_FULL_COLIFTREC_TAV": {
+          "R10": 0.0,
+          "N10": 0.0,
+          "R20": 0.0,
+          "N20": 0.0,
+          "R50": 0.0,
+          "N50": 0.0
+        },
+        "MSCA_FULL_COLIFTREC_DIFFUSION": {
+          "R10": 0.0,
+          "N10": 0.0,
+          "R20": 0.0,
+          "N20": 0.0,
+          "R50": 0.0,
+          "N50": 0.0
+        }
+      },
+      "metric_max_abs_diff": 0.0,
+      "metric_exact": true,
+      "old_scores_sha256": "e9da2dca0870e71d26e900f6fa1a0a3c932967fd795bfe2a023f18772b5be410",
+      "new_ranked_items_sha256": "6c6e663e5ba2999e22ea502d0074478b27b823cffea0e24ae0ce970a62c73959"
+    },
+    "elec": {
+      "old_summary": "docs/evidence/elec_current_run_frozen_test.json",
+      "new_summary": "runs/refactor_parity/elec/test_v2/summary.json",
+      "old_scores": "runs/test/elec_current_frozen/test_scores.npz",
+      "new_ranked_items": "runs/refactor_parity/elec/test_v2/ranked_items.npz",
+      "users_exact": true,
+      "ranked_items_exact": {
+        "msca": true,
+        "full_coliftrec": true,
+        "diffusion": true
+      },
+      "all_ranked_items_exact": true,
+      "metric_diffs": {
+        "MSCA": {
+          "R10": 0.0,
+          "N10": 0.0,
+          "R20": 0.0,
+          "N20": 0.0,
+          "R50": 0.0,
+          "N50": 0.0
+        },
+        "MSCA_FULL_COLIFTREC_TAV": {
+          "R10": 0.0,
+          "N10": 0.0,
+          "R20": 0.0,
+          "N20": 0.0,
+          "R50": 0.0,
+          "N50": 0.0
+        },
+        "MSCA_FULL_COLIFTREC_DIFFUSION": {
+          "R10": 0.0,
+          "N10": 0.0,
+          "R20": 0.0,
+          "N20": 0.0,
+          "R50": 0.0,
+          "N50": 0.0
+        }
+      },
+      "metric_max_abs_diff": 0.0,
+      "metric_exact": true,
+      "old_scores_sha256": "4dd75c5d214b005a28470ab7fdb9d2e16d8cce9ba0e8ef264be40dcda90b7aa4",
+      "new_ranked_items_sha256": "a3122086967c336113f34ad8dee4fe528a3482275e076f347ffa68cf0f97156e"
+    }
+  },
+  "metric_max_abs_diff": 0.0,
+  "all_users_exact": true,
+  "all_ranked_items_exact": true,
+  "THREE_DOMAIN_RANKING_PARITY": "PASS"
+}

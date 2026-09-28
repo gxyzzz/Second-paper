@@ -1,175 +1,191 @@
 # Second-paper
 
-Clean reproducible source repository for the second multimodal recommendation paper.
+Official reproducibility repository for our multimodal recommendation study built on MSCA / MMRec.
+The publication pipeline combines a frozen MSCA backbone with **CoLiftRec** and **Condition-Adaptive Diffusion Semantic Purification**.
 
-## Current research pipeline
+## Introduction
 
-Second-paper now uses one dataset-generic implementation for Baby, Sports, and Electronics (internal dataset id: elec).
+The repository keeps MSCA as an independently runnable backbone and adds two post-backbone stages:
 
-Pipeline:
+1. **CoLiftRec** removes item-generic multimodal relevance from user-item semantic scores and retains the user-specific lift used for candidate reranking.
+2. **Diffusion Semantic Purification** edits native text and visual item features under collaborative conditions, then blends the purified features back with fixed, dataset-specific coefficients.
 
-    from-scratch MSCA
-      -> current-run Top100 / embeddings
-      -> frozen CoLiftRec
-      -> Condition-Adaptive Diffusion Semantic Purification
-      -> Validation-only selector
+The final publication seed is **999** for Baby, Sports, and Electronics. Publication-facing method parameters are frozen in:
 
-Current discipline:
+```text
+src/configs/model/CoLiftRecDiffusion.yaml
+```
 
-- MSCA starts from random initialization with seed 999.
-- Training and early stopping use TRAIN and Validation only.
-- CoLiftRec parameters are frozen per dataset and are not re-searched.
-- Diffusion consumes native Text384 + Visual4096 and current-run MSCA condition endpoints only.
-- Diffusion checkpoints are selected by a fixed TRAIN-item 95/5 denoising train/monitor split.
-- Recommendation Validation is used only after Diffusion training has frozen.
-- Test is an explicit post-freeze operation and is never used for model/config selection.
-- Historical checkpoints, Top100 caches, purified features, and ranking caches are not runtime dependencies.
+## Overall Framework
 
-Main commands are documented by the dataset-generic entry points under src/pipelines and scripts/diffusion_train.py / scripts/diffusion_validate.py.
+```text
+MSCA
+  -> current-run embeddings / Top-100 candidates
+  -> Full CoLiftRec
+  -> Condition-Adaptive Diffusion Semantic Purification
+  -> Validation / Test evaluation
+```
 
-## Reproducibility policy
-
-The final pipeline must train from the current run. Historical MSCA/DiCalRec checkpoints, old Top100 caches, old diffusion checkpoints, purified features, and ranking caches are not runtime dependencies.
-
-Canonical datasets and multimodal features are placed under `data/<dataset>/` locally and are intentionally excluded from Git.
-
----
-
-## Upstream MSCA README
-
-# MSCA (WWW'26)
-PyTorch implementation for MSCA proposed in the following paper:
- >**Multi-view Semantic Contrastive Alignment for Multimodal Recommendation**  
- >Jiuqiang Li, Hongjun Wang*  
- >In *WWW 2026*  
- >[Paper](https://doi.org/10.1145/3774904.3792192)
-
-## Overview
-<p>
-<img src="./images/MSCA.png" width="800">
-</p>
-
-## News
-
-- **[2026-07]** **MSCA** has been integrated into the [MMRec](https://github.com/enoche/MMRec) framework.
-- **[2026-05]** **MSCA** has been integrated into the [MRLib](https://github.com/Jinfeng-Xu/Multimodal-Recommendation-Library) framework.
-- **[2026-04]** The source code for **MSCA** has been publicly released.
+Runtime code does not depend on archived development scripts, historical checkpoints, old ranking caches, or legacy purified features.
 
 ## Environment
-- Python 3.8.10
-- PyTorch 1.11.0+cu113
 
-For dependency details, refer to `requirements.txt`.
+The upstream MSCA repository was released for Python 3.8.10 and PyTorch 1.11.0+cu113. The current RTX 5090 research server has also been validated with Python 3.9 and PyTorch 2.7.0+cu128.
+
+```bash
+pip install -r requirements.txt
+```
+
+See `docs/REPRODUCTION.md` and `PROVENANCE.md` for details.
 
 ## Dataset
-Download from Google Drive: [Baby/Sports/Electronics](https://drive.google.com/drive/folders/13cBy1EA_saTUuXxVllKgtfci2A09jyaG) ([Raw Data](http://jmcauley.ucsd.edu/data/amazon/links.html)). The data includes image and text features provided by the [MMRec](https://github.com/enoche/MMRec) framework, extracted from VGG and Sentence-Transformers. Preprocessing from raw data can be found [here](https://github.com/enoche/MMRec/tree/master/preprocessing).
 
-Download a supplementary dataset for micro-video recommendation: [MicroLens](https://drive.google.com/drive/folders/14UyTAh_YyDV8vzXteBJiy9jv8TBDK43w) ([Raw Data](https://github.com/westlake-repl/MicroLens)) within MMRec.
+Supported publication datasets:
 
-## Training and Evaluation
-1. Download the datasets and place them in the `data` folder. 
+- Baby
+- Sports
+- Electronics (`elec` internally)
 
-2. Set the hyperparameters in the `src/configs/model/MSCA.yaml` file.
+Place local interaction, text, visual, and metadata assets under `data/<dataset>/`. Large datasets, checkpoints, caches, purified arrays, and runtime outputs are intentionally excluded from Git.
 
-3. Run:
+Dataset metadata is defined under `src/configs/dataset/`; method parameters are kept separate.
+
+## Quick Start
+
+MSCA remains runnable through the upstream-style entry point:
+
 ```bash
-cd ./src
-python main.py -m MSCA -d {dataset_name}
+cd src
+python main.py -m MSCA -d baby
 ```
 
-4. Test:
+Run the complete frozen publication pipeline from the repository root:
+
 ```bash
-python test.py -m MSCA -d {dataset_name} -c {checkpoint_path}
+python scripts/reproduce.py --dataset baby --gpu 0
 ```
 
-## Performance Comparison
-<p>
-<img src="./images/performance.png" width="800">
-</p>
+The same interface supports `sports` and `elec`.
 
-## Reproducibility
-We report the best hyperparameters of MSCA to reproduce the results in Table 2 and 6 of our paper.
+## Training
 
-<table>
-  <tr>
-    <th>Dataset</th>
-    <th>n_layers</th>
-    <th>fusion_coeff</th>
-    <th>cl_weight</th>
-    <th>reg_weight</th>
-  </tr>
-  <tr>
-    <td>Baby</td>
-    <td>2</td>
-    <td>0.4</td>
-    <td>0.005</td>
-    <td>3e-7</td>
-  </tr>
-  <tr>
-    <td>Sports</td>
-    <td>3</td>
-    <td>0.3</td>
-    <td>0.005</td>
-    <td>5e-8</td>
-  </tr>
-  <tr>
-    <td>Electronics</td>
-    <td>4</td>
-    <td>0.2</td>
-    <td>0.01</td>
-    <td>5e-10</td>
-  </tr>
-  <tr>
-    <td>MicroLens</td>
-    <td>4</td>
-    <td>0.3</td>
-    <td>0.01</td>
-    <td>5e-9</td>
-  </tr>
-</table>
+Stage-by-stage execution:
 
-The training logs and model checkpoints are provided below:
-
-<table>
-  <tr>
-    <th>Dataset</th>
-    <th colspan="2">Download</th>
-  </tr>
-  <tr>
-    <td>Baby</td>
-    <td><a href="https://drive.google.com/file/d/1WtWTMF9nO80kU-6YOHYl6fRk55HnH3FU/view">log</a></td>
-    <td><a href="https://drive.google.com/file/d/1_fviSt_RP38jfcRH6vUcepYn5sBzOZq-/view">checkpoint</a></td>
-  </tr>
-  <tr>
-    <td>Sports</td>
-    <td><a href="https://drive.google.com/file/d/1xVXi5_E4gONSk-KfFB5l4i95b1jRoXtd/view">log</a></td>
-    <td><a href="https://drive.google.com/file/d/1lUNDySGAEVa8kVYV289fxt73Z5nLNDqK/view">checkpoint</a></td>
-  </tr>
-  <tr>
-    <td>Electronics</td>
-    <td><a href="https://drive.google.com/file/d/1Q_FEPxDdHRdsS22tI-N9vJxmA56BUjF8/view">log</a></td>
-    <td><a href="https://drive.google.com/file/d/1IeSiSCltNVHZoOKMrc7aFj6QHRg721s-/view">checkpoint</a></td>
-  </tr>
-  <tr>
-    <td>MicroLens</td>
-    <td><a href="https://drive.google.com/file/d/1Nzmg_-OWgheSiF2D6QTHncL13glUBvwg/view">log</a></td>
-    <td><a href="https://drive.google.com/file/d/1AUku-hkoigFMx0oaTSYQELwCS5o3-QC_/view">checkpoint</a></td>
-  </tr>
-</table>
-
-## Citation
-If you find MSCA helpful to your research, please consider citing the following paper.
-```bibtex
-@inproceedings{li2026multi,
-  title={Multi-view Semantic Contrastive Alignment for Multimodal Recommendation},
-  author={Li, Jiuqiang and Wang, Hongjun},
-  booktitle={Proceedings of the ACM Web Conference 2026},
-  pages={5941--5952},
-  year={2026}
-}
+```bash
+python scripts/reproduce.py --dataset baby --stage msca --gpu 0
+python scripts/reproduce.py --dataset baby --stage coliftrec --gpu 0
+python scripts/reproduce.py --dataset baby --stage diffusion --gpu 0
+python scripts/reproduce.py --dataset baby --stage validation --gpu 0
+python scripts/reproduce.py --dataset baby --stage test --gpu 0
 ```
 
-Licensed under the GNU GPL v3.0. See [LICENSE](LICENSE).
+`--stage all` is the default. Run all three datasets sequentially with:
+
+```bash
+bash scripts/reproduce_all.sh 0
+```
+
+## Evaluation
+
+The Test stage is evaluation-only. Test data are not used for seed selection, parameter search, checkpoint selection, or post-Test tuning.
+
+## Reproduction
+
+The default runtime workspace is:
+
+```text
+runs/reproduction/<dataset>/
+```
+
+See `docs/REPRODUCTION.md` for the complete guide. Publication evidence is under `docs/evidence/final/`.
+
+## Configuration
+
+```text
+src/configs/dataset/*.yaml
+  -> dataset file names / data metadata
+
+src/configs/model/MSCA.yaml and src/configs/model/MSCA/
+  -> upstream MSCA backbone parameters
+
+src/configs/model/CoLiftRecDiffusion.yaml
+  -> frozen CoLiftRec + Diffusion publication parameters
+```
+
+The final method YAML contains only fixed publication values; development search spaces are not part of the public runtime configuration.
+
+## Results
+
+Frozen Test results below are generated from `docs/evidence/final/three_domain_final_results.json`. All three datasets use publication seed **999**.
+
+### Baby
+
+| Method | R@10 | N@10 | R@20 | N@20 | R@50 | N@50 |
+|---|---:|---:|---:|---:|---:|---:|
+| MSCA | 0.069759 | 0.038059 | 0.103836 | 0.046852 | 0.171405 | 0.060570 |
+| MSCA + CoLiftRec | 0.072394 | 0.039797 | 0.108202 | 0.049028 | 0.175978 | 0.062812 |
+| MSCA + CoLiftRec + Diffusion | 0.072617 | 0.039913 | 0.108416 | 0.049120 | 0.176445 | 0.062944 |
+
+### Sports
+
+| Method | R@10 | N@10 | R@20 | N@20 | R@50 | N@50 |
+|---|---:|---:|---:|---:|---:|---:|
+| MSCA | 0.080495 | 0.043785 | 0.120169 | 0.054024 | 0.189231 | 0.068063 |
+| MSCA + CoLiftRec | 0.084598 | 0.045690 | 0.124505 | 0.055997 | 0.195191 | 0.070356 |
+| MSCA + CoLiftRec + Diffusion | 0.084884 | 0.045984 | 0.125412 | 0.056422 | 0.194709 | 0.070499 |
+
+### Electronics
+
+| Method | R@10 | N@10 | R@20 | N@20 | R@50 | N@50 |
+|---|---:|---:|---:|---:|---:|---:|
+| MSCA | 0.050197 | 0.028330 | 0.073294 | 0.034295 | 0.116487 | 0.043069 |
+| MSCA + CoLiftRec | 0.051303 | 0.028810 | 0.075537 | 0.035069 | 0.119473 | 0.044008 |
+| MSCA + CoLiftRec + Diffusion | 0.051502 | 0.029007 | 0.075621 | 0.035255 | 0.119898 | 0.044264 |
+
+For Baby, seed1000 remains preserved as the pre-registered canonical backbone of the dedicated multiseed robustness experiment; it is not used to choose the publication result after Test. The publication table uses the pre-declared unified seed999 policy across all three datasets.
+
+## Repository Structure
+
+```text
+Second-paper/
+├── README.md
+├── LICENSE
+├── PROVENANCE.md
+├── requirements.txt
+├── data/
+├── images/
+├── src/
+│   ├── main.py
+│   ├── test.py
+│   ├── models/
+│   ├── modules/
+│   ├── pipelines/
+│   └── configs/
+├── scripts/
+│   ├── reproduce.py
+│   └── reproduce_all.sh
+├── experiments/
+│   └── archive/
+├── tests/
+└── docs/
+    ├── REPRODUCTION.md
+    └── evidence/
+        ├── final/
+        └── archive/
+```
+
+`experiments/archive/` preserves development and diagnostic scripts for traceability, but the formal runtime has no dependency on it.
 
 ## Acknowledgement
-​​This repository is based on [MMRec](https://github.com/enoche/MMRec). Thanks for their work.
+
+This repository is built upon **MSCA** and the **MMRec** framework. We thank the original authors and maintainers for their work.
+
+- MSCA upstream: `recomall/MSCA`
+- Frozen upstream commit: `48455de8efa943e16d49db665e7f2fcb0c6c5e17`
+- MMRec: `enoche/MMRec`
+
+The upstream GNU GPL v3.0 license is retained in `LICENSE`.
+
+## Citation
+
+The citation entry for this work will be added after the paper metadata is finalized. For the MSCA backbone, please cite the original MSCA paper described by the upstream project.

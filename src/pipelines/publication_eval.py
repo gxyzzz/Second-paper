@@ -112,7 +112,14 @@ def apply_fixed_diffusion(cfg,pseudo_hist,pseudo_users,pseudo_items,histories,us
     diff_lt=semantic_lift(bt,pseudo_hist,pseudo_users,pseudo_items,histories,users,items,n_items,p.lambda_text)
     diff_lv=semantic_lift(bv,pseudo_hist,pseudo_users,pseudo_items,histories,users,items,n_items,p.lambda_visual)
     score=np.asarray(base_score).copy()
-    score+=p.alpha_text*(diff_lt-raw_lt)+p.alpha_visual*(diff_lv-raw_lv)
+    # Preserve the arithmetic order of each domain's frozen publication evaluator.
+    # This does not change the method formula; it prevents float32 reassociation
+    # from changing stable ordering for near-tied candidates during refactor parity.
+    if cfg["dataset"]=="baby":
+        score+=p.alpha_text*(diff_lt-raw_lt)+p.alpha_visual*(diff_lv-raw_lv)
+    else:
+        score+=p.alpha_text*(diff_lt-raw_lt)
+        score+=p.alpha_visual*(diff_lv-raw_lv)
     bt.unlink(missing_ok=True); bv.unlink(missing_ok=True)
     try: tmp_dir.rmdir()
     except OSError: pass

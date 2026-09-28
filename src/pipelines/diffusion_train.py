@@ -179,7 +179,7 @@ def run_m32(dataset,cfg,asset_audit,raw_t,raw_v,collab,final,out_dir,mode,betas,
             if mode=="formal" and ep>=min_epochs and best["since"]>=patience:
                 stop_reason="EARLY_STOP_PATIENCE"; stop_epoch=ep; break
         if mode=="smoke":
-            ev={"phase":"M32_TRAIN_MONITOR_SMOKE","dataset":dataset,"beta":beta,
+            ev={"phase":"DIFFUSION_TRAIN_MONITOR_SMOKE","dataset":dataset,"beta":beta,
                 "finite":bool(np.isfinite(best["value"])),"training_protocol":"m32_train_monitor",
                 "TEST_ACCESSED":False}
             (evidence_dir/f"m32_beta_{beta_tag(beta)}_smoke.json").write_text(json.dumps(ev,indent=2)+"\n")
