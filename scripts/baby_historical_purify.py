@@ -19,9 +19,7 @@ def sha256(path):
  return h.hexdigest()
 
 def btag(x): return ('%.1f'%float(x)).replace('.','p')
-def gtag(x):
- s=('%g'%float(x))
- return s.replace('.','p')
+def gtag(x): return ('%.1f'%float(x)).replace('.','p')
 
 def training_meta(root,beta):
  if beta==1.0:
