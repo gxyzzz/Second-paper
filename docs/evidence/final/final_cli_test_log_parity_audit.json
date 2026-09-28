@@ -1,0 +1,151 @@
+{
+  "phase": "MAIN_FORMAL_AUTO_TEST_LOG_PARITY_AUDIT",
+  "pre_change_head": "cd1b1af9897eee9cd96232213a1638cc8b81a1ca",
+  "implementation_head_at_audit": "3716d56a7b0a52b8ea732f126933dbf6042692f5",
+  "implementation_commits": {
+    "automatic_formal_test": "81ff987",
+    "project_root_log_dir": "3716d56"
+  },
+  "publication_seed": 999,
+  "scope": "engineering/user-experience refactor only",
+  "publication_config_sha256_before": "e9411cc2157f351607ea073b786116b71297519c28a9944e75d2dace7f280dce",
+  "publication_config_sha256_after": "e9411cc2157f351607ea073b786116b71297519c28a9944e75d2dace7f280dce",
+  "publication_config_exact": true,
+  "main_test_evaluator_identity": {
+    "runner_symbol_module": "pipelines.publication_eval",
+    "publication_symbol_module": "pipelines.publication_eval",
+    "same_function_object": true,
+    "status": "PASS"
+  },
+  "baby_formal_msca_test_integration": {
+    "run_dir": "/home/gxy/code/Second-paper/runs/reproduction/baby/formal_msca_test_integration_20260928",
+    "log_path": "/home/gxy/code/Second-paper/log/MSCA-baby-Sep-28-2026-19-27-12.log",
+    "best_epoch": 37,
+    "best_valid_score": 0.1035,
+    "actual_test": {
+      "R10": 0.06975933340680064,
+      "N10": 0.03805872116677564,
+      "R20": 0.10383620022730333,
+      "N20": 0.04685221810175405,
+      "R50": 0.17140490291685972,
+      "N50": 0.06057006258416349
+    },
+    "frozen_expected_test": {
+      "R10": 0.06975933340680064,
+      "N10": 0.03805872116677564,
+      "R20": 0.10383620022730333,
+      "N20": 0.04685221810175405,
+      "R50": 0.17140490291685972,
+      "N50": 0.06057006258416349
+    },
+    "metric_abs_diff": {
+      "R10": 0.0,
+      "N10": 0.0,
+      "R20": 0.0,
+      "N20": 0.0,
+      "R50": 0.0,
+      "N50": 0.0
+    },
+    "metric_max_abs_diff": 0.0,
+    "test_run_count": 1,
+    "test_run_completed": true,
+    "final_log_has_best_epoch": true,
+    "final_log_has_validation": true,
+    "final_log_has_test": true
+  },
+  "full_final_log_parity": {
+    "mode": "frozen evidence summary simulation; no three-domain retraining",
+    "log_path": "/home/gxy/code/Second-paper/log/MSCA-CoLiftRec-Diffusion-baby-final-summary-parity-Sep-28-2026-19-39-52.log",
+    "best_epoch": 37,
+    "diffusion_selected_epoch": 80,
+    "diffusion_checkpoint_selection": "final_epoch",
+    "contains_msca": true,
+    "contains_coliftrec": true,
+    "contains_full": true,
+    "contains_validation": true,
+    "contains_test": true,
+    "contains_diffusion_selected_epoch": true,
+    "paper_ready_six_decimal": true
+  },
+  "smoke_no_test": {
+    "run_dir": "runs/reproduction/baby/auto_test_smoke_20260928b",
+    "TEST_ACCESSED": false,
+    "TEST_RUN_COUNT": 0,
+    "TEST_RUN_COMPLETED": false,
+    "status": "PASS"
+  },
+  "dry_run_no_test": {
+    "run_dir": "runs/reproduction/baby/final_cli_dry_run_20260928",
+    "TEST_ACCESSED": false,
+    "TEST_RUN_COUNT": 0,
+    "TEST_RUN_COMPLETED": false,
+    "status": "PASS"
+  },
+  "test_run_guard": {
+    "actual_second_formal_run_rejected": true,
+    "manifest_count_after_rejection": 1,
+    "manifest_completed_after_rejection": true,
+    "completed_run_smoke_overwrite_guard_unit_test": "PASS",
+    "status": "PASS"
+  },
+  "three_domain_frozen_test_parity": {
+    "source": "docs/evidence/final/ranking_parity_audit.json",
+    "metric_max_abs_diff": 0.0,
+    "all_users_exact": true,
+    "all_ranked_items_exact": true,
+    "status": "PASS",
+    "datasets": {
+      "baby": {
+        "metric_max_abs_diff": 0.0,
+        "users_exact": true,
+        "all_ranked_items_exact": true
+      },
+      "sports": {
+        "metric_max_abs_diff": 0.0,
+        "users_exact": true,
+        "all_ranked_items_exact": true
+      },
+      "elec": {
+        "metric_max_abs_diff": 0.0,
+        "users_exact": true,
+        "all_ranked_items_exact": true
+      }
+    },
+    "note": "Main formal Test imports the unchanged frozen publication evaluator directly; no second Test implementation exists."
+  },
+  "scientific_integrity": {
+    "scientific_core_exact_vs_pre_change": true,
+    "frozen_config_exact_vs_pre_change": true,
+    "publication_test_evaluator_exact_vs_pre_change": true,
+    "main_runner_imports_existing_publication_evaluator": true,
+    "diffusion_train_change": "logger/metadata visibility only; no formula or selection change"
+  },
+  "tests": {
+    "existing_plus_new_suite": "PASS",
+    "formal_test_guard": "PASS",
+    "final_summary_log": "PASS",
+    "diffusion_selection_meta": "PASS",
+    "main_test_parity": "PASS",
+    "compileall": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "gates": {
+    "MAIN_FORMAL_AUTO_TEST": "PASS",
+    "MSCA_BEST_EPOCH_LOGGED": "PASS",
+    "MSCA_VALIDATION_LOGGED": "PASS",
+    "MSCA_TEST_LOGGED": "PASS",
+    "COLIFTREC_VALIDATION_LOGGED": "PASS",
+    "COLIFTREC_TEST_LOGGED": "PASS",
+    "FULL_VALIDATION_LOGGED": "PASS",
+    "FULL_TEST_LOGGED": "PASS",
+    "DIFFUSION_SELECTED_EPOCH_LOGGED": "PASS",
+    "PROJECT_ROOT_LOG_DIR": "PASS",
+    "ONE_EXPERIMENT_ONE_MAIN_LOG": "PASS",
+    "FINAL_LOG_PAPER_READY": "PASS",
+    "SMOKE_NO_TEST": "PASS",
+    "DRY_RUN_NO_TEST": "PASS",
+    "TEST_RUN_COUNT_GUARD": "PASS",
+    "THREE_DOMAIN_TEST_PARITY": "PASS",
+    "SCIENTIFIC_CORE_UNCHANGED": "PASS"
+  }
+}

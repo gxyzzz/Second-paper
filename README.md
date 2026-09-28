@@ -55,7 +55,7 @@ Dataset metadata is defined under `src/configs/dataset/`; method parameters are 
 The primary interface keeps the original MMRec/MSCA command style. Run from the repository root:
 
 ```bash
-# MSCA backbone only (backward-compatible default stage)
+# MSCA
 python src/main.py -m MSCA -d baby
 
 # MSCA + Full CoLiftRec
@@ -65,36 +65,56 @@ python src/main.py -m MSCA -d baby --stage coliftrec
 python src/main.py -m MSCA -d baby --stage full
 ```
 
-Replace `baby` with `sports` or `elec` for the other publication datasets. The legacy source-directory form also remains valid:
+Replace `baby` with `sports` or `elec` for the other publication datasets.
+
+Each **formal** command performs:
+
+```text
+TRAIN
+-> Validation-based model/checkpoint selection
+-> freeze the selected current run
+-> Test evaluation exactly once
+-> paper-ready final log summary
+```
+
+Test never controls the epoch, checkpoint, seed, or any CoLiftRec/Diffusion parameter.
+
+The legacy source-directory form remains valid:
 
 ```bash
 cd src
 python main.py -m MSCA -d baby
 ```
 
-## Training
+## Training and Evaluation
 
-`--stage msca` trains MSCA and selects its checkpoint using Validation only. `--stage coliftrec` runs MSCA -> current-run assets -> CoLiftRec -> Validation. `--stage full` additionally trains the frozen Diffusion purifier and evaluates the final method on Validation.
+`--stage msca` trains MSCA, selects the best checkpoint using Validation, reloads/exports that checkpoint, and evaluates the frozen MSCA run on Test.
 
-`src/main.py` never runs Test automatically. Test remains an explicit evaluation action.
+`--stage coliftrec` runs MSCA -> current-run assets -> Full CoLiftRec -> Validation -> one frozen Test evaluation.
 
-For stage-by-stage work, bind all stages to one run directory:
+`--stage full` additionally trains Diffusion using the frozen dataset protocol, performs purification and final Validation, then evaluates MSCA, MSCA + CoLiftRec, and MSCA + CoLiftRec + Diffusion on the same Test split.
 
-```bash
-python src/main.py -m MSCA -d baby --stage msca --run-dir runs/reproduction/baby/my_run
-python src/main.py -m MSCA -d baby --stage coliftrec --run-dir runs/reproduction/baby/my_run
-python src/main.py -m MSCA -d baby --stage full --run-dir runs/reproduction/baby/my_run
+For normal usage, inspect the complete experiment log under:
+
+```text
+./log/
 ```
 
-Later stages read the Validation-selected MSCA checkpoint from `run_manifest.json`; users do not need to locate the checkpoint manually. `--checkpoint` remains available as an advanced override.
+Example: `log/MSCA-CoLiftRec-Diffusion-baby-<timestamp>.log`.
 
-## Evaluation
+The end of a formal log contains `Best Epoch`, explicit `VALIDATION RESULT` / `TEST RESULT` blocks, Diffusion selected-epoch information when applicable, and the final paper-ready metrics.
 
-Training commands under `src/main.py` are TRAIN + VALIDATION only. Test data are not used for seed selection, parameter search, checkpoint selection, or post-Test tuning. Explicit Test/reproduction automation remains available through `scripts/reproduce.py`.
+`--smoke` is engineering-only and **does not evaluate Test**:
 
-## Reproduction
+```bash
+python src/main.py -m MSCA -d baby --stage full --smoke
+```
 
-Each main CLI run creates a unique workspace by default:
+`--dry-run` only resolves configuration and paths; it performs no training, Validation, or Test.
+
+## Run Directory and Reproducibility Metadata
+
+Each invocation creates a unique internal workspace by default:
 
 ```text
 runs/reproduction/<dataset>/<run_id>/
@@ -104,16 +124,17 @@ runs/reproduction/<dataset>/<run_id>/
 ├── coliftrec/
 ├── diffusion/
 ├── validation/
+├── test/
 └── summary.json
 ```
 
-The same run writes one MMRec-style terminal/file log under:
+These files are machine-readable reproducibility metadata and runtime artifacts. Normal users generally only need the log under `./log/`.
 
-```text
-runs/logs/
-```
+For a formal run, `summary.json` records the relevant fields, including `best_epoch`, `best_valid_score`, `MSCA_VALIDATION`, `MSCA_TEST`, `COLIFTREC_VALIDATION`, `COLIFTREC_TEST`, `FULL_VALIDATION`, `FULL_TEST`, `TEST_RUN_COUNT`, and `TEST_RUN_COMPLETED`.
 
-`scripts/reproduce.py` is retained as an advanced/automation helper. See `docs/REPRODUCTION.md` for the complete guide. Publication evidence is under `docs/evidence/final/`.
+Later stages use the MSCA checkpoint bound to the current run; they do not scan other historical checkpoints. `--checkpoint` remains an advanced explicit override.
+
+A formal run may evaluate Test only once. If the same run directory already has `TEST_RUN_COMPLETED = true`, a second formal Test attempt is rejected. A new normal invocation receives a new run ID and may perform its own single Test evaluation.
 
 ## Configuration
 
@@ -130,7 +151,13 @@ src/configs/model/CoLiftRecDiffusion.yaml
   -> frozen CoLiftRec + Diffusion publication parameters
 ```
 
-Resolved MSCA, CoLiftRec, Diffusion, dataset, stage, GPU, seed, and timestamp values are saved into each run's `resolved_config.yaml` and echoed at the beginning of the run log. The final method YAML contains only fixed publication values; development search spaces are not part of the public runtime configuration.
+Resolved MSCA, CoLiftRec, Diffusion, dataset, stage, GPU, seed, and timestamp values are echoed at the start of the log and also saved to `resolved_config.yaml`.
+
+## Advanced Utilities
+
+`scripts/reproduce.py` and `src/test.py` remain available for advanced automation or independent evaluation of an existing run/checkpoint, but ordinary complete experiments do not require them.
+
+See `docs/REPRODUCTION.md` for the detailed workflow. Publication evidence is under `docs/evidence/final/`.
 
 ## Results
 

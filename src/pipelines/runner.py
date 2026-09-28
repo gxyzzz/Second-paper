@@ -216,14 +216,15 @@ def _log_paper_metrics(logger, title: str, metrics: dict | None):
 
 
 def _assert_formal_test_not_completed(existing_manifest: dict, smoke: bool, dry_run: bool):
-    if smoke or dry_run:
+    if dry_run:
         return
     count = int(existing_manifest.get("TEST_RUN_COUNT", 0) or 0)
     completed = bool(existing_manifest.get("TEST_RUN_COMPLETED", False))
     if completed or count >= 1:
+        mode = "smoke" if smoke else "formal"
         raise RuntimeError(
-            "TEST_RUN_COMPLETED: this run directory already completed its single formal "
-            "Test evaluation. Start a new run directory for a new experiment."
+            f"TEST_RUN_COMPLETED: this run directory already completed its single formal "
+            f"Test evaluation; refusing {mode} overwrite. Start a new run directory."
         )
 
 

@@ -1,7 +1,7 @@
 # coding: utf-8
 # @email: enoche.chow@gmail.com
 
-"""Unified MMRec/MSCA-style training and Validation entrypoint."""
+"""Unified MMRec/MSCA-style training, Validation selection, and formal Test entrypoint."""
 
 import argparse
 import os
