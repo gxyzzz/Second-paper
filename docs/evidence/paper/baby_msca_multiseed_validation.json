@@ -1,0 +1,63 @@
+{
+  "phase": "BABY_MSCA_MULTI_SEED_VALIDATION",
+  "dataset": "baby",
+  "official_msca_source_commit": "48455de8efa943e16d49db665e7f2fcb0c6c5e17",
+  "selection_protocol": "Validation-only Recall@20 early stopping/model selection",
+  "training_time_test_disabled": true,
+  "seeds": {
+    "999": {
+      "reused_existing_clean_checkpoint": true,
+      "best_epoch": 37,
+      "checkpoint_sha256": "aa389ef8576e491ffb56eaec9d165444487bef9c1e542f280e991e2e063cc1cb",
+      "validation_metrics": {
+        "R10": 0.06713416351369554,
+        "N10": 0.03666963423291721,
+        "R20": 0.10347267629088149,
+        "N20": 0.045903188638595514,
+        "R50": 0.16968148034360422,
+        "N50": 0.0591465308936876
+      }
+    },
+    "1000": {
+      "reused_existing_clean_checkpoint": false,
+      "best_epoch": 45,
+      "checkpoint_sha256": "39267b02da4aee97613805a5d2fd54971e3777a3dc57b02afb17688fe7053948",
+      "validation_metrics": {
+        "R10": 0.06792148795748694,
+        "N10": 0.03667445991326405,
+        "R20": 0.10425400090609657,
+        "N20": 0.04591367105447815,
+        "R50": 0.16943687323219334,
+        "N50": 0.05894270293170376
+      }
+    },
+    "1001": {
+      "reused_existing_clean_checkpoint": false,
+      "best_epoch": 40,
+      "checkpoint_sha256": "6789e7f3e2a9878cbbcad9e49f1388e474f27313053fe1a1fd5eaf642edf8e07",
+      "validation_metrics": {
+        "R10": 0.06792883468635591,
+        "N10": 0.03737021264062096,
+        "R20": 0.10302801552608702,
+        "N20": 0.04629834526236302,
+        "R50": 0.16998916357491822,
+        "N50": 0.05968269221614599
+      }
+    },
+    "1002": {
+      "reused_existing_clean_checkpoint": false,
+      "best_epoch": 37,
+      "checkpoint_sha256": "450f01580d9c044dca9bfee0befceaf2fc338bd06a92ff546dd9bbc07c62bc30",
+      "validation_metrics": {
+        "R10": 0.06720028407351626,
+        "N10": 0.036085616103215735,
+        "R20": 0.10311525793140604,
+        "N20": 0.045207456200814934,
+        "R50": 0.17016193414882017,
+        "N50": 0.05858525112638235
+      }
+    }
+  },
+  "TEST_ACCESSED": false,
+  "VALIDATION_ONLY": true
+}
