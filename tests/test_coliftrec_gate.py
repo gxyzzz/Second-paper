@@ -3,7 +3,6 @@ import sys
 
 import numpy as np
 import pandas as pd
-import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
@@ -11,8 +10,9 @@ sys.path.insert(0, str(ROOT / "src"))
 from modules.coliftrec import CoLiftConfig, score_coliftrec
 from modules.ranking import rank_by_score, row_zscore
 from pipelines.msca_assets import build_train_histories_and_validation
+from pipelines.dataset_config import load_dataset_config
 
-CONFIG = yaml.safe_load((ROOT / "src/configs/second_paper/baby.yaml").read_text())
+CONFIG = load_dataset_config("baby")
 ccfg = CONFIG["coliftrec"]
 frozen = CoLiftConfig(
     lambda_text=float(ccfg["text"]["lambda"]),
