@@ -68,7 +68,6 @@ def build_current_run_assets(dataset: str, msca_assets: Path, out_dir: Path) -> 
         "TRAIN_ONLY_ITEM_AUDIT": "PASS",
     }
     (out_dir / "audit.json").write_text(json.dumps(result, indent=2) + "\n")
-    print(json.dumps(result, sort_keys=True))
     return result
 
 
@@ -78,7 +77,8 @@ def main():
     ap.add_argument("--msca-assets", required=True)
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
-    build_current_run_assets(a.dataset, Path(a.msca_assets), Path(a.out))
+    result = build_current_run_assets(a.dataset, Path(a.msca_assets), Path(a.out))
+    print(json.dumps(result, sort_keys=True))
 
 
 if __name__ == "__main__":

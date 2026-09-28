@@ -230,7 +230,6 @@ def run(dataset: str, assets_dir: Path, out_dir: Path, smoke_users: int | None =
         raw_attribute=score_raw_attribute.astype(np.float32),
         full_coliftrec=score_full.astype(np.float32),
     )
-    print(json.dumps(summary, sort_keys=True))
     return summary
 
 
@@ -243,7 +242,7 @@ def main():
     ap.add_argument("--text-feature")
     ap.add_argument("--visual-feature")
     args = ap.parse_args()
-    run(
+    summary = run(
         args.dataset,
         Path(args.assets),
         Path(args.out),
@@ -251,6 +250,7 @@ def main():
         Path(args.text_feature) if args.text_feature else None,
         Path(args.visual_feature) if args.visual_feature else None,
     )
+    print(json.dumps(summary, sort_keys=True))
 
 
 if __name__ == "__main__":

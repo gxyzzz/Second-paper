@@ -7,6 +7,7 @@
 
 import re
 import os
+from pathlib import Path
 import yaml
 import torch
 from logging import getLogger
@@ -69,8 +70,10 @@ class Config(object):
         file_config_dict = dict()
         file_list = []
         # get dataset and model files
-        cur_dir = os.getcwd()
-        cur_dir = os.path.join(cur_dir, 'configs')
+        # Resolve configuration files from the source tree rather than the
+        # caller's working directory. This keeps both source-directory and
+        # repository-root entrypoints valid.
+        cur_dir = str(Path(__file__).resolve().parents[1] / 'configs')
         file_list.append(os.path.join(cur_dir, "overall.yaml"))
         file_list.append(os.path.join(cur_dir, "dataset", "{}.yaml".format(config_dict['dataset'])))
         file_list.append(os.path.join(cur_dir, "model", "{}.yaml".format(config_dict['model'])))

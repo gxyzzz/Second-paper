@@ -1,5 +1,6 @@
 from __future__ import annotations
 import argparse, gc, hashlib, json, time
+from logging import getLogger
 from pathlib import Path
 import numpy as np
 import torch
@@ -116,7 +117,7 @@ def run_m31(dataset,cfg,asset_audit,raw_t,raw_v,collab,final,out_dir,mode,betas)
         for ep in range(1,end+1):
             rec=train_epoch(model,opt,raw_t,raw_v,cond,train_ids,ab,seed,ep); logs.append(rec)
             if ep==1 or ep%10==0 or ep==end:
-                print("M31_TRAIN_EPOCH",dataset,beta,json.dumps(rec,sort_keys=True),flush=True)
+                getLogger().info("Diffusion epoch %s/%s dataset=%s beta=%s %s", ep, end, dataset, beta, json.dumps(rec,sort_keys=True))
         if mode=="smoke":
             ev={"phase":"M31_FIXED_ALL_ITEMS_SMOKE","dataset":dataset,"beta":beta,
                 "training_protocol":"m31_fixed_all_items","train_scope":"all_catalog_items",
@@ -143,7 +144,7 @@ def run_m31(dataset,cfg,asset_audit,raw_t,raw_v,collab,final,out_dir,mode,betas)
                   "ALL_CATALOG_SIDE_INFORMATION":True,"VALIDATION_RANKING_USED_FOR_TRAINING":False,
                   "TEST_ACCESSED":False}
             (evidence_dir/f"beta_{beta_tag(beta)}_training.json").write_text(json.dumps(meta,indent=2)+"\n")
-            print("M31_TRAIN_DONE",dataset,beta,json.dumps({"final_epoch":epochs,"sha256":meta["checkpoint_sha256"]},sort_keys=True),flush=True)
+            getLogger().info("Diffusion training complete dataset=%s beta=%s final_epoch=%s checkpoint_sha256=%s", dataset, beta, epochs, meta["checkpoint_sha256"])
         del model,opt; torch.cuda.empty_cache(); gc.collect()
 def run_m32(dataset,cfg,asset_audit,raw_t,raw_v,collab,final,out_dir,mode,betas,eligible_ids):
     dcfg=cfg["diffusion"]
@@ -171,6 +172,8 @@ def run_m32(dataset,cfg,asset_audit,raw_t,raw_v,collab,final,out_dir,mode,betas,
             rec=train_epoch(model,opt,raw_t,raw_v,cond,train_ids,ab,seed,ep)
             mon=monitor_objective(model,raw_t,raw_v,cond,monitor_ids,ab,monitor_seed)
             rec.update(mon); logs.append(rec)
+            if ep==1 or ep%10==0 or ep==end:
+                getLogger().info("Diffusion epoch %s/%s dataset=%s beta=%s %s", ep, end, dataset, beta, json.dumps(rec,sort_keys=True))
             if mon["monitor_objective"]<best["value"]-1e-12:
                 best={"value":float(mon["monitor_objective"]),"epoch":ep,
                       "state_dict":{k:v.detach().cpu().clone() for k,v in model.state_dict().items()},"since":0}

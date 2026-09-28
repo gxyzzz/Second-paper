@@ -13,9 +13,27 @@ import platform
 import os
 
 
-def quick_start(model, dataset, config_dict, save_model=True, mg=False):
-    config = Config(model, dataset, config_dict, mg)
-    init_logger(config)
+def quick_start(
+    model,
+    dataset,
+    config_dict,
+    save_model=True,
+    mg=False,
+    init_logging=True,
+    log_name=None,
+    log_dir=None,
+    config_obj=None,
+):
+    """Train a backbone and select its checkpoint using Validation only.
+
+    Default behavior is backward-compatible with the upstream entrypoint.
+    Publication pipeline callers pass init_logging=False and a pre-built
+    config_obj so one run uses one logger from start to finish.
+    """
+    config = config_obj or Config(model, dataset, config_dict, mg)
+    log_path = None
+    if init_logging:
+        log_path = init_logger(config, log_name=log_name, log_dir=log_dir)
     logger = getLogger()
     logger.info('Server: \t' + platform.node())
     logger.info('Dir: \t' + os.getcwd() + '\n')
@@ -100,4 +118,6 @@ def quick_start(model, dataset, config_dict, save_model=True, mg=False):
             dict2str(best_entry['valid_result']), best_entry['checkpoint']
         )
     )
+    if log_path:
+        best_entry['log_path'] = log_path
     return best_entry

@@ -1,34 +1,60 @@
 # coding: utf-8
 # @email: enoche.chow@gmail.com
 
-"""
-Main entry
-# UPDATED: 2022-Feb-15
-##########################
-"""
+"""Unified MMRec/MSCA-style training and Validation entrypoint."""
 
-import os
 import argparse
-from utils.quick_start import quick_start
+import os
+
+from pipelines.runner import run_pipeline
+
 os.environ['NUMEXPR_MAX_THREADS'] = '48'
 
 
-if __name__ == '__main__':
+def build_parser():
     parser = argparse.ArgumentParser()
     parser.add_argument('--model', '-m', type=str, default='MSCA', help='name of models')
     parser.add_argument('--dataset', '-d', type=str, default='baby', help='name of datasets')
+    parser.add_argument(
+        '--stage', choices=['msca', 'coliftrec', 'full'], default='msca',
+        help='pipeline depth; default preserves the upstream MSCA training entrypoint',
+    )
     parser.add_argument('--gpu-id', type=int, default=0)
     parser.add_argument('--epochs', type=int)
     parser.add_argument('--stopping-step', type=int)
     parser.add_argument('--train-batch-size', type=int)
+    parser.add_argument('--run-dir')
+    parser.add_argument('--checkpoint')
+    parser.add_argument(
+        '--smoke', action='store_true',
+        help='engineering smoke only; never treated as publication evidence',
+    )
+    parser.add_argument('--dry-run', action='store_true')
+    return parser
 
-    args, _ = parser.parse_known_args()
-    config_dict = {'gpu_id': args.gpu_id}
+
+def main(argv=None):
+    args, _ = build_parser().parse_known_args(argv)
+    overrides = {}
     if args.epochs is not None:
-        config_dict['epochs'] = args.epochs
+        overrides['epochs'] = args.epochs
     if args.stopping_step is not None:
-        config_dict['stopping_step'] = args.stopping_step
+        overrides['stopping_step'] = args.stopping_step
     if args.train_batch_size is not None:
-        config_dict['train_batch_size'] = args.train_batch_size
+        overrides['train_batch_size'] = args.train_batch_size
 
-    quick_start(model=args.model, dataset=args.dataset, config_dict=config_dict, save_model=True)
+    return run_pipeline(
+        model=args.model,
+        dataset=args.dataset,
+        stage=args.stage,
+        gpu_id=args.gpu_id,
+        run_dir=args.run_dir,
+        checkpoint=args.checkpoint,
+        msca_overrides=overrides,
+        smoke=args.smoke,
+        dry_run=args.dry_run,
+    )
+
+
+if __name__ == '__main__':
+    main()

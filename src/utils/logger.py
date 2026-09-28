@@ -1,63 +1,68 @@
 # coding: utf-8
 # @email: enoche.chow@gmail.com
 
-"""
-###############################
-"""
+"""MMRec-style logging shared by backbone and publication pipelines."""
 
 import logging
-import os
+from pathlib import Path
+
 from utils.utils import get_local_time
 
+ROOT = Path(__file__).resolve().parents[2]
+DEFAULT_LOG_DIR = ROOT / "runs" / "logs"
 
-def init_logger(config):
+
+def _level_from_config(config):
+    state = config["state"]
+    if state is None:
+        return logging.INFO
+    return getattr(logging, str(state).upper(), logging.INFO)
+
+
+def init_logger(config, log_name=None, log_dir=None, reset=True):
+    """Initialize one console handler and one file handler.
+
+    The default call remains compatible with upstream MMRec/MSCA. Pipeline
+    callers may provide a custom log prefix while reusing one root logger for
+    the complete run.
     """
-    A logger that can show a message on standard output and write it into the
-    file named `filename` simultaneously.
-    All the message that you want to log MUST be str.
+    log_dir = Path(log_dir) if log_dir else DEFAULT_LOG_DIR
+    log_dir.mkdir(parents=True, exist_ok=True)
+    prefix = log_name or "{}-{}".format(config["model"], config["dataset"])
+    log_path = log_dir / "{}-{}.log".format(prefix, get_local_time())
 
-    Args:
-        config (Config): An instance object of Config, used to record parameter information.
-    """
-    LOGROOT = '../runs/logs/'
-    dir_name = os.path.dirname(LOGROOT)
-    if not os.path.exists(dir_name):
-        os.makedirs(dir_name)
+    level = _level_from_config(config)
+    root = logging.getLogger()
+    root.setLevel(level)
 
-    logfilename = '{}-{}-{}.log'.format(config['model'], config['dataset'], get_local_time())
+    if reset:
+        for handler in list(root.handlers):
+            try:
+                handler.flush()
+                handler.close()
+            finally:
+                root.removeHandler(handler)
 
-    logfilepath = os.path.join(LOGROOT, logfilename)
+    fileformatter = logging.Formatter(
+        "%(asctime)-15s %(levelname)s %(message)s", "%a %d %b %Y %H:%M:%S"
+    )
+    streamformatter = logging.Formatter(
+        "%(asctime)-15s %(levelname)s %(message)s", "%d %b %H:%M"
+    )
 
-    filefmt = "%(asctime)-15s %(levelname)s %(message)s"
-    filedatefmt = "%a %d %b %Y %H:%M:%S"
-    fileformatter = logging.Formatter(filefmt, filedatefmt)
-
-    sfmt = u"%(asctime)-15s %(levelname)s %(message)s"
-    sdatefmt = "%d %b %H:%M"
-    sformatter = logging.Formatter(sfmt, sdatefmt)
-    if config['state'] is None or config['state'].lower() == 'info':
-        level = logging.INFO
-    elif config['state'].lower() == 'debug':
-        level = logging.DEBUG
-    elif config['state'].lower() == 'error':
-        level = logging.ERROR
-    elif config['state'].lower() == 'warning':
-        level = logging.WARNING
-    elif config['state'].lower() == 'critical':
-        level = logging.CRITICAL
-    else:
-        level = logging.INFO
-    # comment following 3 lines and handlers = [sh, fh] to cancel file dump.
-    fh = logging.FileHandler(logfilepath, 'w', 'utf-8')
+    fh = logging.FileHandler(log_path, "w", "utf-8")
     fh.setLevel(level)
     fh.setFormatter(fileformatter)
 
     sh = logging.StreamHandler()
     sh.setLevel(level)
-    sh.setFormatter(sformatter)
+    sh.setFormatter(streamformatter)
 
-    logging.basicConfig(
-        level=level,
-        #handlers=[sh]
-        handlers = [sh, fh]
-    )
+    root.addHandler(sh)
+    root.addHandler(fh)
+    root._second_paper_log_path = str(log_path.resolve())
+    return str(log_path.resolve())
+
+
+def current_log_path():
+    return getattr(logging.getLogger(), "_second_paper_log_path", None)
