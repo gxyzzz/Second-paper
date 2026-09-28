@@ -1,0 +1,115 @@
+{
+  "phase": "PUBLICATION_REPOSITORY_REFACTOR_PRE_SNAPSHOT",
+  "git_head": "08747f50189614a04732f5862843687e040a8c8d",
+  "git_origin_main": "08747f50189614a04732f5862843687e040a8c8d",
+  "working_tree_clean": true,
+  "publication_backbone_seed": 999,
+  "publication_seed_policy": "unified seed999 across Baby/Sports/Electronics",
+  "historical_robustness_note": {
+    "seed1000_role": "pre-registered canonical backbone for dedicated Baby multiseed robustness experiment",
+    "seed999_role": "unified publication seed across three datasets",
+    "historical_evidence_preserved": true
+  },
+  "domains": {
+    "baby": {
+      "msca_seed": 999,
+      "msca_checkpoint_sha256": "aa389ef8576e491ffb56eaec9d165444487bef9c1e542f280e991e2e063cc1cb",
+      "msca_best_epoch": 37,
+      "diffusion_checkpoint_sha256": "289a421e34b7aef1c06d7f36be202354de130d71998a80540f878d2778e352ab",
+      "test": {
+        "MSCA": {
+          "R10": 0.06975933340680064,
+          "N10": 0.03805872116677564,
+          "R20": 0.10383620022730333,
+          "N20": 0.04685221810175405,
+          "R50": 0.17140490291685972,
+          "N50": 0.06057006258416349
+        },
+        "MSCA_FULL_COLIFTREC_TAV": {
+          "R10": 0.07239374793373252,
+          "N10": 0.03979682175034102,
+          "R20": 0.10820199385768943,
+          "N20": 0.049028392301882114,
+          "R50": 0.17597763069478162,
+          "N50": 0.06281241228974645
+        },
+        "MSCA_FULL_COLIFTREC_DIFFUSION": {
+          "R10": 0.07261659870942465,
+          "N10": 0.03991267441386165,
+          "R20": 0.10841627344970108,
+          "N20": 0.0491198389674792,
+          "R50": 0.17644518876455106,
+          "N50": 0.06294419072529067
+        }
+      },
+      "source_test_evidence": "runs/test/baby_multiseed/seed999/summary.json"
+    },
+    "sports": {
+      "msca_seed": 999,
+      "msca_checkpoint_sha256": "9e67e3f64f9b7ac840f8b27e2950bec061801012c694bb17eb77eefbcf883d97",
+      "diffusion_checkpoint_sha256": "403c2c445849fb84af2f24b21002cb6cd672d807e8ed354ae5e578d38cc2b7c2",
+      "test": {
+        "MSCA": {
+          "R10": 0.0804950028403593,
+          "N10": 0.04378510366558382,
+          "R20": 0.12016868033427958,
+          "N20": 0.05402442402008695,
+          "R50": 0.1892305123259109,
+          "N50": 0.06806325858717639
+        },
+        "MSCA_FULL_COLIFTREC_TAV": {
+          "R10": 0.08459756076897487,
+          "N10": 0.04569032158850824,
+          "R20": 0.12450530036911293,
+          "N20": 0.05599706166962315,
+          "R50": 0.19519139874988517,
+          "N50": 0.07035626546565248
+        },
+        "MSCA_FULL_COLIFTREC_DIFFUSION": {
+          "R10": 0.08488440584766221,
+          "N10": 0.04598378816075633,
+          "R20": 0.12541151767934172,
+          "N20": 0.056422280938308214,
+          "R50": 0.19470859340234026,
+          "N50": 0.07049912051853757
+        }
+      },
+      "source_test_evidence": "docs/evidence/sports_current_run_frozen_test.json"
+    },
+    "elec": {
+      "msca_seed": 999,
+      "msca_checkpoint_sha256": "feb59676681335bdff8df0ac016e7116e348b7fadb583cc129015cbfdeff461a",
+      "diffusion_checkpoint_sha256": "ffc3b3e2378646f977f1aaeb84dfbc0868c85d0f97bd2129f64045f624bbecba",
+      "test": {
+        "MSCA": {
+          "R10": 0.05019697351688884,
+          "N10": 0.02833018558698079,
+          "R20": 0.07329420835014641,
+          "N20": 0.03429546889202352,
+          "R50": 0.116487318078008,
+          "N50": 0.04306938938741735
+        },
+        "MSCA_FULL_COLIFTREC_TAV": {
+          "R10": 0.051302799079365774,
+          "N10": 0.02880978860562885,
+          "R20": 0.07553741224638859,
+          "N20": 0.0350693388283222,
+          "R50": 0.11947287546355488,
+          "N50": 0.044008262097444115
+        },
+        "MSCA_FULL_COLIFTREC_DIFFUSION": {
+          "R10": 0.051501715546869546,
+          "N10": 0.029006562084415544,
+          "R20": 0.0756209231358245,
+          "N20": 0.0352551081989114,
+          "R50": 0.11989832855151228,
+          "N50": 0.04426400851394767
+        }
+      },
+      "source_test_evidence": "docs/evidence/elec_current_run_frozen_test.json"
+    }
+  },
+  "method_search": "CLOSED",
+  "parameter_search": "CLOSED",
+  "new_experiment": false
+}
