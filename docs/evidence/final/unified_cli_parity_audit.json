@@ -1,0 +1,117 @@
+{
+  "phase": "UNIFIED_MMREC_CLI_PARITY_AUDIT",
+  "pre_change_head": "536510ad22479bde205b95c93baa7d84d1aec8b0",
+  "implementation_head": "a94020d245a1e8b6df6127c07546cf7786596ea6",
+  "publication_config": "src/configs/model/CoLiftRecDiffusion.yaml",
+  "publication_config_sha256_before": "e9411cc2157f351607ea073b786116b71297519c28a9944e75d2dace7f280dce",
+  "publication_config_sha256_after": "e9411cc2157f351607ea073b786116b71297519c28a9944e75d2dace7f280dce",
+  "publication_config_exact": true,
+  "scientific_core_files": [
+    "src/models/msca.py",
+    "src/modules/attribute.py",
+    "src/modules/coliftrec.py",
+    "src/modules/diffusion.py",
+    "src/modules/ranking.py",
+    "src/modules/semantic_purifier.py",
+    "src/pipelines/publication_eval.py",
+    "src/pipelines/msca_assets.py",
+    "src/pipelines/dataset_config.py"
+  ],
+  "scientific_core_exact_vs_pre_change": true,
+  "pipeline_diff_scope": {
+    "src/pipelines/coliftrec.py": "move standalone JSON print out of callable run()",
+    "src/pipelines/diffusion_assets.py": "move standalone JSON print out of callable asset builder",
+    "src/pipelines/diffusion_train.py": "replace training status print with root logger; no training math change"
+  },
+  "frozen_three_domain_ranking_parity": {
+    "source": "docs/evidence/final/ranking_parity_audit.json",
+    "source_sha256": "09f21bbb2dda82cac86a1705dda0f8bed2d2cf15b327936a713de4a7fce53a28",
+    "rows": {
+      "baby": {
+        "metric_max_abs_diff": 0.0,
+        "all_ranked_items_exact": true,
+        "users_exact": true
+      },
+      "sports": {
+        "metric_max_abs_diff": 0.0,
+        "all_ranked_items_exact": true,
+        "users_exact": true
+      },
+      "elec": {
+        "metric_max_abs_diff": 0.0,
+        "all_ranked_items_exact": true,
+        "users_exact": true
+      }
+    },
+    "metric_max_abs_diff": 0.0,
+    "all_users_exact": true,
+    "all_ranked_items_exact": true,
+    "status": "PASS",
+    "note": "Reused frozen-asset parity evidence; this CLI refactor did not retrain the three formal publication runs."
+  },
+  "cli_validation": {
+    "default_msca_real_smoke": {
+      "status": "PASS",
+      "run_dir": "runs/reproduction/baby/default_cli_smoke_20260928",
+      "default_stage_resolved": "msca",
+      "test_accessed": false
+    },
+    "baby_coliftrec_real_smoke": {
+      "status": "PASS",
+      "run_dir": "runs/reproduction/baby/cli_pipeline_smoke_20260928",
+      "checkpoint_sha256": "aa389ef8576e491ffb56eaec9d165444487bef9c1e542f280e991e2e063cc1cb",
+      "test_accessed": false
+    },
+    "baby_full_real_smoke": {
+      "status": "PASS",
+      "run_dir": "runs/reproduction/baby/cli_pipeline_smoke_20260928",
+      "checkpoint_binding": "run_manifest",
+      "diffusion_smoke": true,
+      "test_accessed": false,
+      "formal_pipeline_stdout_bytes_after_logger_cleanup": 0
+    },
+    "sports_config_dry_run": "PASS",
+    "elec_config_dry_run": "PASS",
+    "legacy_source_directory_dry_run": "PASS",
+    "yaml_runtime_control_test": {
+      "status": "PASS",
+      "probe": "temporary method YAML set baby rho_text=0.50; resolved config and log both reported 0.50; frozen file was not modified"
+    }
+  },
+  "logging_validation": {
+    "full_log": "/home/gxy/code/Second-paper/runs/logs/MSCA-CoLiftRec-Diffusion-baby-Sep-28-2026-18-23-12.log",
+    "run_id_occurrences": 1,
+    "stage2_occurrences": 1,
+    "stage3_occurrences": 1,
+    "duplicate_handler_test": "PASS",
+    "one_run_one_log": "PASS"
+  },
+  "runtime_artifacts": {
+    "manifest": "runs/reproduction/baby/cli_pipeline_smoke_20260928/run_manifest.json",
+    "resolved_config": "runs/reproduction/baby/cli_pipeline_smoke_20260928/resolved_config.yaml",
+    "manifest_checkpoint_binding": "run_manifest",
+    "manifest_test_accessed": false
+  },
+  "tests": {
+    "existing_unit_tests": "PASS",
+    "test_main_stage_cli": "PASS",
+    "test_logging_integration": "PASS",
+    "test_run_manifest": "PASS"
+  },
+  "gates": {
+    "MSCA_DEFAULT_CLI_BACKWARD_COMPATIBLE": "PASS",
+    "MAIN_STAGE_MSCA": "PASS",
+    "MAIN_STAGE_COLIFTREC": "PASS",
+    "MAIN_STAGE_FULL": "PASS",
+    "FINAL_YAML_CONTROLS_RUNTIME": "PASS",
+    "MMREC_LOGGER_MSCA": "PASS",
+    "MMREC_LOGGER_COLIFTREC": "PASS",
+    "MMREC_LOGGER_DIFFUSION": "PASS",
+    "ONE_RUN_ONE_LOG": "PASS",
+    "RUN_MANIFEST": "PASS",
+    "RESOLVED_CONFIG_SAVED": "PASS",
+    "NO_AUTOMATIC_TEST_FROM_MAIN": "PASS",
+    "CURRENT_RUN_CHECKPOINT_BINDING": "PASS",
+    "THREE_DOMAIN_PARITY": "PASS"
+  }
+}

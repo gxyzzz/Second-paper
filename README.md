@@ -52,54 +52,72 @@ Dataset metadata is defined under `src/configs/dataset/`; method parameters are 
 
 ## Quick Start
 
-MSCA remains runnable through the upstream-style entry point:
+The primary interface keeps the original MMRec/MSCA command style. Run from the repository root:
+
+```bash
+# MSCA backbone only (backward-compatible default stage)
+python src/main.py -m MSCA -d baby
+
+# MSCA + Full CoLiftRec
+python src/main.py -m MSCA -d baby --stage coliftrec
+
+# Full method: MSCA + CoLiftRec + Diffusion
+python src/main.py -m MSCA -d baby --stage full
+```
+
+Replace `baby` with `sports` or `elec` for the other publication datasets. The legacy source-directory form also remains valid:
 
 ```bash
 cd src
 python main.py -m MSCA -d baby
 ```
 
-Run the complete frozen publication pipeline from the repository root:
-
-```bash
-python scripts/reproduce.py --dataset baby --gpu 0
-```
-
-The same interface supports `sports` and `elec`.
-
 ## Training
 
-Stage-by-stage execution:
+`--stage msca` trains MSCA and selects its checkpoint using Validation only. `--stage coliftrec` runs MSCA -> current-run assets -> CoLiftRec -> Validation. `--stage full` additionally trains the frozen Diffusion purifier and evaluates the final method on Validation.
+
+`src/main.py` never runs Test automatically. Test remains an explicit evaluation action.
+
+For stage-by-stage work, bind all stages to one run directory:
 
 ```bash
-python scripts/reproduce.py --dataset baby --stage msca --gpu 0
-python scripts/reproduce.py --dataset baby --stage coliftrec --gpu 0
-python scripts/reproduce.py --dataset baby --stage diffusion --gpu 0
-python scripts/reproduce.py --dataset baby --stage validation --gpu 0
-python scripts/reproduce.py --dataset baby --stage test --gpu 0
+python src/main.py -m MSCA -d baby --stage msca --run-dir runs/reproduction/baby/my_run
+python src/main.py -m MSCA -d baby --stage coliftrec --run-dir runs/reproduction/baby/my_run
+python src/main.py -m MSCA -d baby --stage full --run-dir runs/reproduction/baby/my_run
 ```
 
-`--stage all` is the default. Run all three datasets sequentially with:
-
-```bash
-bash scripts/reproduce_all.sh 0
-```
+Later stages read the Validation-selected MSCA checkpoint from `run_manifest.json`; users do not need to locate the checkpoint manually. `--checkpoint` remains available as an advanced override.
 
 ## Evaluation
 
-The Test stage is evaluation-only. Test data are not used for seed selection, parameter search, checkpoint selection, or post-Test tuning.
+Training commands under `src/main.py` are TRAIN + VALIDATION only. Test data are not used for seed selection, parameter search, checkpoint selection, or post-Test tuning. Explicit Test/reproduction automation remains available through `scripts/reproduce.py`.
 
 ## Reproduction
 
-The default runtime workspace is:
+Each main CLI run creates a unique workspace by default:
 
 ```text
-runs/reproduction/<dataset>/
+runs/reproduction/<dataset>/<run_id>/
+├── run_manifest.json
+├── resolved_config.yaml
+├── msca/
+├── coliftrec/
+├── diffusion/
+├── validation/
+└── summary.json
 ```
 
-See `docs/REPRODUCTION.md` for the complete guide. Publication evidence is under `docs/evidence/final/`.
+The same run writes one MMRec-style terminal/file log under:
+
+```text
+runs/logs/
+```
+
+`scripts/reproduce.py` is retained as an advanced/automation helper. See `docs/REPRODUCTION.md` for the complete guide. Publication evidence is under `docs/evidence/final/`.
 
 ## Configuration
+
+Normal experiments should change YAML, not Python.
 
 ```text
 src/configs/dataset/*.yaml
@@ -112,7 +130,7 @@ src/configs/model/CoLiftRecDiffusion.yaml
   -> frozen CoLiftRec + Diffusion publication parameters
 ```
 
-The final method YAML contains only fixed publication values; development search spaces are not part of the public runtime configuration.
+Resolved MSCA, CoLiftRec, Diffusion, dataset, stage, GPU, seed, and timestamp values are saved into each run's `resolved_config.yaml` and echoed at the beginning of the run log. The final method YAML contains only fixed publication values; development search spaces are not part of the public runtime configuration.
 
 ## Results
 
