@@ -23,6 +23,8 @@ class RunManifestTest(unittest.TestCase):
             resolved = yaml.safe_load((run_dir / 'resolved_config.yaml').read_text())
             self.assertEqual(manifest['status'], 'DRY_RUN')
             self.assertFalse(manifest['TEST_ACCESSED'])
+            self.assertEqual(manifest['TEST_RUN_COUNT'], 0)
+            self.assertFalse(manifest['TEST_RUN_COMPLETED'])
             self.assertEqual(resolved['stage'], 'full')
             self.assertEqual(resolved['publication_method']['backbone']['seed'], 999)
             self.assertEqual(
@@ -30,6 +32,7 @@ class RunManifestTest(unittest.TestCase):
                 0.25,
             )
             self.assertTrue(Path(result['log_path']).is_file())
+            self.assertEqual(Path(result['log_path']).parent, ROOT / 'log')
 
     def test_method_yaml_value_controls_resolved_runtime(self):
         import pipelines.dataset_config as dataset_config
@@ -51,7 +54,7 @@ class RunManifestTest(unittest.TestCase):
                 0.50,
             )
             log_text = Path(result['log_path']).read_text(encoding='utf-8')
-            self.assertIn('rho_T=0.5', log_text)
+            self.assertIn('rho_text = 0.5', log_text)
 
 
 if __name__ == '__main__':

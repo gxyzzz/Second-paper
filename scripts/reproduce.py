@@ -72,6 +72,9 @@ def advanced_followup(dataset: str, stage: str, gpu: int, run_dir: Path, checkpo
         )
 
     if stage == "test":
+        manifest = _read_manifest(run_dir)
+        if manifest.get("TEST_RUN_COMPLETED") or int(manifest.get("TEST_RUN_COUNT", 0) or 0) >= 1:
+            raise RuntimeError("TEST_RUN_COMPLETED: refusing duplicate Test evaluation for this run.")
         text = paths["purified"] / "fixed_text.npy"
         visual = paths["purified"] / "fixed_visual.npy"
         if not text.is_file() or not visual.is_file():
@@ -107,23 +110,12 @@ def main():
             run_dir=run_dir, checkpoint=checkpoint, smoke=args.smoke, dry_run=args.dry_run,
         )
     elif args.stage == "all":
-        if args.dry_run:
-            result = run_pipeline(
-                model="MSCA", dataset=dataset, stage="full", gpu_id=args.gpu,
-                run_dir=run_dir, checkpoint=checkpoint, smoke=args.smoke, dry_run=True,
-            )
-        else:
-            result = run_pipeline(
-                model="MSCA", dataset=dataset, stage="full", gpu_id=args.gpu,
-                run_dir=run_dir, checkpoint=checkpoint, smoke=args.smoke, dry_run=False,
-            )
-            if args.smoke:
-                result["TEST_ACCESSED"] = False
-            else:
-                actual_run_dir = Path(result["run_dir"])
-                test_result = advanced_followup(dataset, "test", args.gpu, actual_run_dir, checkpoint)
-                result["test"] = test_result
-                result["TEST_ACCESSED"] = True
+        # `full` formal now performs the single frozen Test itself. Do not run
+        # a second Test here.
+        result = run_pipeline(
+            model="MSCA", dataset=dataset, stage="full", gpu_id=args.gpu,
+            run_dir=run_dir, checkpoint=checkpoint, smoke=args.smoke, dry_run=args.dry_run,
+        )
     else:
         if run_dir is None:
             raise RuntimeError(f"--workdir is required for advanced stage={args.stage}")

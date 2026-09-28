@@ -179,6 +179,12 @@ def run_m32(dataset,cfg,asset_audit,raw_t,raw_v,collab,final,out_dir,mode,betas,
                       "state_dict":{k:v.detach().cpu().clone() for k,v in model.state_dict().items()},"since":0}
             else:
                 best["since"]+=1
+            if ep==1 or ep%10==0 or ep==end:
+                getLogger().info(
+                    "Diffusion monitor epoch=%s objective=%.12f best_monitor=%.12f best_epoch=%s patience=%s/%s",
+                    ep, float(mon["monitor_objective"]), float(best["value"]),
+                    int(best["epoch"]), int(best["since"]), patience,
+                )
             if mode=="formal" and ep>=min_epochs and best["since"]>=patience:
                 stop_reason="EARLY_STOP_PATIENCE"; stop_epoch=ep; break
         if mode=="smoke":

@@ -10,6 +10,7 @@ from utils.logger import init_logger
 from utils.configurator import Config
 from utils.utils import init_seed, get_model, get_trainer, dict2str
 import platform
+import torch
 import os
 
 
@@ -81,16 +82,22 @@ def quick_start(
         best_valid_score, best_valid_result = trainer.fit(
             train_data, valid_data=valid_data, saved=save_model
         )
+        checkpoint_state = torch.load(
+            trainer.saved_model_file, map_location='cpu', weights_only=False
+        )
         hyper_ret.append({
             'params': hyper_tuple,
             'valid_score': best_valid_score,
             'valid_result': best_valid_result,
             'checkpoint': trainer.saved_model_file,
+            'best_epoch': int(checkpoint_state['epoch']),
+            'checkpoint_best_valid_score': float(checkpoint_state['best_valid_score']),
         })
         idx += 1
 
         logger.info('best valid result: {}'.format(dict2str(best_valid_result)))
         logger.info('checkpoint: {}'.format(trainer.saved_model_file))
+        logger.info('best epoch: {}'.format(hyper_ret[-1]['best_epoch']))
         best_idx = max(range(len(hyper_ret)), key=lambda i: hyper_ret[i]['valid_score'])
         best_entry = hyper_ret[best_idx]
         logger.info(
