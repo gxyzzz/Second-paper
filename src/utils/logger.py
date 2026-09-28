@@ -9,7 +9,7 @@ from pathlib import Path
 from utils.utils import get_local_time
 
 ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_LOG_DIR = ROOT / "runs" / "logs"
+DEFAULT_LOG_DIR = ROOT / "log"
 
 
 def _level_from_config(config):

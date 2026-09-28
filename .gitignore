@@ -17,7 +17,7 @@ src/saved/
 src/log/
 src/recommend_topk/
 saved/
-log/
+log/*.log
 logs/
 results/*
 !results/.gitkeep
