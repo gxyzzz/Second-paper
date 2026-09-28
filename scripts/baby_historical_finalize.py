@@ -74,8 +74,7 @@ def main():
     if summary["eligible_count"] == 0:
         result={"phase":"BABY_HISTORICAL_SEED_RESCUE_FAIL","reason":"FULL_GRID_ELIGIBLE_ZERO",
                 "seed_protocol":PROTOCOL,"BABY_DIFFUSION_TEST":"CLOSED","TEST_USED_FOR_SELECTION":False}
-        (E/"BABY_HISTORICAL_SEED_RESCUE_FAIL.json").write_text(json.dumps(result,indent=2)+"
-")
+        (E/"BABY_HISTORICAL_SEED_RESCUE_FAIL.json").write_text(json.dumps(result,indent=2))
         print(json.dumps({"eligible_count":0,"result_phase":result["phase"],"reason":result["reason"],
                           "BABY_DIFFUSION_TEST":"CLOSED"},sort_keys=True))
         return
