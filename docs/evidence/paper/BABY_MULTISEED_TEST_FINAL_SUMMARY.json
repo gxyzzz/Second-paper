@@ -1,0 +1,58 @@
+{
+  "phase": "BABY_MULTISEED_TEST_FINAL_SUMMARY",
+  "dataset": "baby",
+  "provenance": {
+    "pre_test_canonical_freeze_git_commit": "7e36ae2d3dd6f29078fcf8fe14285e5be69cb331",
+    "pre_test_evaluator_git_commit": "beceeb17da0adcdb5633c103316f524c14eb3d7b",
+    "freeze_evidence": "docs/evidence/paper/BABY_CANONICAL_BACKBONE_FROZEN_BEFORE_MULTISEED_TEST.json"
+  },
+  "CANONICAL_RESULT": {
+    "seed": 1000,
+    "selection_basis": "highest MSCA Validation R20 among frozen seeds before Test",
+    "BABY_CANONICAL_DIFFUSION_TEST": "FAIL",
+    "diffusion_primary_positive_count": 0,
+    "diffusion_mean_relative_primary_gain": -0.006030715998362864,
+    "bootstrap_P_mean_relative_gain_gt_0": 0.019,
+    "bootstrap_CI95_mean_relative_gain": [
+      -0.012223050802042843,
+      -0.0003826362649310472
+    ]
+  },
+  "ROBUSTNESS_ANALYSIS": {
+    "seed_status": {
+      "999": "STRONG_PASS",
+      "1000": "FAIL",
+      "1001": "STRONG_PASS",
+      "1002": "FAIL"
+    },
+    "Diffusion_Test_PASS_count": 2,
+    "Diffusion_Test_total": 4,
+    "Diffusion_Test_U_positive_count": 3,
+    "four_seed_mean_relative_primary_gain": -0.0004905325253106281,
+    "four_seed_std_relative_primary_gain": 0.0037881964380626337,
+    "new_seed_1000_1001_1002": {
+      "PASS_count": 1,
+      "total": 3,
+      "U_positive_count": 2,
+      "mean_relative_primary_gain": -0.0014736235960837501,
+      "std_relative_primary_gain": 0.003965708014897538
+    },
+    "backbone_sensitivity_observed": true
+  },
+  "COLIFTREC_TEST_ROBUSTNESS": {
+    "all_four_seed_primary_4of4_positive": true,
+    "all_four_seed_6of6_positive": true
+  },
+  "TEST_RUN_COUNTS": {
+    "BABY_SEED999_DIFFUSION_TEST_RUN_COUNT": 1,
+    "BABY_SEED1000_DIFFUSION_TEST_RUN_COUNT": 1,
+    "BABY_SEED1001_DIFFUSION_TEST_RUN_COUNT": 1,
+    "BABY_SEED1002_DIFFUSION_TEST_RUN_COUNT": 1
+  },
+  "TEST_USED_FOR_SELECTION": false,
+  "NO_POST_TEST_TUNING": true,
+  "BABY_METHOD_SEARCH": "CLOSED",
+  "BABY_PARAMETER_SEARCH": "CLOSED",
+  "BABY_SEED_SEARCH": "CLOSED",
+  "scientific_note": "Canonical seed1000 remains canonical because it was frozen by MSCA Validation R20 before Test; multiseed Test outcomes are robustness evidence only."
+}
