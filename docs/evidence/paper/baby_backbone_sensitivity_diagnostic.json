@@ -1,0 +1,200 @@
+{
+  "phase": "BABY_BACKBONE_SENSITIVITY_DIAGNOSTIC",
+  "analysis_only": true,
+  "used_for_selection": false,
+  "TEST_ACCESSED": false,
+  "seeds": {
+    "999": {
+      "PASS": false,
+      "U": -0.003300599808239091,
+      "geometry": {
+        "cos_collab_final": {
+          "mean": 0.9656443764607141,
+          "std": 0.03194532411036782,
+          "min": 0.0,
+          "max": 0.9990886474838394
+        },
+        "l2_collab_final": {
+          "mean": 0.24557388932300114,
+          "std": 0.08932625619857097,
+          "min": 0.04269314971188342,
+          "max": 1.0
+        },
+        "l2_collab_condition_beta0p5": {
+          "mean": 0.1662038435604049,
+          "std": 0.06836522117087586,
+          "min": 0.02416109153868376,
+          "max": 1.0
+        },
+        "cos_collab_condition_beta0p5": {
+          "mean": 0.9836384735025561,
+          "std": 0.024160110813477898,
+          "min": 0.0,
+          "max": 0.9997081208278298
+        }
+      },
+      "candidate_score_margins": {
+        "rank_8_12": {
+          "mean_adjacent_gap": 0.11838741962524697,
+          "std_adjacent_gap": 0.11831594334327321
+        },
+        "rank_18_22": {
+          "mean_adjacent_gap": 0.05809929630189643,
+          "std_adjacent_gap": 0.057513772669694874
+        },
+        "cutoff_10_11_mean": 0.1116718914399082,
+        "cutoff_20_21_mean": 0.056228283329683146
+      },
+      "diffusion_induced_semantic_lift": {
+        "text_abs_mean": 0.26385386142731015,
+        "text_rms": 0.3395889010158289,
+        "visual_abs_mean": 0.952873127128087,
+        "visual_rms": 1.2108953845257824
+      }
+    },
+    "1000": {
+      "PASS": true,
+      "U": 0.007829821744508175,
+      "geometry": {
+        "cos_collab_final": {
+          "mean": 0.963422046663328,
+          "std": 0.032458841516089076,
+          "min": 0.0,
+          "max": 0.9987365865345781
+        },
+        "l2_collab_final": {
+          "mean": 0.2546089332852593,
+          "std": 0.0889081877545196,
+          "min": 0.05026755345990232,
+          "max": 1.0
+        },
+        "l2_collab_condition_beta0p5": {
+          "mean": 0.1736188310828214,
+          "std": 0.06875622116878874,
+          "min": 0.0287179989492997,
+          "max": 1.0
+        },
+        "cos_collab_condition_beta0p5": {
+          "mean": 0.9823517758145649,
+          "std": 0.024483697545532854,
+          "min": 0.0,
+          "max": 0.9995876382681741
+        }
+      },
+      "candidate_score_margins": {
+        "rank_8_12": {
+          "mean_adjacent_gap": 0.11993041701996103,
+          "std_adjacent_gap": 0.11973953070949221
+        },
+        "rank_18_22": {
+          "mean_adjacent_gap": 0.05896351835753676,
+          "std_adjacent_gap": 0.058101437528028745
+        },
+        "cutoff_10_11_mean": 0.1128978419438767,
+        "cutoff_20_21_mean": 0.0574964750426905
+      },
+      "diffusion_induced_semantic_lift": {
+        "text_abs_mean": 0.25791750647220757,
+        "text_rms": 0.33118957561863893,
+        "visual_abs_mean": 0.9500604387170107,
+        "visual_rms": 1.2028470671065796
+      }
+    },
+    "1001": {
+      "PASS": false,
+      "U": 0.0016466158795825905,
+      "geometry": {
+        "cos_collab_final": {
+          "mean": 0.9648818186749258,
+          "std": 0.032038938140778836,
+          "min": 0.0,
+          "max": 0.9990013447194772
+        },
+        "l2_collab_final": {
+          "mean": 0.24880718527281445,
+          "std": 0.0889146517277892,
+          "min": 0.044691280593039215,
+          "max": 1.0
+        },
+        "l2_collab_condition_beta0p5": {
+          "mean": 0.16885414011223243,
+          "std": 0.06829768243045731,
+          "min": 0.02547563272500099,
+          "max": 1.0
+        },
+        "cos_collab_condition_beta0p5": {
+          "mean": 0.9831990870133468,
+          "std": 0.024237534910288478,
+          "min": 0.0,
+          "max": 0.9996754960686305
+        }
+      },
+      "candidate_score_margins": {
+        "rank_8_12": {
+          "mean_adjacent_gap": 0.11862019231491697,
+          "std_adjacent_gap": 0.11870946512779075
+        },
+        "rank_18_22": {
+          "mean_adjacent_gap": 0.05842346696010184,
+          "std_adjacent_gap": 0.0576196261825021
+        },
+        "cutoff_10_11_mean": 0.1123645366448981,
+        "cutoff_20_21_mean": 0.05659253359718383
+      },
+      "diffusion_induced_semantic_lift": {
+        "text_abs_mean": 0.26037544793243433,
+        "text_rms": 0.3353357164326623,
+        "visual_abs_mean": 0.9604017215151608,
+        "visual_rms": 1.2172689475930576
+      }
+    },
+    "1002": {
+      "PASS": false,
+      "U": -0.00257793799042244,
+      "geometry": {
+        "cos_collab_final": {
+          "mean": 0.9656998497756663,
+          "std": 0.031957169487759014,
+          "min": 0.0,
+          "max": 0.9988248519292129
+        },
+        "l2_collab_final": {
+          "mean": 0.2453202879264734,
+          "std": 0.08940204061119812,
+          "min": 0.04847985294506083,
+          "max": 1.0
+        },
+        "l2_collab_condition_beta0p5": {
+          "mean": 0.1660523818741806,
+          "std": 0.06841213241686511,
+          "min": 0.02747531074270744,
+          "max": 1.0
+        },
+        "cos_collab_condition_beta0p5": {
+          "mean": 0.9836604273485975,
+          "std": 0.02416888562634684,
+          "min": 0.0,
+          "max": 0.999622553649796
+        }
+      },
+      "candidate_score_margins": {
+        "rank_8_12": {
+          "mean_adjacent_gap": 0.11719270353989786,
+          "std_adjacent_gap": 0.11707656321954349
+        },
+        "rank_18_22": {
+          "mean_adjacent_gap": 0.0583381505009059,
+          "std_adjacent_gap": 0.057298498562948316
+        },
+        "cutoff_10_11_mean": 0.1104501474268426,
+        "cutoff_20_21_mean": 0.05767981334601156
+      },
+      "diffusion_induced_semantic_lift": {
+        "text_abs_mean": 0.2628778276809074,
+        "text_rms": 0.33860868868097355,
+        "visual_abs_mean": 0.9517934340568662,
+        "visual_rms": 1.2085329478239792
+      }
+    }
+  }
+}
