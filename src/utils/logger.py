@@ -19,7 +19,7 @@ def _level_from_config(config):
     return getattr(logging, str(state).upper(), logging.INFO)
 
 
-def init_logger(config, log_name=None, log_dir=None, reset=True):
+def init_logger(config, log_name=None, log_dir=None, reset=True, run_id=None):
     """Initialize one console handler and one file handler.
 
     The default call remains compatible with upstream MMRec/MSCA. Pipeline
@@ -29,7 +29,8 @@ def init_logger(config, log_name=None, log_dir=None, reset=True):
     log_dir = Path(log_dir) if log_dir else DEFAULT_LOG_DIR
     log_dir.mkdir(parents=True, exist_ok=True)
     prefix = log_name or "{}-{}".format(config["model"], config["dataset"])
-    log_path = log_dir / "{}-{}.log".format(prefix, get_local_time())
+    log_tag = str(run_id) if run_id else get_local_time()
+    log_path = log_dir / "{}-{}.log".format(prefix, log_tag)
 
     level = _level_from_config(config)
     root = logging.getLogger()

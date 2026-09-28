@@ -32,7 +32,9 @@ DISPLAY_METRICS = {
 
 
 def make_run_id() -> str:
-    return datetime.now().strftime("%b-%d-%Y-%H-%M-%S")
+    """Return a human-readable run id that is unique across concurrent processes."""
+    timestamp = datetime.now().strftime("%b-%d-%Y-%H-%M-%S-%f")
+    return f"{timestamp}-pid{os.getpid()}"
 
 
 def workspace_paths(run_dir: Path) -> dict[str, Path]:
@@ -509,7 +511,8 @@ def run_pipeline(
         raise ValueError(f"publication stage unsupported for dataset={dataset}")
 
     run_id = make_run_id()
-    if run_dir is None:
+    run_dir_was_auto = run_dir is None
+    if run_dir_was_auto:
         run_dir = ROOT / "runs" / "reproduction" / dataset / run_id
     else:
         run_dir = Path(run_dir)
@@ -517,7 +520,12 @@ def run_pipeline(
         run_id = run_dir.name
 
     paths = workspace_paths(Path(run_dir))
-    paths["base"].mkdir(parents=True, exist_ok=True)
+    if run_dir_was_auto:
+        # Auto-generated runs must never attach to an existing workspace.
+        # If an unexpected collision ever happens, fail instead of overwriting.
+        paths["base"].mkdir(parents=True, exist_ok=False)
+    else:
+        paths["base"].mkdir(parents=True, exist_ok=True)
     paths["msca"].mkdir(parents=True, exist_ok=True)
 
     existing_manifest = _read_json(paths["manifest"], {}) or {}
@@ -536,6 +544,7 @@ def run_pipeline(
         log_name=_log_name(model, dataset, stage),
         log_dir=LOG_DIR,
         reset=True,
+        run_id=run_id,
     )
     logger = logging.getLogger()
 
