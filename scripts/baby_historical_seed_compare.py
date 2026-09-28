@@ -39,6 +39,9 @@ def train(meta):
             "TRUE_LT_NULL":m["true_better_null_balanced"]}
 
 def cross(z):
+    if z is None:
+        return {"OOF_mean_delta_U":None,"P_delta_U_gt_0":None,"positive_folds":None,
+                "total_folds":None,"repeat_positive_mean_count":None,"PASS":False}
     return {"OOF_mean_delta_U":z["OOF_mean_delta_U"],"P_delta_U_gt_0":z["P_delta_U_gt_0"],
             "positive_folds":z["OOF_positive_count"],"total_folds":z["OOF_total"],
             "repeat_positive_mean_count":z["repeat_positive_mean_count"],
@@ -50,7 +53,8 @@ def main():
     os=json.loads((OLD/"evidence/baby_a2_full_grid_summary.json").read_text())
     ns=json.loads((NEW/"evidence/historical_baby_full_grid_summary.json").read_text())
     oc=json.loads((OLD/"evidence/baby_a3_crossfit_summary.json").read_text())
-    nc=json.loads((NEW/"evidence/historical_baby_crossfit_summary.json").read_text())
+    ncp=NEW/"evidence/historical_baby_crossfit_summary.json"
+    nc=json.loads(ncp.read_text()) if ncp.exists() else None
     om=json.loads((OLD/"evidence/beta_0p5_training.json").read_text())
     nm=json.loads((NEW/"beta_0p5/evidence/beta_0p5_training.json").read_text())
     o=find_cfg(og); n=find_cfg(ng)
