@@ -41,3 +41,6 @@ data/*
 Thumbs.db
 *.tmp
 *.swp
+
+# Search master/launcher logs
+log/search/*.log

@@ -1,0 +1,40 @@
+{
+  "phase": "BABY_SPORTS_HIERARCHICAL_SEARCH_ENGINEERING_SMOKE",
+  "date": "2026-09-29",
+  "head_before_evidence_commit": "bc56b61",
+  "unit_tests": {"count": 36, "status": "PASS"},
+  "baby": {
+    "checkpoint": "/home/gxy/code/Second-paper/runs/reproduction/baby/Sep-28-2026-19-58-47/msca/checkpoints/MSCA-Sep-28-2026-19-58-54.pth",
+    "checkpoint_sha256": "0e647e2249b326d06ef678860ddb1fe2e8eed7595382cdec0a8f324719fdd7d4",
+    "search_dir": "runs/search/baby/smoke_20260929",
+    "master_log": "log/search/BABY-CoLift-Diffusion-Search-Sep-29-2026-12-49-52-281117.log",
+    "no_test_audit": "PASS",
+    "smoke_status": "NO_STABLE_DIFFUSION_UPGRADE_FOUND",
+    "engineering_interpretation": "pipeline smoke only; not a scientific result",
+    "resume": {"status": "PASS", "elapsed_sec": 20.21, "training_repeated": false},
+    "disk_usage": "325M"
+  },
+  "sports": {
+    "checkpoint": "/home/gxy/code/Second-paper/runs/reproduction/sports/Sep-28-2026-22-56-12-980934-pid1834814/msca/checkpoints/MSCA-Sep-28-2026-22-56-21.pth",
+    "checkpoint_sha256": "3c9be138275548ac2044dfc8cda919ceb0397ad87cc5dff23bc0a2084fd000ae",
+    "search_dir": "runs/search/sports/smoke_20260929",
+    "master_log": "log/search/SPORTS-CoLift-Diffusion-Search-Sep-29-2026-13-57-13-725124.log",
+    "no_test_audit": "PASS",
+    "smoke_status": "NO_STABLE_DIFFUSION_UPGRADE_FOUND",
+    "engineering_interpretation": "pipeline smoke only; not a scientific result",
+    "disk_usage": "360M"
+  },
+  "search_policy": {
+    "selection": "Validation SEARCH/HOLDOUT/CROSSFIT only",
+    "search_test_accessed": false,
+    "search_test_used_for_selection": false,
+    "post_search_test": "one-time only after stable recommendation is frozen"
+  },
+  "post_search_test_guard": {
+    "smoke_test_forbidden": true,
+    "stable_recommendation_required": true,
+    "second_successful_test_forbidden": true,
+    "test_output_isolated_from_search_tree": true,
+    "test_delta_reporting": false
+  }
+}
