@@ -99,11 +99,18 @@ def run(dataset: str, assets_dir: Path, out_dir: Path, smoke_users: int | None =
         min_df=int(acfg.get("tfidf_min_df", 2)),
         max_df=float(acfg.get("tfidf_max_df", 0.8)),
         description_len=int(acfg.get("description_len", 128)),
+        weights=acfg.get("weights"),
     )
     full_profiles = build_profiles(item_matrices, histories, n_items)
     pseudo_profiles = build_profiles(item_matrices, pseudo_histories, n_items)
-    z_attr_train, _ = attribute_z(item_matrices, pseudo_profiles, pseudo_users, pseudo_items, batch=256)
-    z_attr_valid, _ = attribute_z(item_matrices, full_profiles, valid_users, valid_items, batch=256)
+    z_attr_train, _ = attribute_z(
+        item_matrices, pseudo_profiles, pseudo_users, pseudo_items,
+        batch=256, weights=acfg.get("weights"),
+    )
+    z_attr_valid, _ = attribute_z(
+        item_matrices, full_profiles, valid_users, valid_items,
+        batch=256, weights=acfg.get("weights"),
+    )
 
     backgrounds = fit_backgrounds(
         pseudo_items, z_text_train, z_attr_train, z_visual_train, n_items
@@ -206,7 +213,7 @@ def run(dataset: str, assets_dir: Path, out_dir: Path, smoke_users: int | None =
             "generic_background": "one-global-pseudo-observation item shrinkage over TRAIN pseudo Top100",
             "lift": "row-z(z_ui - lambda_m * mu_i)",
             "score": "row-z(MSCA candidate score) + sum(alpha_m * lift_m)",
-            "attribute": "row-z(0.45*z_title + 0.20*z_brand + 0.35*z_description)",
+            "attribute": "row-z(sum(field_weight * z_field)); weights from CoLiftRecDiffusion.yaml",
         },
         "TEST_ACCESSED": False,
     }

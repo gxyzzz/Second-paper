@@ -8,6 +8,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 STEPS=50
+COSINE_S=0.008
 P_UNCOND=0.15
 SEEDS=(20261001,20261002,20261003,20261004)
 
@@ -15,7 +16,7 @@ def l2_rows_np(x,eps=1e-12):
     x=np.asarray(x,dtype=np.float32)
     return x/np.maximum(np.linalg.norm(x,axis=1,keepdims=True),eps)
 
-def cosine_alpha_bar(steps=STEPS,s=0.008):
+def cosine_alpha_bar(steps=STEPS,s=COSINE_S):
     ts=torch.linspace(0,steps,steps+1,dtype=torch.float64)
     f=torch.cos(((ts/steps+s)/(1+s))*math.pi/2)**2
     ab=(f/f[0]).clamp(min=1e-8,max=1.0)
@@ -30,14 +31,14 @@ def timestep_embedding(t,dim=64):
     return emb
 
 class NativeTVX0Denoiser(nn.Module):
-    def __init__(self,D,cond_dim=64,hidden=1024,time_dim=64):
+    def __init__(self,D,cond_dim=64,hidden=1024,bottleneck=512,time_dim=64):
         super().__init__()
-        self.D=D; self.hidden=hidden; self.time_dim=time_dim
+        self.D=D; self.hidden=hidden; self.bottleneck=bottleneck; self.time_dim=time_dim
         self.x_in=nn.Linear(D,hidden)
         self.c_proj=nn.Sequential(nn.Linear(cond_dim,256),nn.SiLU(),nn.Linear(256,hidden))
         self.t_proj=nn.Sequential(nn.Linear(time_dim,256),nn.SiLU(),nn.Linear(256,hidden))
-        self.mid1=nn.Linear(hidden,512)
-        self.mid2=nn.Linear(512,hidden)
+        self.mid1=nn.Linear(hidden,bottleneck)
+        self.mid2=nn.Linear(bottleneck,hidden)
         self.out=nn.Linear(hidden,D)
     def forward(self,x_t,t,cond):
         te=timestep_embedding(t,self.time_dim)
@@ -46,22 +47,27 @@ class NativeTVX0Denoiser(nn.Module):
         h=F.silu(self.mid2(h))
         return self.out(h)
 
-def block_errors(pred,target,d_text=384):
+def block_errors(pred,target,d_text=384,recon_text_weight=0.5,recon_visual_weight=0.5):
+    wt=float(recon_text_weight); wv=float(recon_visual_weight)
+    if wt<0 or wv<0 or abs(wt+wv-1.0)>=1e-8:
+        raise ValueError(f"reconstruction weights must be nonnegative and sum to 1: {wt}, {wv}")
     e_t=((pred[:,:d_text]-target[:,:d_text])**2).mean(dim=1)
     e_v=((pred[:,d_text:]-target[:,d_text:])**2).mean(dim=1)
-    e=.5*e_t+.5*e_v
+    e=wt*e_t+wv*e_v
     return e_t,e_v,e
 
 def q_sample(x0,t,noise,alpha_bar):
     a=alpha_bar[t].to(x0.device)[:,None]
     return torch.sqrt(a)*x0+torch.sqrt(1-a)*noise
 
-def training_loss(model,x0,cond,t,noise,alpha_bar,lambda_ctr,p_uncond=P_UNCOND):
+def training_loss(model,x0,cond,t,noise,alpha_bar,lambda_ctr,p_uncond=P_UNCOND,
+                  recon_text_weight=0.5,recon_visual_weight=0.5):
     xt=q_sample(x0,t,noise,alpha_bar)
     keep=(torch.rand(len(x0),device=x0.device)>=p_uncond).float()[:,None]
     ctrain=cond*keep
     pred_rec=model(xt,t,ctrain)
-    et,ev,e_rec=block_errors(pred_rec,x0)
+    et,ev,e_rec=block_errors(pred_rec,x0,recon_text_weight=recon_text_weight,
+                               recon_visual_weight=recon_visual_weight)
     loss=e_rec.mean()
     out={'loss_rec':float(e_rec.mean().detach()),'e_text':float(et.mean().detach()),'e_visual':float(ev.mean().detach()),'unconditional_ratio':float((keep[:,0]==0).float().mean().detach())}
     if lambda_ctr>0:
@@ -73,8 +79,10 @@ def training_loss(model,x0,cond,t,noise,alpha_bar,lambda_ctr,p_uncond=P_UNCOND):
         # classifier-free dropout is only for the reconstruction branch.
         pred_true=model(xt,t,cond)
         pred_shuf=model(xt,t,cond[perm])
-        _,_,e_true=block_errors(pred_true,x0)
-        _,_,e_shuf=block_errors(pred_shuf,x0)
+        _,_,e_true=block_errors(pred_true,x0,recon_text_weight=recon_text_weight,
+                                  recon_visual_weight=recon_visual_weight)
+        _,_,e_shuf=block_errors(pred_shuf,x0,recon_text_weight=recon_text_weight,
+                                recon_visual_weight=recon_visual_weight)
         ctr=F.softplus(e_true-e_shuf).mean()
         loss=loss+lambda_ctr*ctr
         out['loss_ctr']=float(ctr.detach())
@@ -87,14 +95,17 @@ def training_loss(model,x0,cond,t,noise,alpha_bar,lambda_ctr,p_uncond=P_UNCOND):
     return loss,out
 
 @torch.no_grad()
-def paired_errors(model,x0,cond,t,noise,alpha_bar):
+def paired_errors(model,x0,cond,t,noise,alpha_bar,
+                  recon_text_weight=0.5,recon_visual_weight=0.5):
     xt=q_sample(x0,t,noise,alpha_bar)
     perm=torch.arange(len(x0)-1,-1,-1,device=x0.device)
     if len(x0)>1 and torch.any(perm==torch.arange(len(x0),device=x0.device)):
         perm=torch.roll(perm,1)
     zero=torch.zeros_like(cond)
     pt=model(xt,t,cond); ps=model(xt,t,cond[perm]); pn=model(xt,t,zero)
-    tt,tv,tb=block_errors(pt,x0); st,sv,sb=block_errors(ps,x0); nt,nv,nb=block_errors(pn,x0)
+    tt,tv,tb=block_errors(pt,x0,recon_text_weight=recon_text_weight,recon_visual_weight=recon_visual_weight)
+    st,sv,sb=block_errors(ps,x0,recon_text_weight=recon_text_weight,recon_visual_weight=recon_visual_weight)
+    nt,nv,nb=block_errors(pn,x0,recon_text_weight=recon_text_weight,recon_visual_weight=recon_visual_weight)
     return {'true_text':tt,'true_visual':tv,'true_balanced':tb,'shuf_text':st,'shuf_visual':sv,'shuf_balanced':sb,'null_text':nt,'null_visual':nv,'null_balanced':nb}
 
 @torch.no_grad()
@@ -120,11 +131,12 @@ def ddim_edit_batch(model,x0,cond,t_edit,guidance,seed,alpha_bar):
     return x
 
 @torch.no_grad()
-def purify_indices(model,raw_t,raw_v,cond,indices,t_edit,guidance,seeds=SEEDS,batch=128,device='cuda'):
+def purify_indices(model,raw_t,raw_v,cond,indices,t_edit,guidance,seeds=SEEDS,batch=128,device='cuda',
+                   diffusion_steps=STEPS,cosine_s=COSINE_S):
     ids=np.asarray(indices,dtype=np.int64)
     out_t=np.empty((len(ids),raw_t.shape[1]),dtype=np.float32)
     out_v=np.empty((len(ids),raw_v.shape[1]),dtype=np.float32)
-    ab=cosine_alpha_bar().to(device)
+    ab=cosine_alpha_bar(diffusion_steps,cosine_s).to(device)
     generators=[]
     for seed in seeds:
         gen=torch.Generator(device=device); gen.manual_seed(int(seed)); generators.append(gen)

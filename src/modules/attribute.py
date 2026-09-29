@@ -68,13 +68,29 @@ def _onehot(values: list[str]):
     ), vocab
 
 
+def validate_field_weights(weights: dict | None = None) -> dict[str, float]:
+    weights = weights or {"title": 0.45, "brand": 0.20, "description": 0.35}
+    required = ("title", "brand", "description")
+    missing = [k for k in required if k not in weights]
+    if missing:
+        raise ValueError(f"missing attribute weights: {missing}")
+    out = {k: float(weights[k]) for k in required}
+    if any(v < 0.0 for v in out.values()):
+        raise ValueError(f"attribute weights must be nonnegative: {out}")
+    if abs(sum(out.values()) - 1.0) >= 1e-8:
+        raise ValueError(f"attribute weights must sum to 1: {out}")
+    return out
+
+
 def build_item_matrices(metadata_path: str | Path, n_items: int,
                         min_df: int = 2, max_df: float = 0.8,
-                        description_len: int = 128) -> tuple[dict, dict]:
+                        description_len: int = 128,
+                        weights: dict | None = None) -> tuple[dict, dict]:
     rows = load_metadata(metadata_path, n_items, description_len=description_len)
     title, title_vec = _tfidf([r.get("title", "") for r in rows], min_df, max_df)
     desc, desc_vec = _tfidf([r.get("description", "") for r in rows], min_df, max_df)
     brand, brand_vocab = _onehot([r.get("brand", "") for r in rows])
+    weights = validate_field_weights(weights)
     audit = {
         "metadata_path": str(Path(metadata_path).resolve()),
         "metadata_sha256": sha256_file(metadata_path),
@@ -86,7 +102,7 @@ def build_item_matrices(metadata_path: str | Path, n_items: int,
         "tfidf_max_df": max_df,
         "description_len": description_len,
         "fields": ["title", "brand", "description"],
-        "weights": {"title": 0.45, "brand": 0.20, "description": 0.35},
+        "weights": weights,
     }
     return {"title": title, "brand": brand, "description": desc}, audit
 
@@ -120,7 +136,8 @@ def _sparse_candidate_scores(profile_matrix, item_matrix, users: np.ndarray,
 
 
 def attribute_z(item_matrices: dict, profiles: dict, users: np.ndarray,
-                items: np.ndarray, batch: int = 256) -> tuple[np.ndarray, dict]:
+                items: np.ndarray, batch: int = 256,
+                weights: dict | None = None) -> tuple[np.ndarray, dict]:
     field_z = {}
     raw = {}
     for field in ("title", "brand", "description"):
@@ -128,9 +145,10 @@ def attribute_z(item_matrices: dict, profiles: dict, users: np.ndarray,
             profiles[field], item_matrices[field], users, items, batch=batch
         )
         field_z[field] = row_zscore(raw[field])
+    weights = validate_field_weights(weights)
     combined = row_zscore(
-        0.45 * field_z["title"]
-        + 0.20 * field_z["brand"]
-        + 0.35 * field_z["description"]
+        weights["title"] * field_z["title"]
+        + weights["brand"] * field_z["brand"]
+        + weights["description"] * field_z["description"]
     )
     return combined, {"raw": raw, "field_z": field_z}

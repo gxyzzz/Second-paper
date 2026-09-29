@@ -38,7 +38,10 @@ def params(ccfg):
 def load_diffusion_model(diff_dir,dataset,beta):
     checkpoint=Path(diff_dir)/"checkpoints"/f"{dataset}_beta_{btag(beta)}.pt"
     state=torch.load(checkpoint,map_location="cpu",weights_only=False)
-    model=NativeTVX0Denoiser(int(state["D"]),cond_dim=64,hidden=int(state["hidden"]),time_dim=64).to(DEVICE)
+    model=NativeTVX0Denoiser(
+        int(state["D"]),cond_dim=64,hidden=int(state["hidden"]),
+        bottleneck=int(state.get("bottleneck",512)),
+        time_dim=int(state.get("time_dim",64))).to(DEVICE)
     model.load_state_dict(state["state_dict"],strict=True)
     model.eval()
     return model,checkpoint
@@ -56,7 +59,9 @@ def generate_fixed_purified(dataset,diff_dir,out_dir):
     out_dir=Path(out_dir); out_dir.mkdir(parents=True,exist_ok=True)
     text,visual=purify_indices(
         model,raw_text,raw_visual,condition,ids,
-        t_edit=t_edit,guidance=guidance,seeds=seeds,batch=PURIFY_BATCH,device=DEVICE)
+        t_edit=t_edit,guidance=guidance,seeds=seeds,batch=PURIFY_BATCH,device=DEVICE,
+        diffusion_steps=int(dcfg["schedule"]["diffusion_steps"]),
+        cosine_s=float(dcfg["schedule"]["cosine_s"]))
     text_path=out_dir/"fixed_text.npy"; visual_path=out_dir/"fixed_visual.npy"
     np.save(text_path,text.astype(np.float32)); np.save(visual_path,visual.astype(np.float32))
     manifest={
@@ -196,12 +201,17 @@ def evaluate_test(dataset,assets_dir,purified_text,purified_visual,out_dir):
     zv_test,_=semantic_z_for_candidates(raw_visual,histories,test_users,test_items,batch_users=128)
     acfg=ccfg["attribute"]
     mats,_=build_item_matrices(
-        paths["metadata"],n_items,min_df=int(acfg["tfidf_min_df"]),
-        max_df=float(acfg["tfidf_max_df"]),description_len=int(acfg["description_len"]))
+        paths["metadata"], n_items, min_df=int(acfg["tfidf_min_df"]),
+        max_df=float(acfg["tfidf_max_df"]), description_len=int(acfg["description_len"]),
+        weights=acfg.get("weights"))
     full_profiles=build_profiles(mats,histories,n_items)
     pseudo_profiles=build_profiles(mats,pseudo_hist,n_items)
-    za_train,_=attribute_z(mats,pseudo_profiles,pseudo_users,pseudo_items,batch=256)
-    za_test,_=attribute_z(mats,full_profiles,test_users,test_items,batch=256)
+    za_train,_=attribute_z(
+        mats, pseudo_profiles, pseudo_users, pseudo_items,
+        batch=256, weights=acfg.get("weights"))
+    za_test,_=attribute_z(
+        mats, full_profiles, test_users, test_items,
+        batch=256, weights=acfg.get("weights"))
     backgrounds=fit_backgrounds(pseudo_items,zt_train,za_train,zv_train,n_items)
     full_score,_=score_coliftrec(
         test_scores,test_items,zt_test,za_test,zv_test,backgrounds,p,

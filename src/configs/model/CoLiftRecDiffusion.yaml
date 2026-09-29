@@ -2,12 +2,18 @@ model: CoLiftRecDiffusion
 backbone:
   model: MSCA
   seed: 999
+
 common:
   top_l: 100
   attribute:
     tfidf_min_df: 2
     tfidf_max_df: 0.8
     description_len: 128
+    weights:
+      title: 0.45
+      brand: 0.20
+      description: 0.35
+
 datasets:
   baby:
     coliftrec:
@@ -19,6 +25,13 @@ datasets:
       train_scope: all_catalog_items
       epochs: 80
       checkpoint_selection: final_epoch
+      architecture: {hidden: 1024, bottleneck: 512, time_dim: 64}
+      schedule: {diffusion_steps: 50, cosine_s: 0.008}
+      loss: {lambda_ctr: 0.1, recon_text_weight: 0.5, recon_visual_weight: 0.5}
+      classifier_free: {p_uncond: 0.15}
+      optimizer: {name: AdamW, lr: 0.001, weight_decay: 0.0001}
+      train_batch: 512
+      monitor_batch: 512
       beta: 0.5
       training_seed: 20261501
       t_edit: 3
@@ -26,6 +39,7 @@ datasets:
       rho_text: 0.25
       rho_visual: 1.0
       purification_seeds: [20261001, 20261002, 20261003, 20261004]
+
   sports:
     coliftrec:
       text: {lambda: 0.0, alpha: 0.25}
@@ -36,6 +50,13 @@ datasets:
       train_scope: all_catalog_items
       epochs: 80
       checkpoint_selection: final_epoch
+      architecture: {hidden: 1024, bottleneck: 512, time_dim: 64}
+      schedule: {diffusion_steps: 50, cosine_s: 0.008}
+      loss: {lambda_ctr: 0.1, recon_text_weight: 0.5, recon_visual_weight: 0.5}
+      classifier_free: {p_uncond: 0.15}
+      optimizer: {name: AdamW, lr: 0.001, weight_decay: 0.0001}
+      train_batch: 512
+      monitor_batch: 512
       beta: 1.0
       training_seed: 20261101
       t_edit: 5
@@ -43,6 +64,7 @@ datasets:
       rho_text: 0.75
       rho_visual: 0.75
       purification_seeds: [20261001, 20261002, 20261003, 20261004]
+
   elec:
     coliftrec:
       text: {lambda: 1.0, alpha: 0.20}
@@ -51,6 +73,13 @@ datasets:
     diffusion:
       training_protocol: m32_train_monitor
       train_scope: train_interaction_items
+      architecture: {hidden: 1024, bottleneck: 512, time_dim: 64}
+      schedule: {diffusion_steps: 50, cosine_s: 0.008}
+      loss: {lambda_ctr: 0.1, recon_text_weight: 0.5, recon_visual_weight: 0.5}
+      classifier_free: {p_uncond: 0.15}
+      optimizer: {name: AdamW, lr: 0.001, weight_decay: 0.0001}
+      train_batch: 512
+      monitor_batch: 512
       beta: 0.5
       training_seed: 20261621
       t_edit: 7
