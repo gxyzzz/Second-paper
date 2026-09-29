@@ -30,6 +30,8 @@ def init_logger(config, log_name=None, log_dir=None, reset=True, run_id=None):
     log_dir.mkdir(parents=True, exist_ok=True)
     prefix = log_name or "{}-{}".format(config["model"], config["dataset"])
     log_tag = str(run_id) if run_id else get_local_time()
+    if run_id and "-pid" in log_tag:
+        log_tag = log_tag.rsplit("-pid", 1)[0]
     log_path = log_dir / "{}-{}.log".format(prefix, log_tag)
 
     level = _level_from_config(config)

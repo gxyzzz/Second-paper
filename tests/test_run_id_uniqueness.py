@@ -45,6 +45,8 @@ class RunIdUniquenessTest(unittest.TestCase):
             self.assertNotEqual(first["run_id"], second["run_id"])
             self.assertNotEqual(first["run_dir"], second["run_dir"])
             self.assertNotEqual(first["log_path"], second["log_path"])
+            self.assertNotIn("-pid", Path(first["log_path"]).name)
+            self.assertNotIn("-pid", Path(second["log_path"]).name)
             self.assertTrue(Path(first["run_dir"]).is_dir())
             self.assertTrue(Path(second["run_dir"]).is_dir())
             self.assertTrue(Path(first["log_path"]).is_file())
