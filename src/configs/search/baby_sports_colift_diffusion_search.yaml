@@ -1,0 +1,107 @@
+search:
+  split_seed: 20262901
+  search_fraction: 0.80
+  top_lambda: 10
+  top_colift: 20
+  d1_top: 12
+  d2_top: 8
+  d3_top: 4
+  d5_top_checkpoints: 6
+  joint_top_each: 20
+  holdout_top: 20
+  robustness_top: 5
+  top5_log_every: 20
+  train_monitor_fraction: 0.05
+  train_monitor_seed: 20262911
+  monitor_noise_seed: 20262921
+  purification_screen_seed: 20261001
+  purification_ensemble_a: [20261001, 20261002, 20261003, 20261004]
+  purification_ensemble_b: [20262001, 20262002, 20262003, 20262004]
+  training_seeds: [20261501, 20261502, 20261503]
+  snapshot_epochs: [20, 40, 60, 80]
+  crossfit_folds: 5
+  crossfit_repeats: 5
+  stable_probability: 0.80
+  stable_repeat_positive: 4
+  depth_floor: -0.0005
+
+fixed:
+  architecture:
+    hidden: 1024
+    bottleneck: 512
+    time_dim: 64
+  schedule:
+    diffusion_steps: 50
+    cosine_s: 0.008
+  optimizer_name: AdamW
+  top_l: 100
+  tfidf_min_df: 2
+  tfidf_max_df: 0.8
+  description_len: 128
+
+diffusion_training:
+  d1:
+    beta: [0.25, 0.50, 0.75, 1.00]
+    lambda_ctr: [0.00, 0.05, 0.10, 0.20]
+    p_uncond: [0.00, 0.10, 0.15, 0.25]
+    lr: 0.001
+    recon_text_weight: 0.50
+    weight_decay: 0.0001
+    train_scope: all_catalog_items
+  d2:
+    lr: [0.0003, 0.0005, 0.001]
+    recon_text_weight: [0.25, 0.50, 0.75]
+  d3:
+    train_scope: [all_catalog_items, train_interaction_items]
+    weight_decay: [0.00001, 0.0001, 0.0005]
+
+datasets:
+  baby:
+    lambda:
+      text: [0.50, 0.75, 1.00, 1.25]
+      attribute: [0.50, 0.75, 1.00]
+      visual: [0.00, 0.25, 0.50, 0.75]
+    alpha:
+      text: [0.15, 0.20, 0.25, 0.30, 0.35]
+      attribute: [0.10, 0.15, 0.20]
+      visual: [0.01, 0.025, 0.05, 0.075]
+    attribute_weights:
+      - [0.45, 0.20, 0.35]
+      - [0.55, 0.15, 0.30]
+      - [0.35, 0.15, 0.50]
+      - [0.40, 0.30, 0.30]
+      - [0.50, 0.10, 0.40]
+      - [0.60, 0.10, 0.30]
+      - [0.35, 0.25, 0.40]
+      - [0.55, 0.00, 0.45]
+    fixed_probe: {t_edit: 3, guidance: 2.0, rho_text: 0.25, rho_visual: 1.0}
+    editing:
+      t_edit: [1, 2, 3, 4, 5, 7, 10]
+      guidance: [0.5, 1.0, 1.5, 2.0, 2.5, 3.0]
+      rho_text: [0.00, 0.05, 0.10, 0.20, 0.25, 0.35, 0.50, 0.75, 1.00]
+      rho_visual: [0.00, 0.10, 0.25, 0.50, 0.75, 1.00]
+
+  sports:
+    lambda:
+      text: [0.00, 0.25, 0.50, 0.75, 1.00]
+      attribute: [0.50, 0.75, 1.00, 1.25]
+      visual: [0.50, 0.75, 1.00, 1.25]
+    alpha:
+      text: [0.15, 0.20, 0.25, 0.30, 0.35]
+      attribute: [0.10, 0.15, 0.20, 0.25]
+      visual: [0.01, 0.025, 0.05, 0.075]
+    attribute_weights:
+      - [0.45, 0.20, 0.35]
+      - [0.55, 0.15, 0.30]
+      - [0.35, 0.15, 0.50]
+      - [0.40, 0.30, 0.30]
+      - [0.50, 0.10, 0.40]
+      - [0.60, 0.10, 0.30]
+      - [0.35, 0.25, 0.40]
+      - [0.55, 0.00, 0.45]
+    fixed_probe: {t_edit: 5, guidance: 1.5, rho_text: 0.75, rho_visual: 0.75}
+    editing:
+      t_edit: [1, 2, 3, 5, 7, 10]
+      guidance: [0.5, 1.0, 1.5, 2.0, 2.5]
+      rho_text: [0.00, 0.10, 0.20, 0.35, 0.50, 0.75, 1.00]
+      rho_visual: [0.00, 0.10, 0.25, 0.50, 0.75, 1.00]
