@@ -14,11 +14,14 @@ from pipelines.runner import run_pipeline
 class RunManifestTest(unittest.TestCase):
     def test_dry_run_creates_manifest_and_resolved_config(self):
         with tempfile.TemporaryDirectory() as td:
-            run_dir = Path(td) / 'manifest_run'
-            result = run_pipeline(
-                model='MSCA', dataset='baby', stage='full', gpu_id=0,
-                run_dir=run_dir, dry_run=True,
-            )
+            td = Path(td)
+            run_dir = td / 'manifest_run'
+            test_log_dir = td / 'log'
+            with patch('pipelines.runner.LOG_DIR', test_log_dir):
+                result = run_pipeline(
+                    model='MSCA', dataset='baby', stage='full', gpu_id=0,
+                    run_dir=run_dir, dry_run=True,
+                )
             manifest = json.loads((run_dir / 'run_manifest.json').read_text())
             resolved = yaml.safe_load((run_dir / 'resolved_config.yaml').read_text())
             self.assertEqual(manifest['status'], 'DRY_RUN')
@@ -32,7 +35,7 @@ class RunManifestTest(unittest.TestCase):
                 0.25,
             )
             self.assertTrue(Path(result['log_path']).is_file())
-            self.assertEqual(Path(result['log_path']).parent, ROOT / 'log')
+            self.assertEqual(Path(result['log_path']).parent, test_log_dir)
 
     def test_method_yaml_value_controls_resolved_runtime(self):
         import pipelines.dataset_config as dataset_config
@@ -43,11 +46,13 @@ class RunManifestTest(unittest.TestCase):
             method_copy = td / 'method.yaml'
             method_copy.write_text(yaml.safe_dump(source, sort_keys=False))
             run_dir = td / 'yaml_control_run'
+            test_log_dir = td / 'log'
             with patch.object(dataset_config, 'METHOD_CONFIG_PATH', method_copy):
-                result = run_pipeline(
-                    model='MSCA', dataset='baby', stage='full', gpu_id=0,
-                    run_dir=run_dir, dry_run=True,
-                )
+                with patch('pipelines.runner.LOG_DIR', test_log_dir):
+                    result = run_pipeline(
+                        model='MSCA', dataset='baby', stage='full', gpu_id=0,
+                        run_dir=run_dir, dry_run=True,
+                    )
             resolved = yaml.safe_load((run_dir / 'resolved_config.yaml').read_text())
             self.assertEqual(
                 resolved['publication_method']['datasets']['baby']['diffusion']['rho_text'],

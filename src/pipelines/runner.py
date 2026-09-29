@@ -303,16 +303,6 @@ def _run_formal_test(dataset: str, stage: str, cfg: dict, paths: dict[str, Path]
         "TEST_RUN_COUNT": 1,
         "TEST_RUN_COMPLETED": True,
     }
-    if stage in {"coliftrec", "full"}:
-        result["COLIFTREC_TEST_DELTA_VS_MSCA"] = _metric_delta(
-            methods["MSCA_FULL_COLIFTREC_TAV"], methods["MSCA"]
-        )
-    if stage == "full":
-        result["FULL_TEST_DELTA_VS_COLIFTREC"] = _metric_delta(
-            methods["MSCA_FULL_COLIFTREC_DIFFUSION"],
-            methods["MSCA_FULL_COLIFTREC_TAV"],
-        )
-
     _write_json(paths["test"] / "summary.json", result)
     _update_manifest(
         paths,
@@ -361,7 +351,6 @@ def _build_summary_payload(
         payload["COLIFTREC_DELTA_VS_MSCA_VALIDATION"] = colift_summary["deltas_vs_msca"]["MSCA_FULL_COLIFTREC_TAV"]
         if test_result is not None:
             payload["COLIFTREC_TEST"] = test_result["methods"]["MSCA_FULL_COLIFTREC_TAV"]
-            payload["COLIFTREC_DELTA_VS_MSCA_TEST"] = test_result["COLIFTREC_TEST_DELTA_VS_MSCA"]
 
     if final_validation is not None:
         payload["FULL_VALIDATION"] = final_validation["MSCA_FULL_COLIFTREC_DIFFUSION"]
@@ -371,7 +360,6 @@ def _build_summary_payload(
         )
         if test_result is not None:
             payload["FULL_TEST"] = test_result["methods"]["MSCA_FULL_COLIFTREC_DIFFUSION"]
-            payload["FULL_DELTA_VS_COLIFTREC_TEST"] = test_result["FULL_TEST_DELTA_VS_COLIFTREC"]
 
     if diffusion_meta is not None:
         payload["DIFFUSION_SELECTED_EPOCH"] = int(diffusion_meta["selected_epoch"])
@@ -417,11 +405,6 @@ def _log_final_experiment_result(
         _log_paper_metrics(logger, "VALIDATION RESULT", payload.get("COLIFTREC_VALIDATION"))
         if formal:
             _log_paper_metrics(logger, "TEST RESULT", payload.get("COLIFTREC_TEST"))
-            _log_paper_metrics(
-                logger,
-                "Delta vs MSCA Test",
-                payload.get("COLIFTREC_DELTA_VS_MSCA_TEST"),
-            )
 
     if final_validation is not None or "DIFFUSION_SELECTED_EPOCH" in payload:
         logger.info("")
@@ -443,11 +426,6 @@ def _log_final_experiment_result(
         _log_paper_metrics(logger, "VALIDATION RESULT", payload.get("FULL_VALIDATION"))
         if formal:
             _log_paper_metrics(logger, "TEST RESULT", payload.get("FULL_TEST"))
-            _log_paper_metrics(
-                logger,
-                "Delta vs CoLiftRec Test",
-                payload.get("FULL_DELTA_VS_COLIFTREC_TEST"),
-            )
 
     logger.info("")
     logger.info("TEST_RUN_COUNT = %s", payload["TEST_RUN_COUNT"])

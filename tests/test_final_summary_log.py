@@ -31,8 +31,6 @@ class FinalSummaryLogTest(unittest.TestCase):
                 "MSCA_FULL_COLIFTREC_TAV": test["MSCA_FULL_COLIFTREC_TAV"],
                 "MSCA_FULL_COLIFTREC_DIFFUSION": test["MSCA_FULL_COLIFTREC_DIFFUSION"],
             },
-            "COLIFTREC_TEST_DELTA_VS_MSCA": test["delta_coliftrec_vs_msca"],
-            "FULL_TEST_DELTA_VS_COLIFTREC": test["delta_diffusion_vs_coliftrec"],
         }
         with tempfile.TemporaryDirectory() as td:
             td = Path(td)
@@ -60,6 +58,9 @@ class FinalSummaryLogTest(unittest.TestCase):
                 self.assertIn(token, text)
             self.assertEqual(payload["MSCA_TEST"], test["MSCA"])
             self.assertEqual(payload["FULL_TEST"], test["MSCA_FULL_COLIFTREC_DIFFUSION"])
+            self.assertNotIn("Delta vs", text)
+            self.assertNotIn("COLIFTREC_DELTA_VS_MSCA_TEST", payload)
+            self.assertNotIn("FULL_DELTA_VS_COLIFTREC_TEST", payload)
 
 
 if __name__ == "__main__":

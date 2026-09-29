@@ -219,10 +219,6 @@ def evaluate_test(dataset,assets_dir,purified_text,purified_visual,out_dir):
     out_dir=Path(out_dir); out_dir.mkdir(parents=True,exist_ok=True)
     result={
         "phase":"PUBLICATION_FIXED_TEST_EVALUATION","dataset":dataset,**metrics,
-        "delta_coliftrec_vs_msca":{
-            k:float(metrics["MSCA_FULL_COLIFTREC_TAV"][k]-metrics["MSCA"][k]) for k in ALL},
-        "delta_diffusion_vs_coliftrec":{
-            k:float(metrics["MSCA_FULL_COLIFTREC_DIFFUSION"][k]-metrics["MSCA_FULL_COLIFTREC_TAV"][k]) for k in ALL},
         "msca_checkpoint_sha256":audit["checkpoint_sha256"],
         "publication_config":cfg["_method_config_path"],
         "REFRACTOR_PARITY_EVALUATION":True,
