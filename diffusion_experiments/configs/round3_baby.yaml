@@ -1,0 +1,51 @@
+protocol_version: ROUND3_CDA_REPAIR_V1
+dataset: baby
+protocol_dir: diffusion_experiments/runs/round1/protocol_v2
+backbone_training_json: diffusion_experiments/runs/round1/backbone_formal_v2/training.json
+frozen_assets_dir: diffusion_experiments/runs/round1/assets_formal
+expected_backbone_sha256: 51ecfb8b49d7570f09b04ab984ca2f06ed904dd2fe974dadd2bbc6b4a8d3d8ef
+expected_protocol_sha256: 33c8e0ea7f81fe0d8d87e5547961217a1cc82a49106242038cca9b13a56bacbe
+pca_seed: 202610067
+supervision_seed: 202610068
+background_seed: 202610065
+conditional_seeds: [202610063, 202610064]
+probe_bundle_main: 202610075
+probe_bundle_secondary: 202610076
+bootstrap_seed: 202610069
+bootstrap_resamples: 1000
+latent:
+  per_block_dim: 32
+  std_floor: 1.0e-6
+  row_normalize_text_visual: true
+noise:
+  diffusion_steps: 50
+  target_alpha_bars: [0.8, 0.6, 0.4, 0.2]
+  formal_draws_per_t: 2
+  ae_probe_draws: 8
+model:
+  hidden_dim: 128
+  time_dim: 32
+  dropout: 0.0
+  batch_size: 256
+  epochs: 30
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  lambda_pref: 1.0
+  direct_l2: 0.001
+formal:
+  eval_every: 5
+  min_epochs: 10
+  patience_evals: 3
+  eta_candidates: [0.0, 0.05, 0.10, 0.20]
+  clip_c: 0.25
+  boundary_window_start: 6
+  boundary_window_end: 30
+protection:
+  min_nonnegative_primary: 3
+  max_primary_relative_regression: 0.005
+  min_absolute_delta_R50: -0.0005
+  min_absolute_delta_N50: -0.0005
+  target_U: 0.01
+access:
+  confirm_open: false
+  test_open: false
