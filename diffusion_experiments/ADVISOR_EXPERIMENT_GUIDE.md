@@ -1,233 +1,258 @@
-# 给实现 GPT 的实验指导：第一轮实现、验证与交回
+# 给实现 GPT 的实验指导：Round2 监督修正与真实生成排序
 
-日期：2026-10-06。Advisor 方案版本：`f79f630`。
+日期：2026-10-06。生效轮次：**Round2**。代码起点：`0f5f592`（Round1证据交付）。
 
-这份说明可以直接交给 GPT-5.6-sol 执行。你的角色是实现与实验负责人：在当前 Second-paper 仓库中完成必要代码、工程验证和第一轮实验，留下可复查的实现与结果，再交回 advisor 决定下一步。不要把“代码能跑”当作方法有效，也不要自行扩大成长期全网格调参。
+本文件是当前执行说明，直接交给GPT-5.6-sol阅读、实现和测试。本次更新替代第一轮执行安排；第一轮历史版本保留在Git，不再新建advisor指导Markdown。用户后续指令优先。
 
-配套依据：[DIFFUSION_REDESIGN.md](DIFFUSION_REDESIGN.md)。本说明确定**首轮执行范围与交付要求**，配套文档解释历史证据、方法公式和长期实验。首轮不要求把长期清单全部做完。遇到两份文档的首轮范围差异，以本说明为准；用户后续指令优先。
+配套文件：[总体重设计与历史复核](DIFFUSION_REDESIGN.md)、[Round1报告](evidence/ROUND1_REPORT.md)。涉及本轮范围、监督角色、loss与继续条件时，以本文件为准；总体方案中的大规模扩展不是本轮待办。
 
-## 1. 研究目标与方向
+你的角色是实现与实验负责人：完成授权范围内的必要实现、检查、smoke和受控正式实验，保留失败结果并交回advisor。不要自行扩成“试到涨点为止”的大搜索。
 
-用户的两个动机是：
+## 1. 这轮要回答什么
 
-1. 内容相似不等于推荐偏好。
-2. 真正困难的推荐决策可能集中在候选边界。
-
-第二点目前是待验证假设，不是已经建立的科学事实。论文最终必须包含有实证贡献的 Diffusion；不能只把扩散名称挂在普通网络上，也不能事先保证涨点。
-
-最终目标：在 Baby、Sports、Electronics **各自**相对同一 backbone 与完整 CoLiftRec，R@10、N@10、R@20、N@20 四项指标的平均相对提升至少 1%。
+用户最终希望Baby、Sports、Electronics各自相对完整CoLiftRec，四项主指标平均相对提升至少1%：
 
 \[
-U_{\mathrm{diff}}=\frac14\sum_{m\in\{R10,N10,R20,N20\}}
-\frac{m(\mathrm{Full})-m(\mathrm{CoLiftRec})}{m(\mathrm{CoLiftRec})}.
+U=\frac14\sum_{m\in\{R10,N10,R20,N20\}}
+\frac{m(\mathrm{new})-m(\mathrm{CoLiftRec})}{m(\mathrm{CoLiftRec})}.
 \]
 
-`U_diff=0.01` 是 1%。第一轮的目标是**验证严格训练协议下的可学习性、实现真实性和初步增量**，不以“反复试到 1%”作为结束条件。
+两个动机保持：内容相似不等于推荐偏好；候选边界可能集中了值得进一步解决的决策歧义。边界难度和Diffusion必要性仍需证明。
 
-主方向：保留 MSCA 与 CoLiftRec，新增用户条件下的**候选边界偏好残差扩散**。从原始 4480 维物品内容净化，转向用户候选集上的小维度相对偏好修正。
+**Round2的主问题是：纠正已知正例被当负项后，将偏好排序监督从带真实目标信息的加噪状态，转到实际终端噪声生成路径，能否改善Diffusion在留出query上的排名，并超过同条件非扩散模型？**
 
-## 2. 吸取失败实验的教训
+此轮不是重新调`beta/guidance/rho`，不是重跑原4480维全局特征净化，也不以1%作为无限试验的终止条件。若这个目标仍无证据，应诚实交回，重新讨论扩散承担的任务。
 
-| 已确认的问题 | 对本轮实现的要求 |
-|---|---|
-| 内容重建变好，推荐仍可能下降 | checkpoint 选择与效果判断使用实际推理排名，不以 reconstruction loss 证明成功 |
-| 当前净化特征是物品级共享输出 | 新条件必须包含用户–候选证据，输出随用户与候选集变化 |
-| 单位范数特征配每维标准高斯噪声，视觉扰动过强 | 新 residual 的尺度只在训练集估计，记录 SNR，不继承原始高维净化噪声设置 |
-| 全局编辑会破坏已有正确排序 | 首版仅重排 CoLiftRec 第 6–30 位，使用固定槽位插回 |
-| CURRENT 冻结对照作为第21项被截掉 | 候选集合中的控制组必须显式保留，不能受 Top-N 截断影响 |
-| HOLDOUT 与 SEARCH 的保护门槛不一致 | 新评估只用一份门槛实现；状态必须由完整规则计算 |
-| 当前 search crossfit 只是固定预测的重复分组 | 如仅分组统计，称“分组稳健性”；禁止把它称独立 OOF 选参证据 |
-| pseudo 正例虽从历史 mask 移除，backbone 图仍见过目标边 | 新监督样本必须来自 target-edge-disjoint 的 backbone 和历史 |
+## 2. Round1证据与不能沿用的判断
 
-配套文档中的正负结果都应保留。不要通过改 seed、换 checkpoint、削弱 CoLiftRec、过滤难用户或只报告最佳条目，使结果看起来稳定。
+首轮四个正式run完成，DEV结果可独立重放，未发现让全部结果作废的指标错误或目标边进入backbone优化的问题。但存在监督定义与训练/推理对齐不足。
 
-## 3. 本轮可以自主执行的范围
+| 模型 | DEV两seed平均U | 全部INTERNAL：seed202610061 | 全部INTERNAL：seed202610062 |
+|---|---:|---:|---:|
+| DeterministicResidual | +0.4741% | +0.3042% | +0.4442% |
+| BoundaryResidualDiffusion | +0.2422% | −0.1863% | −1.0936% |
 
-在 `diffusion_experiments/` 内实现独立实验流程；可复用现有 MSCA、CoLiftRec、属性与指标函数。确有必要修改公共代码时，应做最小兼容变更、说明理由并检查旧行为；不要顺手重构正式 pipeline。
+INTERNAL列是advisor对冻结最佳checkpoint补算的2,690个用户，不是仅189个窗口命中用户；未用于选择新参数。读数反映开发诊断，不是独立外部确认。
 
-本轮完成以下链条：
+已确认问题：
 
-**协议与数据审计 → 同条件基线重放 → 严格 TRAIN 训练样本 → 非扩散对照 → 新 Diffusion 工程 smoke → Baby 第一轮正式 Validation 实验 → 代码/结果交回。**
+- 856个有效训练query中，94个窗口还有一个已知TRAIN正例（backbone monitor），却被现有单probe目标与负例mask当作未观察负项。
+- 第25epoch低噪声MSE约0.04，高噪声约0.56，INTERNAL终端单样本MSE约0.92。低噪声输入保留真实目标信息，可以降低训练loss，但不自动改善纯噪声生成。
+- attention只处理静态条件，xt/time在其后注入，候选之间缺少噪声状态交互。
+- 每epoch仅约4个batch，30epoch约120次更新；监督少是风险，但同数据非扩散模型更好，因此尚未证明“数据量”是扩散失败的主因。
+- 多采样/步数输出不同只能证明路径生效，不能证明生成变化有推荐价值；DEV上的正U不能覆盖INTERNAL负读数。
+- 旧corrected/broken统计的是用户零命中与至少一次命中的转换，不是全部候选交换的纠错数。
 
-可以连续完成授权范围内的检查、修复和实验，不需要每一步等用户确认。若数据协议不正确，先修协议；若程序失败，先修实现并复跑必要检查。若测到负增益，保存并分析，不能把研究负结果当作程序错误去无限重跑。
+这些也暴露了advisor首版方案的不足。不要把方案问题全部写成实现GPT的错误，也不要因首轮失败就声称Diffusion一般无效。
 
-第一轮不启动三数据集大搜索、完整多 backbone 网格、Test 评估、论文结果更新或正式主流程集成。Baby 受控实验结束后交回；Sports/Electronics 的全面扩展由下一次 advisor 审查决定。
+## 3. 本轮范围与冻结资产
 
-## 4. 先把训练协议做正确
+本轮以Baby为唯一数据集，复用有效`backbone_formal_v2`与`assets_formal`，不重新训练backbone，不换用户划分、候选、窗口或CoLiftRec参数，不增加TRAIN probe split。
 
-### 4.1 第一轮采用单个严格 FIT backbone
+关键目录：`diffusion_experiments/runs/round1/`下的`protocol_v2/`、`backbone_formal_v2/`、`assets_formal/`。有效backbone SHA256：
 
-为了先验证机制，本轮使用单个 FIT backbone，暂不付出完整 OOF 多 backbone 成本：
+`51ecfb8b49d7570f09b04ab984ca2f06ed904dd2fe974dadd2bbc6b4a8d3d8ef`
 
-1. 只从原始 `x_label==0` 的 TRAIN 交互中，按用户分层抽出 probe 正例。初始每个合格用户保留一个 probe，至少两条其他可见历史；固定 split seed 与 item/user ID 映射。
-2. 从剩余 TRAIN 再划出 backbone 内部 monitor，用于 MSCA epoch 选择。monitor、probe、backbone 优化边互斥。选择结束后不把这些边悄悄加回同一 checkpoint。
-3. 训练 MSCA 时，probe/monitor 边不能进入交互图、协同结构、用户历史或依赖它们生成的 cache。全目录内容 side information 可使用，不能使用 Validation/Test 交互构造协同关系。
-4. 用这个冻结 FIT backbone 和相同可见历史生成自然 Top-100，计算完整 CoLiftRec。不得把 probe 正例强行插入候选。
-5. 将 probe query 按用户拆成 reranker TRAIN / INTERNAL（例如80/20），用于训练与内部可学习性检查；任何统计归一化、残差尺度只从 reranker TRAIN 估计。
-6. 在同一 FIT backbone、同一 FIT 历史下评估外部 Validation 的 DEV 用户。非扩散与 Diffusion 使用完全相同的候选、背景、用户集合和 CoLiftRec 参数。
+先校验真实文件hash、用户顺序、FIT/probe/monitor边互斥、原候选与S0重放。未通过就先修协议，不拿不一致的资产训练。
 
-本轮采用 FIT 历史贯穿训练和评估，不能在评估时突然换成 full-TRAIN embedding/profile，以免把条件变化混入模型效果。该基线训练数据少于原 full-TRAIN MSCA，应在结果标题中明确 `FIT_BACKBONE_PROTOTYPE`，不能直接填进既有发表表。
+新增Round2配置与run目录，保留Round1代码行为、yaml、checkpoint、日志、结果与报告。可以提取公共函数，但旧CLI、同输入打分与采样应有回归检查。不要覆盖旧run或用新的结果替换旧证据。
 
-完整 TRAIN-edge OOF → full-TRAIN 转移属于下一阶段。现有 `train_pseudo_top100.npz` 可以用于重放旧行为与工程检查，不能充当本轮严格监督训练数据。
+只使用原DEV选checkpoint/eta，INTERNAL用于冻结规则的开发诊断。两者已被查看，不能把Round2的INTERNAL称为全新的独立confirm。CONFIRM/Test保持关闭；不要调用会自动做Test的正式`main.py --stage full`。
 
-### 4.2 DEV 与 CONFIRM
+## 4. 首先修正监督角色，保留可归因性
 
-在任何新结果计算前，固定 Validation 用户的 DEV/CONFIRM 划分，例如70/30，并写出 manifest 与 hash。只使用 DEV 做本轮选参/结果分析；CONFIRM 本轮保持关闭，Test 也关闭。
+### 4.1 明确四种角色
 
-原 Validation 曾被历史搜索使用，重新划分不能称为“从未被查看的新验证集”。这里的关闭是从新协议冻结后开始的流程约束。另一个 GPT 不应自行调用正式 `main.py --stage full`，因为它可能自动访问 Test。
+- FIT边：backbone训练、协同图和query可见历史；不能含probe/monitor。
+- backbone monitor边：用于选backbone epoch。对于reranker，是已知原TRAIN正交互，但本轮**仅作为不能打压的黑名单**，不增加为新的正监督目标。
+- reranker TRAIN用户的probe：本轮正监督目标。
+- INTERNAL用户的probe：只作评估目标，不进入梯度；DEV label同样不进入梯度。
 
-### 4.3 数据交付必须包含
+不得用Validation/CONFIRM/Test正例过滤训练负样本。负项仍是未观察候选代理，不是已证明不喜欢。
 
-- FIT、monitor、probe 边数量；参与用户数；不合格用户数与排除原因。
-- probe 自然进入 Top-100 / 第6–30位的比例；有监督 query 数；候选 recall 与正例 rank 分布。
-- target-edge-disjoint 检查，至少覆盖 backbone优化边、图构建输入、用户历史与协同cache。
-- checkpoint、图、候选、历史、数据划分与特征 schema 的 hash 绑定。
-- 有正例与无正例 query 的 loss 行为；无正例 query 不得直接被解释为“用户没有未来偏好”。
+本轮不把monitor提升为额外正标签，避免把增加监督与修正假负例同时混入比较；也不修改它在backbone epoch选择中的原角色。
 
-如果窗口内正例样本太少，允许预先登记一个额外 TRAIN probe split 来增加样本；所有 backbone 必须重新按该 split 隔离。不要静默改成泄漏的 teacher cache。先报告样本数再决定预算；覆盖太低导致无法训练时，把这一点作为交回的重要结论。
+### 4.2 clean residual与rank loss必须一起修
 
-## 5. 第一版模型：保持简单且可归因
+对每个训练query，固定窗口B仍是CoLiftRec第6–30位。令P为该query的指定probe正例，M为B中除P外的已知原TRAIN正交互（本数据里主要是monitor），A=B\M。
 
-### 5.1 同一条件编码器的三个对照
+仅当probe自然落入B时参与监督；不要强塞正例或扩大训练query集合。所有模型共享相同856个原监督query及mask（以实际复核计数为准）。M从原TRAIN/FIT/probe/monitor身份产生，不能进入预测模型的条件输入；推理不知道这些评估目标，不能传入label-derived mask。
 
-| 名称 | 定义 | 作用 |
+采用下列保守代理目标，让M的目标残差为0，A内构建偏好修正：
+
+\[
+q_i=\frac{y_i+\epsilon}{\sum_{j\in A}(y_j+\epsilon)},\quad
+r_i^*=\log q_i-S_i^0/\tau-
+\operatorname{mean}_{j\in A}(\log q_j-S_j^0/\tau)\quad(i\in A),
+\]
+
+\[
+r_i^*=0\quad(i\in M),\qquad x^0=r^*/\sigma_r.
+\]
+
+其中y仅在指定probe处为1，epsilon=0.05，tau=1。r在全部25维上仍零均值。M=0是基线保持先验，不是对真实偏好的断言，也不是已知正例应该没有收益。
+
+`L_diff`只在A坐标计算，先按每query的有效坐标数归一，再按query平均；不能用M的原单probe低概率编码继续监督重建。排序loss的负项只来自A\P，M不出现于负pair。L_keep可保持对全25维输出的小幅正则，但不能把M重新加入负排序项。
+
+sigma_r在reranker TRAIN的A坐标上估计并冻结，所有Round2变体共用同一个值。feature mean/std复用经校验的Round1 TRAIN统计，固定22维输入和同一用户集合；不得用INTERNAL/DEV标签估计尺度。没有窗口probe的query仍不参与监督生成/排序；继续完整报告部署与过滤比例。
+
+必须单独报告94个受影响query，并检查修正后已知正例作为负pair的数量为0、M坐标目标残差为0、target零均值。测试不能仅验证rank loss的mask，而漏掉clean target。
+
+## 5. 最小受控矩阵：先只改变监督与排序路径
+
+三个必做版本，各2个训练seed，共**6个正式训练run**：
+
+| ID | 模型 | 与上一行比较的改变 |
 |---|---|---|
-| CoLiftRec | 冻结的完整文本+属性+视觉 CoLiftRec | 主增量基线 |
-| DeterministicResidual | 同样的用户候选条件，直接预测局部残差 | 测可学习性，排除新增监督/网络容量收益 |
-| BoundaryResidualDiffusion | 同样条件与残差目标，真实加噪、时间条件与反向采样 | 检验多步扩散增量 |
+| C | CorrectedDeterministic | 修正监督后的确定性残差对照 |
+| D0 | CorrectedDiffusion | 与C共享数据/目标；保持Round1 denoiser与加噪状态排序loss |
+| D1 | GenerationAlignedDiffusion | 与D0同架构；仅将排序loss接到终端噪声→5步DDIM输出 |
 
-可以先用小共享 MLP，必要时统一升级到1–2层小attention；两个学习模型使用同一条件 encoder，参数量与训练预算尽量匹配。使用标量交互、rank/gap、raw semantic与lift、TRAIN popularity/history length；先不加 user/item ID、LLM或新编码器。
+C和D0都必须重新训练，因为target/mask/sigma改变；旧checkpoint仅作历史参考。不能拿旧未修正C对比新的D1。
 
-真实用户条件与 shuffled/removed 用户证据对照，必须明确打乱的是哪些特征。只打乱一个被网络忽略的 user-summary、却保留全部原用户的 dot/cosine/lift，并不能检验用户条件的必要性。
+这轮先不加入cutoff加权、hard-negative新采样、多兴趣encoder、CFG、窗口调整或额外数据。它们有研究价值，但会让当前核心比较无法归因。
 
-### 5.2 Diffusion 的实现规格
+C与D0回答监督修正是否改变读数；D0与D1回答实际生成路径的排序监督是否有效。只汇报D1比Round1好，而没有这两个同协议对照，不能回答核心问题。
 
-按配套文档第6节实现：
+## 6. D1真实生成排序loss的实现要求
 
-- clean target：TRAIN probe label 构造的平滑观察偏好分布，相对 CoLiftRec logits 的中心化残差；这是监督代理，不是真实无噪声偏好。
-- `epsilon=0.05`、`tau=1`、训练集估计的全局 `sigma_r`，作为首轮起点。
-- 25维 residual，零均值投影，50步 cosine，x0 prediction。
-- 推理从终端投影高斯噪声开始，首版5次 DDIM 更新；不能用真实label或真实residual初始化。
-- `L_diff + L_rank + 0.01*L_keep`，起点 `lambda_rank=1`。训练时排序loss采用与部署相同的还原、限幅与融合定义。
-- `delta=c*tanh(eta*r/c)`，初始 `c=0.25`；先固定均值残差聚合，不新增confidence gate或CFG。
-- 在 CoLiftRec 的固定第6–30位内部 stable sort，再插回原槽位。前5位及31–100位的物品和位置必须保持。
+### 6.1 保留生成训练，替换排序loss路径
 
-每个 query 的采样依赖 stable query key 与预注册seed，不依赖 batch order。窗口和gap在扩散开始前由 S0 固定，不随采样临时重定义。不要再次对小 residual 行内 z-score 放大。
+记f为denoiser，xt为训练代理目标x0随机加噪，G5为从**终端纯投影高斯噪声**起步的5次DDIM更新：
 
-工程实现的细节可以自行选择，但修改目标定义、候选生成协议、窗口、用户条件或验证集合属于研究方案变更，应在报告中单列理由与影响；不应悄悄变更后仍称“按原方案验证”。
+\[
+L_{D0}=L_{\mathrm{diff}}(f(x_t,t,H),x^0)
++L_{\mathrm{rank}}(S^0+\delta(f(x_t,t,H)))
++0.01L_{\mathrm{keep}}(f(x_t,t,H)),
+\]
 
-## 6. 工程检查与实验启动条件
+\[
+L_{D1}=L_{\mathrm{diff}}(f(x_t,t,H),x^0)
++L_{\mathrm{rank}}(S^0+\delta(G_5(z_T,H)))
++0.01L_{\mathrm{keep}}(f(x_t,t,H)).
+\]
 
-### 6.1 必须先通过的检查
+C使用同一masked代理重建loss、同权重rank/keep，只是预测来自确定性条件网络。三者rank项权重固定为1。D1不是在D0上额外叠加第二份rank loss，否则排序权重与路径变化混在一起。
 
-1. 同输入下重放完整 CoLiftRec；排名一致。数值若受dtype影响，应报告最大误差和tie规则，不能把大量rank变化当浮点小误差。
-2. `eta=0` 严格恢复 CoLiftRec 排名与六指标。
-3. B之外物品与位置完全不变，候选不重复、不丢失。第6–30位槽内重排应保持 R@50，但不保证 N@50不变。
-4. probe、monitor、Validation、Test的label消费路径正确；验证target边没有进入数据生产模型。
-5. diffusion确实使用时间与噪声：记录低/高噪声分箱，检查终端采样路径；梯度有限，所有loss到共享参数的梯度尺度可观察。
-6. 同query改变batch size或batch order，生成结果在声明的数值容差内一致。
-7. checkpoint重载、resume与缓存identity检查正常；换split/checkpoint/schema不能静默复用旧缓存。
-8. GPU型号符合5090要求，显存与耗时在日志中可见。
+重建训练仍用原50步cosine与均匀t，不同时修改t采样、SNR weighting或lambda。D0/D1的keep来源保持相同，以便主要区别就是rank的实际生成路径。delta沿用`c*tanh(eta*tau*sigma_r*x/c)`，c=0.25、训练eta=0.10；部署eta沿用有限集合。
 
-使用真实数据的随机固定小样本做1–2epoch smoke即可；它不需要涨点。测试优先覆盖上述数据隔离和不变量，不堆砌只复述实现的单元测试。
+### 6.2 生成链必须可微且不读目标
 
-### 6.2 负结果时如何处理
+为D1训练实现可微的5步采样函数：不使用no_grad、不detach中间状态、不转numpy切断图，时间表与部署一致，梯度经过所有5次denoiser调用。
 
-确定性reranker还没改善时，可以完成Diffusion代码及工程smoke，以便advisor检查实现，但不要直接启动长期扩散大搜索。先检查覆盖、特征、目标尺度、train→DEV分布变化与过拟合。
+z_T只能由独立训练随机源产生，不由真实x0、probe位置、target mask或目标残差初始化。真实label只能在**生成完成之后**进入loss；条件H不含mask、probe ID或其他label衍生特征。mask仅用于监督代理目标与loss，不影响采样时间表、状态维度或生成条件。
 
-区分三种状态：`IMPLEMENTATION_FAILED`、`PROTOCOL_INVALID`、`VALID_EXPERIMENT_NO_GAIN`。第三种是有效研究结果，不应抹去或自动扩大搜索预算。
+训练生成排序先用1个纯噪声样本/query，避免一下把链与ensemble都放大。训练噪声与评估采样seed分开；基于训练seed/epoch/query key/更新索引派生或保存Generator状态，不能按DEV结果选训练噪声。
 
-## 7. 首轮正式实验：Baby，有限预算
+保留L_diff以学习扩散去噪过程，不能删除生成训练后把重复MLP调用称为多步Diffusion。终端生成排序用训练模式，评价使用eval；记录dropout差异。推理不能接入训练代理x0。
 
-工程/协议检查通过后，用 nohup 启动单worker受控实验，实际完成后整理报告。不要只提交一个尚未运行的launcher就说实验已完成。
+检查rank loss对denoiser/条件encoder梯度非零且有限，并确认采样链没有意外detach。分别记录weighted gradient norm、masked reconstruction误差、纯噪声生成rank loss与实际排名；不要只用低噪声MSE下降说明成功。
 
-### 7.1 预注册预算
+### 6.3 公平预算的边界
 
-- 数据集：Baby；冻结CoLiftRec使用仓库已有Baby参数，不重新搜索。
-- FIT backbone：预注册seed999，TRAIN内部monitor选择；所有模型共享它。
-- 每个学习模型先用2个训练seed，例如 `[202610061,202610062]`，失败seed也完整报告。
-- 训练至多30epoch，每5epoch评估实际部署排名，最少10epoch后patience3次评估。INTERNAL用于观察训练，DEV按冻结规则选checkpoint；不打开CONFIRM。
-- `eta∈{0,0.05,0.10,0.20}`，`eta=0`是控制。正eta对两种学习模型相同，不新增其他多维网格。
-- Diffusion首版5步反向更新；固定4采样seed，例如 `[202610071,202610072,202610073,202610074]`，同时报告第一个seed的单样本结果。不能选最好采样seed。
-- 主配置之外，最多一次记录明确原因的小修正；如果改了协议/目标，另开run和版本，保存前一次结果。
+D1多出5步生成的训练前向，保持同样query/epoch/optimizer更新用于机制比较，**不声称已经等FLOPs**。报告forward次数、参数量、optimizer steps、训练时间、峰值显存与推理时间。
 
-选择规则事先写入manifest：DEV先满足六指标保护条件，再按主U排序；若没有合格非零eta，则保留CoLiftRec控制并报告无有效升级。不得看见结果后改门槛。
+初步胜过C不自动证明扩散独立优势；后续还需匹配计算预算、ensemble及更完整确认。本轮先判定生成训练路径是否改善外推，避免先开展多seed判别ensemble大矩阵。
 
-### 7.2 最小实验矩阵
+## 7. 候选噪声状态交互：有条件的第二阶段
 
-必做：完整CoLiftRec、确定性残差、真实多步Diffusion，各自DEV原始六指标与U；两个训练seed分别及均值；Diffusion单样本与四样本聚合；实际参数量、训练/推理时间。
+主矩阵C/D0/D1完成后，只有以下条件同时满足，才允许本轮继续一次架构检验：
 
-确定性reranker与Diffusion都无增益时，先结束当前科学实验批次、交回诊断，不继续铺开ablation。
+- D1至少一个seed的全部INTERNAL U>0，两seed平均INTERNAL U>0且不低于D0；
+- D1平均DEV U高于D0，并满足固定保护条件；
+- 不存在另一个seed在全部INTERNAL出现超过0.5%相对平均U的回退；
+- 协议、采样与finite检查通过。
 
-出现初步增益后，补以下少量诊断再交回：
+这些是预算管理条件，不是科学显著性门槛。若不满足，保留结果交回，不自动通过新增样本、epoch或eta“救援”。
 
-| 诊断 | 最低要求 | 解释边界 |
-|---|---|---|
-| 用户条件 | 在冻结模型上打乱/移除用户相关条件，匹配候选与噪声 | 属推理干预，可能有分布外效应；不是重新训练的完整消融 |
-| 边界假设 | 相同候选数的第31–55位窗口对照，训练与评估都匹配该窗口 | Recall@10/20因该窗口不含cutoff而不能改善是结构事实；需另比局部pair判别、纠错/破坏率或对应cutoff指标，不能用这一必然差异“证明边界最难” |
-| 扩散步数 | 同一checkpoint的1步/5步推理，同条件同seed | 只检验推理步数，不能等同“训练单步模型”的完整消融 |
-| 采样聚合 | 1/4样本、同预算非扩散对照的可行性与成本 | 不要把四次前向的收益归为扩散特有收益 |
+符合条件时，允许再训练2个seed的D2，以及2个seed的容量匹配确定性对照CJ，最多新增4run：
 
-这个矩阵是首轮诊断。严格重新训练的完整消融、DAE和多seed非扩散ensemble、等预算不同边界窗口、三数据集以及多backbone留给advisor据结果规划。
+- D2：在D1中，让`condition + xt embedding + timestep embedding`进入一个小型共享候选attention block，之后输出x0；不是仅在静态条件attention之后加xt。
+- CJ：相同静态条件与同规模候选交互block，确定性预测；新状态分支使用固定无label的占位，不输入真实target。报告总参数与有效分支，不因参数总数相同就断言学习容量完全等价。
 
-### 7.3 必须报告的效果与保护条件
+保持hidden64、原窗口和同loss/更新预算，不改成大网络。只有比较D2与D1、D2与CJ，才可讨论动态状态交互的额外贡献。不得新增第三轮架构变体或额外网格。
 
-每条结果保留R@10、N@10、R@20、N@20、R@50、N@50、四项相对增量、U、用户数和自然候选覆盖。
+## 8. 正式实验参数与选择规则
 
-本轮沿用配套方案的保护条件：主指标至少3/4非负；任何主指标相对回退超过0.5%不算稳定通过；R@50/N@50绝对增量各不低于−0.0005。`U>0`可称初步正增量；`U≥0.01`才达到这个数据集本次运行的1%目标。两个训练seed不能支撑“已证明普遍稳定”的结论。
+首轮数据split、backbone、CoLiftRec、输入schema不变。Round2采用独立配置版本与运行身份，所有变体共享：
 
-用户paired bootstrap如实施，应在每个resample先汇总六指标，再算U；建议1000次，保存固定bootstrap seed与CI。DEV上经选参后的CI是开发诊断，不是独立确认的显著性证据。
+- training seeds：`[202610061,202610062]`；不挑最好seed。
+- sampling seeds：`[202610071,202610072,202610073,202610074]`；不挑最好sample。
+- 30epoch上限，batch256、AdamW lr0.001、weight_decay0.0001，原dropout0.10。
+- 每5epoch评估，至少10epoch后patience3次评估。保持同一停止规则；记录实际optimizer steps。
+- eta：`[0,0.05,0.10,0.20]`，c=0.25；不扩大范围、不给不同模型不同网格。
+- backbone不重新选epoch。新reranker按DEV保护条件后最大U选checkpoint/eta；eta0始终保留控制。
 
-## 8. GPU、nohup与版本管理
+保护条件：主指标至少3/4非负，单项相对回退不超过0.5%；R50/N50绝对增量各≥−0.0005。若没有有效非零eta，报告退回CoLiftRec控制，不把COMPLETE当PASS。
 
-环境优先使用已有`gume`，参见`docs/ENVIRONMENT.md`。不要按旧requirements强行降级5090可用的PyTorch/CUDA。
+**INTERNAL结果每次评估同时记录，但不加入checkpoint/eta选择公式。**它已经被研究者查看，是开发泛化诊断，不能作为一个反复试到通过的新confirm。未通过时如实交回；本轮不得打开真正保留的CONFIRM/Test。
 
-每次启动实时查询GPU型号、UUID、显存和计算占用；仅允许RTX5090，用UUID设置`CUDA_VISIBLE_DEVICES`，进程内assert型号。显存低时按用户授权可以使用，但限制为一个worker、保守batch，不终止他人进程，不回退4060Ti或其他卡。OOM时只调整自己的任务，并记录batch变化。
+代码报错可以修复后复跑相同协议；修复会改变数值时另开run、保留原run、记录原因。方法无增益则属于有效负结果，不得自动改配置重试。
 
-nohup launcher保存完整命令、PID、日志路径、gitSHA、manifest路径；runner用原子方式更新状态，明确STARTED/RUNNING/COMPLETE/FAILED与exitcode。进程消失不等于成功；最后必须检查完成标志、预期epoch/earlystop记录、全部结果与日志末尾。
+## 9. 评价必须覆盖全部用户与生成可靠性
 
-只按确切PID或本run标识管理自身进程，不使用可能误杀他人任务的宽泛pkill。不要启动尚未完成smoke的后台formal。
+对每个正式checkpoint至少报告：
 
-实现、验证证据、正式实验配置分别做Git提交，运行记录启动时commit与是否dirty。独立实验分支优先；先检查当前分支，不假设仍在main。只提交代码、配置、文档与小型结果摘要，数据/大数组/checkpoint/logs须检查ignore后排除。不覆盖旧证据，不force-push，不重置历史Test计数；推送成功才能报告GitHub上传完成。
+1. DEV全部13,611用户的六指标、四项相对增量和U；每seed及固定聚合。
+2. INTERNAL全部2,690用户的同样指标；同时报告窗口命中189子集的排名变化，但不能只展示有利子集。
+3. INTERNAL采用指定probe作为评估正例；monitor黑名单只用于TRAIN loss修正，不能在DEV/INTERNAL部署时传入label mask、排除候选或选择采样。
+4. 全INTERNAL相对C/D0的配对增量；训练用户数量、有效监督数与94个mask修正query的读数。
+5. 低/中/高噪声重建、终端1/4采样实际排名，至少每5epoch保存；MSE与排名分开解释。
+6. Diffusion逐个预注册sample的U及四sample均值输出的U；统一eta取四sample选择值，不分别为每个sample调eta。
+7. 1步/5步在同一个sample下对比；再在同样4sample数下对比，避免1样本vs4样本混入步数解释。
+8. 窗口外位置精确不变、候选集合一致、eta0排名/指标身份；R50保持是槽位性质，不是Diffusion机制成功。
 
-## 9. 交给 advisor 的材料
+命中变化应明确区分：用户零命中↔有命中、逐用户正例命中数增减、DCG/Recall贡献增减；保存逐用户差值。对同样用户数、命中机会与margin条件下的净纠错再解释机制，不将输出RMS差或采样多样性当推荐成功。
 
-第一轮结束后，写 `diffusion_experiments/evidence/ROUND1_REPORT.md`，并保留机读结果。开头先给以下结论：
+用户bootstrap采用固定seed202610069、1000次，每次先聚合指标再算U；同时比较新模型vsCoLiftRec以及D1/D2 vs对应确定性模型。报告CI包含0与否，不把正replicate比例称成功概率或p-value。由于DEV选参、INTERNAL已参与研究讨论，这些CI均是条件化开发诊断，不能证明外部显著性或训练seed稳健性。
 
-**严格数据协议是否有效？确定性reranker是否改善？Diffusion是否额外改善？是否达到1%？哪些结论目前还不能成立？**
+## 10. 必要工程检查与资产身份
 
-建议交付目录（文件名可以调整，但报告必须链接实际产物）：
+smoke随机固定抽样，不取排序前N用户；1–2epoch即可，不要求smoke涨点。正式训练之前必须通过：
 
-```text
-diffusion_experiments/
-  evidence/
-    ROUND1_REPORT.md
-    round1_protocol.json
-    round1_results.csv
-    round1_checks.json
-  configs/
-  models/
-  scripts/
-  tests/
-  runs/                 # 本地保留，Git忽略
-  logs/                 # 本地保留，Git忽略
-```
+- 实际加载文件hash与原manifest匹配，不只是两个JSON中hash字符串相同。
+- FIT/probe/monitor边和用户分组检查；monitor在负pair中的计数0；clean target中M残差0与masked loss行为。
+- 目标/blacklist mask不进入denoiser输入；纯噪声采样与label解耦测试。
+- 终端链梯度测试、finite loss/梯度/prediction检查。检测NaN必须FAILED，不能回退eta0后伪装为方法通过。
+- 同query跨batch/order、保存重载、采样seed可重现；训练随机状态与评估随机状态分开。
+- 输出固定槽位、候选不丢不重复，eta0身份。
+- Round1重放仍成立，修正模型不能静默复用旧sigma或checkpoint。
 
-报告还须包含：
+run identity包含：实际代码commit、dirty tracked diff、配置hash、协议hash、checkpoint与候选hash、feature schema、监督mask版本、sigma、模型变体、seed。已有非空输出目录默认拒绝覆盖；如实现resume，必须恢复optimizer/epoch/random state并核对完整identity，不能从头训后写成resume。
 
-- Git commit、修改文件与关键函数位置，偏离方案的地方及理由。
-- 数据分割/图与checkpoint绑定、样本覆盖、所有隔离与身份检查结果。
-- 每个模型/seed/config的完整结果，包括失败条目、eta=0、未通过门槛条目。
-- DEV使用与checkpoint选择规则；CONFIRM/Test是否仍关闭。
-- loss/timestep/梯度与实际采样路径诊断，候选窗口不变量、用户条件依赖情况。
-- GPU型号/UUID、显存峰值、训练时间、推理延迟、nohupPID与最终退出状态。
-- 精确复现命令、日志/checkpoint/预测路径、resume方式。最终聚合要能从机读结果重算。
-- 解释最可信的负结果原因与最多两个下一步建议；不要直接开启第二轮大搜索。
+测试应调用真实协议/目标/采样函数并包含失败注入，不用手写两个天然不交叠的表来“证明隔离”。旧测试通过不能替代新监督与可微采样检查。
 
-尚在后台运行时可先交状态报告，但必须明确“未完成”，保留可追踪PID和run路径。失败不是交付缺陷，隐藏失败和不可复查才是。
+## 11. GPU、nohup与版本管理
 
-## 10. Advisor 下一轮要审查什么
+使用现有gume环境，实时检查GPU型号、UUID、显存和利用率，仅用RTX5090。通过UUID限定CUDA_VISIBLE_DEVICES并在进程内assert型号；一个worker，保守batch，不终止他人进程、不回退其他GPU。显存低时按用户已有授权可用；OOM只处理自身任务并记录实际batch与协议变化。
 
-advisor会检查：新方法是否真的改变了监督与作用位置；目标边是否隔离；非扩散对照是否公平；Diffusion是否在终端噪声推理中贡献而非训练标签拷贝；收益是否来自新增监督、ensemble或选择偏差；窗口内是否净纠错；负结果是否提示数据分布或方法方向有误。
+通过smoke后用nohup启动可追踪的正式批次；保存完整命令、PID、gitSHA、配置、run路径、STARTED/RUNNING/COMPLETE/FAILED和退出码。状态原子写入，最后核对预期产物、epoch/earlystop与exitcode，不以进程消失判断成功。
 
-下一步可能是修协议、修实现、改目标、增加机制对照，或在有证据后扩到Sports/Electronics。实现GPT第一轮的任务是提供能支持这些判断的代码与实验，不是自行证明论文已经成立。
+独立提交Round2实现、smoke检查、冻结配置、结果证据。只提交指定文件，不将已有未跟踪advisor笔记混入实现提交，也不要删除它们。报告启动时commit和tracked diff；仅因advisor未跟踪Markdown产生dirty时单独解释。
+
+代码与配置进入Git，checkpoint/大数组/log留本地并核验ignore。不要覆盖Round1证据、force-push、改远程main或重置历史Test guard。GitHub推送成功才能报告上传完成。
+
+## 12. 交付、继续与停止
+
+本轮最多6个主矩阵训练run；满足第7节条件时最多再加4个架构run。工程修复重跑不隐去，全部计入运行记录。不得另开eta/lambda/hidden/step/probe数量网格。
+
+交付路径：
+
+- **本文件**继续作为唯一活动advisor指导，更新进度或下一轮范围时仍用它。
+- `evidence/ROUND2_REPORT.md`：实验报告，不是新增advisor指导。
+- `evidence/round2_protocol.json`、`round2_results.csv`、`round2_checks.json`。
+- `runs/round2/`：本地manifest、history、checkpoint、逐用户预测/指标和诊断。
+
+Round1报告只读保留；不要把Round2实验结果写回Round1文件。报告开头明确回答：监督冲突是否消除？D1的INTERNAL泛化是否优于D0？是否胜过C？是否达到1%？采样可靠性是否改善？扩散额外开销是多少？
+
+结果需同时列Round1参考和Round2同协议对照；比较改变了target/sigma的轮次时说明差异。每个配置、每seed、每sample包括负结果与eta0完整保留，报告关键代码位置、实际命令、模型/数据绑定和偏离方案的理由。
+
+判读规则：
+
+- 协议或实现检查未通过：IMPLEMENTATION_FAILED或PROTOCOL_INVALID，先修后做必要验证。
+- 只有DEV好、INTERNAL仍两seed负：不能称泛化改善；主矩阵后交回，不扩展三数据集。
+- 修正C/D0都改善，而D1没额外改善：支持监督修正有用，不支持生成排序路径有用。
+- D1改善INTERNAL并满足第7节：可做一次D2/CJ架构检验，仍不宣称扩散必要性成立。
+- D1/D2仍不胜确定性对照：VALID_EXPERIMENT_NO_DIFFUSION_ADVANTAGE，交回讨论扩散任务定义，不能靠继续加采样/选seed让它看起来有贡献。
+
+最终目标依然是三数据集各1%，但本轮负责回答一个具体机制问题。先获得可归因的证据，再由advisor决定是否扩展数据、改生成对象或进入更完整确认。
