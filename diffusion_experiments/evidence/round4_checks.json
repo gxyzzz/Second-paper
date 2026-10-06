@@ -1,0 +1,77 @@
+{
+  "status": "PASS",
+  "unit_harness": "ROUND4_TESTS_PASS 6",
+  "stage0": {
+    "100": {
+      "sufficient": true,
+      "shortcut_fail": false,
+      "matched_queries": 2170,
+      "A_matched_queries": 808
+    },
+    "500": {
+      "sufficient": true,
+      "shortcut_fail": false,
+      "matched_queries": 4525,
+      "A_matched_queries": 832
+    }
+  },
+  "smoke": {
+    "shared_diff_pref_deploy_gradients_nonzero": true
+  },
+  "formal_runs": {
+    "L100_seed202610065": {
+      "status": "COMPLETE",
+      "optimizer_steps": 1200,
+      "git_sha": "3a4d36d1763b07188f8e29a0d5fd70a8ea914263",
+      "no_eval_access_during_training": true
+    },
+    "L100_seed202610066": {
+      "status": "COMPLETE",
+      "optimizer_steps": 1200,
+      "git_sha": "3a4d36d1763b07188f8e29a0d5fd70a8ea914263",
+      "no_eval_access_during_training": true
+    },
+    "L500_seed202610065": {
+      "status": "COMPLETE",
+      "optimizer_steps": 1200,
+      "git_sha": "3a4d36d1763b07188f8e29a0d5fd70a8ea914263",
+      "no_eval_access_during_training": true
+    },
+    "L500_seed202610066": {
+      "status": "COMPLETE",
+      "optimizer_steps": 1200,
+      "git_sha": "3a4d36d1763b07188f8e29a0d5fd70a8ea914263",
+      "no_eval_access_during_training": true
+    }
+  },
+  "selection_lock": {
+    "sha256": "6e3a9efc620e63b84710a33ac9236ea00870271abdb2afed4c75c56395992f97",
+    "matches_test_binding": true,
+    "internal_used_for_selection": false,
+    "test_accessed_at_lock": false,
+    "test_used_for_selection": false
+  },
+  "test_dry_run_before_open": {
+    "test_accessed": false,
+    "L100_msca_set_mismatch": 0,
+    "L100_B_set_mismatch": 0,
+    "L500_msca_set_mismatch": 0,
+    "L500_B_set_mismatch": 0,
+    "L100_DEV_replay_abs_error": 0.0,
+    "L500_DEV_replay_abs_error": 0.0
+  },
+  "test": {
+    "status": "COMPLETE_TEST_EVALUATED_AFTER_LOCK",
+    "users": 19445,
+    "test_accessed": true,
+    "test_used_for_selection": false,
+    "no_post_test_parameter_change": true
+  },
+  "classification": {
+    "L100": "POSITIVE_BELOW_TARGET",
+    "L500": "VALID_NO_INCREMENT_UNSTABLE_DEV_INTERNAL_TEST",
+    "target_U": 0.01,
+    "target_met": false
+  },
+  "interpretation": "L100 is consistently small positive on DEV/INTERNAL/Test but below 1% and Test bootstrap CIs cross zero. L500 is positive on DEV/Test but strongly negative on INTERNAL, so Test cannot rescue its instability."
+}

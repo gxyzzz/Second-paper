@@ -1,0 +1,151 @@
+{
+  "status": "COMPLETE_TEST_EVALUATED_AFTER_LOCK",
+  "protocol_version": "ROUND4_JOINT_SEMANTIC_PREFERENCE_V1",
+  "dataset": "baby",
+  "implementation_commit": "3a4d36d1763b07188f8e29a0d5fd70a8ea914263",
+  "locked_test_evaluator_commit": "3e20825adbe42fc620f4eda6650ba4e6b5aca01b",
+  "selection_lock_sha256": "6e3a9efc620e63b84710a33ac9236ea00870271abdb2afed4c75c56395992f97",
+  "asset_manifest_sha256": "1812bd0c45332904f1a65b606a0c469d4fb7b5d85162b491b675acbb2092b117",
+  "frozen_source": {
+    "backbone_sha256": "51ecfb8b49d7570f09b04ab984ca2f06ed904dd2fe974dadd2bbc6b4a8d3d8ef",
+    "protocol_sha256": "33c8e0ea7f81fe0d8d87e5547961217a1cc82a49106242038cca9b13a56bacbe",
+    "round1_embeddings_sha256": "a9860008f6c0143bd255f07bb2fb398643a074fa101f959cc35c2e2fb7d09e7a",
+    "round3_latent_sha256": "5705e9b0e48886a918efa7192755a6e8f56c9683097c5816bd3d900bad446d51",
+    "round3_pca_sha256": "6cabf1ba842f9e1096303f909f9b5017fec971fb60970a7450059b1cc14ac88c"
+  },
+  "formal_depths": [
+    100,
+    500
+  ],
+  "audit_depths": [
+    100,
+    200,
+    353,
+    500,
+    705,
+    1000
+  ],
+  "training_seeds": [
+    202610065,
+    202610066
+  ],
+  "selection": {
+    "100": {
+      "update": 400,
+      "eta": 0.05,
+      "mean_DEV_U": 0.0037247011985654783,
+      "DEV_seed_results": {
+        "202610065": {
+          "metrics": {
+            "R10": 0.06365850799948221,
+            "N10": 0.03456446360628232,
+            "R20": 0.0964653064223265,
+            "N20": 0.04285865676015965,
+            "R50": 0.1564493529393243,
+            "N50": 0.054807470638698064
+          },
+          "relative_primary": {
+            "R10": 0.0030871726597785885,
+            "N10": 0.0014555234312148494,
+            "R20": 0.008293725127738408,
+            "N20": 0.0041848078947495345
+          },
+          "U": 0.004255307278370345,
+          "delta_R50": 0.0,
+          "delta_N50": 8.636503984485455e-06,
+          "changed_users": 13271,
+          "delta_abs_mean_A": 0.024349279701709747,
+          "delta_saturation_rate_A": 0.02603377041211939
+        },
+        "202610066": {
+          "metrics": {
+            "R10": 0.06365850799948221,
+            "N10": 0.03457315743515497,
+            "R20": 0.09617142647228608,
+            "N20": 0.042797838127684104,
+            "R50": 0.1564493529393243,
+            "N50": 0.05481252545803985
+          },
+          "relative_primary": {
+            "R10": 0.0030871726597785885,
+            "N10": 0.001707414594446928,
+            "R20": 0.005221975080427871,
+            "N20": 0.0027598181403890583
+          },
+          "U": 0.0031940951187606117,
+          "delta_R50": 0.0,
+          "delta_N50": 1.369132332627171e-05,
+          "changed_users": 13243,
+          "delta_abs_mean_A": 0.024809589609503746,
+          "delta_saturation_rate_A": 0.03032740402976611
+        }
+      }
+    },
+    "500": {
+      "update": 200,
+      "eta": 0.2,
+      "mean_DEV_U": 0.0037942162797971056,
+      "DEV_seed_results": {
+        "202610065": {
+          "metrics": {
+            "R10": 0.06463198533399106,
+            "N10": 0.03479405496288144,
+            "R20": 0.09653877640983659,
+            "N20": 0.04287585686709874,
+            "R50": 0.1560704577180222,
+            "N50": 0.054763887259250736
+          },
+          "relative_primary": {
+            "R10": 0.0051416469320825255,
+            "N10": 0.0032014908494225856,
+            "R20": 0.0020972525990951736,
+            "N20": 0.0015423432321083556
+          },
+          "U": 0.00299568340317716,
+          "delta_R50": 0.0,
+          "delta_N50": 2.324688487759241e-05,
+          "changed_users": 13592,
+          "delta_abs_mean_A": 0.06483076512813568,
+          "delta_saturation_rate_A": 0.0
+        },
+        "202610066": {
+          "metrics": {
+            "R10": 0.0650177027684191,
+            "N10": 0.03492218458824237,
+            "R20": 0.09631836644730626,
+            "N20": 0.0428323313612617,
+            "R50": 0.1560704577180222,
+            "N50": 0.05477726928656749
+          },
+          "relative_primary": {
+            "R10": 0.011140235019512392,
+            "N10": 0.006895795273589143,
+            "R20": -0.00019065932719066676,
+            "N20": 0.000525625659757336
+          },
+          "U": 0.004592749156417051,
+          "delta_R50": 0.0,
+          "delta_N50": 3.662891219434472e-05,
+          "changed_users": 13603,
+          "delta_abs_mean_A": 0.05219173803925514,
+          "delta_saturation_rate_A": 4.29921381709998e-05
+        }
+      }
+    }
+  },
+  "selection_rule": "Two-seed mean DEV U selects one common registered update/eta per L; INTERNAL and Test cannot reselect.",
+  "test_authorization": {
+    "authorized_by_user": true,
+    "execution_rule": "Only after DEV lock and INTERNAL evaluation; no Test-based tuning or reselection.",
+    "test_evaluator_committed_before_test": true
+  },
+  "access": {
+    "DEV_USED_FOR_SELECTION": true,
+    "INTERNAL_USED_FOR_SELECTION": false,
+    "CONFIRM_ACCESSED": false,
+    "TEST_ACCESSED": true,
+    "TEST_USED_FOR_SELECTION": false
+  },
+  "historical_exposure": "Current Round4 Test was evaluated after lock, but Baby Test has historical project exposure; it is not fresh untouched external confirmation.",
+  "historical_full_training_comparison_source": "docs/evidence/archive/robustness/baby_multiseed/baby_seed1000_canonical_test.json"
+}
