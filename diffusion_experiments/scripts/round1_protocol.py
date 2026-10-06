@@ -164,7 +164,6 @@ def build_protocol(config_path: Path, out_dir: Path) -> dict:
             "confirm_users_frozen_closed": int(len(confirm_users)),
             "reranker_train_users": int(len(reranker_train_users)),
             "internal_users": int(len(internal_users)),
-            "test_rows_count_only": int((df.x_label == 2).sum()),
         },
         "excluded": excluded,
         "disjoint_checks": {

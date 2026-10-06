@@ -101,9 +101,16 @@ def main() -> None:
     )
     logger = logging.getLogger("round1_fit_backbone")
 
-    base = RecDataset(cfg)
     fit_df = _load_edges(protocol_dir / "fit_edges.csv")
     monitor_df = _load_edges(protocol_dir / "monitor_edges.csv")
+    # Strict Round1 cardinalities: users come from FIT; catalog items come from side information.
+    # Do not instantiate RecDataset from the full interaction table here.
+    n_users = int(fit_df["userID"].max()) + 1
+    n_items = int(__import__("numpy").load(ROOT / "data/baby/text_feat.npy", mmap_mode="r").shape[0])
+    base = RecDataset(cfg, fit_df.copy())
+    base.user_num = n_users
+    base.item_num = n_items
+    base.inter_num = len(fit_df)
     fit_ds = base.copy(fit_df)
     monitor_ds = base.copy(monitor_df)
     fit_ds.inter_num = len(fit_ds.df)
@@ -151,6 +158,7 @@ def main() -> None:
         "protocol_json": str((protocol_dir / "protocol.json").resolve()),
         "protocol_sha256": sha256_file(protocol_dir / "protocol.json"),
         "fit_edges_sha256": protocol["hashes"]["fit_edges"],
+        "cardinality_source": {"users": "FIT max userID + 1", "items": "text_feat.npy catalog rows"},
         "monitor_edges_sha256": protocol["hashes"]["monitor_edges"],
         "checkpoint": str(ckpt),
         "checkpoint_sha256": sha256_file(ckpt),
