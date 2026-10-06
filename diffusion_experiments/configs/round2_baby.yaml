@@ -1,0 +1,47 @@
+protocol_version: BPRD_ROUND2_V1
+source_dataset: baby
+round1_protocol_dir: diffusion_experiments/runs/round1/protocol_v2
+round1_assets_dir: diffusion_experiments/runs/round1/assets_formal
+round1_backbone_dir: diffusion_experiments/runs/round1/backbone_formal_v2
+expected_backbone_sha256: 51ecfb8b49d7570f09b04ab984ca2f06ed904dd2fe974dadd2bbc6b4a8d3d8ef
+expected_protocol_sha256: 33c8e0ea7f81fe0d8d87e5547961217a1cc82a49106242038cca9b13a56bacbe
+expected_feature_schema_sha256: 3c04d690aabc4d8cd2efc391a982392c8acab86870e4cdf9f8df2b2ffb964945
+supervision_mask_version: ROUND2_MONITOR_BLACKLIST_V1
+window_start_rank: 6
+window_end_rank: 30
+residual:
+  epsilon: 0.05
+  tau: 1.0
+  clip_c: 0.25
+  training_eta: 0.10
+  eta_candidates: [0.0, 0.05, 0.10, 0.20]
+model:
+  hidden_dim: 64
+  attention_heads: 4
+  attention_layers: 1
+  dropout: 0.10
+  diffusion_steps: 50
+  ddim_steps: 5
+  lambda_rank: 1.0
+  lambda_keep: 0.01
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  batch_size: 256
+formal:
+  training_seeds: [202610061, 202610062]
+  sampling_seeds: [202610071, 202610072, 202610073, 202610074]
+  max_epochs: 30
+  min_epochs: 10
+  eval_every: 5
+  patience_evals: 3
+  bootstrap_resamples: 1000
+  bootstrap_seed: 202610069
+protection:
+  min_nonnegative_primary: 3
+  max_primary_relative_regression: 0.005
+  min_absolute_delta_R50: -0.0005
+  min_absolute_delta_N50: -0.0005
+  target_U: 0.01
+access:
+  confirm_open: false
+  test_open: false
