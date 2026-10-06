@@ -1,0 +1,195 @@
+{
+  "status": "PASS",
+  "unit_harness": "ROUND3_TESTS_PASS 7",
+  "asset_status": "COMPLETE",
+  "strict_export_max_abs_diff": {
+    "final_user": 0.0,
+    "final_item": 0.0,
+    "collab_user": 0.0,
+    "collab_item": 0.0
+  },
+  "isolation": {
+    "train_internal_user_overlap": 0,
+    "known_positive_rejections_total": 4646,
+    "all_train_queries_have_3_negatives": true,
+    "confirm_accessed": false,
+    "test_accessed": false
+  },
+  "latent": {
+    "dim": 96,
+    "block_dims": {
+      "C": 32,
+      "T": 32,
+      "V": 32
+    },
+    "final_global_l2": false,
+    "schedule": [
+      {
+        "target_alpha_bar": 0.8,
+        "t_index_zero_based": 13,
+        "t_step_one_based": 14,
+        "alpha_bar": 0.8118710517883301,
+        "snr": 4.315503060564969,
+        "signal_rms": 0.901038876614321,
+        "noise_rms": 0.4336983929964619
+      },
+      {
+        "target_alpha_bar": 0.6,
+        "t_index_zero_based": 21,
+        "t_step_one_based": 22,
+        "alpha_bar": 0.5869153141975403,
+        "snr": 1.4208111178399088,
+        "signal_rms": 0.7661039864720244,
+        "noise_rms": 0.6423401218417664
+      },
+      {
+        "target_alpha_bar": 0.4,
+        "t_index_zero_based": 27,
+        "t_step_one_based": 28,
+        "alpha_bar": 0.40098926424980164,
+        "snr": 0.669419161156777,
+        "signal_rms": 0.6332371332352875,
+        "noise_rms": 0.7749619467185507
+      },
+      {
+        "target_alpha_bar": 0.2,
+        "t_index_zero_based": 34,
+        "t_step_one_based": 35,
+        "alpha_bar": 0.20312143862247467,
+        "snr": 0.25489635242708564,
+        "signal_rms": 0.45068995991591626,
+        "noise_rms": 0.8925977322410918
+      }
+    ],
+    "context_dim": 161
+  },
+  "backgrounds": {
+    "BG_DM": {
+      "status": "COMPLETE",
+      "model_hash": "35fdf37d2a077122c808c5b9be444cf4602f8b5a57fa9a36d8eaa0c3ecc868bf",
+      "scale_bg": 0.20548757910728455,
+      "optimizer_steps": 840,
+      "epochs": 30,
+      "last_loss": {
+        "epoch": 30,
+        "loss": 0.5187454727862744,
+        "block_mse": [
+          0.5135251745940945,
+          0.5203771555339191,
+          0.5223340319572611
+        ]
+      }
+    },
+    "BG_AE": {
+      "status": "COMPLETE",
+      "model_hash": "5034bb0fbf78695defbe962fab3d9d7ca119022724b7832b5bfdbfe1b006a36d",
+      "scale_bg": 0.14812302589416504,
+      "optimizer_steps": 840,
+      "epochs": 30,
+      "last_loss": {
+        "epoch": 30,
+        "loss": 0.4072197381739921,
+        "block_mse": [
+          0.410942314727932,
+          0.40606158513549373,
+          0.4046552984257962
+        ]
+      }
+    }
+  },
+  "fairness": {
+    "D_GEN_D_PREF_initial_hash_match_by_seed": {
+      "202610063": true,
+      "202610064": true
+    },
+    "all_frozen_background_hashes_unchanged": true,
+    "background_hash_match_by_run": {
+      "D_GEN_seed202610063": true,
+      "D_GEN_seed202610064": true,
+      "D_PREF_seed202610063": true,
+      "D_PREF_seed202610064": true,
+      "AE_PREF_seed202610063": true,
+      "AE_PREF_seed202610064": true
+    },
+    "same_registered_train_users_negatives": true,
+    "same_eta_grid_and_deployment": true
+  },
+  "formal_runs": {
+    "C_seed202610063": {
+      "status": "COMPLETE",
+      "git_sha": "8398307bb52d3657452def19ef5f04ca7eb9e6fd",
+      "closed_access": true
+    },
+    "C_seed202610064": {
+      "status": "COMPLETE",
+      "git_sha": "8398307bb52d3657452def19ef5f04ca7eb9e6fd",
+      "closed_access": true
+    },
+    "D_GEN_seed202610063": {
+      "status": "COMPLETE",
+      "git_sha": "8398307bb52d3657452def19ef5f04ca7eb9e6fd",
+      "closed_access": true
+    },
+    "D_GEN_seed202610064": {
+      "status": "COMPLETE",
+      "git_sha": "8398307bb52d3657452def19ef5f04ca7eb9e6fd",
+      "closed_access": true
+    },
+    "D_PREF_seed202610063": {
+      "status": "COMPLETE",
+      "git_sha": "8398307bb52d3657452def19ef5f04ca7eb9e6fd",
+      "closed_access": true
+    },
+    "D_PREF_seed202610064": {
+      "status": "COMPLETE",
+      "git_sha": "8398307bb52d3657452def19ef5f04ca7eb9e6fd",
+      "closed_access": true
+    },
+    "AE_PREF_seed202610063": {
+      "status": "COMPLETE",
+      "git_sha": "8398307bb52d3657452def19ef5f04ca7eb9e6fd",
+      "closed_access": true
+    },
+    "AE_PREF_seed202610064": {
+      "status": "COMPLETE",
+      "git_sha": "8398307bb52d3657452def19ef5f04ca7eb9e6fd",
+      "closed_access": true
+    }
+  },
+  "diagnostics": {
+    "analysis_status": "COMPLETE",
+    "D_PREF_TRUE_AUC_by_seed": {
+      "202610063": 0.4947916666666667,
+      "202610064": 0.49247685185185186
+    },
+    "D_PREF_gap_le_0p5_by_seed": {
+      "202610063": {
+        "pairs": 355,
+        "mean_margin": -0.031904928386211395,
+        "win_rate_auc": 0.49014084507042255
+      },
+      "202610064": {
+        "pairs": 355,
+        "mean_margin": -0.04344520717859268,
+        "win_rate_auc": 0.476056338028169
+      }
+    },
+    "bootstrap_seed": 202610069,
+    "bootstrap_resamples": 1000,
+    "main_secondary_bundles_both_recorded": true,
+    "common_epoch_eta010_recorded": true,
+    "g1_control_recorded": true,
+    "topK_transitions_recorded": true
+  },
+  "target": {
+    "U_target": 0.01,
+    "best_mean_DEV_method": "C",
+    "best_mean_DEV_U": 0.0046323906472833624,
+    "target_reached": false
+  },
+  "scientific_classification": {
+    "primary": "PREFERENCE_ALIGNMENT_NOT_SUPPORTED",
+    "broader": "VALID_EXPERIMENT_NO_DIFFUSION_ADVANTAGE",
+    "reason": "D_PREF increases TRAIN utility but has lower mean DEV and INTERNAL U than D_GEN; natural INTERNAL TRUE pair AUC is ~0.49 in both seeds; AE_PREF also exceeds D_PREF."
+  }
+}
