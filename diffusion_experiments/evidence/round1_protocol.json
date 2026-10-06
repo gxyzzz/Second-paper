@@ -1,0 +1,80 @@
+{
+  "protocol": {
+    "protocol_version": "BPRD_ROUND1_V1",
+    "dataset": "baby",
+    "source_interaction": "/home/gxy/code/Second-paper/data/baby/baby.inter",
+    "source_interaction_sha256": "9ef5de9a05949d973928cca113aacba12067ff8f104e310ef28ea42db00c17b1",
+    "split_seed": 2026100601,
+    "dev_confirm_seed": 2026100602,
+    "reranker_split_seed": 2026100603,
+    "fit_backbone_seed": 999,
+    "counts": {
+      "original_train_edges": 118551,
+      "fit_edges": 91657,
+      "monitor_edges": 13447,
+      "probe_edges": 13447,
+      "train_users": 19445,
+      "eligible_probe_users": 13447,
+      "ineligible_users": 5998,
+      "validation_users_total": 19445,
+      "dev_users": 13611,
+      "confirm_users_frozen_closed": 5834,
+      "reranker_train_users": 10757,
+      "internal_users": 2690
+    },
+    "excluded": {
+      "train_history_lt_required": 5998
+    },
+    "disjoint_checks": {
+      "probe_monitor_row_overlap": 0,
+      "probe_fit_user_item_pair_overlap": 0,
+      "eligible_min_fit_history": 2,
+      "PASS": true
+    },
+    "hashes": {
+      "fit_edges": "14368c5a2c7da8bec825f2a31f9255d63566e2977125cf6a155dcd040cd2f57d",
+      "monitor_edges": "409ecee7af9e2c4c314f15de009a0340a084b6f1cb972dce573b92bad141a694",
+      "probe_edges": "5641440124cb41de4a157c320487572872da071e0947943392ead58c840b9450",
+      "dev_users": "a21e0e701b5dd8e99a7867c08a91bb44103930506ecda46469989ff249fabaaf",
+      "confirm_users": "16a11bdbb51cdd0ad6a0407b5ccc8b2064b7e83ca26af72d3f65a1c1fbfbc3a5",
+      "reranker_train_users": "4a7f326453beb57a2f9fba75dfb97963d490e09505728901fea3f248b013f04d",
+      "internal_users": "c18a91eddea5751ebced9ba04a30f4f7c59606ebdc3a53c21c8d78faf96a9e0a"
+    },
+    "access": {
+      "CONFIRM_ACCESSED": false,
+      "TEST_ACCESSED": false,
+      "TEST_USED_FOR_SELECTION": false
+    },
+    "notes": {
+      "fit_backbone_prototype": true,
+      "ineligible_users": "retained in FIT but do not contribute supervised probe queries",
+      "confirm": "user IDs frozen only; CONFIRM labels are not evaluated in Round1"
+    }
+  },
+  "valid_backbone_binding": {
+    "best_epoch": 30,
+    "checkpoint_sha256": "51ecfb8b49d7570f09b04ab984ca2f06ed904dd2fe974dadd2bbc6b4a8d3d8ef",
+    "fit_edges_sha256": "14368c5a2c7da8bec825f2a31f9255d63566e2977125cf6a155dcd040cd2f57d",
+    "monitor_edges_sha256": "409ecee7af9e2c4c314f15de009a0340a084b6f1cb972dce573b92bad141a694",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "elapsed_seconds": 282.8217179775238
+  },
+  "asset_binding": {
+    "checkpoint_sha256": "51ecfb8b49d7570f09b04ab984ca2f06ed904dd2fe974dadd2bbc6b4a8d3d8ef",
+    "protocol_sha256": "33c8e0ea7f81fe0d8d87e5547961217a1cc82a49106242038cca9b13a56bacbe",
+    "fit_edges_sha256": "14368c5a2c7da8bec825f2a31f9255d63566e2977125cf6a155dcd040cd2f57d",
+    "feature_schema_sha256": "3c04d690aabc4d8cd2efc391a982392c8acab86870e4cdf9f8df2b2ffb964945",
+    "artifact_hashes": {
+      "probe_top100.npz": "769fd68b01528ea9fa30676675ca9543089b07476f36ae0ad2c8718fdbbe5527",
+      "dev_top100.npz": "329f9dbc7962a4f5699cabb072a34c73138fc5b6b6a6f4d3dfb85dd5e1073965",
+      "probe_targets.npz": "76756d9ad52983798bb4c78fa93c289382979b6b82bffca2b17cef011b271314",
+      "embeddings.npz": "a9860008f6c0143bd255f07bb2fb398643a074fa101f959cc35c2e2fb7d09e7a",
+      "backgrounds.npz": "dc7102ec578b8e87497999368ccdc09f3e34795a04c0be21d60abb30c28cb099"
+    }
+  },
+  "access": {
+    "CONFIRM_ACCESSED": false,
+    "TEST_ACCESSED": false,
+    "TEST_USED_FOR_SELECTION": false
+  }
+}
