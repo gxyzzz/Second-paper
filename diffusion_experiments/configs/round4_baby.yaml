@@ -1,0 +1,64 @@
+protocol_version: ROUND4_JOINT_SEMANTIC_PREFERENCE_V1
+dataset: baby
+protocol_dir: diffusion_experiments/runs/round1/protocol_v2
+backbone_training_json: diffusion_experiments/runs/round1/backbone_formal_v2/training.json
+frozen_round1_assets: diffusion_experiments/runs/round1/assets_formal
+round3_assets: diffusion_experiments/runs/round3/assets_formal
+expected_backbone_sha256: 51ecfb8b49d7570f09b04ab984ca2f06ed904dd2fe974dadd2bbc6b4a8d3d8ef
+expected_protocol_sha256: 33c8e0ea7f81fe0d8d87e5547961217a1cc82a49106242038cca9b13a56bacbe
+expected_round3_latent_sha256: 5705e9b0e48886a918efa7192755a6e8f56c9683097c5816bd3d900bad446d51
+expected_round3_pca_sha256: 6cabf1ba842f9e1096303f909f9b5017fec971fb60970a7450059b1cc14ac88c
+asset_seed: 202610067
+supervision_seed: 202610068
+training_seeds: [202610065, 202610066]
+audit_depths: [100, 200, 353, 500, 705, 1000]
+formal_depths: [100, 500]
+boundary:
+  max_items: 64
+  per_cutoff_quota: 32
+  score_distance: 0.5
+  exclude_rank_le: 5
+pairing:
+  max_score_gap: 0.40
+  preferred_log_degree_gap: 0.5
+  preferred_rank_ratio: 2.0
+  max_negatives: 3
+  min_queries: 256
+  min_boundary_queries: 128
+  boundary_sampling_weight: 2.0
+shortcut:
+  fail_train_win: 0.65
+  opposite_boundary_threshold: 0.5
+noise:
+  diffusion_steps: 50
+  cosine_s: 0.008
+  tx_clean_probability: 0.25
+  ty_mask_endpoint_probability: 0.50
+model:
+  hidden_dim: 128
+  layers: 2
+  dropout: 0.10
+  time_dim: 16
+  label_dim: 16
+  learning_rate: 0.0003
+  weight_decay: 0.001
+  grad_clip: 1.0
+  supervised_batch_queries: 128
+  unlabeled_batch_queries: 128
+  warmup_updates: 100
+  max_updates: 1200
+  checkpoint_updates: [200, 400, 800, 1200]
+  lambda_diff: 0.10
+  lambda_logit_l2: 0.0001
+  deploy_eta_train: 0.20
+  deploy_temperature: 0.10
+selection:
+  eta_candidates: [0.0, 0.05, 0.10, 0.20]
+  max_ndcg_relative_drop: 0.005
+bootstrap:
+  resamples: 1000
+  seed: 202610069
+access:
+  confirm_open: false
+  test_open: false
+  test_authorized_by_user_after_lock: true
