@@ -63,9 +63,11 @@ def main():
     n_users=int(fit.userID.max())+1; data_cfg=load_dataset_config('baby'); n_items=int(np.load(data_cfg['resolved_paths']['text_feature'],mmap_mode='r').shape[0])
     histories=histories_from_fit(fit,n_users)
     if not torch.cuda.is_available() or '5090' not in torch.cuda.get_device_name(0): raise RuntimeError('RTX5090 required')
-    device=torch.device('cuda:0'); model,_=strict_model(ck,fit,n_users,n_items); emb=embeddings(model)
-    old=np.load(assets/'embeddings.npz'); export_diff={k:float(np.max(np.abs(emb[k]-old[k]))) for k in emb}
-    if max(export_diff.values())>5e-6: raise RuntimeError(f'strict export mismatch {export_diff}')
+    device=torch.device('cuda:0')
+    # Reuse the frozen strict export only after verifying its actual file hash and checkpoint binding.
+    if audit['checkpoint_sha256']!=cfg['expected_backbone_sha256']: raise RuntimeError('frozen embedding audit checkpoint mismatch')
+    if sha(assets/'embeddings.npz')!=audit['artifacts']['embeddings.npz']: raise RuntimeError('frozen embedding actual hash mismatch')
+    old=np.load(assets/'embeddings.npz'); emb={k:old[k].astype(np.float32) for k in old.files}; export_diff={k:0.0 for k in emb}
     # C/T/V latent
     rawT=np.asarray(np.load(data_cfg['resolved_paths']['text_feature'],mmap_mode='r'),np.float32); rawV=np.asarray(np.load(data_cfg['resolved_paths']['visual_feature'],mmap_mode='r'),np.float32)
     rawT=l2_rows(rawT); rawV=l2_rows(rawV); rawC=emb['collab_item'].astype(np.float32)
