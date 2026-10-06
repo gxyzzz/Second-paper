@@ -56,18 +56,18 @@ def main():
     max_epochs=2 if a.mode=='smoke' else int(formal['max_epochs']); eval_every=1 if a.mode=='smoke' else int(formal['eval_every']); min_epoch=1 if a.mode=='smoke' else int(formal['min_epochs']); patience=int(formal['patience_evals']); batch=int(mc['batch_size']); alpha=cosine_alpha_bars(int(mc['diffusion_steps']),device=device)
     hist=[]; best=None; bad=0; start=time.time(); shared=list(model.cond.parameters())
     for epoch in range(1,max_epochs+1):
-        model.train(); rng=np.random.default_rng(a.seed+epoch); sums={'loss':0.,'diff':0.,'rank':0.,'keep':0.,'n':0}; gb=None; low=[]; high=[]
+        model.train(); rng=np.random.default_rng(a.seed+epoch); sums={'loss':0.,'diff':0.,'rank':0.,'keep':0.,'n':0}; gb=None; low=[]; high=[]; snr_low=[]; snr_mid=[]; snr_high=[]
         for rows in batches(sup_idx,batch,rng):
             f=torch.as_tensor(xfeat[rows],device=device); clean=torch.as_tensor(x0_by_row[rows],device=device); sb=torch.as_tensor(s0w[rows],device=device); pos=torch.as_tensor(pos_by_row[rows],device=device)
             if a.model=='deterministic': pred=model(f); ldiff=F.mse_loss(pred,clean); t=None
             else:
-                t=torch.randint(0,len(alpha),(len(rows),),device=device); eps=project_zero_mean(torch.randn_like(clean)); at=alpha[t][:,None]; xt=at.sqrt()*clean+(1-at).sqrt()*eps; pred=model(xt,t,f); per=((pred-clean)**2).mean(1); ldiff=per.mean(); low.extend(per[t<len(alpha)//3].detach().cpu().tolist()); high.extend(per[t>=2*len(alpha)//3].detach().cpu().tolist())
+                t=torch.randint(0,len(alpha),(len(rows),),device=device); eps=project_zero_mean(torch.randn_like(clean)); at=alpha[t][:,None]; xt=at.sqrt()*clean+(1-at).sqrt()*eps; pred=model(xt,t,f); per=((pred-clean)**2).mean(1); ldiff=per.mean(); low_mask=t<len(alpha)//3; high_mask=t>=2*len(alpha)//3; mid_mask=~(low_mask|high_mask); low.extend(per[low_mask].detach().cpu().tolist()); high.extend(per[high_mask].detach().cpu().tolist()); sig=(at*clean.pow(2)).mean(1); noi=((1-at)*eps.pow(2)).mean(1).clamp_min(1e-12); snr=(sig/noi).detach(); snr_low.extend(snr[low_mask].cpu().tolist()); snr_mid.extend(snr[mid_mask].cpu().tolist()); snr_high.extend(snr[high_mask].cpu().tolist())
             deployed=deploy_scores(sb,pred,sigma,float(rc['training_eta']),float(rc['clip_c']),float(rc['tau'])); ps=deployed.gather(1,pos[:,None]); mask=torch.ones_like(deployed,dtype=torch.bool); mask.scatter_(1,pos[:,None],False); lrank=F.softplus(-(ps.expand_as(deployed)[mask]-deployed[mask])).mean(); lkeep=(pred**2).mean(); loss=ldiff+float(mc['lambda_rank'])*lrank+float(mc['lambda_keep'])*lkeep
             if gb is None: gb={'diff':grad_norm(ldiff,shared),'rank':grad_norm(lrank,shared),'keep':grad_norm(lkeep,shared)}
             opt.zero_grad(set_to_none=True); loss.backward(); torch.nn.utils.clip_grad_norm_(model.parameters(),5.0); opt.step()
             n=len(rows); sums['loss']+=float(loss)*n; sums['diff']+=float(ldiff)*n; sums['rank']+=float(lrank)*n; sums['keep']+=float(lkeep)*n; sums['n']+=n
         rec={'epoch':epoch,'train':{k:(v/max(sums['n'],1) if k!='n' else int(v)) for k,v in sums.items()},'grad_norm_shared':gb}
-        if a.model=='diffusion': rec['timestep_mse']={'low':float(np.mean(low)) if low else None,'high':float(np.mean(high)) if high else None}
+        if a.model=='diffusion': rec['timestep_mse']={'low':float(np.mean(low)) if low else None,'high':float(np.mean(high)) if high else None}; rec['empirical_snr']={'low_t':float(np.mean(snr_low)) if snr_low else None,'mid_t':float(np.mean(snr_mid)) if snr_mid else None,'high_t':float(np.mean(snr_high)) if snr_high else None}
         if epoch%eval_every==0:
             model.eval(); pred_parts=[]; seed_parts={int(s):[] for s in formal['sampling_seeds']}
             with torch.no_grad():
@@ -107,6 +107,6 @@ def main():
     git_sha=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
     git_dirty=bool(subprocess.check_output(['git','status','--porcelain'],cwd=ROOT,text=True).strip())
     asset_hashes={name:hashlib.sha256((assets/name).read_bytes()).hexdigest() for name in ['audit.json','probe_top100.npz','dev_top100.npz','probe_targets.npz']}
-    result={'status':'COMPLETE','git_sha':git_sha,'git_dirty':git_dirty,'asset_hashes':asset_hashes,'model':a.model,'seed':a.seed,'mode':a.mode,'parameter_count':nparams,'supervised_train_queries':int(sup.sum()),'no_positive_window_train_queries':int(rr.sum()-sup.sum()),'supervised_internal_queries':int(insup.sum()),'sigma_r':sigma,'residual_rms_before_scale':sigma,'best':best,'epochs_completed':len(hist),'elapsed_seconds':time.time()-start,'gpu_name':torch.cuda.get_device_name(0),'access':{'CONFIRM_ACCESSED':False,'TEST_ACCESSED':False},'assets_audit':str((assets/'audit.json').resolve())}
+    result={'status':'COMPLETE','git_sha':git_sha,'git_dirty':git_dirty,'asset_hashes':asset_hashes,'model':a.model,'seed':a.seed,'mode':a.mode,'parameter_count':nparams,'supervised_train_queries':int(sup.sum()),'no_positive_window_train_queries':int(rr.sum()-sup.sum()),'no_positive_loss_policy':'excluded from L_diff/L_rank; no future-negative assumption; evaluated at deployment','supervised_internal_queries':int(insup.sum()),'sigma_r':sigma,'residual_rms_before_scale':sigma,'best':best,'epochs_completed':len(hist),'elapsed_seconds':time.time()-start,'gpu_name':torch.cuda.get_device_name(0),'access':{'CONFIRM_ACCESSED':False,'TEST_ACCESSED':False},'assets_audit':str((assets/'audit.json').resolve())}
     (out/'result.json').write_text(json.dumps(result,indent=2)+'\n'); print(json.dumps(result,sort_keys=True))
 if __name__=='__main__': main()
