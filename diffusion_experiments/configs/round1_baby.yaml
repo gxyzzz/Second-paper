@@ -1,0 +1,52 @@
+protocol_version: BPRD_ROUND1_V1
+source_dataset: baby
+split_seed: 2026100601
+dev_confirm_seed: 2026100602
+reranker_split_seed: 2026100603
+fit_backbone_seed: 999
+min_fit_history_after_holds: 2
+probe_per_eligible_user: 1
+monitor_per_eligible_user: 1
+validation_dev_fraction: 0.70
+reranker_train_fraction: 0.80
+window_start_rank: 6
+window_end_rank: 30
+top_l: 100
+residual:
+  epsilon: 0.05
+  tau: 1.0
+  clip_c: 0.25
+  training_eta: 0.10
+  eta_candidates: [0.0, 0.05, 0.10, 0.20]
+model:
+  hidden_dim: 64
+  attention_heads: 4
+  attention_layers: 1
+  dropout: 0.10
+  diffusion_steps: 50
+  cosine_s: 0.008
+  ddim_steps: 5
+  lambda_rank: 1.0
+  lambda_keep: 0.01
+  learning_rate: 0.001
+  weight_decay: 0.0001
+  batch_size: 256
+formal:
+  training_seeds: [202610061, 202610062]
+  sampling_seeds: [202610071, 202610072, 202610073, 202610074]
+  max_epochs: 30
+  min_epochs: 10
+  eval_every: 5
+  patience_evals: 3
+bootstrap:
+  resamples: 1000
+  seed: 202610069
+protection:
+  min_nonnegative_primary: 3
+  max_primary_relative_regression: 0.005
+  min_absolute_delta_R50: -0.0005
+  min_absolute_delta_N50: -0.0005
+  target_U: 0.01
+access:
+  confirm_open: false
+  test_open: false
