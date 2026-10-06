@@ -61,8 +61,12 @@ def main():
     if set(rr_users)&set(int_users): raise RuntimeError('TRAIN/INTERNAL user overlap')
     if pairset(fit)&pairset(probe_edges) or pairset(fit)&pairset(mon): raise RuntimeError('held edge leaked into FIT')
     fz=np.load(assets/'probe_top100.npz'); tz=np.load(assets/'probe_targets.npz'); dz=np.load(assets/'dev_top100.npz')
-    if not np.array_equal(fz['users'],tz['users']) or not np.array_equal(fz['users'],probe_edges.userID.to_numpy(np.int64)): raise RuntimeError('probe user order mismatch')
-    if not np.array_equal(dz['users'],dev_users): raise RuntimeError('DEV order mismatch')
+    # Materialize compressed NPZ arrays once; repeated key access would re-decompress whole arrays per query.
+    f_users=fz['users'].astype(np.int64); f_items=fz['items'].astype(np.int32); f_s0=fz['s0'].astype(np.float32); f_features=fz['features'].astype(np.float32); f_names=fz['feature_names'].copy()
+    t_users=tz['users'].astype(np.int64); t_items=tz['target_items'].astype(np.int32); t_rank=tz['target_rank'].astype(np.int16); t_rr=tz['reranker_train'].astype(bool); t_internal=tz['internal'].astype(bool)
+    d_users=dz['users'].astype(np.int64); d_items=dz['items'].astype(np.int32); d_s0=dz['s0'].astype(np.float32)
+    if not np.array_equal(f_users,t_users) or not np.array_equal(f_users,probe_edges.userID.to_numpy(np.int64)): raise RuntimeError('probe user order mismatch')
+    if not np.array_equal(d_users,dev_users): raise RuntimeError('DEV order mismatch')
     n_users=int(fit.userID.max())+1; data_cfg=load_dataset_config('baby'); n_items=int(np.load(data_cfg['resolved_paths']['text_feature'],mmap_mode='r').shape[0])
     histories=histories_from_fit(fit,n_users)
     if not torch.cuda.is_available() or '5090' not in torch.cuda.get_device_name(0): raise RuntimeError('RTX5090 required')
@@ -87,13 +91,13 @@ def main():
     ctx_raw=np.concatenate([emb['collab_user'].astype(np.float32),hmean,np.log1p(hlen)[:,None]],axis=1)
     cm=ctx_raw[rr_users].mean(0,dtype=np.float64).astype(np.float32); cs=ctx_raw[rr_users].std(0,dtype=np.float64).astype(np.float32); cs=np.maximum(cs,floor); ctx=((ctx_raw-cm)/cs).astype(np.float32)
     # fixed negative supervision for every reranker TRAIN user
-    row_of={int(u):i for i,u in enumerate(fz['users'].astype(np.int64))}; probe_map=dict(zip(tz['users'].astype(int),tz['target_items'].astype(int)))
+    row_of={int(u):i for i,u in enumerate(f_users)}; probe_map=dict(zip(t_users.astype(int),t_items.astype(int)))
     fit_map={int(u):set(g.itemID.astype(int).tolist()) for u,g in fit.groupby('userID')}; mon_map={int(u):set(g.itemID.astype(int).tolist()) for u,g in mon.groupby('userID')}
     neg_items=np.full((len(rr_users),3),-1,np.int32); neg_rank=np.zeros((len(rr_users),3),np.int16); neg_mask=np.zeros((len(rr_users),3),bool); neg_source=np.full((len(rr_users),3),'',dtype='U24'); gap10=np.full((len(rr_users),3),np.nan,np.float32); gap20=np.full((len(rr_users),3),np.nan,np.float32); disagree=np.full((len(rr_users),3),np.nan,np.float32)
     positive=np.array([probe_map[int(u)] for u in rr_users],np.int32); natural_rank=np.zeros(len(rr_users),np.int16); rejected_known=0; fallback_count=0; insufficient=0
-    fnames=[str(x) for x in fz['feature_names'].tolist()]; dis_idx=fnames.index('cos_disagreement')
+    fnames=[str(x) for x in f_names.tolist()]; dis_idx=fnames.index('cos_disagreement')
     for qi,u in enumerate(rr_users):
-        r=row_of[int(u)]; cand=fz['items'][r].astype(np.int32); sc=fz['s0'][r].astype(np.float32); known=set(fit_map.get(int(u),set()))|set(mon_map.get(int(u),set()))|{int(positive[qi])}
+        r=row_of[int(u)]; cand=f_items[r]; sc=f_s0[r]; known=set(fit_map.get(int(u),set()))|set(mon_map.get(int(u),set()))|{int(positive[qi])}
         pp=np.flatnonzero(cand==positive[qi]); natural_rank[qi]=int(pp[0])+1 if len(pp) else 0
         legal=np.array([j for j,it in enumerate(cand) if int(it) not in known],np.int64); rejected_known += int(100-len(legal))
         rng=np.random.default_rng(int(cfg['supervision_seed'])+int(u)*1000003)
@@ -107,7 +111,7 @@ def main():
             if not pool: break
             j=int(rng.choice(np.asarray(pool,np.int64))); chosen.append(j); k=len(chosen)-1
             neg_items[qi,k]=cand[j]; neg_rank[qi,k]=j+1; neg_mask[qi,k]=True; neg_source[qi,k]=src
-            gap10[qi,k]=sc[j]-sc[9]; gap20[qi,k]=sc[j]-sc[19]; disagree[qi,k]=float(fz['features'][r,j,dis_idx])
+            gap10[qi,k]=sc[j]-sc[9]; gap20[qi,k]=sc[j]-sc[19]; disagree[qi,k]=float(f_features[r,j,dis_idx])
         if len(chosen)<3: insufficient+=1
     # schedule mapping
     ab=cosine_alpha_bars(int(cfg['noise']['diffusion_steps'])).cpu().numpy(); used=set(); schedule=[]
@@ -118,11 +122,11 @@ def main():
         schedule.append({'target_alpha_bar':float(target),'t_index_zero_based':idx,'t_step_one_based':idx+1,'alpha_bar':aa,'snr':aa/max(1-aa,1e-12),'signal_rms':float(np.sqrt(np.mean(sig*sig))),'noise_rms':float(np.sqrt(np.mean(noi*noi)))})
     ae_t=min(schedule,key=lambda x:abs(x['target_alpha_bar']-.6))['t_index_zero_based']
     # offline optimistic DEV oracle, labels never enter model/gate
-    dlabels=dev_labels(data_cfg['resolved_paths']['interaction'],dev_users); base=metrics_at(dz['items'],dev_users,dlabels); oracle_score=dz['s0'].astype(np.float32).copy()
+    dlabels=dev_labels(data_cfg['resolved_paths']['interaction'],dev_users); base=metrics_at(d_items,dev_users,dlabels); oracle_score=d_s0.copy()
     for r,u in enumerate(dev_users):
         lab=dlabels[int(u)]
-        for j in range(5,30): oracle_score[r,j]+=0.25 if int(dz['items'][r,j]) in lab else -0.25
-    oracle_items=rerank_window(dz['items'].astype(np.int32),oracle_score,5,30); oracle=rel_result(base,metrics_at(oracle_items,dev_users,dlabels))
+        for j in range(5,30): oracle_score[r,j]+=0.25 if int(d_items[r,j]) in lab else -0.25
+    oracle_items=rerank_window(d_items,oracle_score,5,30); oracle=rel_result(base,metrics_at(oracle_items,dev_users,dlabels))
     for k in ALL:
         if abs(float(base[k])-float(audit['dev']['coliftrec_metrics'][k]))>1e-12: raise RuntimeError(f'baseline replay mismatch {k}')
     if oracle['U']<float(cfg['protection']['target_U']): raise RuntimeError(f'oracle bound below target: {oracle}')
