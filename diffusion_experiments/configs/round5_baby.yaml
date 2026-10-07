@@ -1,0 +1,61 @@
+protocol_version: ROUND5_BEHAVIOR_DIFFUSION_CURRICULUM_V1
+dataset: baby
+protocol_dir: diffusion_experiments/runs/round1/protocol_v2
+teacher_training_json: diffusion_experiments/runs/round1/backbone_formal_v2/training.json
+round1_assets: diffusion_experiments/runs/round1/assets_formal
+round3_assets: diffusion_experiments/runs/round3/assets_formal
+expected_teacher_sha256: 51ecfb8b49d7570f09b04ab984ca2f06ed904dd2fe974dadd2bbc6b4a8d3d8ef
+expected_protocol_sha256: 33c8e0ea7f81fe0d8d87e5547961217a1cc82a49106242038cca9b13a56bacbe
+expected_round3_latent_sha256: 5705e9b0e48886a918efa7192755a6e8f56c9683097c5816bd3d900bad446d51
+expected_round3_pca_sha256: 6cabf1ba842f9e1096303f909f9b5017fec971fb60970a7450059b1cc14ac88c
+teacher_seed: 999
+formal_seeds: [202610071, 202610072]
+L_train: 500
+L_eval: 100
+candidate:
+  cutoffs: [10, 20]
+  exclude_rank_le: 5
+  max_score_distance: 0.5
+  per_cutoff_quota: 32
+  max_items: 64
+  content_keep_fraction: 0.5
+  grounding_per_state: 5
+behavior_diffusion:
+  steps: 50
+  cosine_s: 0.008
+  hidden_dim: 128
+  hidden_layers: 2
+  time_dim: 32
+  dropout: 0.05
+  lr: 0.0003
+  weight_decay: 0.0001
+  grad_clip: 1.0
+  batch_size: 512
+  updates: 3000
+  ddim_path: [50,45,40,35,30,25,20,15,10,5,0]
+  save_states: [35,25,15]
+continuation:
+  epochs: 20
+  batch_size: 2048
+  lr: 0.001
+  weight_decay: 0.0
+  checkpoints: [0,5,10,15,20]
+  refresh_epochs: [0,5,10,15]
+  replacement_schedule:
+    - {start_epoch: 1, end_epoch: 5, probability: 0.05, hardness_bin: low}
+    - {start_epoch: 6, end_epoch: 10, probability: 0.10, hardness_bin: mid}
+    - {start_epoch: 11, end_epoch: 20, probability: 0.20, hardness_bin: high}
+bootstrap:
+  resamples: 1000
+  seed: 202610079
+selection:
+  metric: mean_relative_primary_vs_B0
+  tie_break: earlier_epoch
+  checkpoints: [0,5,10,15,20]
+target_U: 0.01
+access:
+  confirm_open: false
+  test_open_initially: false
+  test_authorized_by_user_after_lock: true
+  test_authorization_date: '2026-10-07'
+  test_authorization_note: 'User explicitly requested this Round5 to include locked Test and compare with MSCA and MSCA+CoLiftRec Test; Test must not affect epoch, seed, sampler, L, or any parameter selection.'
