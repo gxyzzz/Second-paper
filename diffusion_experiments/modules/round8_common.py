@@ -5,7 +5,7 @@ import numpy as np
 import yaml
 ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT)); sys.path.insert(0,str(ROOT/'src'))
-from modules.ranking import sha256_file
+from modules.ranking import sha256_file, metrics_at
 from diffusion_experiments.modules.round7_common import (
  PRIMARY,ALL_METRICS,load_interactions,train_frame,unique_histories,label_sets,
  fit_cf_statistics,fit_user_statistics,build_history_arrays,m1_sorted,build_boundary_mask,
