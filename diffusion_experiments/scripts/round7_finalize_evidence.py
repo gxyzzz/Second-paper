@@ -190,7 +190,7 @@ def main():
                 "K20_decrease": result["K20"]["decrease"] if model == "M2" else 0,
             })
     with open(EVID / "round7_results.csv", "w", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=columns)
+        writer = csv.DictWriter(f, fieldnames=columns, lineterminator="\n")
         writer.writeheader(); writer.writerows(rows)
 
     table = lock["eta_validation_table"]
@@ -204,8 +204,10 @@ def main():
 
     report = f"""# Round7 Report — Historical-Anchored Collaborative Preference Completion
 
-Protocol: `ROUND7_ANCHORED_COLLABORATIVE_PREFERENCE_COMPLETION_V1`  
-Final verdict: **NO_INCREMENT**  
+Protocol: `ROUND7_ANCHORED_COLLABORATIVE_PREFERENCE_COMPLETION_V1`
+
+Final verdict: **NO_INCREMENT**
+
 Scope: **Baby only**. Sports/Elec expansion was frozen to `false` before Test.
 
 ## Direct answers

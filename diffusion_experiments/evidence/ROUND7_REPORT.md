@@ -1,7 +1,9 @@
 # Round7 Report — Historical-Anchored Collaborative Preference Completion
 
-Protocol: `ROUND7_ANCHORED_COLLABORATIVE_PREFERENCE_COMPLETION_V1`  
-Final verdict: **NO_INCREMENT**  
+Protocol: `ROUND7_ANCHORED_COLLABORATIVE_PREFERENCE_COMPLETION_V1`
+
+Final verdict: **NO_INCREMENT**
+
 Scope: **Baby only**. Sports/Elec expansion was frozen to `false` before Test.
 
 ## Direct answers
