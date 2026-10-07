@@ -1,0 +1,43 @@
+{
+  "implementation_valid": true,
+  "degree_index_fix_independently_reproduced": true,
+  "degree_replay_exact": true,
+  "risk_mode_raw_cf_dot_mean": true,
+  "inverse_standardization_max_abs_diff": 1.1920928955078125e-07,
+  "linearity_max_abs_diff": 1.9073486328125e-06,
+  "cpu_gpu_score_max_abs_diff": 9.5367431640625e-07,
+  "generator081_reused_formal_checkpoint": true,
+  "generator082_completed_same_setup": true,
+  "risk_gate_081_pass": true,
+  "risk_gate_082_pass": true,
+  "risk_classification": "RISK_DIRECTION_PASS",
+  "personalization_classification": "PERSONALIZATION_UNRESOLVED",
+  "baseline_999_reproduction_pass": true,
+  "same_initial_model_per_seed": {
+    "999": true,
+    "1000": true
+  },
+  "same_base_plan_per_seed": {
+    "999": true,
+    "1000": true
+  },
+  "D_auxiliary_consumed": {
+    "999": true,
+    "1000": true
+  },
+  "all_student_training_eval_access_closed": true,
+  "selection_lock_matches_dev_internal": true,
+  "selection_lock_matches_test": true,
+  "effect_classification": "NO_INCREMENT",
+  "DEV_mean_U": -0.0022751378275337594,
+  "INTERNAL_mean_U": -0.012922109414176272,
+  "TEST_mean_U": -0.016042916004563305,
+  "target_met": false,
+  "CONFIRM_ACCESSED": false,
+  "TEST_USED_FOR_SELECTION": false,
+  "no_post_test_tuning": true,
+  "exact_peak_gpu_memory_instrumented": false,
+  "observed_live_gpu_memory_mib_approx": 1495,
+  "instrumentation_note": "Exact per-run peak GPU memory was not logged in result.json. About 1495 MiB total device memory was observed live during B1000; this is approximate and not a formal peak measurement.",
+  "label_free_posthoc_completed": true
+}

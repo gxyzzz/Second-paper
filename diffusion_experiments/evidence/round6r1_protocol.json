@@ -1,0 +1,84 @@
+{
+  "protocol_version": "ROUND6R1_RAW_CF_DOT_WEIGHT_V1",
+  "dataset": "Baby",
+  "branch": "exp/round6r1-rawdot-20261007",
+  "implementation_git_sha": "0c2db56f110a247164f2cb7a2eb89498f5e9293b",
+  "target_U": 0.01,
+  "corrected_degree_replay": {
+    "CAL_queries": 561,
+    "CAL_pair_win": 0.5064944216460628,
+    "EVAL_queries": 224,
+    "EVAL_pair_win": 0.4957162419470303
+  },
+  "generators": {
+    "202610081": {
+      "reused_round6_formal": true,
+      "sha256": "bddbc31240cced37e8cd6b07d9715c33f22e1fae0be7793a0e23991fefd8a025",
+      "updates": 3000
+    },
+    "202610082": {
+      "reused_round6_formal": false,
+      "sha256": "180577b173f3f5fef2e796b90b836bd9f1d8cf18cd2551dde83d6884124d9b30",
+      "updates": 3000
+    }
+  },
+  "risk_mode": "raw_cf_dot_mean",
+  "risk_preflight_paths": {
+    "202610081": "diffusion_experiments/runs/round6r1/risk_seed202610081/preflight.json",
+    "202610082": "diffusion_experiments/runs/round6r1/risk_seed202610082/preflight.json"
+  },
+  "base_plans": {
+    "999": {
+      "sha256": "e1cbfaa4cfbbb58ef487cb397e300866429043ecb598b20d48965a2588d1a99b",
+      "epochs": 100,
+      "events_per_epoch": 91657
+    },
+    "1000": {
+      "sha256": "ea23c0a6ef3df9b1db8feaa1ce3d9da436f967d095d67751ba3a2f2d93eb046a",
+      "epochs": 100,
+      "events_per_epoch": 91657
+    }
+  },
+  "students": {
+    "B_seed999": {
+      "best_epoch": 31,
+      "best_monitor_R20": 0.09139585037554845,
+      "checkpoint_sha256": "148040c7145a9fd2aa3191cd7baebab574b159001274e82741c64651d68e493e",
+      "initial_model_hash": "136c11daa58dcdbe6be41cb569e03a6c3967b395923eaf3e96196b7ffced6bfb",
+      "base_plan_sha256": "e1cbfaa4cfbbb58ef487cb397e300866429043ecb598b20d48965a2588d1a99b"
+    },
+    "D_seed999": {
+      "best_epoch": 28,
+      "best_monitor_R20": 0.09139585037554845,
+      "checkpoint_sha256": "3ba0443387c0f3a0b8ef055157352a1191e14df40a6445114bf6de66720a86fc",
+      "initial_model_hash": "136c11daa58dcdbe6be41cb569e03a6c3967b395923eaf3e96196b7ffced6bfb",
+      "base_plan_sha256": "e1cbfaa4cfbbb58ef487cb397e300866429043ecb598b20d48965a2588d1a99b"
+    },
+    "B_seed1000": {
+      "best_epoch": 33,
+      "best_monitor_R20": 0.09005726184279021,
+      "checkpoint_sha256": "3e8568d6a4263ae2ef0de514f2018ae73014d7826feeb9947797ec1ba82bbef2",
+      "initial_model_hash": "5fe4ee3813dfde593c68d428e08a0a29a49f9e7804e39b24ec0a8fcca6022c1c",
+      "base_plan_sha256": "ea23c0a6ef3df9b1db8feaa1ce3d9da436f967d095d67751ba3a2f2d93eb046a"
+    },
+    "D_seed1000": {
+      "best_epoch": 32,
+      "best_monitor_R20": 0.08946233360600878,
+      "checkpoint_sha256": "125018b6a81920d7dec92e5ecd509f57aab6e9cd38ed434ec7a0886ae0e53a9c",
+      "initial_model_hash": "5fe4ee3813dfde593c68d428e08a0a29a49f9e7804e39b24ec0a8fcca6022c1c",
+      "base_plan_sha256": "ea23c0a6ef3df9b1db8feaa1ce3d9da436f967d095d67751ba3a2f2d93eb046a"
+    }
+  },
+  "selection_lock_sha256": "f3a6d57da2e19e95972e6e857f8ccdaff71c01568941ac27b3adfda862955e6a",
+  "selection_lock_path": "diffusion_experiments/runs/round6r1/analysis_locked_v1/selection_lock.json",
+  "access": {
+    "MONITOR_USED_FOR_SELECTION": true,
+    "DEV_USED_FOR_SELECTION": false,
+    "INTERNAL_USED_FOR_SELECTION": false,
+    "CONFIRM_ACCESSED": false,
+    "TEST_ACCESSED_AFTER_LOCK": true,
+    "TEST_USED_FOR_SELECTION": false,
+    "NO_POST_TEST_TUNING": true
+  },
+  "test_note": "Test was opened once only after selection lock under explicit prior user authorization in the same execution conversation. Baby Test had historical exposure and is not fresh independent confirmation."
+}
