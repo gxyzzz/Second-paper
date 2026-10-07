@@ -89,4 +89,3 @@ GPU: RTX 5090. Exact per-run peak GPU memory was not instrumented in result file
 - 1% target: **NOT MET**
 - Sports/Electronics/CONFIRM: **NOT OPENED**
 - Post-Test tuning: **NONE**
-
