@@ -1,0 +1,38 @@
+{
+  "protocol_version": "ROUND8_BOUNDED_COLLABORATIVE_RESIDUAL_V1",
+  "status": "PASS",
+  "selection_lock_sha256": "4a591eb998f1912360a2964c0ff27b02a865a4952729ef271a74835aad72b1a2",
+  "validation_replay_max_metric_diff": 0.0,
+  "formal_cells_complete": true,
+  "illegal_negative_total": 0,
+  "nonfinite_total": 0,
+  "bounds": {
+    "train_Y_norm_max": 8.000000953674316,
+    "train_delta_over_b_max": 1.0000001192092896,
+    "train_g_over_h_max": 1.4414408206939697,
+    "validation_delta_over_b_max": 0.9996808767318726,
+    "validation_g_over_h_max": 1.2890561819076538,
+    "validation_r_abs_max": 0.784602701663971,
+    "A_center_abs_max": 2.8072722813021755e-08,
+    "score_rank_mismatch_users_total": 0,
+    "near_constant_A_fraction_max": 0.0
+  },
+  "gradients": {
+    "den_path_cos_mean": 0.5278583775477231,
+    "path_pref_cos_mean": -0.0842399586787221,
+    "path_grad_norm_min": 0.20889642080995388,
+    "pref_grad_norm_min": 1.4477414296273574
+  },
+  "provenance": {
+    "training_implementation_commits": [
+      "dc63afd2c45079f455fbd178ad2f186f4c476759"
+    ],
+    "result_write_heads": [
+      "17cec7e1b088c1769606c6dd1c097f1b4e25d98b"
+    ],
+    "finalizer_head": "3565a419241b240e33fd9a96253718d595e25a5e",
+    "note": "Formal processes were launched from the implementation commit stored in the formal asset audits; later evaluator-only commits changed HEAD while those processes were already running."
+  },
+  "TEST_USED_FOR_SELECTION": false,
+  "NO_POST_TEST_TUNING": true
+}

@@ -1,6 +1,6 @@
 {
   "protocol_version": "ROUND8_BOUNDED_COLLABORATIVE_RESIDUAL_V1",
-  "stage": "PILOT_PASSED_PREFORMAL",
+  "stage": "COMPLETE_LOCKED_TEST",
   "dataset": "baby",
   "branch": "exp/round8-bcr-20261007",
   "guide_path": "diffusion_experiments/ADVISOR_EXPERIMENT_GUIDE.md",
@@ -81,9 +81,66 @@
     }
   },
   "pilot_validation_labels_used": false,
-  "formal_started": false,
+  "formal_started": true,
   "notes": [
     "Pilot checks only interface, bounds, gradients and unlabeled ranking intervention; it did not use Validation/Test labels for method selection.",
     "MSCA and Full CoLiftRec remain frozen. No item-wise score clipping is used."
-  ]
+  ],
+  "selected_eta": 0.05,
+  "eta_validation_table": {
+    "0.05": {
+      "cell_U": [
+        -0.0013529878825920532,
+        -0.0010554675573326388,
+        0.0003734394516457971,
+        -0.0002542668282736238
+      ],
+      "mean_U": -0.0005723207041381296,
+      "positive_cells": 1
+    },
+    "0.1": {
+      "cell_U": [
+        -0.0017992405385809228,
+        -0.0015685967524398793,
+        0.0007060520967696055,
+        -0.0006634253123537916
+      ],
+      "mean_U": -0.0008313026266512471,
+      "positive_cells": 1
+    },
+    "0.2": {
+      "cell_U": [
+        -0.0015961135486154765,
+        -0.0021256092950196165,
+        -0.0010796659330155663,
+        -0.0005961695312177119
+      ],
+      "mean_U": -0.0013493895769670927,
+      "positive_cells": 0
+    }
+  },
+  "expansion_decision_before_test": {
+    "expand_sports_elec": false,
+    "selected_eta_mean_validation_U": -0.0005723207041381296,
+    "positive_cells": 1,
+    "rule": "mean U > 0 and >=3/4 cells U > 0"
+  },
+  "selection_lock_sha256": "4a591eb998f1912360a2964c0ff27b02a865a4952729ef271a74835aad72b1a2",
+  "test_classification": "NO_INCREMENT",
+  "test_U_M2_vs_M1": -0.0003065801726641502,
+  "test_bootstrap": {
+    "U": -0.0003065801726641502,
+    "ci95": [
+      -0.0011764277420931392,
+      0.0004589339820185601
+    ],
+    "positive_fraction": 0.228,
+    "resamples": 1000,
+    "seed": 202610300
+  },
+  "training_implementation_commits": [
+    "dc63afd2c45079f455fbd178ad2f186f4c476759"
+  ],
+  "NO_POST_TEST_TUNING": true,
+  "evidence_generation_git_sha": "3565a419241b240e33fd9a96253718d595e25a5e"
 }
