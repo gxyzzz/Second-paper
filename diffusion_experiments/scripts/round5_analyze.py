@@ -1,5 +1,5 @@
 from __future__ import annotations
-import argparse,csv,gc,json,sys
+import argparse,csv,gc,json,shutil,sys
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -22,7 +22,7 @@ def eval_pair(base,new,users,labels,boot_seed,cfg):
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument('--assets',required=True); ap.add_argument('--run-root',required=True); ap.add_argument('--out',required=True); a=ap.parse_args(); asset=Path(a.assets); rr=Path(a.run_root); out=Path(a.out)
     if out.exists() and any(out.iterdir()): raise RuntimeError('refuse overwrite nonempty analysis dir')
-    out.mkdir(parents=True,exist_ok=True); (out/'selected_exports').mkdir(); cfg=cfg_round5(); pdx=ROOT/cfg['protocol_dir']; fit=load_edges(pdx/'fit_edges.csv'); mon=load_edges(pdx/'monitor_edges.csv'); n_users=int(fit.userID.max())+1; n_items=int(np.load(ROOT/'data/baby/text_feat.npy',mmap_mode='r').shape[0]); histories=histories_from_fit(fit,n_users); side=prepare_side(histories,n_items); seeds=[int(x) for x in cfg['formal_seeds']]; branches=['B_CONT','D_CURR']; epochs=[int(x) for x in cfg['selection']['checkpoints']]
+    out.mkdir(parents=True,exist_ok=True); (out/'selected_exports').mkdir(); (out/'monitor_exports').mkdir(); cfg=cfg_round5(); pdx=ROOT/cfg['protocol_dir']; fit=load_edges(pdx/'fit_edges.csv'); mon=load_edges(pdx/'monitor_edges.csv'); n_users=int(fit.userID.max())+1; n_items=int(np.load(ROOT/'data/baby/text_feat.npy',mmap_mode='r').shape[0]); histories=histories_from_fit(fit,n_users); side=prepare_side(histories,n_items); seeds=[int(x) for x in cfg['formal_seeds']]; branches=['B_CONT','D_CURR']; epochs=[int(x) for x in cfg['selection']['checkpoints']]
     # Validate training runs and paired base plans before reading evaluation labels.
     runs={};
     for s in seeds:
@@ -45,8 +45,9 @@ def main():
                 if ep==0:
                     met={k:float(v) for k,v in b0_mon.items()}; mh=json.load(open(rr/f'{b}_seed{s}'/'result.json'))['initial_model_hash']; cksha=sha(rr/f'{b}_seed{s}'/'checkpoints'/'epoch_00.pt')
                 else:
-                    ck=rr/f'{b}_seed{s}'/'checkpoints'/f'epoch_{ep:02d}.pt'; model,z=load_ck_model(fit,ck); emb=export_embeddings(model); cand=build_candidates_from_embeddings(emb,histories,side,int(cfg['L_eval']),n_users,n_items); met=metrics_at(cand['items'][mon_users],mon_users,mon_labels,ks=(10,20,50)); mh=z['model_hash']; cksha=sha(ck); model.cpu(); del model,cand,emb,z; torch.cuda.empty_cache(); gc.collect()
-                rel=relative_result(b0_mon,met); sr[str(s)]={'metrics':{k:float(v) for k,v in met.items()},'vs_B0':rel,'model_hash':mh,'checkpoint_sha256':cksha}
+                    ck=rr/f'{b}_seed{s}'/'checkpoints'/f'epoch_{ep:02d}.pt'; model,z=load_ck_model(fit,ck); emb=export_embeddings(model); cand=build_candidates_from_embeddings(emb,histories,side,int(cfg['L_eval']),n_users,n_items); met=metrics_at(cand['items'][mon_users],mon_users,mon_labels,ks=(10,20,50)); mh=z['model_hash']; cksha=sha(ck)
+                    me=out/'monitor_exports'/f'{b}_seed{s}_epoch{ep:02d}_embeddings.npz'; mr=out/'monitor_exports'/f'{b}_seed{s}_epoch{ep:02d}_L100.npz'; np.savez_compressed(me,**emb); np.savez_compressed(mr,items=cand['items'].astype(np.int32),raw_items=cand['raw_items'].astype(np.int32),s0=cand['s0'].astype(np.float32)); monitor_files={'embeddings_file':str(me),'ranking_file':str(mr),'embeddings_sha256':sha(me),'ranking_sha256':sha(mr)}; model.cpu(); del model,cand,emb,z; torch.cuda.empty_cache(); gc.collect()
+                rel=relative_result(b0_mon,met); sr[str(s)]={'metrics':{k:float(v) for k,v in met.items()},'vs_B0':rel,'model_hash':mh,'checkpoint_sha256':cksha,**({} if ep==0 else monitor_files)}
             grid[b].append({'epoch':ep,'seed_results':sr,'mean_U_vs_B0':float(np.mean([sr[str(s)]['vs_B0']['U'] for s in seeds]))})
     selected={}
     for b in branches:
@@ -66,8 +67,10 @@ def main():
                 # Candidate ranking must be exactly B0 frozen L100, not a regenerated tie order.
                 t=np.load(asset/'teacher_L100.npz'); np.savez_compressed(rank_path,items=t['items'].astype(np.int32),raw_items=t['raw_items'].astype(np.int32),s0=t['s0'].astype(np.float32)); mh=runs[key]['initial_model_hash']; cksha=sha(rr/key/'checkpoints'/'epoch_00.pt')
             else:
-                ck=rr/key/'checkpoints'/f'epoch_{ep:02d}.pt'; model,zck=load_ck_model(fit,ck); emb=export_embeddings(model); cand=build_candidates_from_embeddings(emb,histories,side,int(cfg['L_eval']),n_users,n_items); np.savez_compressed(rank_path,items=cand['items'].astype(np.int32),raw_items=cand['raw_items'].astype(np.int32),s0=cand['s0'].astype(np.float32)); mh=zck['model_hash']; cksha=sha(ck); model.cpu(); del model,cand,zck; torch.cuda.empty_cache(); gc.collect()
-            np.savez_compressed(exp_path,**emb)
+                chosen=selected[b]['seed_results'][str(s)]; src_e=Path(chosen['embeddings_file']); src_r=Path(chosen['ranking_file'])
+                if sha(src_e)!=chosen['embeddings_sha256'] or sha(src_r)!=chosen['ranking_sha256']: raise RuntimeError(f'monitor export hash mismatch {key} epoch={ep}')
+                shutil.copyfile(src_e,exp_path); shutil.copyfile(src_r,rank_path); mh=chosen['model_hash']; cksha=chosen['checkpoint_sha256']; emb=None
+            if ep==0: np.savez_compressed(exp_path,**emb)
             frozen[key]={'branch':b,'seed':s,'epoch':ep,'model_hash':mh,'checkpoint_sha256':cksha,'embeddings_sha256':sha(exp_path),'ranking_sha256':sha(rank_path),'embeddings_file':str(exp_path),'ranking_file':str(rank_path)}
     lock={'status':'LOCKED_BEFORE_DEV_INTERNAL_TEST','protocol_version':cfg['protocol_version'],'selection':selected,'frozen_selected':frozen,'monitor_grid_sha256':sha(out/'monitor_grid.json'),'asset_audit_sha256':sha(asset/'audit.json'),'config_sha256':sha(ROOT/'diffusion_experiments/configs/round5_baby.yaml'),'teacher_checkpoint_sha256':cfg['expected_teacher_sha256'],'generator_result_hashes':{str(s):sha(rr/f'generator_seed{s}'/'result.json') for s in seeds},'training_result_hashes':{k:sha(rr/k/'result.json') for k in sorted(runs)},'access':{'MONITOR_USED_FOR_SELECTION':True,'DEV_USED_FOR_SELECTION':False,'INTERNAL_USED_FOR_SELECTION':False,'CONFIRM_ACCESSED':False,'TEST_ACCESSED':False,'TEST_USED_FOR_SELECTION':False},'test_authorization_record':cfg['access']}
     (out/'selection_lock.json').write_text(json.dumps(lock,indent=2)+'\n'); lock_hash=sha(out/'selection_lock.json')
