@@ -1,0 +1,177 @@
+{
+  "status": "IMPLEMENTATION_PASS_SCIENTIFIC_GATE_FAIL",
+  "stage0": {
+    "status": "COMPLETE",
+    "git_sha": "dfc73e3e3643b089abf4735b7a7f664108998fac",
+    "condition_dim": 129,
+    "x_dim": 64,
+    "exclude_positive_history_reconstruction_max_abs_diff": 2.384185791015625e-07,
+    "A": {
+      "mean": 25.3742864489586,
+      "median": 25.0,
+      "p95": 32.0,
+      "empty": 0,
+      "lt2": 0
+    },
+    "natural_probe_in_legal_A": 812,
+    "access": {
+      "DEV_LABELS_ACCESSED": false,
+      "INTERNAL_LABELS_ACCESSED": false,
+      "CONFIRM_ACCESSED": false,
+      "TEST_ACCESSED": false,
+      "TEST_USED_FOR_SELECTION": false
+    }
+  },
+  "generator081": {
+    "status": "COMPLETE",
+    "updates": 3000,
+    "parameter_count": 55808,
+    "final_loss": 0.8575303554534912,
+    "noise_buckets": [
+      {
+        "t_range": [
+          1,
+          10
+        ],
+        "mse": 0.5558415397165756,
+        "signal_rms": 1.6164752119958692,
+        "noise_rms": 0.2018914504389821,
+        "empirical_snr": 64.10652594525851
+      },
+      {
+        "t_range": [
+          11,
+          20
+        ],
+        "mse": 0.6154145017114101,
+        "signal_rms": 1.4486079822114606,
+        "noise_rms": 0.48002809087876686,
+        "empirical_snr": 9.106855434685235
+      },
+      {
+        "t_range": [
+          21,
+          30
+        ],
+        "mse": 0.7859564146709175,
+        "signal_rms": 1.1433550672317006,
+        "noise_rms": 0.721944224904455,
+        "empirical_snr": 2.508158330435056
+      },
+      {
+        "t_range": [
+          31,
+          40
+        ],
+        "mse": 1.1819598048308981,
+        "signal_rms": 0.7304687896715296,
+        "noise_rms": 0.8966407213182208,
+        "empirical_snr": 0.663691739515999
+      },
+      {
+        "t_range": [
+          41,
+          50
+        ],
+        "mse": 1.9719296580057477,
+        "signal_rms": 0.27219312353354513,
+        "noise_rms": 0.9864306031871212,
+        "empirical_snr": 0.07614146416543802
+      }
+    ],
+    "git_sha": "dfc73e3e3643b089abf4735b7a7f664108998fac",
+    "gpu_name": "NVIDIA GeForce RTX 5090",
+    "access": {
+      "DEV_ACCESSED": false,
+      "INTERNAL_ACCESSED": false,
+      "CONFIRM_ACCESSED": false,
+      "TEST_ACCESSED": false
+    }
+  },
+  "risk_preflight": {
+    "status": "RISK_SIGNAL_NOT_ESTABLISHED",
+    "CAL": {
+      "queries": 580,
+      "pair_win": 0.5023848506091153,
+      "degree_matched_queries": 463,
+      "degree_pair_win": 0.5331579567540691,
+      "degree_no_match_queries": 117,
+      "known_positive_mean_w": 0.33524564993708267,
+      "unobserved_mean_w": 0.3401911242778218,
+      "all_A_target_rate": 0.038428410521433774,
+      "top_risk_target_rate": 0.03876938469234617,
+      "top_risk_positive_coverage": 0.2672413793103448,
+      "top_risk_enrichment": 1.0088729709682427,
+      "pair_win_bootstrap": {
+        "mean": 0.5023848506091153,
+        "ci95": [
+          0.47862092686782354,
+          0.5276483269941076
+        ],
+        "resamples": 1000,
+        "seed": 202610091
+      }
+    },
+    "EVAL": {
+      "queries": 232,
+      "pair_win": 0.4849605462658164,
+      "degree_matched_queries": 185,
+      "degree_pair_win": 0.4999340899340899,
+      "degree_no_match_queries": 47,
+      "known_positive_mean_w": 0.3560282536328204,
+      "unobserved_mean_w": 0.3394304345136459,
+      "all_A_target_rate": 0.03884145320609409,
+      "top_risk_target_rate": 0.035487959442332066,
+      "top_risk_positive_coverage": 0.2413793103448276,
+      "top_risk_enrichment": 0.9136619902976268,
+      "pair_win_bootstrap": {
+        "mean": 0.4849605462658164,
+        "ci95": [
+          0.44842214001244685,
+          0.5222071973677817
+        ],
+        "resamples": 1000,
+        "seed": 202610092
+      }
+    },
+    "SHUFFLED_EVAL": {
+      "queries": 232,
+      "pair_win": 0.524662129660896,
+      "degree_matched_queries": 185,
+      "degree_pair_win": 0.5293993993993994,
+      "degree_no_match_queries": 47,
+      "known_positive_mean_w": 0.32056536935249763,
+      "unobserved_mean_w": 0.3408635279038279,
+      "all_A_target_rate": 0.03884145320609409,
+      "top_risk_target_rate": 0.039923954372623575,
+      "top_risk_positive_coverage": 0.27155172413793105,
+      "top_risk_enrichment": 1.0278697390848301
+    },
+    "gate": {
+      "min_eval_queries": true,
+      "pair_win": false,
+      "enrichment": false,
+      "weight_direction": false,
+      "degree_pair_win": false,
+      "not_weaker_than_shuffled": false
+    },
+    "gate_pass": false,
+    "access": {
+      "DEV_ACCESSED": false,
+      "INTERNAL_ACCESSED": false,
+      "CONFIRM_ACCESSED": false,
+      "TEST_ACCESSED": false
+    }
+  },
+  "hard_stop_enforced": {
+    "generator082_not_trained": true,
+    "student_matrix_not_started": true,
+    "DEV_not_opened": true,
+    "INTERNAL_not_opened": true,
+    "CONFIRM_not_opened": true,
+    "TEST_not_opened_round6": true,
+    "no_hyperparameter_rescue": true
+  },
+  "classification": "RISK_SIGNAL_NOT_ESTABLISHED",
+  "interpretation": "The diffusion-based reliability statistic failed the pre-registered held-out TRAIN-probe risk-direction test. Formal student training and Round6 Test are therefore scientifically disallowed under the active guide."
+}
