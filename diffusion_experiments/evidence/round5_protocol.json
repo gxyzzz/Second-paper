@@ -1,0 +1,50 @@
+{
+  "status": "COMPLETE",
+  "protocol_version": "ROUND5_BEHAVIOR_DIFFUSION_CURRICULUM_V1",
+  "dataset": "baby",
+  "implementation_commit": "10cec62bfc750fcdcf5300601993993c436f5f2a",
+  "monitor_snapshot_lock_commits": [
+    "8330747",
+    "09ade93"
+  ],
+  "diagnostic_commits": [
+    "cbe32c8",
+    "e0c86b9"
+  ],
+  "selection_lock_sha256": "76741790c114d4e990699644a9f1a16d8fa3e1fcc288ae6a4b466fb0e1bd9012",
+  "asset_audit_sha256": "9de5fd8c99425e0db266d805c2ee109abb7af5a4928dd28812c8fe5172285b91",
+  "diagnostics_sha256": "988aab07639a3a28780508f6215149214f006f4d84b04d7265c36d97fc2685c6",
+  "teacher_checkpoint_sha256": "51ecfb8b49d7570f09b04ab984ca2f06ed904dd2fe974dadd2bbc6b4a8d3d8ef",
+  "teacher_state_hash": "c5f6a9281d258d324682b789ade1dae9b47b6ba7ac3a7f225d6d9dc9fbb1ac1e",
+  "protocol_sha256": "33c8e0ea7f81fe0d8d87e5547961217a1cc82a49106242038cca9b13a56bacbe",
+  "formal_seeds": [
+    202610071,
+    202610072
+  ],
+  "generator_updates": 3000,
+  "continuation_epochs": 20,
+  "L_train": 500,
+  "L_eval": 100,
+  "selection_rule": "B_CONT and D_CURR separately select one common epoch across two seeds using mean monitor relative-primary U vs frozen B0; ties choose earlier epoch; epoch0 eligible; DEV/INTERNAL/Test do not select.",
+  "selected_epochs": {
+    "B_CONT": 0,
+    "D_CURR": 0
+  },
+  "test_authorization": {
+    "confirm_open": false,
+    "test_open_initially": false,
+    "test_authorized_by_user_after_lock": true,
+    "test_authorization_date": "2026-10-07",
+    "test_authorization_note": "User explicitly requested this Round5 to include locked Test and compare with MSCA and MSCA+CoLiftRec Test; Test must not affect epoch, seed, sampler, L, or any parameter selection."
+  },
+  "access": {
+    "MONITOR_USED_FOR_SELECTION": true,
+    "DEV_USED_FOR_SELECTION": false,
+    "INTERNAL_USED_FOR_SELECTION": false,
+    "CONFIRM_ACCESSED": false,
+    "TEST_ACCESSED": true,
+    "TEST_USED_FOR_SELECTION": false
+  },
+  "historical_exposure": "Baby Test had historical exposure before Round5 and Round4 used a locked Test. Round5 Test is locked post-selection evidence, not fresh external confirmation.",
+  "test_comparison_scope": "Primary Test comparison is strict-FIT same-protocol MSCA -> MSCA+CoLiftRec B0 -> selected Round5 branch. Historical full-training canonical seed1000 is context only."
+}

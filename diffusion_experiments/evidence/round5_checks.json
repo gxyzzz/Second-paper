@@ -1,0 +1,211 @@
+{
+  "status": "PASS_WITH_NO_POSITIVE_INCREMENT",
+  "stage0": {
+    "status": "COMPLETE",
+    "L100_anchor": {
+      "probe": {
+        "users": 13447,
+        "item_order_mismatch_queries": 0,
+        "s0_max_abs_diff": 0.0,
+        "modal_max_abs_diff": {
+          "z_msca": 0.0,
+          "z_text": 0.0,
+          "z_attribute": 0.0,
+          "z_visual": 0.0,
+          "lift_text": 0.0,
+          "lift_attribute": 0.0,
+          "lift_visual": 0.0
+        }
+      },
+      "dev": {
+        "users": 13611,
+        "item_order_mismatch_queries": 0,
+        "s0_max_abs_diff": 0.0,
+        "modal_max_abs_diff": {
+          "z_msca": 0.0,
+          "z_text": 0.0,
+          "z_attribute": 0.0,
+          "z_visual": 0.0,
+          "lift_text": 0.0,
+          "lift_attribute": 0.0,
+          "lift_visual": 0.0
+        }
+      }
+    },
+    "L500_determinism": {
+      "item_order_mismatch_queries": 0,
+      "s0_max_abs_diff": 0.0,
+      "z_text_max_abs_diff": 0.0,
+      "z_attribute_max_abs_diff": 0.0,
+      "z_visual_max_abs_diff": 0.0,
+      "A_mismatch_users": 0
+    },
+    "teacher_hash_unchanged": true,
+    "teacher_export_vs_frozen_embeddings_max_abs_diff": {
+      "final_user": 1.1920928955078125e-07,
+      "final_item": 2.384185791015625e-07,
+      "collab_user": 1.1920928955078125e-07,
+      "collab_item": 2.384185791015625e-07
+    },
+    "access": {
+      "DEV_LABELS_ACCESSED": false,
+      "INTERNAL_LABELS_USED_FOR_SELECTION": false,
+      "CONFIRM_ACCESSED": false,
+      "TEST_ACCESSED": false,
+      "TEST_USED_FOR_SELECTION": false
+    }
+  },
+  "smoke_and_unit": {
+    "unit_harness": "7/7 PASS",
+    "generator_smoke": "PASS",
+    "B_CONT_smoke": "PASS",
+    "D_CURR_smoke": "PASS",
+    "note": "real MSCA.calculate_loss identity/gradient replacement, deterministic DDIM replay, selector full-route checks passed before formal"
+  },
+  "generators": {
+    "202610071": {
+      "updates": 3000,
+      "last_loss": 0.748839795589447,
+      "condition_sensitivity_mean_abs_delta": 0.5671460628509521,
+      "replay_max_abs_diff": 0.0
+    },
+    "202610072": {
+      "updates": 3000,
+      "last_loss": 0.7370027303695679,
+      "condition_sensitivity_mean_abs_delta": 0.5552184581756592,
+      "replay_max_abs_diff": 0.0
+    }
+  },
+  "formal_runs": {
+    "B_CONT": {
+      "202610071": {
+        "status": "COMPLETE",
+        "git_sha": "10cec62bfc750fcdcf5300601993993c436f5f2a",
+        "gpu_name": "NVIDIA GeForce RTX 5090",
+        "epochs": 20,
+        "base_plan_sha256": "c349284440833f5cba21490c33065ed9f6f7f80578aa2318cef58feebf593852",
+        "access": {
+          "DEV_ACCESSED": false,
+          "INTERNAL_ACCESSED": false,
+          "CONFIRM_ACCESSED": false,
+          "TEST_ACCESSED": false
+        }
+      },
+      "202610072": {
+        "status": "COMPLETE",
+        "git_sha": "10cec62bfc750fcdcf5300601993993c436f5f2a",
+        "gpu_name": "NVIDIA GeForce RTX 5090",
+        "epochs": 20,
+        "base_plan_sha256": "65d770e90f6c60b2dd638b7ea60460cc634c09854e0bf18a09eb3125298be035",
+        "access": {
+          "DEV_ACCESSED": false,
+          "INTERNAL_ACCESSED": false,
+          "CONFIRM_ACCESSED": false,
+          "TEST_ACCESSED": false
+        }
+      }
+    },
+    "D_CURR": {
+      "202610071": {
+        "status": "COMPLETE",
+        "git_sha": "10cec62bfc750fcdcf5300601993993c436f5f2a",
+        "gpu_name": "NVIDIA GeForce RTX 5090",
+        "epochs": 20,
+        "base_plan_sha256": "c349284440833f5cba21490c33065ed9f6f7f80578aa2318cef58feebf593852",
+        "access": {
+          "DEV_ACCESSED": false,
+          "INTERNAL_ACCESSED": false,
+          "CONFIRM_ACCESSED": false,
+          "TEST_ACCESSED": false
+        }
+      },
+      "202610072": {
+        "status": "COMPLETE",
+        "git_sha": "10cec62bfc750fcdcf5300601993993c436f5f2a",
+        "gpu_name": "NVIDIA GeForce RTX 5090",
+        "epochs": 20,
+        "base_plan_sha256": "65d770e90f6c60b2dd638b7ea60460cc634c09854e0bf18a09eb3125298be035",
+        "access": {
+          "DEV_ACCESSED": false,
+          "INTERNAL_ACCESSED": false,
+          "CONFIRM_ACCESSED": false,
+          "TEST_ACCESSED": false
+        }
+      }
+    }
+  },
+  "paired_fairness": {
+    "same_initial_model_hash_all_branches": true,
+    "same_seed_B_vs_D_base_plan": {
+      "202610071": true,
+      "202610072": true
+    }
+  },
+  "selector": {
+    "202610071": {
+      "planned": 251725,
+      "actual": 251725,
+      "fallbacks": 0,
+      "nonfallback_fraction": 1.0,
+      "unique_users": 19434,
+      "unique_items": 4928
+    },
+    "202610072": {
+      "planned": 252623,
+      "actual": 252623,
+      "fallbacks": 0,
+      "nonfallback_fraction": 1.0,
+      "unique_users": 19442,
+      "unique_items": 4960
+    }
+  },
+  "selection_lock": {
+    "sha256": "76741790c114d4e990699644a9f1a16d8fa3e1fcc288ae6a4b466fb0e1bd9012",
+    "selected_epochs": {
+      "B_CONT": 0,
+      "D_CURR": 0
+    },
+    "monitor_grid_sha256": "96ed292a06c8bd0a9c217813557e6d1b1b4ebbe52be98a7f84b8a87ec59892ad"
+  },
+  "locked_dev_internal": {
+    "classification": "NO_POSITIVE_INCREMENT",
+    "DEV_mean_D_vs_B_CONT_U": 0.0,
+    "INTERNAL_mean_D_vs_B_CONT_U": 0.0,
+    "access": {
+      "MONITOR_USED_FOR_SELECTION": true,
+      "DEV_USED_FOR_SELECTION": false,
+      "INTERNAL_USED_FOR_SELECTION": false,
+      "CONFIRM_ACCESSED": false,
+      "TEST_ACCESSED": false,
+      "TEST_USED_FOR_SELECTION": false
+    }
+  },
+  "test": {
+    "status": "COMPLETE_TEST_EVALUATED_AFTER_LOCK",
+    "selection_lock_sha256_matches": true,
+    "TEST_USED_FOR_SELECTION": false,
+    "mean_D_vs_B_CONT_U": 0.0,
+    "B0_COLIFT_vs_MSCA_U": 0.05632444046990964
+  },
+  "posthoc_diagnostic": {
+    "status": "COMPLETE_POSTHOC_MECHANISM_DIAGNOSTIC",
+    "label_free_sample": {
+      "size": 10000,
+      "rng_seed": 202610078,
+      "label_free": true
+    },
+    "access": {
+      "DEV_LABELS_ACCESSED": false,
+      "INTERNAL_LABELS_ACCESSED": false,
+      "CONFIRM_ACCESSED": false,
+      "TEST_LABELS_USED": false
+    },
+    "original_state_pool_jaccard_mean": 0.8059195767195767,
+    "shuffled_condition_state_delta": 0.3961676359176636,
+    "shuffled_vs_original_pool_exact_fraction": 0.1833,
+    "selected_vs_uniform_same_fraction": 0.00013506803058893635,
+    "illegal_selected_known_positive": 0
+  },
+  "classification": "NO_POSITIVE_INCREMENT",
+  "interpretation": "Implementation and generator/grounding mechanisms are active, but all nonzero continuation checkpoints underperform epoch0 on monitor; locked DEV/INTERNAL/Test therefore revert to B0. Diffusion curriculum provides no deployable increment."
+}
