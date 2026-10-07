@@ -1,0 +1,52 @@
+protocol_version: ROUND6R1_RAW_CF_DOT_WEIGHT_V1
+dataset: baby
+protocol_dir: diffusion_experiments/runs/round1/protocol_v2
+teacher_training_json: diffusion_experiments/runs/round1/backbone_formal_v2/training.json
+round1_assets: diffusion_experiments/runs/round1/assets_formal
+round6_assets: diffusion_experiments/runs/round6/assets_formal_v2
+round6_generator081: diffusion_experiments/runs/round6/generator_seed202610081
+round6_old_risk_cache: diffusion_experiments/runs/round6/preflight_seed202610081/risk_cache.npz
+expected_teacher_sha256: 51ecfb8b49d7570f09b04ab984ca2f06ed904dd2fe974dadd2bbc6b4a8d3d8ef
+expected_protocol_sha256: 33c8e0ea7f81fe0d8d87e5547961217a1cc82a49106242038cca9b13a56bacbe
+expected_embeddings_sha256: a9860008f6c0143bd255f07bb2fb398643a074fa101f959cc35c2e2fb7d09e7a
+expected_reference_L100_sha256: 837253f03a028e384375ab9c73f2c62030bdca1582e68be7d61abc7a114fcd82
+expected_generator081_sha256: bddbc31240cced37e8cd6b07d9715c33f22e1fae0be7793a0e23991fefd8a025
+expected_old_risk_cache_sha256: 6416d3c7126d567a7e9f9ddb8d6a7c3d3e07bf914abc1591052556f7099e22bc
+student_seeds: [999, 1000]
+generator_seeds: [202610081, 202610082]
+risk:
+  mode: raw_cf_dot_mean
+  K: 4
+  cal_eval_seed: 202610090
+  cal_fraction: 0.7
+  bootstrap_resamples: 1000
+  bootstrap_seed: 202610091
+  degree_log1p_tolerance: 0.5
+  norm_log_tolerance: 0.1
+  min_eval_queries: 128
+  min_pair_win: 0.53
+  min_enrichment: 1.2
+  min_degree_pair_win: 0.5
+training:
+  max_epochs: 100
+  early_stopping: 20
+  batch_size: 2048
+  lr: 0.001
+  weight_decay: 0.0
+  scheduler: [1.0, 50]
+  beta_warmup_epochs: 5
+  beta: 0.10
+  n_layers: 2
+  fusion_coeff: 0.4
+  cl_weight: 0.005
+  reg_weight: 0.0000003
+  baseline_reproduction_max_relative_drop: 0.01
+  teacher_monitor_R20: 0.09169331449393917
+bootstrap:
+  resamples: 1000
+  seed: 202610099
+target_U: 0.01
+access:
+  confirm_open: false
+  test_authorized_by_user_after_lock: true
+  test_authorization_note: 'Explicit locked-Test authorization was given earlier in this same execution conversation; Test may be opened once only after Round6R1 checkpoint/config/risk/reference lock and after DEV/INTERNAL evaluation, and must not affect any selection.'
