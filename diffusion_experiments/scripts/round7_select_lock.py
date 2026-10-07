@@ -76,7 +76,7 @@ def main():
             dst = out / f"{cell}_rankings.npz"
             shutil.copyfile(src, dst)
             ranking_hashes[cell] = sha(dst)
-            selected_files[cell] = str(dst.relative_to(ROOT))
+            selected_files[cell] = str(dst.resolve().relative_to(ROOT))
 
     guide = ROOT / "diffusion_experiments/ADVISOR_EXPERIMENT_GUIDE.md"
     lock = {
