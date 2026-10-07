@@ -1,402 +1,344 @@
-# Advisor 实验指导：Round3 偏好对齐的条件扩散候选评估
+# Advisor 实验指导：Round6 扩散辅助的边界比较可靠性
 
-更新日期：2026-10-06。协议版本：ROUND3_CDA_REPAIR_V1。
+更新：2026-10-07。协议：ROUND6_BOUNDARY_COMPARISON_WEIGHT_V1。
 
-本文件是唯一活动 advisor 指导，交给 5.6sol 实现与实验负责人。它替代旧 Round2 执行范围；旧指导保存在 Git commit 02b2199，旧代码、配置、checkpoint 和报告继续保留。不要继续旧 D2/CJ 扩展。
+本文件是唯一活动 advisor 指导，供5.6sol实现和执行，替代Round5后续范围。旧代码、配置、checkpoint和报告保留。本轮advisor只检查历史并更新说明，没有修改模型或启动训练。
 
-**历史核查后的决定：上轮 advisor 的“条件去噪优势”已经在 DiCalRec M30A 做过，不能原样重跑或声称全新方向。本轮允许一次受控修正：严格隔离的训练监督、噪声量纲匹配的真实物品表示、直接对齐候选偏好的去噪证据训练、有效的有限边界改分，并检验是否超过确定性模型与单噪声去噪自编码器。**
+**论文定位：两模块约四六分工，CoLiftRec承担主要内容校准，Diffusion作为辅助模块，争取相对完整MSCA+CoLiftRec约1%的平均相对增量。扩散只承担一个职责：为参考候选边界中的未观测比较项提供可靠性权重。**
 
-本文件授权 executor 完成本轮必要实现、smoke 和下述有界正式矩阵。advisor 当前只更新说明，没有实现 Round3 或启动训练。executor 不自行扩大到三数据集，不不断改方案直到出现正结果。
+不让扩散同时生成负项、定义课程、净化内容、输出推荐分数或重排列表。DDPM生成行为样本只是计算该权重的内部过程，不单列额外贡献。用一个模块图、一条训练公式说明作用，不按目标篇幅堆组件。
 
-## 1. 目标、动机和本轮科学问题
+**主性能比较只有完整MSCA+CoLiftRec与加入该权重模块的版本。不训练MLP/DAE/GMM、普通难负采样或其他替代方法矩阵，不把胜过这些方法作为本轮门槛。**
 
-最终目标是 Baby、Sports、Electronics **各自**相对完整 MSCA + CoLiftRec：
+先Baby、先验证风险方向，再做有限正式实验；本轮不扩Sports/Elec，不打开CONFIRM，不重新评价Test。目标是减少可避免的失败，不能承诺必然涨点。
 
+## 1. 查重结论与真正变化
+
+核查了Second-paper现有Round1–5及DiCalRec/experiments相关协议和代码，检索risk、reliability、reweight、false-negative、negative weight、BPR、confidence和backbone。
+
+**一般的“扩散不确定性门控”和“教师置信度加权比较损失”已经做过。未找到本轮完整组合的已完成实现：用户历史条件的行为扩散，只输出参考边界比较的风险权重，作用于正常从头训练的MSCA。**
+
+| 已做路线 | 历史证据 | 本轮区别 |
+|---|---|---|
+| 扩散离散度调整语义lift | [Phase4A](../../DiCalRec/experiments/diffusion_background/docs/PHASE4A.md)、[Phase4B](../../DiCalRec/experiments/diffusion_background/docs/PHASE4B.md) | 不门控CoLift分数，不把采样方差直接叫不可靠偏好 |
+| 教师置信度加权pair loss | [M06协议](../../DiCalRec/experiments/mllm_confidence_weighted_supervision/M06_PROTOCOL.md) | 旧方法训练冻结表示上的RichScorer并融合0.05分数；本轮没有新scorer/fusion，权重影响MSCA训练 |
+| 完整交互扩散、pairwise uncertainty融合 | [M27A](../../DiCalRec/experiments/m27a_exposure_clean_boundary_weighted_preference_denoising/M27A_PROTOCOL.md)、[M27C](../../DiCalRec/experiments/m27c_cutoff_specific_multi_horizon_pairwise_uncertainty_diffusion/M27C_PROTOCOL.md)、[M28A](../../DiCalRec/experiments/m28a_ranking_aware_temporal_preference_diffusion/M28A_PROTOCOL.md) | 不扩散7050D交互表，不加测试期分数，不复用temporal/inpainting假设 |
+| 未来语义原型、条件energy | [M29A](../../DiCalRec/experiments/m29a_boundary_semantic_prototype_diffusion/M29A_PROTOCOL.md)、[M30A](../../DiCalRec/experiments/m30a_conditional_denoising_advantage_boundary_rescue/M30A_PROTOCOL.md) | 行为latent样本仅用于比较权重；不以原型相似度或重建误差直接排名 |
+| 残差/energy/MASK末端reranker | [Round3](evidence/ROUND3_REPORT.md)、[Round4](evidence/ROUND4_REPORT.md) | 不冻结主干训练小排序头，不依赖约800个边界probe作为唯一监督 |
+| 正偏好生成近邻当负项、课程微调 | [Round5](evidence/ROUND5_REPORT.md) | 不生成/ground负项，不用正项T/V作为生成条件，不从最优checkpoint重启大步训练 |
+
+M06表明“损失加权”本身不是新思想；不能只把MLLM改成diffusion就声称新贡献。这里要验证的具体问题是：**生成的行为相容性是否能识别真实留出正项的误标风险，并让校准边界的训练比较更可靠。**
+
+这是项目内尚未完成的组合，不等于公开文献首创。若实现仍沿用旧RichScorer、energy、GAIN增广或Round5近邻负项，视为走回旧路。
+
+## 2. 上轮事实与本轮设计修正
+
+Round5训练时扩散实际生效：两个seed分别替换251,725/252,623个真实ID，fallback=0。最后都选epoch0，因为非零checkpoint退化。
+
+两seed平均monitor U：
+
+| epoch | B_CONT vs原模型 | D_CURR vs原模型 | D_CURR vs同期B_CONT |
+|---|---:|---:|---:|
+| 5 | −0.953% | −1.798% | −0.856% |
+| 10 | −2.395% | −8.535% | −6.288% |
+| 20 | −5.092% | −20.366% | −16.093% |
+
+advisor在严格留出的reranker TRAIN probe上，重建同一批替换事件：
+
+| seed | 替换项命中真实probe正项 | 同事件uniform命中 | 比率 |
+|---|---:|---:|---:|
+| 71 | 510 | 22 | 23.18倍 |
+| 72 | 491 | 24 | 20.46倍 |
+
+这只覆盖每个用户一个留出正项，不能解释全部退化，但明确揭示近邻负项误标风险。诊断没有用DEV/Test筛选训练ID；FIT与这些probe真实边不重叠，实际文件hash已复核。
+
+同时，原模型参数正则项约6.31，其中视觉embedding约6.27；继续20epochs后正则项约3.85。总loss下降不能作为偏好学习有效的证据。高学习率、清空Adam后从较优checkpoint继续训练，不是本轮再采用的训练环境。
+
+本轮修正：
+
+1. 高行为相容性提示谨慎排斥，不把它变成强负标签。
+2. 生成条件只依赖用户与历史，不含当前正项的直接T/V或ID。
+3. 从正常MSCA训练阶段接入，保持原uniform学习路径。
+4. 扩散只输出一个停止梯度的权重，不输出最终推荐分数。
+5. 先用真实TRAIN留出验证风险方向，再启动正式训练；非零梯度和条件敏感性不再充当科学验收。
+
+上轮“正负分差变大证明课程变难”的解释也不成立：同快照中s_n−s_p越大越难；跨epoch的训练后分差混入模型变化。本轮完全取消课程。
+
+## 3. 目标与两个动机
+
+每个数据集的目标：
 \[
 U=\frac14\sum_{m\in\{R10,N10,R20,N20\}}
-\frac{m(\mathrm{new})-m(\mathrm{MSCA+CoLiftRec})}{m(\mathrm{MSCA+CoLiftRec})}\ge0.01.
+\frac{m(\mathrm{Full})-m(\mathrm{MSCA+CoLiftRec})}
+     {m(\mathrm{MSCA+CoLiftRec})}\ge0.01.
 \]
 
-不是绝对加0.01，不是三域平均1%，不选最好指标、seed或sample。
+不是绝对加0.01，不要求四项各自都增长1%，不合并三个数据集凑平均。
 
-两个动机保持：
+- 内容相似不等于偏好：CoLiftRec校准通用内容背景；行为扩散给出相容性风险，避免仅凭内容相近就加强负监督。
+- 边界决策可能更困难：额外比较只放在完整CoLift参考列表的近cutoff范围，对潜在正项谨慎施加训练压力。
 
-1. 内容相似不等于用户推荐偏好。CoLiftRec校准语义背景；新增模块必须进一步识别用户偏好，不能只重建内容或重复已有lift。
-2. 候选边界可能存在值得额外建模的决策歧义。TopK指标在截断处敏感，不自动证明这里更难学习；需要分差、错误率与等预算干预证据。
+这些是待检验假设。边界敏感不自动证明学习更难；有增量也不单独证明扩散不可替代。保持辅助模块定位，不承诺CCF B或稳定三域1%。
 
-本轮问题：**在真实物品latent上直接训练“正物品的用户条件去噪优势高于未观测候选”，能否让M30A极弱的重建优势变成排序信号？它是否超过同数据确定性模型与单噪声DAE？**
+## 4. 数据、固定教师与访问范围
 
-不能把CDA、扩散困难负例、条件物品生成或边界残差本身写成新发明。论文贡献需要受控增量和机制证据，不由模块数量决定。
+第一阶段仅Baby，使用现有strict FIT：
 
-## 2. 历史查重：已尝试的路线
+- runs/round1/protocol_v2/
+- runs/round1/backbone_formal_v2/
+- runs/round1/assets_formal/
+- FIT91,657条唯一边，19,445用户，完整目录7,050，FIT出现物品7,032。
+- monitor13,447；probe13,447；reranker TRAIN10,757；INTERNAL2,690；DEV13,611。
 
-历史根目录 /home/gxy/code/DiCalRec/experiments 只读。历史报告用于理解失败；不导入旧Test cache、已选超参或checkpoint产生本轮结果。
+上述runs相对diffusion_experiments/。
 
-| 历史路线与源文件 | 已做的内容和证据 | 本轮处理 |
-|---|---|---|
-| [diffusion_background Phase1–4](../../DiCalRec/experiments/diffusion_background/README.md) | 语义背景残差、peer背景、物品不确定性、分布特征融合 | 不再次包装背景扩散，不把采样方差直接称偏好可信度 |
-| [Phase5A](../../DiCalRec/experiments/counterfactual_preference_diffusion/docs/PHASE5A.md) | 3D lift的偏好/背景类条件DDPM，能量差、Gaussian/GMM/MLP对照 | “能量差+正负样本”已经做过；须说明新对象和用户条件 |
-| [Phase6A](../../DiCalRec/experiments/listwise_preference_diffusion/docs/PHASE6A.md) | Top100 one-hot扩散、noisy-state Transformer、CE偏好项、纯噪声生成平均 | 关闭one-hot/分数生成；加attention或CE不是未探索方向 |
-| [M25A](../../DiCalRec/experiments/m25a_boundary_utility_diffusion_preflight/evidence/M25A_FINAL_REPORT.md)/[M26A](../../DiCalRec/experiments/m26a_boundary_hardness_anchored_local_diffusion/evidence/M26A_FINAL_REPORT.md) | GAIN action-state生成、锚定局部扩散增广；训练侧有效，未稳定胜简单控制或迁移 | 不再生成GAIN状态或做边界action oversampling |
-| [M27A](../../DiCalRec/experiments/m27a_exposure_clean_boundary_weighted_preference_denoising/evidence/M27A_FINAL_REPORT.md)/[M27B](../../DiCalRec/experiments/m27b_temporal_preference_inpainting_diffusion/evidence/M27B_FINAL_REPORT.md) | 交互去噪、prefix→suffix inpainting；旧Baby Test开发U约+0.269%/+0.300%，不足1% | 不重开完整交互inpainting；不能说全无效，也不能当独立确认 |
-| [M27C](../../DiCalRec/experiments/m27c_cutoff_specific_multi_horizon_pairwise_uncertainty_diffusion/M27C_PROTOCOL.md)/[M28A](../../DiCalRec/experiments/m28a_ranking_aware_temporal_preference_diffusion/M28A_PROTOCOL.md) | cutoff配对采样不确定性、多horizon、ranking-aware交互扩散；M28A两域状态NO_SHARED_STRUCTURE_PASS | “加入排序loss”一般思路已做；本轮区别是直接训练部署候选energy |
-| [M29A](../../DiCalRec/experiments/m29a_boundary_semantic_prototype_diffusion/evidence/M29A_FINAL_REPORT.md)/[M29B](../../DiCalRec/experiments/m29b_future_specific_semantic_lift_rescue/evidence/M29B_FINAL_REPORT.md) | 未来语义原型、MAX/TOP2、future-specific lift；旧Test退化或几乎无增益 | 不生成oracle原型再靠相似度救援 |
-| **[M30A](../../DiCalRec/experiments/m30a_conditional_denoising_advantage_boundary_rescue/M30A_PROTOCOL.md)** | **用户条件与NULL配对去噪误差之差，正是上轮提案核心；Baby/Sports正式实验已完成** | 核心重复。本轮是受控修正，不能宣称全新路线 |
-| M31A/B/C/D、M32A | 4480D原始T/V净化、物品协同条件、beta/guidance/rho及稳定选择器、迁移 | 不返回原始特征净化或选择器调参 |
-| Second-paper Round1/2 | rank6–30残差扩散；修正假负监督、真实采样链排序后，D1仍不胜C | 关闭进一步残差/DDIM/eta/seed救援 |
+固定身份：
 
-### 2.1 M30A必须读代码与完成报告
+- 教师checkpoint：51ecfb8b49d7570f09b04ab984ca2f06ed904dd2fe974dadd2bbc6b4a8d3d8ef
+- protocol.json：33c8e0ea7f81fe0d8d87e5547961217a1cc82a49106242038cca9b13a56bacbe
+- 原embedding：a9860008f6c0143bd255f07bb2fb398643a074fa101f959cc35c2e2fb7d09e7a
+- Round3 latent_context：5705e9b0e48886a918efa7192755a6e8f56c9683097c5816bd3d900bad446d51
+- Round3 PCA：6cabf1ba842f9e1096303f909f9b5017fec971fb60970a7450059b1cc14ac88c
 
-- [m30a_core.py](../../DiCalRec/experiments/m30a_conditional_denoising_advantage_boundary_rescue/scripts/m30a_core.py)：load_item_semantics_np、diffuse_target、SemanticEpsDenoiser。
-- [run_m30a.py](../../DiCalRec/experiments/m30a_conditional_denoising_advantage_boundary_rescue/scripts/run_m30a.py)：train_diffusion、candidate_cache、intervene。
-- [M30A_ADVISOR_HANDOFF.md](../../DiCalRec/experiments/m30a_conditional_denoising_advantage_boundary_rescue/evidence/M30A_ADVISOR_HANDOFF.md)。
+教师固定，用于提供CF坐标和CoLift参考边界，不参与本轮主干梯度。学生两分支从随机初始化正常训练，**不得调用Round5 load_student_from_state来初始化正式学生**。
 
-不能只看最初Top150 prerequisite失败就说没跑：用户批准Top100 override后，两域均完成。
+数据消费：
 
-M30A已有Err_NULL-Err_USER、TRUE/NULL/SHUFFLED、同状态同噪声和边界救援。旧Baby/Sports Validation U约+0.027659%/+0.000085%；旧Test开发U约−0.000141%/+0.008485%。完整gate都没通过。
+- FIT：图、学生梯度、DDPM目标、用户历史和背景。
+- monitor：仅MSCA训练选择；本轮不作为负项过滤或DDPM目标。
+- reranker TRAIN probe：风险CAL/EVAL与机制诊断，不进梯度/负过滤。
+- INTERNAL/DEV：锁后评价，不选参数。
+- CONFIRM/Test：本轮不读、不重评。
 
-Baby MIXED Err_TRUE=0.2883269、Err_SHUFFLED=0.2883736，仅差0.0000467，选中TRUE和SHUFFLED的排序增益一样。约99.5%用户被标active，实际几乎无换位。**数值使用用户条件，不等于区分候选偏好。**
+本轮恢复原MSCA的FIT-only负项黑名单，两分支均如此；不能复用Round5的FIT∪monitor过滤。负项宇宙仍为FIT出现过的物品。边界比较也不利用monitor/probe/DEV/Test标签去除未来正项。
 
-### 2.2 可以修正的设计不足，不是唯一失败根因的证明
+FIT训练目标可以参与固定教师图，是训练侧teacher target；不得称独立OOF。风险EVAL目标边必须确实不在教师FIT图和画像中。
 
-1. M30A明文禁止ranking loss和hard-negative training，仅正例epsilon重建；没有直接学习正例相对边界候选的优势。
-2. 192D latent全局norm=1，却注入逐维N(0,1)。能量SNR=abar/[192*(1-abar)]；旧20步cosine的t=2约0.08268，t=14约0.000878。小t不自动代表保留足够内容。
-3. 很小的原始能量差直接乘gamma；名义激活不能替代有效排名干预。
-4. NULL和条件分支联合训练，参照可能漂移。新背景独立冻结，不能通过抬高背景误差获得优势。
-5. probe_seed依赖batch起点start；估计随query重排/拆batch变化。新噪声必须按query身份确定。
-6. Phase5A/6A只从画像/过滤中伪留出：src/data/pipeline.py::load_validation_only在完整TRAIN图上导出embedding，然后才pseudo_split。伪留出边仍参与协同传播；高内部指标不是严格edge-isolated泛化。
-7. Phase5A用CF-only+能量替代CoLiftRec，扩散三个beta对Static U为−4.8319%/−5.2004%/−5.7655%；MLP audit AUC=0.6150，高于diffusion=0.5951。不能说能量差全无信号，也不能说区分偏好/背景就足以胜过强基线。
+旧Test已多次开发曝光；本轮不读不代表历史未读。当前是FIT原型，不能把其增量直接叠到full-TRAIN论文指标。
 
-M28A已经在交互生成对象上做过ranking-aware训练，因此本轮必须用D_PREF vs D_GEN验证**同候选energy上的偏好对齐**，不能只说“新加排序loss”。
+## 5. 一个小型用户历史条件DDPM
 
-### 2.3 历史曝光跨仓库延续
+### 5.1 行为状态和条件
 
-advisor核对：两个仓库Baby/Sports的(userID,itemID,x_label)带multiplicity集合完全相同。Baby字节hash不同但标签边相同；Sports字节hash也相同。
+对象为固定教师64D collab_item：
+\[
+z_i=(e_i^{CF}-\mu)/\sigma.
+\]
+mu/std用FIT出现的物品拟合，std floor=1e-6，常量维删除记录；标准化后不再全局L2。
 
-当前Baby的5,834个CONFIRM用户全部在旧实验评价过的完整Validation中；旧Baby/Sports Test也已多次作为开发结果查看。
+条件：
+\[
+c_u=[e_u^{CF},\ \mathrm{mean}(T32,V32\mid H_u),\ \log(1+|H_u|)].
+\]
 
-- 本轮仍不打开当前CONFIRM/Test，不调用读取旧Test的runner。
-- “当前pipeline未打开”不等于“研究者从未查看”。不得写fresh/untouched external confirmation或从未使用Test。
-- DEV/INTERNAL和旧完整Validation/Test都是开发证据，需披露历史。
-- 将来的冻结评估、其他骨干seed或新评估安排由advisor决定；executor不自行换split或通过重新分用户洗白曝光。
+正常为129D。训练事件(u,p)中T/V画像删除p；不输入p的T/V、ID、CF clean target、probe位置或标签。教师user CF仍来自FIT训练图，不能因删除画像p就称训练事件全条件OOF。
 
-## 3. Round2结论与本轮冻结资产
+推理风险时使用完整FIT历史；TRAIN留出probe本来不在其中。条件标准化只用FIT构造的训练事件。**不要把旧193D条件的p语义列保留、置零后继续训练，也不要复用Round5生成器checkpoint。**
 
-参考[Round2报告](evidence/ROUND2_REPORT.md)：
+### 5.2 固定小模型
 
-| 方法 | 两seed平均DEV U | 两seed平均INTERNAL U |
-|---|---:|---:|
-| C | +0.4533% | +0.3742% |
-| D0 | +0.2152% | −0.6774% |
-| D1 | +0.2002% | −0.2475% |
+复用BehaviorDiffusion的正确x0/DDIM数学，重新训练：
 
-D1 vs D0的INTERNAL两CI都含0，checkpoint/eta也不同；旧报告“显著缩小”“证明路径对齐有效”不能照搬为统计显著/独立因果结论。
-
-本轮仅Baby，不重训MSCA、不改CoLiftRec、不换split、不增加probe边：
-
-- 协议：runs/round1/protocol_v2/。
-- 骨干：runs/round1/backbone_formal_v2/；SHA256为51ecfb8b49d7570f09b04ab984ca2f06ed904dd2fe974dadd2bbc6b4a8d3d8ef。
-- protocol.json SHA256：33c8e0ea7f81fe0d8d87e5547961217a1cc82a49106242038cca9b13a56bacbe。
-- 候选：runs/round1/assets_formal/的probe_top100.npz、probe_targets.npz、dev_top100.npz。
-- FIT91,657边；monitor13,447；probe13,447；reranker TRAIN10,757用户；INTERNAL2,690；DEV13,611。
-
-Round3不复用Round2的best.pt、sigma_r或人工残差监督；新对照必须重新训练。backbone、PCA、z和c全部stop-gradient，conditional optimizer只含当前模型可训练参数。
-
-以上runs相对diffusion_experiments/。先校验真实文件hash、边身份、用户顺序/id mapping、候选和S0；不只比较JSON里的hash字符串。复用round1_build_assets.py的strict model/export导出新latent，但继续使用冻结候选，不覆盖近似ties的原顺序。
-
-## 4. 全部现有TRAIN probe监督，保持隔离
-
-所有10,757个reranker TRAIN用户的指定probe可作正监督，不要求它在Top100或rank6–30。当前自然Top100 coverage约21.437%，原窗口监督仅856。
-
-这只是利用相同冻结划分中的现有监督。所有新对照共享扩容，不能只让扩散得到更多数据。
-
-- FIT：协同图、backbone传播和可见历史。
-- TRAIN probe：只进入目标/loss，不进入历史/图/条件画像。
-- monitor：只作已知正例黑名单，不新增正监督。
-- INTERNAL probe、DEV标签：只评价，不进入梯度或负过滤。
-- 禁止使用旧full-TRAIN embedding伪留出。
-
-物品metadata/冻结latent在目录中可见，因此训练候选外probe合法；部署不能强塞正例。分别记录监督构造和自然部署覆盖率。
-
-每TRAIN query固定三个未观测候选，先从其冻结Top100中排除已知原TRAIN正交互（FIT、monitor、其指定TRAIN probe）：
-
-1. rank8–13的一个，均匀抽样；
-2. rank18–23的一个，均匀抽样；
-3. Top100中的一个普通未观测项，均匀抽样。
-
-去重；池空时从其余合法Top100补齐。不足三个则按实际数归一loss并记录，不偷偷加Validation过滤。监督表seed202610068，所有模型/epoch共享；不做动态hardest、在线挖掘或比例网格。记录候选来源、rank、S0 gap、语义/协同分歧。
-
-这些不是确认用户不喜欢的真负例。排除已知正例不能消除全部假负项。INTERNAL配对诊断只使用自然候选中probe出现的用户，不注入目标。
-
-## 5. 冻结表示、用户条件与量纲
-
-### 5.1 默认96D物品latent
-
-固定三块，各最多32D：
-
-- C：strict FIT模型collab_item；
-- T：当前配置原文本特征；
-- V：当前配置原视觉特征。
-
-T/V先沿用内容特征行归一化，再分别固定PCA32；C直接PCA32；最后按投影catalog mean/std逐坐标标准化。PCA seed202610067，共用投影、统计和latent文件。
-
-完整side information和FIT item embedding可作transductive目录统计，不读取评估标签。保存输入路径/hash、均值/std/投影、常量维处理；有效rank不足32仅保留有效维，不填大量零维计入loss。
-
-**标准化后禁止再次全局单位L2归一化。**逐维信号方差约1，匹配Gaussian；能量SNR约abar/(1-abar)，不再有1/192因子。
-
-属性仍由冻结CoLiftRec完整T/A/V基线提供；本轮不新增属性encoder/LLM。所有新模型同样使用C/T/V，不给不同模型不同模态。
+- hidden128×2、SiLU、time32、dropout0.05；
+- 50-step cosine，t=0 clean，训练t均匀1..50；
+- x0 prediction MSE，不增加ranking/contrastive/energy head；
+- AdamW lr3e-4、weight_decay1e-4、grad_clip1；
+- batch512、3,000updates，FIT事件均匀抽样；
+- final checkpoint固定，不用DEV/INTERNAL选择。
 
 \[
-\ell(\hat z,z)=\frac13\sum_{b\in\{C,T,V\}}\frac{\|\hat z_b-z_b\|^2}{d_b}.
+z_t=\sqrt{\bar\alpha_t}z_0+\sqrt{1-\bar\alpha_t}\epsilon,\quad
+L_D=\mathbb E\|f_\phi(z_t,t,c_u)-z_0\|^2/d.
 \]
 
-报告每块重建、norm和实测signal/noise RMS、SNR；不能只看总MSE。
+记录有效noisy样本MSE与实测RMS/SNR。生成器与教师eval()+no_grad()，hash固定；不挂进MSCA.parameters或cal_reg_loss。
 
-### 5.2 用户条件
+### 5.3 风险内部采样
 
-c_u=[strict collab_user, mean_{i in FIT_history(u)} z_i, log1p(FIT_history_length)]。
+每用户K=4，从固定query/sample-keyed Gaussian noise做DDIM eta=0：
+[50,45,40,35,30,25,20,15,10,5,0]。
 
-条件标准化只用reranker TRAIN用户；其他集合复用。历史是集合，不制造recent5/last-item/顺序任务。空历史显式零向量和长度0。
+只使用最终z0样本，不保存三个state负例池、不做近邻ID生成或课程。seed绑定(dataset,user,sample_id,generator_seed)，不依赖batch起点。
 
-denoiser只输入z_t,t,c_u，不额外传clean z、probe位置、target mask、正负身份、label-derived rank。id可用于查冻结表示/固定随机数，不新增trainable id lookup。
+仍须真实反向去噪，不是直接取用户均值加噪。x0/DDIM输出参数化要一致；非有限生成不得用目标向量替换。无有效证据时辅助权重为0，保留原uniform路径。
 
-默认两层hidden128 MLP、time32、小型用户FiLM/条件投影，输出clean latent。不开多兴趣、CFG或新Transformer。本轮是候选兼容度任务，不需照搬旧listwise noisy-state attention。
+## 6. 参考边界与单一可靠性权重
 
-## 6. 扩散、冻结背景与偏好目标
+### 6.1 固定参考A，不做动态refresh
 
-### 6.1 真实物品forward
+用固定教师自然Top100完整CoLift参考列表，优先复用已验证的Round5 assets_formal_v4/teacher_L100.npz并核对身份。
 
-clean state为z_i，50步cosine schedule：
+b10、b20取相邻分数中点；排除原rank1–5，保留距离任一cutoff<=0.5的项，每cutoff最多32，去重补到最多64。再过滤FIT历史和非FIT-observed物品。
+
+这是**原强基线的参考边界**，不能叫学生训练期间实时边界。训练和最终评价均L=100，不再搜200/500/1000或百分比；不重新给CoLift调alpha/lambda。
+
+新构建时每个L独立计算模态row-z及背景。不能Top1000标准化后切100，也不能只检查候选集合。核对顺序、逐item S0、lift、A；不要继承旧Round4 L500错误资产。
+
+### 6.2 从行为样本到风险
+
+对i∈A_u，用固定教师同一标准化CF坐标做cosine：
+\[
+a_{ui}=\log\left[\frac1K\sum_{k=1}^K
+\exp\{\cos(z_u^{(k)},z_i)/0.1\}\right].
+\]
+
+实现用logsumexp，不拿学生新embedding与教师生成向量混做距离。它是行为相容性统计，不是重建energy，也不直接加入推荐score。
+
+rho为a在本query合法A内的平均秩百分位：
+\[
+\rho_{ui}=(\mathrm{ascending\ average\ rank}(a_{ui})-1)/(|A_u|-1).
+\]
+
+最高相容性rho=1、最低0；ties用average rank。少于2项、score范围<=1e-6、所有生成无效的query标为INVALID，不制造任意风险排序。
+
+**rho是相对风险信号，不是校准点击概率。** 本轮不额外引入方差gate、NULL背景、学习式校准器或风险分类头。
+
+唯一输出为：
+\[
+w_{ui}=I_{\mathrm{valid}}(1-\rho_{ui})^2.
+\]
+
+高风险项被弱比较，最高风险为0。停止梯度；权重不能被学生优化成0来逃避训练。缓存只覆盖A；未评分位置有明确valid mask，不用0占位做“全候选判别”。
+
+## 7. 快速科学预检：先证明权重方向
+
+先完成1个生成器和风险预检，再决定是否值得做正式学生训练。不得以条件敏感性、非零梯度、loss下降替代下述证据。
+
+原reranker TRAIN10,757用户按user hash、seed202610090固定70% CAL/30% EVAL。两者目标都不进图/画像/梯度。CAL用于确认实现和报告，EVAL一次检验；不根据它搜tau/K/模型/权重函数。
+
+在probe自然落入A的用户上：
+
+1. 计算probe风险及合法未观测A候选风险；不注入probe。
+2. 报告top-risk quartile的已知正项覆盖/富集与全部A target rate。
+3. 报告每query风险pair win（tie=.5）和known-positive与unobserved的平均w。
+4. degree匹配：与probe的|log1p(degree)差|<=0.5的未观测项优先；没有匹配的query单列，不静默扩大。
+5. 同生成器固定noise，只打乱用户侧条件做一次诊断；不训练另一模型、不把shuffled当性能替代方法。
+6. 报告自然A内正项数量、有效query数、degree/norm分层与query bootstrap，不能只选赢家用户。
+
+EVAL进入正式训练的预先条件：
+
+- 至少128个有自然A内probe且有合法比较项的独立query；
+- 风险pair win>=0.53，top-risk quartile正项富集>=1.2；
+- known-positive平均w低于未观测项平均w；
+- degree匹配子集方向仍>0.5，真实条件没有明显弱于shuffled。
+
+这些是小规模方向检查，不保证统计显著或1%增长；CI跨0如实报告。若条件不成立，完成证据报告并标RISK_SIGNAL_NOT_ESTABLISHED，不跑几轮正式训练补解释，不回到重建energy或正项近邻负采样。其他独立正确性检查可继续完成。
+
+## 8. 主干只接一个小型辅助比较项
+
+原uniform比较(u,p,n0)全部保留。每个FIT事件额外从该用户合法A均匀抽1个j，**不是DDPM挑选ID**，不按风险筛选、不做最难挖掘。采用独立event/epoch-keyed RNG，不能改变原positive顺序/uniform negative流。A空时辅助系数0。
 
 \[
-z_{i,t}=\sqrt{\bar\alpha_t}z_i+\sqrt{1-\bar\alpha_t}\epsilon.
-\]
-
-预测x0，重建t均匀采样全部50步。不生成one-hot/人工残差，不增加SNR/loss/timestep网格。
-
-### 6.2 两个独立背景
-
-为使单噪声DAE是完整非扩散对照，分别训练：
-
-- BG_DM：无用户条件、50步diffusion x0 denoiser；
-- BG_AE：同主体、单一固定噪声DAE，不训练多t，不使用DM背景。
-
-背景均匀catalog物品、相同latent、30epochs、batch256、AdamW lr0.001/wd0.0001，固定seed202610065，保存最后epoch。不按DEV/INTERNAL选背景，不做popularity采样。
-
-训练后完全冻结，从conditional optimizer排除。背景不接用户/偏好标签/排序loss，不联合更新误差参照。
-
-Conditional主体复制对应背景，新增小幅随机初始化用户条件投影。同seed的D_GEN/D_PREF初权重和重建随机流相同。先设置Python/NumPy/Torch seed再创建模型。
-
-### 6.3 实际候选energy与固定尺度
-
-从50步schedule选择abar最接近[0.8,0.6,0.4,0.2]的四个不同index，保存具体index/alpha/SNR。AE仅用其中最接近0.6的级别。
-
-DM正式probe：每t一个独立Gaussian及其负值，共8次；AE正式probe：固定t的4个Gaussian及其负值，也共8次。
-
-\[
-E_u(i)=\frac18\sum_{(t,\epsilon)\in P}\ell(F_\theta(z_{i,t},t,c_u),z_i),
-\quad E_{bg}(i)=\frac18\sum_{(t,\epsilon)\in P}\ell(F_{bg}(z_{i,t},t),z_i),
+\ell_0=\mathrm{softplus}(s_{un0}-s_{up}),\quad
+\ell_A=\mathrm{softplus}(s_{uj}-s_{up}),
 \]
 \[
-A_u(i)=[E_{bg}(i)-E_u(i)]/s_{bg}.
+\ell_{\rm rec}=\frac{\ell_0+\beta w_{uj}\ell_A}{1+\beta w_{uj}}.
 \]
 
-s_bg在对应冻结背景完成后，用reranker TRAIN自然rank6–30候选的平均背景energy计算：先每query中心化，再计算pooled std，下限1e-3。无目标label统计，一次冻结；不随conditional checkpoint改变、不用DEV/INTERNAL。D_GEN/D_PREF共用DM尺度；AE用其对应独立背景尺度。
+- epoch1–5 beta=0；之后固定beta=0.10，不加课程或替换率网格。
+- 原uniform系数至少1/1.1；单事件总比较权重为1，辅助比例最多9.09%。
+- 未观测j不是真实负偏好，只是低强度训练比较；高风险明确减弱。
+- CL/reg定义、系数、raw T/V是否可训练完全沿用原MSCA，不为了过关单独冻结/改正则。
+- 每个batch按事件平均；不能按sum(w)再做另一遍归一化，不能把CL/reg重复计算或一起乘辅助权重。
+- DDPM不接受BPR梯度，最终推荐只用训练后的MSCA+完整CoLift。
 
-这是预注册量纲校准，不是后验放大最好读数。报告raw advantage与标准化值，检验是否只放大随机误差。
+beta=0直接调用原MSCA loss，作为唯一无扩散基线。开启时一次forward复用embedding计算loss，保留原CL/reg数学。没有新增推荐encoder、评分头、测试期delta或reranker。
 
-条件/背景/SHUFFLED对同候选使用同z_t,t,epsilon；同query所有候选共享每个probe噪声。seed键为(dataset,query_user_id,probe_bundle,t_index,draw)，不依赖batch起点、候选slot、遍历顺序或label。SHUFFLED换条件，不换query噪声。
+性能增长归于整个辅助模块，不能仅凭主对比证明任意普通权重不能替代diffusion。按用户要求，不增加普通替代方法性能矩阵。
 
-主bundle202610075用于选择；次bundle202610076只在checkpoint/eta冻结后诊断，不选最好sample。
+## 9. 正常训练与有限矩阵
 
-**有限probe的A是条件兼容性代理，不是精确likelihood ratio、因果lift或校准posterior。**x0-MSE不能直接继承epsilon-ELBO或PreferDiff的全部定理。
+### 9.1 先把无扩散路径复现健康
 
-### 6.4 D_GEN vs D_PREF：只增加偏好项
+按 [round1_fit_backbone.py](scripts/round1_fit_backbone.py) 的FIT-only图、原MSCA设置，从随机初始化正常训练：
 
-\[
-L_{den}^+=\mathbb E_{t,\epsilon}\ell(F_\theta(q_t(z_{i^+}),t,c_u),z_{i^+}),
-\]
-\[
-L_{pref}=\frac1{|N_u|}\sum_{j\in N_u}
-\operatorname{softplus}(A_u(j)-A_u(i^+)).
-\]
+- n_layers2、fusion_coeff0.4、cl_weight0.005、reg_weight3e-7；
+- Adam lr0.001、weight_decay0；
+- train/eval batch2048，原常数scheduler；
+- 每epoch monitor Recall@20，early stopping20，最大100epochs。
 
-D_GEN只优化L_den；D_PREF优化L_den+L_pref，lambda_pref固定1。同架构/数据/BG/初始化/更新算法。
+保留原负采样宇宙/历史过滤；训练前正确设置seed。旧best checkpoint只是教师/外部参考，不是正式学生初始化。
 
-偏好训练从注册四t均匀抽一个t，每query一个独立Gaussian，正负候选与背景使用相同噪声。背景no_grad/frozen；条件energy必须可微，不能detach。s_bg保持冻结。重建与偏好RNG分离。
+先完成seed999无扩散复现，比较monitor MSCA R20与旧教师高精度参考；默认相对下降超过1%标BASE_REPRODUCTION_MISMATCH，先查图、ID、初始化、RNG、loss/采样差异，不启动D正式训练。旧采样流未完整记录，不要求checkpoint字节相等。
 
-训练随机单probe和正式8probe的MC预算不同，但计算同一种候选energy；披露差异，不声称完全相同。无需从纯噪声猜label residual。
+总loss之外单列BPR、CL、加权reg（包括视觉embedding部分）；不要用loss降低宣称偏好学习有效。不能偷偷调整两分支不同的优化设置或改baseline以获得较低分母。
 
-记录weighted gradient、重建、偏好margin、正/负energy分别变化。如果只有MSE下降而偏好/排名不改善，这是负结果，不自动调lambda或变成只排序。
+### 9.2 必要smoke
 
-正例重建锚定物品表示，冻结背景防止抬高参照；偏好项使正例条件证据更强。但模型仍可能靠过度增大未观测物品误差过拟合，要检查输出norm和留出结果。
+- 图和评估目标隔离、teacher/CF/PCA/hash真实一致。
+- 用户条件没有当前正项直接语义输入；风险目标不进入条件。
+- DDIM真实调用、finite、eval无dropout、query/batch重放一致。
+- 正项高风险时w变小；invalid辅助项0；权重stop-gradient。
+- beta=0的原MSCA loss/gradient一致，beta>0有实际主干影响。
+- 主干optimizer/cal_reg_loss不包含DDPM/teacher参数。
+- 基础positive/uniform流两分支相同，额外j合法且不读未来标签过滤。
+- 同坐标cosine、reference boundary口径、未评分mask正确。
+- 实际有效辅助项比例、平均beta*w/(1+beta*w)非零；不能只日志“开关开启”。
 
-### 6.5 C与AE强对照
+smoke不是效果实验。旧Round5的五个CPU测试不能替代本轮loss/数据接口检查。
 
-- C：q_phi(z_i,c_u)直接输出evidence；hidden128两层、同类型用户条件注入；同候选softplus(q_neg-q_pos)+0.001*mean(q^2)。无diffusion/BG特征，拥有完整干净latent，不削弱数据/用户条件。
-- AE_PREF：从BG_AE初始化，与D_PREF同类型网络/同损失；重建和energy偏好只在固定abar约0.6级别。
+### 9.3 正式范围
 
-AE和DM同为8次正式probe，避免把MC平均当diffusion优势。所有方法同候选、门控、改分、eta网格。报告背景预训练等额外开销，不称总FLOPs已严格匹配。
+仅两个版本，各两seed：
 
-## 7. 共同边界干预：有限且实际可改变排序
+- B：原MSCA正常训练＋完整CoLiftRec。
+- D：相同训练＋上述辅助比较权重，完整CoLiftRec不改。
 
-B固定baseline rank6–30，rank1–5、31–100固定槽位；不Top150扩展，不注入正例。
+主干seed999/1000；对应生成器seed202610081/202610082。固定教师仍旧seed999，因此不称多教师稳健性。
 
-rank从1开始，k=10/20：
+第一份B复现若合格，可作为正式B seed999复用，不重复训练。合计至多4个学生fit＋2个小DDPM fit；不训练第三种方法，不搜beta、K、tau、L或sample ensemble。第二生成器用相同预检口径复核；若风险方向不稳定，报告GENERATOR_SENSITIVE，不挑较好的生成器seed继续隐藏问题。
 
-\[
-b_{u,k}=(S^0_{u,k}+S^0_{u,k+1})/2,\quad
-h_{u,k}=\max(S^0_{u,k-2}-S^0_{u,k+2},10^{-3}),
-\]
-\[
-g_{ui}=\max_{k\in\{10,20\}}\exp(-|S^0_{ui}-b_{u,k}|/h_{u,k}).
-\]
+两分支使用同样max100/early20/monitor R20选择；指标用高精度，不根据DEV改为另一选择准则。保存真正训练的checkpoint、optimizer与最佳epoch。
 
-g只反映基准分距cutoff，是定位规则，不是校准uncertainty。所有模型共用；语义/协同分歧只作诊断，不加可调gate。
+**不能把旧教师塞入“epoch0候选”让失败输出自动变成0%表。** 若D较差，报告它真实选中checkpoint的负增量；旧教师B0只作外部参考。复现失败也不以旧模型冒充已完成的新B。
 
-B内每query中心化evidence：a_i=A_i-mean_B(A)；C同样中心化q。共同部署：
+锁定每seed两分支checkpoint及所有identity后，才评价完整DEV/INTERNAL。最终自然Top100及完整CoLift背景按各自模型重算，lambda/alpha不调。不只看辅助用户子集，不打开CONFIRM/Test。
 
-\[
-\delta_{ui}=0.25\tanh(\eta g_{ui}a_{ui}/0.25),\quad S_{ui}=S^0_{ui}+\delta_{ui}.
-\]
+## 10. 结果与论文叙述
 
-仅排序B并放回原槽位；eta=[0,0.05,0.10,0.20]，不放大clip/eta救援。
+每seed报告六项原始指标及：
 
-旧Round2每项限幅0.25意味着分差>0.5无法翻转；训练中基准分高于正例的负项8,531对，其中4,136对不可翻转。新训练学习evidence偏好，不对所有pair强制用capped部署score翻转；部署仍保守。训练margin不等于真实纠错数。
+- D vs同seed B的四项平均相对增量；
+- B、D各自vs旧B0（不同随机训练路径的参考，不混同主分母）；
+- 风险预检、辅助权重分布、实际梯度/训练分量；
+- Top10/20救回/伤害/净变化、按原baseline分差与degree分层；
+- GPU时间、峰值显存、DDPM预训练与缓存开销；最终推理不调用DDPM。
 
-必须分别统计非零evidence/delta、顺序变化、Top10/20成员变化、正例hit-count/DCG净收益。不能再次用99.5%名义active掩盖几乎零有效换位。
+paired user bootstrap1000次，条件化开发诊断；positive_fraction不是p值。指标平均和seed方向分别列，不挑最好指标。
 
-## 8. 实施顺序与最多10个正式fit
+分类：
 
-### 阶段0：资产和可行性
+- BASE_REPRODUCTION_MISMATCH / IMPLEMENTATION_INVALID：还不能评价新增模块。
+- RISK_SIGNAL_NOT_ESTABLISHED：权重没有正确风险方向，不开展正式学生矩阵。
+- NO_INCREMENT：有效实现但主比较平均<=0。
+- POSITIVE_BELOW_TARGET：有增长但不足1%。
+- UNSTABLE：seed/split方向明显冲突。
+- BABY_DEVELOPMENT_TARGET_MET：DEV与INTERNAL两seed平均U>=1%，各seed增量均正；仍仅Baby开发结果。
 
-不训练新模型，先建监督表、latent/context、SNR与隔离检查、baseline复现；报告候选池支持、known-positive rejection、probe自然rank。
+本轮不根据失败追加大网格；完成可复核结果交advisor。Sports/Elec和full-TRAIN协议由后续决定。
 
-离线oracle：仅B内给评价正例+0.25、其他−0.25后排序。评价标签只用于该离线诊断，不进模型/gate/超参。这是固定槽位和限幅下乐观性能界，不是真实收益。
+论文只把扩散写成“保护边界比较的训练辅助”：CoLift内容校准是主线，扩散使潜在正偏好受到更谨慎的比较。模块开销、生成cache、PCA和数值保护不列成额外贡献。即使只有约1%小增量，也用三域稳定性和风险方向证明意义，不堆叙事。
 
-advisor当前DEV四指标平均相对界约+22.1170%。它只说明存在纠错机会，不代表可学或保证1%。重算不一致先检查基线/标签/slot；当前没有已确认的窗口理论不可达1%阻断。
+## 11. 文献依据
 
-界低于目标、候选不足或协议失败时保留阻断证据，不自动扩深度/换split。
+原文已人工核读；自动书目核验helper不可用，以下统一UNVERIFIED（自动核验不可用），正式论文前核对发表版本。
 
-### 阶段1：真实函数测试和smoke
+- Ma等，[PDRec，2024 arXiv版](https://arxiv.org/html/2401.02913v1)：高偏好未观测项需要谨慎处理，低偏好项更适合作比较；本轮不照搬全交互扩散/软正例增强框架。
+- Liu等，[PreferDiff，ICLR2025](https://arxiv.org/html/2410.13117v2)：生成与偏好目标需匹配，假负例有影响；不搬其理论为本轮权重保证。
+- Yang等，[CCDRec，AAAI2025](https://ojs.aaai.org/index.php/AAAI/article/download/33422/35577)、Nguyen/Fang，[DMNS，WWW2024](https://arxiv.org/html/2403.17259v1)：不能保证个性化正项生成近邻是真负例，本轮关闭这种标签迁移。
+- 旧M06/Phase4/M27已证明一般confidence/gate思想有先例，本轮不声称“第一次将diffusion用于可靠性”。
 
-新建Round3独立代码/配置，保留旧版本行为。固定随机抽TRAIN256、INTERNAL/DEV各512、catalog子样本，1–2epochs。smoke不要求涨点。
+## 12. 实现和交付
 
-必须通过：
+建议独立Round6小文件：configs/round6_baby.yaml、models/round6_user_behavior_diffusion.py、modules/round6_boundary_weight.py、必要assets/generator/train/analyze脚本及正确性tests。只实现上述一个权重职责，不开第二路线。可复用Round5正确DDIM/按L builder，但重新生成129D条件与风险缓存，不能复用193D模型。
 
-- 真实历史/图排除所有probe/monitor；TRAIN/INTERNAL无交叠；known TRAIN正例不作负项。
-- 模型输入无目标身份；固定输入时改label只改变loss。
-- PCA/std/norm/SNR可复核，目录统计无评估label。
-- preference loss对conditional有限非零梯度；背景权重不变且不在optimizer。
-- 条件/背景同状态噪声；batch拆分、query重排、候选置换、保存重载稳定（记录FP32容差）。
-- t映射正确；训练/评价随机流分离；AE不调用多t DM或BG_DM checkpoint。
-- eta0恒等、固定slot、候选集合一致，loss/梯度/预测有限。
+runs/round6保留teacher身份、风险CAL/EVAL、2个生成器、4个学生、锁文件及逐用户排名。artifact区分未评分与0，非空目录不覆盖；resume恢复真正的optimizer/RNG/epoch并校验identity。
 
-测试调用真实函数并包含失败注入，不用手写天然无交叠集合证明隔离。pytest缺失时用直接harness，不为本轮安装包改变环境。
+GPU只用RTX5090，确认UUID和剩余显存，可与低占用任务共用，不终止别人任务或切换其他型号。smoke与科学预检通过后nohup串行正式队列；记录真实命令、PID、commit/config/assets hash、状态和退出码。进程消失不等于完成。
 
-### 阶段2：正式矩阵
+先提交代码、配置、本指导和smoke/预检协议，再跑正式；结果摘要单独提交。大数组/checkpoint/log本地保存并检查gitignore；不force-push或改远程main，真实push成功才称上传。保留现有未跟踪ADVISOR_REVIEW_ROUND1.md。
 
-先BG_DM/BG_AE各1个fit，再4种模型各2个seed：
+交付evidence/ROUND6_REPORT.md、round6_protocol.json、round6_results.csv、round6_checks.json及风险预检结果。这些是实验产物，不增加新的advisor指导MD。
 
-| ID | 模型 | 回答的问题 |
-|---|---|---|
-| C | 直接偏好打分 | 新表示和监督是否已足够 |
-| D_GEN | 多尺度重建+冻结背景energy | 修正尺度/协议后的无偏好路线 |
-| D_PREF | D_GEN+实际energy偏好项 | 偏好对齐是否把去噪优势变成排序信号 |
-| AE_PREF | 单噪声DAE+偏好项、独立AE背景 | 多尺度diffusion是否超出普通去噪和8probe平均 |
-
-**2背景+8conditional=最多10个正式fit**，不含必要工程修复重跑；修复重跑单独完整计数。Conditional seeds=[202610063,202610064]。
-
-默认30epochs、batch256 query、AdamW lr0.001/wd0.0001、dropout0。每5epochs评价，至少10epochs后patience3；所有模型同停止规则，记录实际updates。D_GEN/D_PREF同seed重建RNG同初态，新增ranking RNG不能改变重建draws。
-
-仅DEV主bundle按保护后的最大U选择checkpoint/eta。INTERNAL同时记录，但不入选择公式，也不驱动本轮追加训练。
-
-每5epoch保存模型与完整评价快照。D_GEN/D_PREF除各自DEV选中结果外，还报告共同可用的最大评价epoch、固定eta=0.10的成对结果（不依据哪次有利来选epoch）；选择不同checkpoint/eta时不能把系统差异直接写成唯一loss变化的因果证明。
-
-保护：四主指标至少3项非负，最差单项相对回退<=0.5%；R50/N50绝对增量>=−0.0005。eta0保留；退回基线不是方法成功，COMPLETE不等于PASS。
-
-没有自动D2、多兴趣、CFG、增广、原型、lambda网格或三域扩展。
-
-## 9. 科学诊断与统计必须交付
-
-每seed报告全DEV13,611和全INTERNAL2,690的六指标、四项相对增量、U；自然窗口命中189子集仅补充。TRAIN同时报告全部10,757与原856子集，不只展示有利用户。
-
-### 9.1 偏好区分，不只正例重建
-
-自然INTERNAL Top100中probe命中的用户上，用固定普通/边界未观测候选报告A_pos-A_candidate、paired win rate、AUC和TRUE/空条件/SHUFFLED。label只进入离线计算，不改变输出/部署候选。
-
-空条件是conditional network的零标准化context诊断，不等同独立BG；主要背景始终是冻结BG。SHUFFLED来自另一真实用户，固定全用户derangement，不按batch滚动；它是无需重训的条件必要性诊断，不是随机训练模型性能控制。
-
-按S0 gap分层，尤其gap<=0.5、Top10/20相关候选与语义/协同分歧；不让大量容易随机pair掩盖边界失败。D_PREF需在留出pair和净纠错上改善D_GEN，TRUE需在实际排序上优于SHUFFLED，不只MSE略低。
-
-### 9.2 实际效用与边界归因
-
-记录候选交换、TopK集合变化、每用户hit-count/Recall/DCG增减、自然候选外正例比例。R50保持主要是固定slot性质，不是机制成功。
-
-冻结checkpoint/eta后，对每个模型只补算一次g=1无门控控制，不重选eta或重训。检验门控保护作用，不把它变成另一套选参网格。
-
-cutoff附近hit变化不能独自证明边界更难；结合相同margin、候选来源、条件分歧讨论，披露用户数和计算机会差异。
-
-### 9.3 Probe可靠性与计算
-
-主bundle选中结果，次bundle只诊断；保留两个bundle、逐t/draw和8probe平均的排名读数，不挑最好sample。
-
-报告BG/conditional参数、样本、updates、forward次数、分别训练/评价耗时、一次8probe推理耗时、峰值显存。网格全路径评价时间不写成线上一次latency。
-
-### 9.4 配对统计与限制
-
-用户paired bootstrap seed202610069、1000次，先聚合重采样用户指标再算U；比较D_PREF vs基线、C、D_GEN、AE，报告CI含0与否。
-
-DEV选择、INTERNAL多轮查看、旧完整Validation/Test曝光：CI是条件化开发诊断，不是新外部显著性。两个conditional seed不足以证明跨backbone seed稳定。正replicate比例不是p值或成功概率。
-
-## 10. 停止分类：完整运行与科学成功分开
-
-- 工程/隔离/资产失败：IMPLEMENTATION_FAILED或PROTOCOL_INVALID。允许必要修复后同协议新run，保留失败产物。
-- 重建有优势、候选偏好无改善：DENOISING_ADVANTAGE_WITHOUT_PREFERENCE_UTILITY。
-- D_PREF相对D_GEN未改善实际候选区分/排序：PREFERENCE_ALIGNMENT_NOT_SUPPORTED。
-- D_PREF有收益但不胜C或AE：VALID_EXPERIMENT_NO_DIFFUSION_ADVANTAGE。
-- 两seed全部INTERNAL仍负，或SHUFFLED同样好：保留结果交回，不追加架构/三域。
-- D_PREF两seedDEV/INTERNAL有正收益，平均优于C/D_GEN/AE且条件诊断/保护通过：PROMISING_DEVELOPMENT_SIGNAL。交advisor审查，CI含0只作方向性描述；不自动开Sports/Elec/CONFIRM/Test。
-- U未达1%明确写未达标；即使达到也不是直接论文成功。
-
-这些是预算管理和开发判断，不是证明某类方法普遍无效。方法负结果时不自动改lambda/hidden/eta、窗口/采样、加LLM、换split、开Test或导入旧最优配置。
-
-完成本轮后交回实现和结果，由advisor判断下一步；executor不自行写下一轮指导。
-
-## 11. GPU、nohup、版本管理和交付
-
-现有环境：/home/gxy/miniconda3/envs/gume/bin/python。只用RTX5090，实时核对UUID/型号/显存/利用率，按UUID限定CUDA_VISIBLE_DEVICES并进程assert型号。低显存占用时按用户已有授权可使用；一个worker串行、保守batch，不结束他人进程、不回退其他GPU。
-
-smoke通过后nohup正式队列；记录真实命令、PID、GPU UUID、commit、config/protocol/assets hash、run路径、状态、退出码。进程消失不等于成功；核对history/checkpoint/predictions。OOM只处理自身任务并披露实际batch/数值变化。
-
-建议独立新文件（尚未实现，executor落实真实CLI）：
-
-- configs/round3_baby.yaml、models/round3_candidate_energy.py；
-- scripts/round3_build_assets.py、round3_train.py、round3_analyze.py；
-- tests/test_round3.py；
-- 本地runs/round3/：backgrounds、assets、监督、smoke、8run、manifest/history/checkpoint/predictions。
-
-提交代码/配置/smoke和冻结协议后启动正式；结果单独提交。run identity绑定代码SHA/dirty diff、配置、监督、原协议、backbone、PCA/latent/context、候选、BG/尺度、train/probe seed。
-
-非空run拒绝覆盖；resume恢复optimizer/epoch/random state并校验identity，否则新开run。大数组/checkpoint/log本地保留并核对ignore。不要force-push、改远程main、覆盖旧证据或删除既有未跟踪ADVISOR_REVIEW_ROUND1.md。真实GitHub push成功才报告上传。
-
-evidence/交付ROUND3_REPORT.md、round3_protocol.json、round3_results.csv、round3_checks.json和必要逐用户诊断。它们是实验产物，**不新增advisor指导MD**；仍更新本文件。
-
-报告开头回答：与M30A区别落实了吗？尺度/隔离成立吗？偏好项改善候选判断吗？胜C/DAE吗？边界净纠错和两个seed/bundle一致吗？达到1%吗？历史曝光和额外计算限制是什么？
-
-## 12. 文献依据与新颖性边界
-
-以下原文/官方页已由advisor检查；自动verify_papers.py缺失，保留[UNVERIFIED: 自动工具缺失，已人工检查原文]状态。写正式论文前进一步核对书目。
-
-| 来源 | 借鉴与边界 | 自动核验 |
-|---|---|---|
-| [DiffRec](https://arxiv.org/pdf/2304.04971), SIGIR2023 | 推荐噪声尺度与保留个性化；交互向量结果不直接保证物品latent有效 | UNVERIFIED |
-| [DreamRec](https://papers.nips.cc/paper_files/paper/2023/hash/4c5e2bcbf21bdf40d75fddad0bd43dc9-Abstract-Conference.html), NeurIPS2023 | 真实物品表示+用户历史；不照搬顺序假设 | UNVERIFIED |
-| [PreferDiff](https://arxiv.org/html/2410.13117v2), ICLR2025 | 偏好与去噪共同学习；原推理生成后检索，本轮候选energy是改造，不继承全部理论 | UNVERIFIED |
-| [DiffMM](https://arxiv.org/html/2406.11781v1) | 多模态扩散服务交互关系；本轮不生成用户—物品图 | UNVERIFIED |
-| [CCDRec](https://ojs.aaai.org/index.php/AAAI/article/download/33422/35577), AAAI2025 | 模态/协同对齐、课程负采样已做；不声称扩散困难负例是新方向 | UNVERIFIED |
-| [DMNS](https://arxiv.org/html/2403.17259v1) | 多难度生成负例；理论有约束，样本不自动是真负例 | UNVERIFIED |
-| [Diffusion Classifier](https://arxiv.org/pdf/2303.16203), ICCV2023 | 配对噪声下条件误差用于评估已知输入；图像结果不保证推荐涨点 | UNVERIFIED |
-| [DiffusionRank作者稿](https://bhaskar-mitra.github.io/files/DiffusionRank.pdf) | 生成式训练可与直接排序推理分开；稿件venue/DOI有占位，不当已确认会议发表 | UNVERIFIED |
-
-潜在论文故事：**CoLiftRec校准内容背景，偏好对齐的条件扩散评估候选是否符合用户历史，并在边界提供增量证据。**须通过旧M30A区别、确定性/DAE控制、SHUFFLED和实际纠错支撑。若不成立，保留负结果，不能用故事代替机制。
+报告开头回答：历史区别落实了吗？扩散是否只有权重职责？风险能识别真实留出正项吗？基线是否正常训练？实际辅助项是否非零？两版本真正checkpoint是什么？加入模块有增长/达到1%吗？是否保持CoLift主线与辅助模块定位？
