@@ -1,0 +1,89 @@
+{
+  "protocol_version": "ROUND8_BOUNDED_COLLABORATIVE_RESIDUAL_V1",
+  "stage": "PILOT_PASSED_PREFORMAL",
+  "dataset": "baby",
+  "branch": "exp/round8-bcr-20261007",
+  "guide_path": "diffusion_experiments/ADVISOR_EXPERIMENT_GUIDE.md",
+  "guide_sha256": "82abde73e27aafb2496fe8f1690d737ea5f6a016e933cfe351f94f169c23611c",
+  "full_train_edges": 118551,
+  "backbones": [
+    999,
+    1000
+  ],
+  "diffusion_seeds": [
+    202610111,
+    202610112
+  ],
+  "formal_updates": 6000,
+  "pilot_updates": 1200,
+  "test_authorized": true,
+  "TEST_USED_FOR_SELECTION": false,
+  "pilot": {
+    "asset_status": "COMPLETE_ROUND8_ASSETS",
+    "valid_events": 118551,
+    "target_y_norm_max": 8.000000953674316,
+    "train_status": "COMPLETE",
+    "illegal_negative_count": 0,
+    "nonfinite_count": 0,
+    "last_gradient_diagnostic": {
+      "step": 1200,
+      "den_grad_norm": 0.1483224681361052,
+      "path_grad_norm": 0.5168848118439974,
+      "pref_grad_norm": 2.570730986195648,
+      "den_path_cos": 0.5747390223229135,
+      "path_pref_cos": -0.11283751994565402,
+      "weighted_path_grad_norm": 0.5168848118439974,
+      "weighted_pref_grad_norm": 0.1285365493097824,
+      "pre_v_norm_mean": 3.929980993270874,
+      "pre_v_norm_max": 9.121512413024902,
+      "Y_norm_mean": 3.9237241744995117,
+      "Y_norm_max": 8.0,
+      "delta_over_b_mean": 0.49046552181243896,
+      "delta_over_b_max": 1.0,
+      "g_over_h_mean": 0.9154984354972839,
+      "g_over_h_max": 1.2029993534088135,
+      "r_abs_max": 0.5173109769821167,
+      "margin_rp_minus_rn": 0.07494845986366272,
+      "pref_temperature": 0.2
+    },
+    "deployment_status": "COMPLETE_UNLABELED_PILOT",
+    "deployment_diagnostics": {
+      "delta_norm_mean": 0.4452136754989624,
+      "delta_norm_median": 0.3634023666381836,
+      "delta_over_b_mean": 0.46223458647727966,
+      "delta_over_b_max": 0.996166467666626,
+      "g_over_h_mean": 0.8593235015869141,
+      "g_over_h_max": 1.26906418800354,
+      "r_min": -0.793749988079071,
+      "r_max": 0.6927506923675537,
+      "r_abs_max": 0.793749988079071,
+      "A_r_mean_abs_max": 1.9669533557475916e-08,
+      "A_r_rms_mean": 0.0892912640012408,
+      "A_r_std_mean": 0.08929126400267766,
+      "near_constant_A_fraction": 0.0,
+      "score_rank_mismatch_users": 0,
+      "scale_q_branch_fraction": 0.00010285420416559527,
+      "finite_users": 19445
+    },
+    "eta_interventions": {
+      "0.05": {
+        "changed_users": 11845,
+        "changed_slots": 38735
+      },
+      "0.1": {
+        "changed_users": 15937,
+        "changed_slots": 72681
+      },
+      "0.2": {
+        "changed_users": 18388,
+        "changed_slots": 128424
+      }
+    }
+  },
+  "pilot_validation_labels_used": false,
+  "formal_started": false,
+  "notes": [
+    "Pilot checks only interface, bounds, gradients and unlabeled ranking intervention; it did not use Validation/Test labels for method selection.",
+    "MSCA and Full CoLiftRec remain frozen. No item-wise score clipping is used."
+  ]
+}
