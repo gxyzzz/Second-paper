@@ -1,0 +1,50 @@
+{
+  "protocol_version": "ROUND7_ANCHORED_COLLABORATIVE_PREFERENCE_COMPLETION_V1",
+  "stage": "PREFORMAL_IMPLEMENTATION_FROZEN",
+  "dataset": "baby",
+  "data_counts": {"train": 118551, "validation": 20559, "test": 21682, "users": 19445, "train_items": 7047},
+  "backbones": {
+    "999": {"checkpoint_sha256": "aa389ef8576e491ffb56eaec9d165444487bef9c1e542f280e991e2e063cc1cb", "epoch": 37, "validation_M0_R20": 0.10347267629088149, "validation_M1_R20": 0.10686472223242602},
+    "1000": {"checkpoint_sha256": "39267b02da4aee97613805a5d2fd54971e3777a3dc57b02afb17688fe7053948", "epoch": 45, "validation_M0_R20": 0.10425400090609657, "validation_M1_R20": 0.10671013481247474}
+  },
+  "diffusion_seeds": [202610101, 202610102],
+  "condition_dim": 129,
+  "total_updates": 6000,
+  "warmup_updates": 1000,
+  "preference_weight": 0.20,
+  "t_edit": 20,
+  "ddim_path": [20, 18, 16, 14, 12, 10, 8, 6, 4, 2, 0],
+  "K": 4,
+  "eta_candidates": [0.025, 0.05, 0.10],
+  "official_references": {
+    "DDRM": "ad4034c8e35bc2d0d68a53515259315f2b00e18c",
+    "DiffMM": "fae20e642aeeaad4284be6f7fb3432ebb551da8e",
+    "DCBR": "502eadf82ecfb6621d9345e18c83e1155d3786af"
+  },
+  "preformal_checks": {
+    "baseline_identity": "PASS",
+    "eta0_identity": "PASS",
+    "positive_removed_from_history": "PASS",
+    "inverse_standardization": "PASS",
+    "ddim_oracle_x0": "PASS",
+    "differentiable_preference_gradient": "PASS",
+    "keyed_noise_order_invariance": "PASS",
+    "boundary_slot_invariance": "PASS",
+    "direct_assertion_tests": 7
+  },
+  "smoke": {
+    "cell": "backbone999_x_diffusion202610101",
+    "updates": 80,
+    "warmup_updates": 20,
+    "illegal_negative_count": 0,
+    "nonfinite_count": 0,
+    "preference_gradient_norms": [0.21646162867546082, 0.2793533504009247, 0.4001557528972626],
+    "gradient_direction_cosines": [-0.36625048518180847, -0.127501979470253, -0.4914536774158478],
+    "peak_cuda_allocated_gib": 0.05241823196411133,
+    "full_user_cache_finite_users": 19445,
+    "full_user_cache_fallback_users": 0,
+    "engineering_only_validation_U": {"0.025": -0.0004771892266556018, "0.05": -0.0018892915083230418, "0.1": -0.0026728555970962796},
+    "note": "Smoke Validation values are engineering diagnostics only and are not used for formal eta selection."
+  },
+  "access": {"train": true, "validation_for_smoke_evaluator": true, "test_labels_used": false}
+}

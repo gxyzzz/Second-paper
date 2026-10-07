@@ -1,0 +1,80 @@
+protocol_version: ROUND7_ANCHORED_COLLABORATIVE_PREFERENCE_COMPLETION_V1
+dataset: baby
+backbones:
+  999:
+    checkpoint: runs/checkpoints/MSCA-Sep-26-2026-12-48-04.pth
+    checkpoint_sha256: aa389ef8576e491ffb56eaec9d165444487bef9c1e542f280e991e2e063cc1cb
+    checkpoint_epoch: 37
+    msca_assets: runs/assets/msca_baby_seed999
+    colift_assets: runs/phase2_coliftrec/formal_config
+    expected_validation_msca_R20: 0.10347267629088149
+    expected_validation_colift_R20: 0.10686472223242602
+  1000:
+    checkpoint: runs/backbone_robustness/baby_seed1000/msca/checkpoints/MSCA-Sep-28-2026-11-29-35.pth
+    checkpoint_sha256: 39267b02da4aee97613805a5d2fd54971e3777a3dc57b02afb17688fe7053948
+    checkpoint_epoch: 45
+    msca_assets: runs/backbone_robustness/baby_seed1000/msca/assets
+    colift_assets: runs/backbone_robustness/baby_seed1000/coliftrec
+    expected_validation_msca_R20: 0.10425400090609657
+    expected_validation_colift_R20: 0.10671013481247474
+diffusion_seeds: [202610101, 202610102]
+official_references:
+  ddrm_commit: ad4034c8e35bc2d0d68a53515259315f2b00e18c
+  diffmm_commit: fae20e642aeeaad4284be6f7fb3432ebb551da8e
+  dcbr_commit: 502eadf82ecfb6621d9345e18c83e1155d3786af
+cf:
+  dim: 64
+  std_floor: 1.0e-6
+condition:
+  dim: 129
+diffusion:
+  steps: 50
+  cosine_s: 0.008
+  hidden_dim: 256
+  hidden_layers: 2
+  time_dim: 32
+  dropout: 0.05
+  lr: 0.0003
+  weight_decay: 0.0001
+  grad_clip: 1.0
+  batch_size: 512
+  total_updates: 6000
+  warmup_updates: 1000
+  pref_weight: 0.20
+  t_edit: 20
+  ddim_eta: 0.0
+  ddim_path: [20,18,16,14,12,10,8,6,4,2,0]
+  grad_diag_every: 200
+  checkpoint_every: 1000
+inference:
+  K: 4
+  base_noise_count: 2
+  clip_r: 1.0
+  q_floor: 0.0001
+fusion:
+  eta_candidates: [0.025, 0.05, 0.10]
+  protected_rank_le: 5
+  cutoffs: [10, 20]
+  max_score_distance: 0.5
+  per_cutoff_quota: 32
+  max_items: 64
+coliftrec:
+  top_l: 100
+  lambda_text: 1.0
+  lambda_attribute: 0.75
+  lambda_visual: 0.25
+  alpha_text: 0.25
+  alpha_attribute: 0.15
+  alpha_visual: 0.025
+bootstrap:
+  resamples: 1000
+  seed: 202610199
+target_U: 0.01
+expansion_rule:
+  require_mean_validation_U_gt_zero: true
+  require_positive_cells: 3
+external_domains: [sports, elec]
+access:
+  test_authorized: true
+  test_authorization_date: '2026-10-07'
+  test_note: 'User explicitly requested complete locked Test comparison of MSCA, MSCA+CoLiftRec, and Round7. Test labels must not affect eta, model, seed, checkpoint, candidate A, or any parameter.'
