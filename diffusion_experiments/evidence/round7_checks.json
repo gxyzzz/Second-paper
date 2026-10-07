@@ -1,0 +1,174 @@
+{
+  "protocol_version": "ROUND7_ANCHORED_COLLABORATIVE_PREFERENCE_COMPLETION_V1",
+  "final_status": "COMPLETE_NO_INCREMENT",
+  "implementation_commit": "c190aab0d6039eb8dbc56680f0c423b8a19f873e",
+  "selection_lock_git_sha": "28eda1f23b7b172d4cb414adf8fbf88d87cefca5",
+  "selection_lock_sha256": "31cbdb95614197ce9b8480cf1744380db2c252955130781a27185f297155af8f",
+  "raw_test_results_sha256": "9ce129b95d5e2400eed60a550ac85d8bd48b029d83508a8edfd7c48cbf4a1f57",
+  "validation_dryrun_sha256": "c11a11cb77d7497529f8374cbd297d6f825d6b7ec2763b00fd7ceb45ca16d96a",
+  "full_train_edges": 118551,
+  "evaluation_users": 19445,
+  "selected_eta": 0.025,
+  "selection_mean_validation_U": -1.2428473336948076e-06,
+  "selection_positive_cells": 1,
+  "expand_sports_elec": false,
+  "baseline_identity": "PASS",
+  "positive_removed_from_anchor_history": "PASS",
+  "eta0_identity": "PASS",
+  "oracle_x0_ddim": "PASS",
+  "keyed_noise_order_invariance": "PASS",
+  "boundary_slot_invariance": "PASS",
+  "independent_unlabeled_recompute": "PASS",
+  "final_evaluator_validation_replay": "PASS",
+  "validation_replay_max_metric_diff": 0.0,
+  "assets": {
+    "999": {
+      "checkpoint_sha256": "aa389ef8576e491ffb56eaec9d165444487bef9c1e542f280e991e2e063cc1cb",
+      "checkpoint_epoch": 37,
+      "train_edges": 118551,
+      "events_with_anchor": 118551,
+      "events_without_anchor": 0,
+      "condition_dim": 129,
+      "inverse_standardization_max_abs_diff": 1.1920928955078125e-07,
+      "A": {
+        "mean_size": 25.235536127539213,
+        "min_size": 13,
+        "max_size": 43,
+        "empty_users": 0,
+        "protected_rank_le": 5,
+        "train_history_leaks": 0
+      }
+    },
+    "1000": {
+      "checkpoint_sha256": "39267b02da4aee97613805a5d2fd54971e3777a3dc57b02afb17688fe7053948",
+      "checkpoint_epoch": 45,
+      "train_edges": 118551,
+      "events_with_anchor": 118551,
+      "events_without_anchor": 0,
+      "condition_dim": 129,
+      "inverse_standardization_max_abs_diff": 1.1920928955078125e-07,
+      "A": {
+        "mean_size": 25.01712522499357,
+        "min_size": 12,
+        "max_size": 43,
+        "empty_users": 0,
+        "protected_rank_le": 5,
+        "train_history_leaks": 0
+      }
+    }
+  },
+  "independent_recompute": {
+    "999": {
+      "audit_sha256": "6c8339596744adf6958a64e242c4781ead2303208d3e853888b5e152896fc34c",
+      "M0_exact_vs_round7_asset": true,
+      "M1_exact_vs_round7_asset": true,
+      "M1_score_max_abs_diff_vs_round7_asset": 0.0,
+      "A_exact_vs_round7_asset": true,
+      "q_max_abs_diff_vs_round7_asset": 0.0,
+      "target_item_ids_accessed": false,
+      "test_metrics_computed": false
+    },
+    "1000": {
+      "audit_sha256": "8f6315402237b9e6e0df519c16f0d15deeb0767855436d3ca72d9e6aafdfb361",
+      "M0_exact_vs_round7_asset": true,
+      "M1_exact_vs_round7_asset": true,
+      "M1_score_max_abs_diff_vs_round7_asset": 0.0,
+      "A_exact_vs_round7_asset": true,
+      "q_max_abs_diff_vs_round7_asset": 0.0,
+      "target_item_ids_accessed": false,
+      "test_metrics_computed": false
+    }
+  },
+  "formal_training": {
+    "b999_d202610101": {
+      "status": "COMPLETE",
+      "updates": 6000,
+      "warmup_updates": 1000,
+      "parameter_count": 142208,
+      "generator_sha256": "7725ae0a5a3bc2bd2dec9dba083d69b411099a7df46a4f1a2698b02af1c99bf4",
+      "training_git_sha": "c190aab0d6039eb8dbc56680f0c423b8a19f873e",
+      "illegal_negative_count": 0,
+      "nonfinite_count": 0,
+      "pref_gradient_records": 25,
+      "pref_grad_norm_min": 0.40296587347984314,
+      "pref_grad_norm_mean": 0.8206505370140076,
+      "gradient_cosine_mean": -0.3912131881713867,
+      "gradient_cosine_min": -0.6467350721359253,
+      "peak_cuda_allocated_gib": 0.05241823196411133,
+      "elapsed_seconds": 229.33655261993408
+    },
+    "b999_d202610102": {
+      "status": "COMPLETE",
+      "updates": 6000,
+      "warmup_updates": 1000,
+      "parameter_count": 142208,
+      "generator_sha256": "6b0a078e4dbc11bf64d79157df758ec2c546b52f7c3ea099d57b9aa97c4f876c",
+      "training_git_sha": "c190aab0d6039eb8dbc56680f0c423b8a19f873e",
+      "illegal_negative_count": 0,
+      "nonfinite_count": 0,
+      "pref_gradient_records": 25,
+      "pref_grad_norm_min": 0.4118461012840271,
+      "pref_grad_norm_mean": 0.7969850599765778,
+      "gradient_cosine_mean": -0.3900440949201584,
+      "gradient_cosine_min": -0.6343865990638733,
+      "peak_cuda_allocated_gib": 0.05241823196411133,
+      "elapsed_seconds": 228.97111535072327
+    },
+    "b1000_d202610101": {
+      "status": "COMPLETE",
+      "updates": 6000,
+      "warmup_updates": 1000,
+      "parameter_count": 142208,
+      "generator_sha256": "fdd77ab754914ae3b34ae08492adbaa861ccf8c7191bf912e394a6189d7b68b9",
+      "training_git_sha": "c190aab0d6039eb8dbc56680f0c423b8a19f873e",
+      "illegal_negative_count": 0,
+      "nonfinite_count": 0,
+      "pref_gradient_records": 25,
+      "pref_grad_norm_min": 0.4112485349178314,
+      "pref_grad_norm_mean": 0.8048140692710877,
+      "gradient_cosine_mean": -0.3852155474573374,
+      "gradient_cosine_min": -0.5702940821647644,
+      "peak_cuda_allocated_gib": 0.05241823196411133,
+      "elapsed_seconds": 228.5375747680664
+    },
+    "b1000_d202610102": {
+      "status": "COMPLETE",
+      "updates": 6000,
+      "warmup_updates": 1000,
+      "parameter_count": 142208,
+      "generator_sha256": "147f17305311c713b51ba86e35664a87d79c71cff76d1a94540e880884da48c1",
+      "training_git_sha": "c190aab0d6039eb8dbc56680f0c423b8a19f873e",
+      "illegal_negative_count": 0,
+      "nonfinite_count": 0,
+      "pref_gradient_records": 25,
+      "pref_grad_norm_min": 0.39102381467819214,
+      "pref_grad_norm_mean": 0.8001754629611969,
+      "gradient_cosine_mean": -0.4019144061207771,
+      "gradient_cosine_min": -0.6085304617881775,
+      "peak_cuda_allocated_gib": 0.05241823196411133,
+      "elapsed_seconds": 230.7740228176117
+    }
+  },
+  "formal_pref_grad_norm_global_min": 0.39102381467819214,
+  "formal_gradient_cosine_global_mean": -0.3920968091674149,
+  "test": {
+    "classification": "NO_INCREMENT",
+    "U_M1_vs_M0": 0.040340120836011954,
+    "U_M2_vs_M1": -0.00010999246081769885,
+    "bootstrap": {
+      "U": -0.00010999246081769885,
+      "ci95": [
+        -0.0002732673847495299,
+        2.6161703655498288e-05
+      ],
+      "positive_fraction": 0.096,
+      "resamples": 1000,
+      "seed": 202610200
+    },
+    "cell_positive_count": 0,
+    "primary_positive_count": 0,
+    "all6_positive_count": 0,
+    "NO_POST_TEST_TUNING": true
+  },
+  "test_history_caveat": "Baby Test had historical exposure in earlier work. Round7 selection and rankings were locked before this run; this does not make Test globally unseen."
+}

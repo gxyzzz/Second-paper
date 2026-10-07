@@ -1,21 +1,56 @@
 {
   "protocol_version": "ROUND7_ANCHORED_COLLABORATIVE_PREFERENCE_COMPLETION_V1",
-  "stage": "PREFORMAL_IMPLEMENTATION_FROZEN",
+  "stage": "FINAL_COMPLETE",
   "dataset": "baby",
-  "data_counts": {"train": 118551, "validation": 20559, "test": 21682, "users": 19445, "train_items": 7047},
-  "backbones": {
-    "999": {"checkpoint_sha256": "aa389ef8576e491ffb56eaec9d165444487bef9c1e542f280e991e2e063cc1cb", "epoch": 37, "validation_M0_R20": 0.10347267629088149, "validation_M1_R20": 0.10686472223242602},
-    "1000": {"checkpoint_sha256": "39267b02da4aee97613805a5d2fd54971e3777a3dc57b02afb17688fe7053948", "epoch": 45, "validation_M0_R20": 0.10425400090609657, "validation_M1_R20": 0.10671013481247474}
+  "data_counts": {
+    "train": 118551,
+    "validation": 20559,
+    "test": 21682,
+    "users": 19445,
+    "train_items": 7047
   },
-  "diffusion_seeds": [202610101, 202610102],
+  "backbones": {
+    "999": {
+      "checkpoint_sha256": "aa389ef8576e491ffb56eaec9d165444487bef9c1e542f280e991e2e063cc1cb",
+      "epoch": 37,
+      "validation_M0_R20": 0.10347267629088149,
+      "validation_M1_R20": 0.10686472223242602
+    },
+    "1000": {
+      "checkpoint_sha256": "39267b02da4aee97613805a5d2fd54971e3777a3dc57b02afb17688fe7053948",
+      "epoch": 45,
+      "validation_M0_R20": 0.10425400090609657,
+      "validation_M1_R20": 0.10671013481247474
+    }
+  },
+  "diffusion_seeds": [
+    202610101,
+    202610102
+  ],
   "condition_dim": 129,
   "total_updates": 6000,
   "warmup_updates": 1000,
-  "preference_weight": 0.20,
+  "preference_weight": 0.2,
   "t_edit": 20,
-  "ddim_path": [20, 18, 16, 14, 12, 10, 8, 6, 4, 2, 0],
+  "ddim_path": [
+    20,
+    18,
+    16,
+    14,
+    12,
+    10,
+    8,
+    6,
+    4,
+    2,
+    0
+  ],
   "K": 4,
-  "eta_candidates": [0.025, 0.05, 0.10],
+  "eta_candidates": [
+    0.025,
+    0.05,
+    0.1
+  ],
   "official_references": {
     "DDRM": "ad4034c8e35bc2d0d68a53515259315f2b00e18c",
     "DiffMM": "fae20e642aeeaad4284be6f7fb3432ebb551da8e",
@@ -38,13 +73,51 @@
     "warmup_updates": 20,
     "illegal_negative_count": 0,
     "nonfinite_count": 0,
-    "preference_gradient_norms": [0.21646162867546082, 0.2793533504009247, 0.4001557528972626],
-    "gradient_direction_cosines": [-0.36625048518180847, -0.127501979470253, -0.4914536774158478],
+    "preference_gradient_norms": [
+      0.21646162867546082,
+      0.2793533504009247,
+      0.4001557528972626
+    ],
+    "gradient_direction_cosines": [
+      -0.36625048518180847,
+      -0.127501979470253,
+      -0.4914536774158478
+    ],
     "peak_cuda_allocated_gib": 0.05241823196411133,
     "full_user_cache_finite_users": 19445,
     "full_user_cache_fallback_users": 0,
-    "engineering_only_validation_U": {"0.025": -0.0004771892266556018, "0.05": -0.0018892915083230418, "0.1": -0.0026728555970962796},
+    "engineering_only_validation_U": {
+      "0.025": -0.0004771892266556018,
+      "0.05": -0.0018892915083230418,
+      "0.1": -0.0026728555970962796
+    },
     "note": "Smoke Validation values are engineering diagnostics only and are not used for formal eta selection."
   },
-  "access": {"train": true, "validation_for_smoke_evaluator": true, "test_labels_used": false}
+  "access": {
+    "train": true,
+    "validation_for_smoke_evaluator": true,
+    "test_labels_used": false
+  },
+  "final_status": "NO_INCREMENT",
+  "implementation_commit": "c190aab0d6039eb8dbc56680f0c423b8a19f873e",
+  "selection_lock_git_sha": "28eda1f23b7b172d4cb414adf8fbf88d87cefca5",
+  "selection_lock_sha256": "31cbdb95614197ce9b8480cf1744380db2c252955130781a27185f297155af8f",
+  "selected_eta": 0.025,
+  "selection_mean_validation_U": -1.2428473336948076e-06,
+  "selection_positive_cells": 1,
+  "expand_sports_elec": false,
+  "test_users": 19445,
+  "test_U_M2_vs_M1": -0.00010999246081769885,
+  "test_bootstrap": {
+    "U": -0.00010999246081769885,
+    "ci95": [
+      -0.0002732673847495299,
+      2.6161703655498288e-05
+    ],
+    "positive_fraction": 0.096,
+    "resamples": 1000,
+    "seed": 202610200
+  },
+  "test_target_1pct_met": false,
+  "no_post_test_tuning": true
 }
