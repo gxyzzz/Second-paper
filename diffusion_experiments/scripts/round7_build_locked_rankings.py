@@ -168,7 +168,7 @@ def main():
             m1=m1_items.astype(np.int32),
             m2=m2[dseed].astype(np.int32),
         )
-        cell_meta[str(dseed)]["ranking_file"] = str(pth.relative_to(ROOT))
+        cell_meta[str(dseed)]["ranking_file"] = str(pth.resolve().relative_to(ROOT))
         cell_meta[str(dseed)]["ranking_sha256"] = sha(pth)
 
     audit = {
