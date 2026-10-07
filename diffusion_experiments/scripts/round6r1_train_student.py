@@ -92,18 +92,19 @@ def main():
                 loss,parts=auxiliary_loss(model,inter,jt,wt,beta)
                 aux_seen += len(ww); aux_nonzero += int((ww>0).sum())
                 event_aux_w.extend(ww.tolist()); event_coeff.extend((beta*ww/(1+beta*ww)).tolist())
+            vr=float(visual_reg(model).detach().cpu())
             loss.backward(); opt.step(); batches+=1
             sums['loss']+=float(loss.detach().cpu())
             for k in ['bpr','cl','weighted_cl','reg','weighted_reg','l0','coeff_event']:
                 sums[k]+=float(parts[k].detach().cpu())
             sums['lA']+=0.0 if not torch.isfinite(parts['lA']) else float(parts['lA'].detach().cpu())
-            sums['visual_reg']+=float(visual_reg(model).detach().cpu())
+            sums['visual_reg']+=vr
         sched.step()
         monitor,_=high_precision_monitor(model,fit,mon,histories); score=float(monitor['R20'])
         improved=score>best
         if improved: best=score; cur=0
         else: cur+=1
-        rec={'epoch':epoch,'monitor':{k:float(v) for k,v in monitor.items()},'monitor_R20':score,'improved':improved,'cur_step':cur,'lr':float(opt.param_groups[0]['lr']),'components':{k:float(v/batches) for k,v in sums.items()},'model_hash':state_hash(model),'beta':0.0 if epoch<=int(tcfg['beta_warmup_epochs']) or a.branch=='B' else float(tcfg['beta'])}
+        rec={'epoch':epoch,'monitor':{k:float(v) for k,v in monitor.items()},'monitor_R20':score,'improved':improved,'cur_step':cur,'lr':float(opt.param_groups[0]['lr']),'components':{k:float(v/batches) for k,v in sums.items()},'beta':0.0 if epoch<=int(tcfg['beta_warmup_epochs']) or a.branch=='B' else float(tcfg['beta'])}
         if event_aux_w:
             rec['aux']={'nonzero_fraction':float(np.mean(np.asarray(event_aux_w)>0)),'mean_w':float(np.mean(event_aux_w)),'mean_effective_coefficient':float(np.mean(event_coeff)),'max_effective_coefficient':float(np.max(event_coeff))}
         history.append(rec)
