@@ -1,0 +1,534 @@
+{
+  "scope": "Post-hoc TRAIN-probe label-risk and saved DEV/INTERNAL rank diagnostics. No new training; no Test-label reads; no parameter/model/checkpoint selection.",
+  "seeds": {
+    "999": {
+      "exact_repeated_training_events": {
+        "eligible_TRAIN_probe_events": 2581744,
+        "uniform_known_positive_hits": 383,
+        "aux_known_positive_hits": 8145,
+        "uniform_hit_unique_users": 368,
+        "aux_hit_unique_users": 804,
+        "sum_aux_effective_weight_on_known_positive": 229.5975056666513,
+        "aux_vs_uniform_known_positive_hit_ratio": 21.266318537859007,
+        "aux_known_positive_hit_rate": 0.0031548441673535407,
+        "uniform_known_positive_hit_rate": 0.00014834933285407073,
+        "mean_aux_effective_weight_when_known_positive_selected": 0.02818876680990194
+      },
+      "selected_checkpoint_training_events": {
+        "eligible_TRAIN_probe_events": 1349548,
+        "uniform_known_positive_hits": 190,
+        "aux_known_positive_hits": 4234,
+        "uniform_hit_unique_users": 188,
+        "aux_hit_unique_users": 767,
+        "sum_aux_effective_weight_on_known_positive": 121.88067116277992,
+        "aux_vs_uniform_known_positive_hit_ratio": 22.28421052631579,
+        "mean_aux_effective_weight_when_known_positive_selected": 0.028786176467354728
+      },
+      "snapshot_diagnostics": [
+        {
+          "snapshot": "B_best_epoch31",
+          "plan_epoch": 6,
+          "events": 91657,
+          "uniform_item_degree_mean": 12.986984081957734,
+          "aux_item_degree_mean": 91.33622091056876,
+          "mean_effective_aux_coefficient": 0.032251276075839996,
+          "mean_uniform_score_derivative": 0.07429029047489166,
+          "mean_aux_score_derivative_unweighted": 0.495934396982193,
+          "aux_share_of_positive_score_derivative": 0.17309777438640594,
+          "mean_uniform_loss": 0.08617982268333435,
+          "mean_aux_loss": 0.9309757351875305,
+          "uniform_known_positive_hits": 12,
+          "aux_known_positive_hits": 179,
+          "uniform_known_positive_score_derivative_mass": 3.287662982940674,
+          "aux_known_positive_score_derivative_mass": 2.6397736072540283,
+          "zero_aux_weight_fraction": 0.039735099337748346,
+          "high_risk_quartile_known_positive_weighted_comparison_mass": 0.03823213279247284
+        },
+        {
+          "snapshot": "B_best_epoch31",
+          "plan_epoch": 28,
+          "events": 91657,
+          "uniform_item_degree_mean": 13.116226802099131,
+          "aux_item_degree_mean": 91.62976095660997,
+          "mean_effective_aux_coefficient": 0.03202734515070915,
+          "mean_uniform_score_derivative": 0.07352053374052048,
+          "mean_aux_score_derivative_unweighted": 0.4961245059967041,
+          "aux_share_of_positive_score_derivative": 0.17378929257392883,
+          "mean_uniform_loss": 0.08465611934661865,
+          "mean_aux_loss": 0.9311294555664062,
+          "uniform_known_positive_hits": 8,
+          "aux_known_positive_hits": 191,
+          "uniform_known_positive_score_derivative_mass": 2.566903591156006,
+          "aux_known_positive_score_derivative_mass": 3.1029133796691895,
+          "zero_aux_weight_fraction": 0.039462343301657266,
+          "high_risk_quartile_known_positive_weighted_comparison_mass": 0.04854458570480347
+        },
+        {
+          "snapshot": "D_best_epoch28",
+          "plan_epoch": 6,
+          "events": 91657,
+          "uniform_item_degree_mean": 12.986984081957734,
+          "aux_item_degree_mean": 91.33622091056876,
+          "mean_effective_aux_coefficient": 0.032251276075839996,
+          "mean_uniform_score_derivative": 0.09803503751754761,
+          "mean_aux_score_derivative_unweighted": 0.4628298580646515,
+          "aux_share_of_positive_score_derivative": 0.12827888131141663,
+          "mean_uniform_loss": 0.11157029122114182,
+          "mean_aux_loss": 0.7636934518814087,
+          "uniform_known_positive_hits": 12,
+          "aux_known_positive_hits": 179,
+          "uniform_known_positive_score_derivative_mass": 3.399735927581787,
+          "aux_known_positive_score_derivative_mass": 2.40863037109375,
+          "zero_aux_weight_fraction": 0.039735099337748346,
+          "high_risk_quartile_known_positive_weighted_comparison_mass": 0.0358801893889904
+        },
+        {
+          "snapshot": "D_best_epoch28",
+          "plan_epoch": 28,
+          "events": 91657,
+          "uniform_item_degree_mean": 13.116226802099131,
+          "aux_item_degree_mean": 91.62976095660997,
+          "mean_effective_aux_coefficient": 0.03202734515070915,
+          "mean_uniform_score_derivative": 0.09754592180252075,
+          "mean_aux_score_derivative_unweighted": 0.46269872784614563,
+          "aux_share_of_positive_score_derivative": 0.1280260980129242,
+          "mean_uniform_loss": 0.11061256378889084,
+          "mean_aux_loss": 0.7632208466529846,
+          "uniform_known_positive_hits": 8,
+          "aux_known_positive_hits": 191,
+          "uniform_known_positive_score_derivative_mass": 2.650094509124756,
+          "aux_known_positive_score_derivative_mass": 2.8807759284973145,
+          "zero_aux_weight_fraction": 0.039462343301657266,
+          "high_risk_quartile_known_positive_weighted_comparison_mass": 0.04556984454393387
+        }
+      ]
+    },
+    "1000": {
+      "exact_repeated_training_events": {
+        "eligible_TRAIN_probe_events": 2816448,
+        "uniform_known_positive_hits": 407,
+        "aux_known_positive_hits": 8835,
+        "uniform_hit_unique_users": 396,
+        "aux_hit_unique_users": 807,
+        "sum_aux_effective_weight_on_known_positive": 256.98130584849457,
+        "aux_vs_uniform_known_positive_hit_ratio": 21.707616707616708,
+        "aux_known_positive_hit_rate": 0.003136929920239962,
+        "uniform_known_positive_hit_rate": 0.00014450826004953757,
+        "mean_aux_effective_weight_when_known_positive_selected": 0.029086735240350263
+      },
+      "selected_checkpoint_training_events": {
+        "eligible_TRAIN_probe_events": 1584252,
+        "uniform_known_positive_hits": 232,
+        "aux_known_positive_hits": 4969,
+        "uniform_hit_unique_users": 227,
+        "aux_hit_unique_users": 778,
+        "sum_aux_effective_weight_on_known_positive": 144.44224935278666,
+        "aux_vs_uniform_known_positive_hit_ratio": 21.41810344827586,
+        "mean_aux_effective_weight_when_known_positive_selected": 0.029068675659647145
+      },
+      "snapshot_diagnostics": [
+        {
+          "snapshot": "B_best_epoch33",
+          "plan_epoch": 6,
+          "events": 91657,
+          "uniform_item_degree_mean": 13.079819326401694,
+          "aux_item_degree_mean": 92.04817962621513,
+          "mean_effective_aux_coefficient": 0.032083045691251755,
+          "mean_uniform_score_derivative": 0.06719587743282318,
+          "mean_aux_score_derivative_unweighted": 0.4431288242340088,
+          "aux_share_of_positive_score_derivative": 0.1725991666316986,
+          "mean_uniform_loss": 0.07825832068920135,
+          "mean_aux_loss": 0.8185459971427917,
+          "uniform_known_positive_hits": 9,
+          "aux_known_positive_hits": 196,
+          "uniform_known_positive_score_derivative_mass": 2.280034303665161,
+          "aux_known_positive_score_derivative_mass": 2.6658706665039062,
+          "zero_aux_weight_fraction": 0.04047699575591608,
+          "high_risk_quartile_known_positive_weighted_comparison_mass": 0.06652335822582245
+        },
+        {
+          "snapshot": "B_best_epoch33",
+          "plan_epoch": 32,
+          "events": 91657,
+          "uniform_item_degree_mean": 12.89647271894127,
+          "aux_item_degree_mean": 91.86585858145041,
+          "mean_effective_aux_coefficient": 0.032122474163770676,
+          "mean_uniform_score_derivative": 0.06569678336381912,
+          "mean_aux_score_derivative_unweighted": 0.44207701086997986,
+          "aux_share_of_positive_score_derivative": 0.1758490651845932,
+          "mean_uniform_loss": 0.07528861612081528,
+          "mean_aux_loss": 0.8167264461517334,
+          "uniform_known_positive_hits": 6,
+          "aux_known_positive_hits": 210,
+          "uniform_known_positive_score_derivative_mass": 1.7328895330429077,
+          "aux_known_positive_score_derivative_mass": 2.5568320751190186,
+          "zero_aux_weight_fraction": 0.03958235595753734,
+          "high_risk_quartile_known_positive_weighted_comparison_mass": 0.07645173370838165
+        },
+        {
+          "snapshot": "D_best_epoch32",
+          "plan_epoch": 6,
+          "events": 91657,
+          "uniform_item_degree_mean": 13.079819326401694,
+          "aux_item_degree_mean": 92.04817962621513,
+          "mean_effective_aux_coefficient": 0.032083045691251755,
+          "mean_uniform_score_derivative": 0.0737333595752716,
+          "mean_aux_score_derivative_unweighted": 0.3761431574821472,
+          "aux_share_of_positive_score_derivative": 0.13909150660037994,
+          "mean_uniform_loss": 0.08311598002910614,
+          "mean_aux_loss": 0.5936626195907593,
+          "uniform_known_positive_hits": 9,
+          "aux_known_positive_hits": 196,
+          "uniform_known_positive_score_derivative_mass": 2.1302378177642822,
+          "aux_known_positive_score_derivative_mass": 2.3672666549682617,
+          "zero_aux_weight_fraction": 0.04047699575591608,
+          "high_risk_quartile_known_positive_weighted_comparison_mass": 0.05846666544675827
+        },
+        {
+          "snapshot": "D_best_epoch32",
+          "plan_epoch": 32,
+          "events": 91657,
+          "uniform_item_degree_mean": 12.89647271894127,
+          "aux_item_degree_mean": 91.86585858145041,
+          "mean_effective_aux_coefficient": 0.032122474163770676,
+          "mean_uniform_score_derivative": 0.07257311791181564,
+          "mean_aux_score_derivative_unweighted": 0.37507757544517517,
+          "aux_share_of_positive_score_derivative": 0.14081551134586334,
+          "mean_uniform_loss": 0.08106310665607452,
+          "mean_aux_loss": 0.591717541217804,
+          "uniform_known_positive_hits": 6,
+          "aux_known_positive_hits": 210,
+          "uniform_known_positive_score_derivative_mass": 1.6325196027755737,
+          "aux_known_positive_score_derivative_mass": 2.2611846923828125,
+          "zero_aux_weight_fraction": 0.03958235595753734,
+          "high_risk_quartile_known_positive_weighted_comparison_mass": 0.06823278963565826
+        }
+      ]
+    }
+  },
+  "ranking_diagnostics": {
+    "DEV": {
+      "999_raw_MSCA": {
+        "B": {
+          "R10": 0.058922755054560204,
+          "N10": 0.03226620442313478,
+          "R20": 0.09000362102081301,
+          "N20": 0.04017731706031378,
+          "R50": 0.15342658773890866,
+          "N50": 0.05280611130863785
+        },
+        "D": {
+          "R10": 0.058387036395632384,
+          "N10": 0.03223187729154302,
+          "R20": 0.09026688847605753,
+          "N20": 0.040360958779961154,
+          "R50": 0.15007775573678153,
+          "N50": 0.052307245728778526
+        },
+        "D_vs_B": {
+          "metrics": {
+            "R10": 0.058387036395632384,
+            "N10": 0.03223187729154302,
+            "R20": 0.09026688847605753,
+            "N20": 0.040360958779961154,
+            "R50": 0.15007775573678153,
+            "N50": 0.052307245728778526
+          },
+          "relative_primary": {
+            "R10": -0.009091880690774977,
+            "N10": -0.0010638726247933436,
+            "R20": 0.0029250762609166646,
+            "N20": 0.004570781054685499
+          },
+          "U": -0.0006649739999915396,
+          "delta_R50": -0.003348832002127128,
+          "delta_N50": -0.0004988655798593214
+        }
+      },
+      "999_with_CoLift": {
+        "B": {
+          "R10": 0.0634380980369519,
+          "N10": 0.03449517712921558,
+          "R20": 0.095748974044103,
+          "N20": 0.042671502648049205,
+          "R50": 0.15603127372468348,
+          "N50": 0.05468291134169632
+        },
+        "D": {
+          "R10": 0.062146250756565935,
+          "N10": 0.03410065739002583,
+          "R20": 0.09500202917108362,
+          "N20": 0.04244821014440214,
+          "R50": 0.15496840790537067,
+          "N50": 0.05440660121767186
+        },
+        "D_vs_B": {
+          "metrics": {
+            "R10": 0.062146250756565935,
+            "N10": 0.03410065739002583,
+            "R20": 0.09500202917108362,
+            "N20": 0.04244821014440214,
+            "R50": 0.15496840790537067,
+            "N50": 0.05440660121767186
+          },
+          "relative_primary": {
+            "R10": -0.020363903086020617,
+            "N10": -0.011436953569245767,
+            "R20": -0.007801074429009836,
+            "N20": -0.0052328249485085725
+          },
+          "U": -0.011208689008196198,
+          "delta_R50": -0.0010628658193128082,
+          "delta_N50": -0.0002763101240244592
+        }
+      },
+      "1000_raw_MSCA": {
+        "B": {
+          "R10": 0.05827377016488764,
+          "N10": 0.03248291955277185,
+          "R20": 0.09037709345732269,
+          "N20": 0.04063040517052779,
+          "R50": 0.1516083804765753,
+          "N50": 0.05286794308181926
+        },
+        "D": {
+          "R10": 0.05913573055406866,
+          "N10": 0.032799301584253364,
+          "R20": 0.09020024070167337,
+          "N20": 0.04070210024041736,
+          "R50": 0.14636944558147996,
+          "N50": 0.05190658535624585
+        },
+        "D_vs_B": {
+          "metrics": {
+            "R10": 0.05913573055406866,
+            "N10": 0.032799301584253364,
+            "R20": 0.09020024070167337,
+            "N20": 0.04070210024041736,
+            "R50": 0.14636944558147996,
+            "N50": 0.05190658535624585
+          },
+          "relative_primary": {
+            "R10": 0.01479156723071248,
+            "N10": 0.00973995059057178,
+            "R20": -0.0019568316360253878,
+            "N20": 0.001764566944106568
+          },
+          "U": 0.00608481328234136,
+          "delta_R50": -0.005238934895095332,
+          "delta_N50": -0.0009613577255734099
+        }
+      },
+      "1000_with_CoLift": {
+        "B": {
+          "R10": 0.06185237080652553,
+          "N10": 0.033994701980501245,
+          "R20": 0.09595713900871493,
+          "N20": 0.04269350675289264,
+          "R50": 0.15620637719491587,
+          "N50": 0.054733087680650584
+        },
+        "D": {
+          "R10": 0.06315891208441352,
+          "N10": 0.03474880839809462,
+          "R20": 0.09439415248870837,
+          "N20": 0.042677088283856884,
+          "R50": 0.15192500113703547,
+          "N50": 0.054177739678431446
+        },
+        "D_vs_B": {
+          "metrics": {
+            "R10": 0.06315891208441352,
+            "N10": 0.03474880839809462,
+            "R20": 0.09439415248870837,
+            "N20": 0.042677088283856884,
+            "R50": 0.15192500113703547,
+            "N50": 0.054177739678431446
+          },
+          "relative_primary": {
+            "R10": 0.0211235440267092,
+            "N10": 0.022183057172435752,
+            "R20": -0.01628838183540051,
+            "N20": -0.0003845659512297246
+          },
+          "U": 0.006658413353128679,
+          "delta_R50": -0.004281376057880398,
+          "delta_N50": -0.0005553480022191387
+        }
+      }
+    },
+    "INTERNAL": {
+      "999_raw_MSCA": {
+        "B": {
+          "R10": 0.0657992565055762,
+          "N10": 0.03597145006912431,
+          "R20": 0.08921933085501858,
+          "N20": 0.04184753945670357,
+          "R50": 0.1524163568773234,
+          "N50": 0.05434792632969768
+        },
+        "D": {
+          "R10": 0.06617100371747212,
+          "N10": 0.036186645937878854,
+          "R20": 0.08884758364312267,
+          "N20": 0.04186505878550929,
+          "R50": 0.15315985130111523,
+          "N50": 0.054563237770513626
+        },
+        "D_vs_B": {
+          "metrics": {
+            "R10": 0.06617100371747212,
+            "N10": 0.036186645937878854,
+            "R20": 0.08884758364312267,
+            "N20": 0.04186505878550929,
+            "R50": 0.15315985130111523,
+            "N50": 0.054563237770513626
+          },
+          "relative_primary": {
+            "R10": 0.00564971751412427,
+            "N10": 0.0059824073908895,
+            "R20": -0.004166666666666649,
+            "N20": 0.00041864656878696935
+          },
+          "U": 0.0019710262017835225,
+          "delta_R50": 0.0007434944237918184,
+          "delta_N50": 0.000215311440815949
+        }
+      },
+      "999_with_CoLift": {
+        "B": {
+          "R10": 0.0654275092936803,
+          "N10": 0.03573380525108993,
+          "R20": 0.09144981412639405,
+          "N20": 0.042326731502543,
+          "R50": 0.1516728624535316,
+          "N50": 0.054243916840321746
+        },
+        "D": {
+          "R10": 0.0657992565055762,
+          "N10": 0.03589229935590563,
+          "R20": 0.09033457249070632,
+          "N20": 0.0420622491466295,
+          "R50": 0.1557620817843866,
+          "N50": 0.05488722973248618
+        },
+        "D_vs_B": {
+          "metrics": {
+            "R10": 0.0657992565055762,
+            "N10": 0.03589229935590563,
+            "R20": 0.09033457249070632,
+            "N20": 0.0420622491466295,
+            "R50": 0.1557620817843866,
+            "N50": 0.05488722973248618
+          },
+          "relative_primary": {
+            "R10": 0.005681818181818158,
+            "N10": 0.0044354107742518014,
+            "R20": -0.01219512195121946,
+            "N20": -0.006248589166342937
+          },
+          "U": -0.00208162054037311,
+          "delta_R50": 0.004089219330855015,
+          "delta_N50": 0.0006433128921644327
+        }
+      },
+      "1000_raw_MSCA": {
+        "B": {
+          "R10": 0.06468401486988848,
+          "N10": 0.03476706163168801,
+          "R20": 0.08884758364312267,
+          "N20": 0.04085567101387719,
+          "R50": 0.1479553903345725,
+          "N50": 0.052584182353908014
+        },
+        "D": {
+          "R10": 0.0620817843866171,
+          "N10": 0.03325004106596799,
+          "R20": 0.08847583643122676,
+          "N20": 0.039854464313622336,
+          "R50": 0.14386617100371749,
+          "N50": 0.05079955245697419
+        },
+        "D_vs_B": {
+          "metrics": {
+            "R10": 0.0620817843866171,
+            "N10": 0.03325004106596799,
+            "R20": 0.08847583643122676,
+            "N20": 0.039854464313622336,
+            "R50": 0.14386617100371749,
+            "N50": 0.05079955245697419
+          },
+          "relative_primary": {
+            "R10": -0.040229885057471305,
+            "N10": -0.043633844636940804,
+            "R20": -0.004184100418410024,
+            "N20": -0.02450594190252751
+          },
+          "U": -0.028138443003837412,
+          "delta_R50": -0.004089219330855015,
+          "delta_N50": -0.0017846298969338217
+        }
+      },
+      "1000_with_CoLift": {
+        "B": {
+          "R10": 0.06505576208178439,
+          "N10": 0.03507857724867289,
+          "R20": 0.09182156133828996,
+          "N20": 0.041858345129981274,
+          "R50": 0.15204460966542752,
+          "N50": 0.0538023307948903
+        },
+        "D": {
+          "R10": 0.06282527881040892,
+          "N10": 0.03350284727371594,
+          "R20": 0.09256505576208178,
+          "N20": 0.040856179464881445,
+          "R50": 0.14609665427509294,
+          "N50": 0.05136490465093623
+        },
+        "D_vs_B": {
+          "metrics": {
+            "R10": 0.06282527881040892,
+            "N10": 0.03350284727371594,
+            "R20": 0.09256505576208178,
+            "N20": 0.040856179464881445,
+            "R50": 0.14609665427509294,
+            "N50": 0.05136490465093623
+          },
+          "relative_primary": {
+            "R10": -0.03428571428571435,
+            "N10": -0.04492000812309343,
+            "R20": 0.0080971659919028,
+            "N20": -0.023941836735012774
+          },
+          "U": -0.023762598287979435,
+          "delta_R50": -0.005947955390334575,
+          "delta_N50": -0.0024374261439540704
+        }
+      }
+    }
+  },
+  "audit_date": "2026-10-07",
+  "implementation_head": "c91072ae14ad12b773258903412adb421176c414",
+  "independent_checks": {
+    "selected_checkpoint_and_ranking_hashes_verified": true,
+    "reported_U_recomputed_from_four_metrics": true,
+    "warmup_monitor_metrics_identical": true,
+    "CPU_risk_tests_rerun": "PASS",
+    "GPU_loss_tests": "source reviewed; not independently rerun in this advisor turn",
+    "reproduction_script": "/tmp/second-paper-round6r1-advisor-audit.py"
+  },
+  "source_hashes": {
+    "diffusion_experiments/modules/round6r1_train_common.py": "03c15b727bbc6e92009b0d23fcce492d19e2a98a75cc4b17a6a9b970e7f463a0",
+    "diffusion_experiments/modules/round6r1_risk.py": "023bf81094e5e2c37f3d317049260db4ad9fb46030bb9f465dee6bbe2ca23f8b",
+    "diffusion_experiments/scripts/round6r1_train_student.py": "f193fbff9682e10f2f3dd7297c66d8f0ce71df1e3ed82b8b71f1bb8a185428db",
+    "diffusion_experiments/runs/round6r1/analysis_locked_v1/selection_lock.json": "f3a6d57da2e19e95972e6e857f8ccdaff71c01568941ac27b3adfda862955e6a"
+  },
+  "interpretation": {
+    "causality_limit": "A single known held-out TRAIN positive per user only partially measures false negatives. Repeated training events are not independent observations. These counts and fixed-checkpoint score derivatives identify a harmful mechanism, not a proof attributing all metric losses to it.",
+    "main_failure": "The method adds strong unknown teacher-boundary candidates as negative comparisons. Modest risk discrimination does not compensate for ~21x known-positive selection rate.",
+    "coefficient_limit": "Mean auxiliary coefficient ~3.2% does not bound its fraction of gradients. Fixed best-checkpoint replay shows ~13-18% of the direct positive-score derivative mass comes from auxiliary comparisons; this is not a full-parameter gradient norm or an actual historical gradient trajectory.",
+    "personalization": "Joint degree/norm-matched probe wins are ~0.501/0.510 despite overall wins ~0.56. Current signal has weak residual discrimination.",
+    "pipeline": "Raw-MSCA and full-CoLift diagnostics show losses do not occur solely during CoLift processing. Normalized scores and backgrounds may interact with backbone changes, but that is not established as sole cause."
+  }
+}
