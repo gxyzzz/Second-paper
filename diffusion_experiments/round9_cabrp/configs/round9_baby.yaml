@@ -1,0 +1,31 @@
+protocol: ROUND9_CABRP_V1
+dataset: baby
+source_commit: ee82c3118dcfdd09cda8a430e0f61b88f84e4ab7
+backbones: [999, 1000, 1001, 1002]
+validation_only: true
+test: CLOSED
+sports: CLOSED
+electronics: CLOSED
+diffusion:
+  beta: 0.5
+  t_edit: 3
+  guidance: 2.0
+  purification_seeds: [20261001, 20261002, 20261003, 20261004]
+  probe_t: 3
+  probe_noise_seed: 20261008
+  rho_text_a0: 0.25
+  rho_visual_a0: 1.0
+round9:
+  theta_caps_deg: [5.0, 10.0, 15.0]
+  variants: [A0, A1, A2]
+  confidence: sqrt_sample_consistency_x_condition_percentile
+coliftrec:
+  lambda_text: 1.0
+  lambda_attribute: 0.75
+  lambda_visual: 0.25
+  alpha_text: 0.25
+  alpha_attribute: 0.15
+  alpha_visual: 0.025
+selection:
+  priority: [four_of_four_positive, mean_U, smaller_theta]
+  primary: [R10, N10, R20, N20]
