@@ -1,0 +1,27 @@
+protocol: ROUND10_CCDP_V1
+dataset: baby
+scope: validation_only
+backbones: [999, 1000, 1001, 1002]
+diffusion:
+  beta: 0.5
+  t_edit: 3
+  guidance: 2.0
+  steps: 50
+  cosine_s: 0.008
+  purification_seeds: [20261001, 20261002, 20261003, 20261004]
+coliftrec:
+  lambda_text: 1.0
+  lambda_attribute: 0.75
+  lambda_visual: 0.25
+  alpha_text: 0.25
+  alpha_attribute: 0.15
+  alpha_visual: 0.025
+B1_original:
+  rho_text: 0.25
+  rho_visual: 1.0
+B3:
+  eta: [0.5, 1.0, 2.0]
+  angular_safety_cap_deg: 10.0
+selection:
+  priority: [positive_backbones, worst_seed_U, mean_U, smaller_eta]
+closed: [test, sports, electronics]
