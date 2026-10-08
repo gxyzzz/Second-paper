@@ -1,0 +1,282 @@
+{
+  "status": "PASS",
+  "protocol": "ROUND11_CDTC_V1",
+  "branch": "exp/round11-cdtc-20261008",
+  "source_round10_commit": "d31be7fdfba2f434d5a6a4fbbd8c2fe00c41061f",
+  "implementation_commit": "d5bc53413cb059af1115ba93420ce14e8181eb0d",
+  "gpu": "NVIDIA GeForce RTX 5090 / CUDA_VISIBLE_DEVICES=0",
+  "screen_launcher_pid": 1233089,
+  "screen_wrapper_pids": [
+    1233121,
+    1233122,
+    1233123,
+    1233124
+  ],
+  "screen_python_pids": {
+    "999": 1233125,
+    "1000": 1233127,
+    "1001": 1233128,
+    "1002": 1233126
+  },
+  "combined_launcher_pid": 1263638,
+  "combined_wrapper_pids": [
+    1263655,
+    1263656,
+    1263657,
+    1263658
+  ],
+  "screen_logs": {
+    "999": "diffusion_experiments/round11_cdtc/logs/screen_seed999.log",
+    "1000": "diffusion_experiments/round11_cdtc/logs/screen_seed1000.log",
+    "1001": "diffusion_experiments/round11_cdtc/logs/screen_seed1001.log",
+    "1002": "diffusion_experiments/round11_cdtc/logs/screen_seed1002.log"
+  },
+  "combined_logs": {
+    "999": "diffusion_experiments/round11_cdtc/logs/combined_seed999.log",
+    "1000": "diffusion_experiments/round11_cdtc/logs/combined_seed1000.log",
+    "1001": "diffusion_experiments/round11_cdtc/logs/combined_seed1001.log",
+    "1002": "diffusion_experiments/round11_cdtc/logs/combined_seed1002.log"
+  },
+  "screen_output_dirs": {
+    "999": "diffusion_experiments/round11_cdtc/outputs/seed999",
+    "1000": "diffusion_experiments/round11_cdtc/outputs/seed1000",
+    "1001": "diffusion_experiments/round11_cdtc/outputs/seed1001",
+    "1002": "diffusion_experiments/round11_cdtc/outputs/seed1002"
+  },
+  "combined_output_dirs": {
+    "999": "diffusion_experiments/round11_cdtc/outputs/combined_seed999",
+    "1000": "diffusion_experiments/round11_cdtc/outputs/combined_seed1000",
+    "1001": "diffusion_experiments/round11_cdtc/outputs/combined_seed1001",
+    "1002": "diffusion_experiments/round11_cdtc/outputs/combined_seed1002"
+  },
+  "screen_checks": {
+    "999": {
+      "status": "PASS",
+      "python_pid": 1233125,
+      "exit_code": 0,
+      "elapsed_seconds": 292.6269676685333,
+      "result_sha256": "28aed79cb5962cbc482eeb82e2e47c4fd951915c0f8026e0ece44f0a22cabd96",
+      "configs": [
+        "C0",
+        "G1",
+        "G2",
+        "B0",
+        "B1",
+        "T1",
+        "T2"
+      ],
+      "eta0_identity": true,
+      "all_paired_xt_exact": true,
+      "TEST_ACCESSED": false
+    },
+    "1000": {
+      "status": "PASS",
+      "python_pid": 1233127,
+      "exit_code": 0,
+      "elapsed_seconds": 394.8667821884155,
+      "result_sha256": "50b09ce69b8642f334447e722e4a63c6da0765f8fb7bd05f10d050d0fd15ad26",
+      "configs": [
+        "C0",
+        "G1",
+        "G2",
+        "B0",
+        "B1",
+        "T1",
+        "T2"
+      ],
+      "eta0_identity": true,
+      "all_paired_xt_exact": true,
+      "TEST_ACCESSED": false
+    },
+    "1001": {
+      "status": "PASS",
+      "python_pid": 1233128,
+      "exit_code": 0,
+      "elapsed_seconds": 394.69208812713623,
+      "result_sha256": "57d818756a09c2a729d4e0ce77e6a96bc22aed7dab8e08275f9f53ddc33d3aec",
+      "configs": [
+        "C0",
+        "G1",
+        "G2",
+        "B0",
+        "B1",
+        "T1",
+        "T2"
+      ],
+      "eta0_identity": true,
+      "all_paired_xt_exact": true,
+      "TEST_ACCESSED": false
+    },
+    "1002": {
+      "status": "PASS",
+      "python_pid": 1233126,
+      "exit_code": 0,
+      "elapsed_seconds": 393.2784073352814,
+      "result_sha256": "3c8f037e53b827c5b142e8ff18656ffe2e0416228c625fa680401c72c0c1c1cf",
+      "configs": [
+        "C0",
+        "G1",
+        "G2",
+        "B0",
+        "B1",
+        "T1",
+        "T2"
+      ],
+      "eta0_identity": true,
+      "all_paired_xt_exact": true,
+      "TEST_ACCESSED": false
+    }
+  },
+  "combined_checks": {
+    "999": {
+      "status": "PASS",
+      "exit_code": 0,
+      "elapsed_seconds": 106.59910035133362,
+      "result_sha256": "302010041091b943eab16f232f9c12b37a44cce32c6388654a3db154d282c132",
+      "selection_sha256": "dec9d5b7c227f5a9163951e5eb819f14b35addd8ff8a5fe4010363f7a75aad8d",
+      "eta0_identity": true,
+      "paired_xt_exact": true,
+      "TEST_ACCESSED": false
+    },
+    "1000": {
+      "status": "PASS",
+      "exit_code": 0,
+      "elapsed_seconds": 108.1667754650116,
+      "result_sha256": "d5d57e7e47cd578cbe1d9a1c7ee0da8a604bab1927f5e5f37203f90bfdf4fe78",
+      "selection_sha256": "dec9d5b7c227f5a9163951e5eb819f14b35addd8ff8a5fe4010363f7a75aad8d",
+      "eta0_identity": true,
+      "paired_xt_exact": true,
+      "TEST_ACCESSED": false
+    },
+    "1001": {
+      "status": "PASS",
+      "exit_code": 0,
+      "elapsed_seconds": 81.4376928806305,
+      "result_sha256": "505193f3abd9dec7a5011ab7715de9015828130101f498aa226bfcb5c31767fc",
+      "selection_sha256": "dec9d5b7c227f5a9163951e5eb819f14b35addd8ff8a5fe4010363f7a75aad8d",
+      "eta0_identity": true,
+      "paired_xt_exact": true,
+      "TEST_ACCESSED": false
+    },
+    "1002": {
+      "status": "PASS",
+      "exit_code": 0,
+      "elapsed_seconds": 108.77841186523438,
+      "result_sha256": "28a65b86837a0ee270e9f77d5c14bfc25a633cf0cd79017a1185846f400ce888",
+      "selection_sha256": "dec9d5b7c227f5a9163951e5eb819f14b35addd8ff8a5fe4010363f7a75aad8d",
+      "eta0_identity": true,
+      "paired_xt_exact": true,
+      "TEST_ACCESSED": false
+    }
+  },
+  "selection": {
+    "screen_selection_sha256": "dec9d5b7c227f5a9163951e5eb819f14b35addd8ff8a5fe4010363f7a75aad8d",
+    "family_selection": {
+      "guidance": {
+        "selected": "G2",
+        "value": 1.5,
+        "candidates": [
+          "G1",
+          "G2",
+          "C0"
+        ]
+      },
+      "beta": {
+        "selected": "B1",
+        "value": 1.0,
+        "candidates": [
+          "B0",
+          "C0",
+          "B1"
+        ]
+      },
+      "t_edit": {
+        "selected": "T1",
+        "value": 1,
+        "candidates": [
+          "T1",
+          "T2",
+          "C0"
+        ]
+      }
+    },
+    "Cstar_config": {
+      "guidance": 1.5,
+      "beta": 1.0,
+      "t_edit": 1
+    }
+  },
+  "decision": {
+    "status": "VALIDATION_DECISION",
+    "verdict": "NO_PASS",
+    "Cstar": {
+      "seed_U": {
+        "999": -8.686470236698388e-05,
+        "1000": 0.0027706918712772544,
+        "1001": 0.0013507531534462066,
+        "1002": 0.0012977855056770394
+      },
+      "mean_U": 0.001333091457008379,
+      "median_U": 0.001324269329561623,
+      "worst_seed_U": -8.686470236698388e-05,
+      "positive_seeds": 3,
+      "primary_positive_counts": {
+        "999": 1,
+        "1000": 4,
+        "1001": 2,
+        "1002": 3
+      },
+      "NetCross10_by_seed": {
+        "999": -3,
+        "1000": 9,
+        "1001": 8,
+        "1002": -1
+      },
+      "NetCross20_by_seed": {
+        "999": -2,
+        "1000": 2,
+        "1001": -2,
+        "1002": 7
+      },
+      "NetCross10_sum": 13,
+      "NetCross20_sum": 5,
+      "boundary_both_positive_seeds": 1,
+      "ranking_efficiency_by_seed": {
+        "999": -2.3640827276542525e-05,
+        "1000": 0.0007480889192251911,
+        "1001": 0.00036897103926895945,
+        "1002": 0.00035333236319802904
+      },
+      "mean_ranking_efficiency": 0.00036168787360390923,
+      "mean_applied_angle_by_seed": {
+        "999": 3.67435121245418,
+        "1000": 3.703693237625961,
+        "1001": 3.6608649722819635,
+        "1002": 3.6729879310536893
+      },
+      "mean_applied_angle_deg": 3.6779743383539483
+    },
+    "TEST_ACCESSED": false,
+    "SPORTS_ACCESSED": false,
+    "ELECTRONICS_ACCESSED": false
+  },
+  "global_exactness": {
+    "max_paired_xt_abs_diff": 0.0,
+    "max_fraction_hit_20deg_cap": 0.0,
+    "TRAJECTORY_TOO_AGGRESSIVE_cells": 0,
+    "screen_cells": 28,
+    "combined_cells": 4,
+    "full_factorial_run": false,
+    "extra_combined_configs_run": false
+  },
+  "evidence_sha256": {
+    "ROUND11_SMOKE.json": "2fe86d2493b61f01bdc4b292f7c2887d7e24775cca4a7139131425ad4e992a04",
+    "ROUND11_SCREEN_VALIDATION.json": "eaa551c016d3b5134d02b691b7f4528f8d267a5947a8f7479987c239c7fa0941",
+    "ROUND11_SCREEN_SELECTION.json": "dec9d5b7c227f5a9163951e5eb819f14b35addd8ff8a5fe4010363f7a75aad8d",
+    "ROUND11_TRAJECTORY_DIAGNOSTICS.json": "d8e202a505cf61715df9c283276d54bd2288f7a87fd71952a54fa17b8aefe348",
+    "ROUND11_BOUNDARY_DIAGNOSTICS.json": "4a442e2c2cd2400a82351b87824ea2594c311bb954f68882802453aea8ae41ec",
+    "ROUND11_PROVENANCE.json": "8c1ad9235f905cb7f54194b9e6830daac8bc5a7909832b0fa471fccec17b183c",
+    "ROUND11_VALIDATION_RESULTS.json": "1653617730c4546c5d1840698ec8213faa415bae81ffb43003440af8de8d4fa4",
+    "ROUND11_REPORT.md": "1a1142f7ff7312a251f977fcb699b4f474a2c425063c62a92545e79c2a1e6d6a"
+  }
+}

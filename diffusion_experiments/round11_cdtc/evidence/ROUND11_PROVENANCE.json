@@ -1,0 +1,638 @@
+{
+  "status": "PASS",
+  "protocol": "ROUND11_CDTC_V1",
+  "source_round10_commit": "d31be7fdfba2f434d5a6a4fbbd8c2fe00c41061f",
+  "eta": 0.1,
+  "safety_cap_deg": 20.0,
+  "screening_configs": {
+    "C0": {
+      "guidance": 2.0,
+      "beta": 0.5,
+      "t_edit": 3
+    },
+    "G1": {
+      "guidance": 1.0,
+      "beta": 0.5,
+      "t_edit": 3
+    },
+    "G2": {
+      "guidance": 1.5,
+      "beta": 0.5,
+      "t_edit": 3
+    },
+    "B0": {
+      "guidance": 2.0,
+      "beta": 0.0,
+      "t_edit": 3
+    },
+    "B1": {
+      "guidance": 2.0,
+      "beta": 1.0,
+      "t_edit": 3
+    },
+    "T1": {
+      "guidance": 2.0,
+      "beta": 0.5,
+      "t_edit": 1
+    },
+    "T2": {
+      "guidance": 2.0,
+      "beta": 0.5,
+      "t_edit": 2
+    }
+  },
+  "Cstar_config": {
+    "guidance": 1.5,
+    "beta": 1.0,
+    "t_edit": 1
+  },
+  "per_cell_provenance": {
+    "999": {
+      "C0": {
+        "diffusion_checkpoint": "runs/diffusion_rescue/baby_historical_seed_replay/beta_0p5/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "289a421e34b7aef1c06d7f36be202354de130d71998a80540f878d2778e352ab",
+        "endpoint_path": "runs/assets/msca_baby_seed999/embeddings.npz",
+        "endpoint_sha256": "48522f88766ee88f3f4867896f5b26faac7e560ad5d09e7ce8608262355d41cc",
+        "condition_beta": 0.5,
+        "condition_sha256": "afc4b9bdabe1a6139da56ff25a872d42c28dffacbd26d81cd5b252f1f85daae7",
+        "guidance": 2.0,
+        "t_edit": 3,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "G1": {
+        "diffusion_checkpoint": "runs/diffusion_rescue/baby_historical_seed_replay/beta_0p5/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "289a421e34b7aef1c06d7f36be202354de130d71998a80540f878d2778e352ab",
+        "endpoint_path": "runs/assets/msca_baby_seed999/embeddings.npz",
+        "endpoint_sha256": "48522f88766ee88f3f4867896f5b26faac7e560ad5d09e7ce8608262355d41cc",
+        "condition_beta": 0.5,
+        "condition_sha256": "afc4b9bdabe1a6139da56ff25a872d42c28dffacbd26d81cd5b252f1f85daae7",
+        "guidance": 1.0,
+        "t_edit": 3,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "G2": {
+        "diffusion_checkpoint": "runs/diffusion_rescue/baby_historical_seed_replay/beta_0p5/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "289a421e34b7aef1c06d7f36be202354de130d71998a80540f878d2778e352ab",
+        "endpoint_path": "runs/assets/msca_baby_seed999/embeddings.npz",
+        "endpoint_sha256": "48522f88766ee88f3f4867896f5b26faac7e560ad5d09e7ce8608262355d41cc",
+        "condition_beta": 0.5,
+        "condition_sha256": "afc4b9bdabe1a6139da56ff25a872d42c28dffacbd26d81cd5b252f1f85daae7",
+        "guidance": 1.5,
+        "t_edit": 3,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "B0": {
+        "diffusion_checkpoint": "runs/diffusion_rescue/baby_historical_seed_replay/beta_0p5/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "289a421e34b7aef1c06d7f36be202354de130d71998a80540f878d2778e352ab",
+        "endpoint_path": "runs/assets/msca_baby_seed999/embeddings.npz",
+        "endpoint_sha256": "48522f88766ee88f3f4867896f5b26faac7e560ad5d09e7ce8608262355d41cc",
+        "condition_beta": 0.0,
+        "condition_sha256": "d28711b953b29c942943e85dc15cae529a1b77e7c4bb1804bb63f1f265633bd1",
+        "guidance": 2.0,
+        "t_edit": 3,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "B1": {
+        "diffusion_checkpoint": "runs/diffusion_rescue/baby_historical_seed_replay/beta_0p5/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "289a421e34b7aef1c06d7f36be202354de130d71998a80540f878d2778e352ab",
+        "endpoint_path": "runs/assets/msca_baby_seed999/embeddings.npz",
+        "endpoint_sha256": "48522f88766ee88f3f4867896f5b26faac7e560ad5d09e7ce8608262355d41cc",
+        "condition_beta": 1.0,
+        "condition_sha256": "54a6fc682b6362029f7f647264d630846c28b10e7b2cec6cc72339dadc9bc559",
+        "guidance": 2.0,
+        "t_edit": 3,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "T1": {
+        "diffusion_checkpoint": "runs/diffusion_rescue/baby_historical_seed_replay/beta_0p5/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "289a421e34b7aef1c06d7f36be202354de130d71998a80540f878d2778e352ab",
+        "endpoint_path": "runs/assets/msca_baby_seed999/embeddings.npz",
+        "endpoint_sha256": "48522f88766ee88f3f4867896f5b26faac7e560ad5d09e7ce8608262355d41cc",
+        "condition_beta": 0.5,
+        "condition_sha256": "afc4b9bdabe1a6139da56ff25a872d42c28dffacbd26d81cd5b252f1f85daae7",
+        "guidance": 2.0,
+        "t_edit": 1,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "T2": {
+        "diffusion_checkpoint": "runs/diffusion_rescue/baby_historical_seed_replay/beta_0p5/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "289a421e34b7aef1c06d7f36be202354de130d71998a80540f878d2778e352ab",
+        "endpoint_path": "runs/assets/msca_baby_seed999/embeddings.npz",
+        "endpoint_sha256": "48522f88766ee88f3f4867896f5b26faac7e560ad5d09e7ce8608262355d41cc",
+        "condition_beta": 0.5,
+        "condition_sha256": "afc4b9bdabe1a6139da56ff25a872d42c28dffacbd26d81cd5b252f1f85daae7",
+        "guidance": 2.0,
+        "t_edit": 2,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "C*": {
+        "diffusion_checkpoint": "runs/diffusion_rescue/baby_historical_seed_replay/beta_0p5/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "289a421e34b7aef1c06d7f36be202354de130d71998a80540f878d2778e352ab",
+        "endpoint_path": "runs/assets/msca_baby_seed999/embeddings.npz",
+        "endpoint_sha256": "48522f88766ee88f3f4867896f5b26faac7e560ad5d09e7ce8608262355d41cc",
+        "condition_beta": 1.0,
+        "condition_sha256": "54a6fc682b6362029f7f647264d630846c28b10e7b2cec6cc72339dadc9bc559",
+        "guidance": 1.5,
+        "t_edit": 1,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      }
+    },
+    "1000": {
+      "C0": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1000/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "b963630c7899f9bd16abb87401fea6c1053407f22eacc5931eb64d9422bb138c",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1000/msca/assets/embeddings.npz",
+        "endpoint_sha256": "408d0ba948a9befed677a09bab90e224b55e654fa54603ff9354575413e3535d",
+        "condition_beta": 0.5,
+        "condition_sha256": "95ca6b5a06b9faafd9af3030f553b2cf32b879a39c89942e360f3693de4dfd7b",
+        "guidance": 2.0,
+        "t_edit": 3,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "G1": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1000/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "b963630c7899f9bd16abb87401fea6c1053407f22eacc5931eb64d9422bb138c",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1000/msca/assets/embeddings.npz",
+        "endpoint_sha256": "408d0ba948a9befed677a09bab90e224b55e654fa54603ff9354575413e3535d",
+        "condition_beta": 0.5,
+        "condition_sha256": "95ca6b5a06b9faafd9af3030f553b2cf32b879a39c89942e360f3693de4dfd7b",
+        "guidance": 1.0,
+        "t_edit": 3,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "G2": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1000/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "b963630c7899f9bd16abb87401fea6c1053407f22eacc5931eb64d9422bb138c",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1000/msca/assets/embeddings.npz",
+        "endpoint_sha256": "408d0ba948a9befed677a09bab90e224b55e654fa54603ff9354575413e3535d",
+        "condition_beta": 0.5,
+        "condition_sha256": "95ca6b5a06b9faafd9af3030f553b2cf32b879a39c89942e360f3693de4dfd7b",
+        "guidance": 1.5,
+        "t_edit": 3,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "B0": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1000/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "b963630c7899f9bd16abb87401fea6c1053407f22eacc5931eb64d9422bb138c",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1000/msca/assets/embeddings.npz",
+        "endpoint_sha256": "408d0ba948a9befed677a09bab90e224b55e654fa54603ff9354575413e3535d",
+        "condition_beta": 0.0,
+        "condition_sha256": "6a4c646a51bea092cc2908b1aa608d916fbfa862201f31ad43b159d6f6a513ab",
+        "guidance": 2.0,
+        "t_edit": 3,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "B1": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1000/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "b963630c7899f9bd16abb87401fea6c1053407f22eacc5931eb64d9422bb138c",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1000/msca/assets/embeddings.npz",
+        "endpoint_sha256": "408d0ba948a9befed677a09bab90e224b55e654fa54603ff9354575413e3535d",
+        "condition_beta": 1.0,
+        "condition_sha256": "d53c7143493be9711e4c38bc264703e78f05e6ee6f6b1935ea2366e1be8f4731",
+        "guidance": 2.0,
+        "t_edit": 3,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "T1": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1000/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "b963630c7899f9bd16abb87401fea6c1053407f22eacc5931eb64d9422bb138c",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1000/msca/assets/embeddings.npz",
+        "endpoint_sha256": "408d0ba948a9befed677a09bab90e224b55e654fa54603ff9354575413e3535d",
+        "condition_beta": 0.5,
+        "condition_sha256": "95ca6b5a06b9faafd9af3030f553b2cf32b879a39c89942e360f3693de4dfd7b",
+        "guidance": 2.0,
+        "t_edit": 1,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "T2": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1000/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "b963630c7899f9bd16abb87401fea6c1053407f22eacc5931eb64d9422bb138c",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1000/msca/assets/embeddings.npz",
+        "endpoint_sha256": "408d0ba948a9befed677a09bab90e224b55e654fa54603ff9354575413e3535d",
+        "condition_beta": 0.5,
+        "condition_sha256": "95ca6b5a06b9faafd9af3030f553b2cf32b879a39c89942e360f3693de4dfd7b",
+        "guidance": 2.0,
+        "t_edit": 2,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "C*": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1000/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "b963630c7899f9bd16abb87401fea6c1053407f22eacc5931eb64d9422bb138c",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1000/msca/assets/embeddings.npz",
+        "endpoint_sha256": "408d0ba948a9befed677a09bab90e224b55e654fa54603ff9354575413e3535d",
+        "condition_beta": 1.0,
+        "condition_sha256": "d53c7143493be9711e4c38bc264703e78f05e6ee6f6b1935ea2366e1be8f4731",
+        "guidance": 1.5,
+        "t_edit": 1,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      }
+    },
+    "1001": {
+      "C0": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1001/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "2998cc8bf3033fa382042bcfa181643075e4f0b2804a115513fcee9cfa641a97",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1001/msca/assets/embeddings.npz",
+        "endpoint_sha256": "277b53c96dfeeec846ab450c6c54dda37f74211fc69cdc8d1a9e5309160ec98f",
+        "condition_beta": 0.5,
+        "condition_sha256": "1866d0b5de732840e3f2f427b3a754037c2c463508c2f49b10e3d478f118b807",
+        "guidance": 2.0,
+        "t_edit": 3,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "G1": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1001/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "2998cc8bf3033fa382042bcfa181643075e4f0b2804a115513fcee9cfa641a97",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1001/msca/assets/embeddings.npz",
+        "endpoint_sha256": "277b53c96dfeeec846ab450c6c54dda37f74211fc69cdc8d1a9e5309160ec98f",
+        "condition_beta": 0.5,
+        "condition_sha256": "1866d0b5de732840e3f2f427b3a754037c2c463508c2f49b10e3d478f118b807",
+        "guidance": 1.0,
+        "t_edit": 3,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "G2": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1001/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "2998cc8bf3033fa382042bcfa181643075e4f0b2804a115513fcee9cfa641a97",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1001/msca/assets/embeddings.npz",
+        "endpoint_sha256": "277b53c96dfeeec846ab450c6c54dda37f74211fc69cdc8d1a9e5309160ec98f",
+        "condition_beta": 0.5,
+        "condition_sha256": "1866d0b5de732840e3f2f427b3a754037c2c463508c2f49b10e3d478f118b807",
+        "guidance": 1.5,
+        "t_edit": 3,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "B0": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1001/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "2998cc8bf3033fa382042bcfa181643075e4f0b2804a115513fcee9cfa641a97",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1001/msca/assets/embeddings.npz",
+        "endpoint_sha256": "277b53c96dfeeec846ab450c6c54dda37f74211fc69cdc8d1a9e5309160ec98f",
+        "condition_beta": 0.0,
+        "condition_sha256": "c2ace0c3bba8c3d48d1d9f64638a3d3326c9186d534d1d8ecffbd078043634a0",
+        "guidance": 2.0,
+        "t_edit": 3,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "B1": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1001/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "2998cc8bf3033fa382042bcfa181643075e4f0b2804a115513fcee9cfa641a97",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1001/msca/assets/embeddings.npz",
+        "endpoint_sha256": "277b53c96dfeeec846ab450c6c54dda37f74211fc69cdc8d1a9e5309160ec98f",
+        "condition_beta": 1.0,
+        "condition_sha256": "417a7e49e834cc413fe0057b43f0a9161de2fc0c84d2d9ce008813359428b10d",
+        "guidance": 2.0,
+        "t_edit": 3,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "T1": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1001/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "2998cc8bf3033fa382042bcfa181643075e4f0b2804a115513fcee9cfa641a97",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1001/msca/assets/embeddings.npz",
+        "endpoint_sha256": "277b53c96dfeeec846ab450c6c54dda37f74211fc69cdc8d1a9e5309160ec98f",
+        "condition_beta": 0.5,
+        "condition_sha256": "1866d0b5de732840e3f2f427b3a754037c2c463508c2f49b10e3d478f118b807",
+        "guidance": 2.0,
+        "t_edit": 1,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "T2": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1001/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "2998cc8bf3033fa382042bcfa181643075e4f0b2804a115513fcee9cfa641a97",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1001/msca/assets/embeddings.npz",
+        "endpoint_sha256": "277b53c96dfeeec846ab450c6c54dda37f74211fc69cdc8d1a9e5309160ec98f",
+        "condition_beta": 0.5,
+        "condition_sha256": "1866d0b5de732840e3f2f427b3a754037c2c463508c2f49b10e3d478f118b807",
+        "guidance": 2.0,
+        "t_edit": 2,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "C*": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1001/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "2998cc8bf3033fa382042bcfa181643075e4f0b2804a115513fcee9cfa641a97",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1001/msca/assets/embeddings.npz",
+        "endpoint_sha256": "277b53c96dfeeec846ab450c6c54dda37f74211fc69cdc8d1a9e5309160ec98f",
+        "condition_beta": 1.0,
+        "condition_sha256": "417a7e49e834cc413fe0057b43f0a9161de2fc0c84d2d9ce008813359428b10d",
+        "guidance": 1.5,
+        "t_edit": 1,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      }
+    },
+    "1002": {
+      "C0": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1002/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "4148bb16f6e29a3b43d40420afcb9f7e6bbd2888dda87f5c1834a67ac7282d39",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1002/msca/assets/embeddings.npz",
+        "endpoint_sha256": "77d22e630d3c7055a07953f5dd79708037e835170f72568134b176f52494f85b",
+        "condition_beta": 0.5,
+        "condition_sha256": "f4ac0b744de0298ac27696cf53eb22b8b411ccd0f2925ae8f4441f178c20909e",
+        "guidance": 2.0,
+        "t_edit": 3,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "G1": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1002/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "4148bb16f6e29a3b43d40420afcb9f7e6bbd2888dda87f5c1834a67ac7282d39",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1002/msca/assets/embeddings.npz",
+        "endpoint_sha256": "77d22e630d3c7055a07953f5dd79708037e835170f72568134b176f52494f85b",
+        "condition_beta": 0.5,
+        "condition_sha256": "f4ac0b744de0298ac27696cf53eb22b8b411ccd0f2925ae8f4441f178c20909e",
+        "guidance": 1.0,
+        "t_edit": 3,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "G2": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1002/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "4148bb16f6e29a3b43d40420afcb9f7e6bbd2888dda87f5c1834a67ac7282d39",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1002/msca/assets/embeddings.npz",
+        "endpoint_sha256": "77d22e630d3c7055a07953f5dd79708037e835170f72568134b176f52494f85b",
+        "condition_beta": 0.5,
+        "condition_sha256": "f4ac0b744de0298ac27696cf53eb22b8b411ccd0f2925ae8f4441f178c20909e",
+        "guidance": 1.5,
+        "t_edit": 3,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "B0": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1002/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "4148bb16f6e29a3b43d40420afcb9f7e6bbd2888dda87f5c1834a67ac7282d39",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1002/msca/assets/embeddings.npz",
+        "endpoint_sha256": "77d22e630d3c7055a07953f5dd79708037e835170f72568134b176f52494f85b",
+        "condition_beta": 0.0,
+        "condition_sha256": "7acabc679022372c5a709ceb594dfd00a1ab29f365496151b3a80ebe77a2156d",
+        "guidance": 2.0,
+        "t_edit": 3,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "B1": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1002/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "4148bb16f6e29a3b43d40420afcb9f7e6bbd2888dda87f5c1834a67ac7282d39",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1002/msca/assets/embeddings.npz",
+        "endpoint_sha256": "77d22e630d3c7055a07953f5dd79708037e835170f72568134b176f52494f85b",
+        "condition_beta": 1.0,
+        "condition_sha256": "729919da6f50cfac38255c6800a7c707a7cab5abdbde00c968accbd034336169",
+        "guidance": 2.0,
+        "t_edit": 3,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "T1": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1002/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "4148bb16f6e29a3b43d40420afcb9f7e6bbd2888dda87f5c1834a67ac7282d39",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1002/msca/assets/embeddings.npz",
+        "endpoint_sha256": "77d22e630d3c7055a07953f5dd79708037e835170f72568134b176f52494f85b",
+        "condition_beta": 0.5,
+        "condition_sha256": "f4ac0b744de0298ac27696cf53eb22b8b411ccd0f2925ae8f4441f178c20909e",
+        "guidance": 2.0,
+        "t_edit": 1,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "T2": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1002/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "4148bb16f6e29a3b43d40420afcb9f7e6bbd2888dda87f5c1834a67ac7282d39",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1002/msca/assets/embeddings.npz",
+        "endpoint_sha256": "77d22e630d3c7055a07953f5dd79708037e835170f72568134b176f52494f85b",
+        "condition_beta": 0.5,
+        "condition_sha256": "f4ac0b744de0298ac27696cf53eb22b8b411ccd0f2925ae8f4441f178c20909e",
+        "guidance": 2.0,
+        "t_edit": 2,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      },
+      "C*": {
+        "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1002/diffusion/checkpoints/baby_beta_0p5.pt",
+        "diffusion_sha256": "4148bb16f6e29a3b43d40420afcb9f7e6bbd2888dda87f5c1834a67ac7282d39",
+        "endpoint_path": "runs/backbone_robustness/baby_seed1002/msca/assets/embeddings.npz",
+        "endpoint_sha256": "77d22e630d3c7055a07953f5dd79708037e835170f72568134b176f52494f85b",
+        "condition_beta": 1.0,
+        "condition_sha256": "729919da6f50cfac38255c6800a7c707a7cab5abdbde00c968accbd034336169",
+        "guidance": 1.5,
+        "t_edit": 1,
+        "purification_seeds": [
+          20261001,
+          20261002,
+          20261003,
+          20261004
+        ],
+        "paired_initial_xt_max_abs_diff": 0.0,
+        "TEST_ACCESSED": false
+      }
+    }
+  },
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false
+}
