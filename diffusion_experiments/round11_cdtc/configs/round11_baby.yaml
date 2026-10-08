@@ -1,0 +1,17 @@
+protocol: ROUND11_CDTC_V1
+dataset: baby
+scope: validation_only
+backbones: [999, 1000, 1001, 1002]
+eta: 0.10
+safety_cap_deg: 20.0
+screening:
+  C0: {guidance: 2.0, beta: 0.5, t_edit: 3}
+  G1: {guidance: 1.0, beta: 0.5, t_edit: 3}
+  G2: {guidance: 1.5, beta: 0.5, t_edit: 3}
+  B0: {guidance: 2.0, beta: 0.0, t_edit: 3}
+  B1: {guidance: 2.0, beta: 1.0, t_edit: 3}
+  T1: {guidance: 2.0, beta: 0.5, t_edit: 1}
+  T2: {guidance: 2.0, beta: 0.5, t_edit: 2}
+family_selection:
+  priority: [positive_backbones, worst_seed_U, mean_U, conservative_parameter]
+closed: [test, sports, electronics]

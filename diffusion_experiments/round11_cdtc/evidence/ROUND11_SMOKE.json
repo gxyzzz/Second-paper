@@ -1,0 +1,89 @@
+{
+  "status": "PASS",
+  "protocol": "ROUND11_CDTC_V1",
+  "seed": 999,
+  "checks": {
+    "eta0_identity": true,
+    "all_paired_xt_exact": true,
+    "all_final_finite_norm": true,
+    "attribute_unchanged": true,
+    "direct_score_residual": false,
+    "TEST_loader_called": false,
+    "TEST_ACCESSED": false,
+    "SPORTS_ACCESSED": false,
+    "ELECTRONICS_ACCESSED": false,
+    "smoke": {
+      "guidance_changes_condition_angle": true,
+      "guidance_angle_max_mean_diff_deg": 17.33542443403961,
+      "t_edit_changes_trajectory": true,
+      "t_edit_angle_max_mean_diff_deg": 0.8551158918556538,
+      "beta_condition_asset_differs": true,
+      "beta0p5_historical_max_abs_diff": 0.0,
+      "beta0_collab_endpoint_max_abs_diff": 0.0,
+      "beta_condition_rebuild_exact": true,
+      "max_fraction_hit_20deg_cap": 0.0,
+      "eta0p1_not_cap_saturated": true
+    }
+  },
+  "configs": {
+    "C0": {
+      "U": -0.0012804927203815702,
+      "mean_applied_angle_deg": 4.557075081657857,
+      "NULL_to_TRUE_mean_deg": {
+        "text": 49.90092839937684,
+        "visual": 45.34440314083235
+      },
+      "fraction_hit_20deg_cap": {
+        "text": 0.0,
+        "visual": 0.0
+      },
+      "NetCross10": -4,
+      "NetCross20": -7
+    },
+    "G1": {
+      "U": -0.0009238740884324544,
+      "mean_applied_angle_deg": 2.9425766834595524,
+      "NULL_to_TRUE_mean_deg": {
+        "text": 32.56550396533723,
+        "visual": 28.280412673950195
+      },
+      "fraction_hit_20deg_cap": {
+        "text": 0.0,
+        "visual": 0.0
+      },
+      "NetCross10": -3,
+      "NetCross20": -5
+    },
+    "B0": {
+      "U": -0.0014657755788481262,
+      "mean_applied_angle_deg": 4.4046321034516005,
+      "NULL_to_TRUE_mean_deg": {
+        "text": 48.23142062356286,
+        "visual": 43.673840983235245
+      },
+      "fraction_hit_20deg_cap": {
+        "text": 0.0,
+        "visual": 0.0
+      },
+      "NetCross10": -1,
+      "NetCross20": -8
+    },
+    "T1": {
+      "U": -0.001053805750549989,
+      "mean_applied_angle_deg": 4.291952850717179,
+      "NULL_to_TRUE_mean_deg": {
+        "text": 46.54278976792139,
+        "visual": 42.69422850940244
+      },
+      "fraction_hit_20deg_cap": {
+        "text": 0.0,
+        "visual": 0.0
+      },
+      "NetCross10": -4,
+      "NetCross20": -5
+    }
+  },
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false
+}
