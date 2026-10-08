@@ -1,0 +1,78 @@
+{
+  "diagnostic": {
+    "sample_n": 1024,
+    "hard_shell_rank_6_30": true,
+    "same_item_noise_timestep": true,
+    "t_infer": 3,
+    "text": {
+      "true_residual_norm": {
+        "mean": 0.003679218079639668,
+        "median": 0.003465588786639273,
+        "fraction_positive": 1.0,
+        "p10": 0.002415415574796498,
+        "p90": 0.0051738739944994444
+      },
+      "shuffled_residual_norm": {
+        "mean": 0.0032083020971072074,
+        "median": 0.00310938386246562,
+        "fraction_positive": 1.0,
+        "p10": 0.002255843859165907,
+        "p90": 0.004286889592185617
+      },
+      "true_minus_shuffled_norm": {
+        "mean": 0.00472517437941633,
+        "median": 0.0045700473710894585,
+        "fraction_positive": 1.0,
+        "p10": 0.0031890597427263858,
+        "p90": 0.006454463349655271
+      },
+      "cos_true_vs_shuffled": {
+        "mean": 0.08478876162553206,
+        "median": 0.09566648304462433,
+        "fraction_positive": 0.619140625,
+        "p10": -0.30861473083496094,
+        "p90": 0.4613992869853973
+      }
+    },
+    "visual": {
+      "true_residual_norm": {
+        "mean": 0.003650164931514155,
+        "median": 0.0034884101478382945,
+        "fraction_positive": 1.0,
+        "p10": 0.002415846334770322,
+        "p90": 0.005115111777558923
+      },
+      "shuffled_residual_norm": {
+        "mean": 0.00313150985118682,
+        "median": 0.0030055342940613627,
+        "fraction_positive": 1.0,
+        "p10": 0.002211308409459889,
+        "p90": 0.004200808145105838
+      },
+      "true_minus_shuffled_norm": {
+        "mean": 0.0046714738887772,
+        "median": 0.004536529304459691,
+        "fraction_positive": 1.0,
+        "p10": 0.003191006882116199,
+        "p90": 0.006277836766093969
+      },
+      "cos_true_vs_shuffled": {
+        "mean": 0.08703395024303973,
+        "median": 0.08343430235981941,
+        "fraction_positive": 0.62060546875,
+        "p10": -0.23404039442539215,
+        "p90": 0.4215084910392761
+      }
+    },
+    "margin_true_minus_shuffled": {
+      "mean": -1.0407529771327972e-06,
+      "median": 1.430511474609375e-06,
+      "fraction_positive": 0.509765625,
+      "p10": -0.00013065338134765625,
+      "p90": 0.00012996196746826175
+    },
+    "TEST_ACCESSED": false
+  },
+  "PASS": true,
+  "TEST_ACCESSED": false
+}

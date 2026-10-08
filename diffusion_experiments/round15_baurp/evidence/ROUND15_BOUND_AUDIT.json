@@ -1,0 +1,29 @@
+{
+  "sample_pairs": 1000,
+  "theta_max_deg": 5.0,
+  "tangent_norm_cap": 0.43744331762962,
+  "text": {
+    "mean": 0.0390609786119312,
+    "median": 0.03956468030810356,
+    "p90": 0.05233915522694588,
+    "p95": 0.05595291033387184,
+    "p99": 0.05595291033387184,
+    "max": 0.06255725771188736,
+    "cap_saturation_fraction": 0.0,
+    "raw_tangent_norm_mean": 0.0034823990426957607,
+    "bounded_tangent_norm_mean": 0.0034823990426957607
+  },
+  "visual": {
+    "mean": 0.04085005463287234,
+    "median": 0.03956468030810356,
+    "p90": 0.05595291033387184,
+    "p95": 0.05595291033387184,
+    "p99": 0.06255725771188736,
+    "max": 0.06255725771188736,
+    "cap_saturation_fraction": 0.0,
+    "raw_tangent_norm_mean": 0.0036234071012586355,
+    "bounded_tangent_norm_mean": 0.0036234071012586355
+  },
+  "TEST_ACCESSED": false,
+  "PASS": true
+}

@@ -1,0 +1,40 @@
+{
+  "source_round14": {
+    "status": "PASS",
+    "seed": 999,
+    "mode": "formal",
+    "checkpoint": "/home/gxy/code/Second-paper/runs/checkpoints/MSCA-Sep-26-2026-12-48-04.pth",
+    "checkpoint_sha256": "aa389ef8576e491ffb56eaec9d165444487bef9c1e542f280e991e2e063cc1cb",
+    "interaction_path": "/home/gxy/code/Second-paper/data/baby/baby.inter",
+    "interaction_sha256": "9ef5de9a05949d973928cca113aacba12067ff8f104e310ef28ea42db00c17b1",
+    "backgrounds_path": "/home/gxy/code/Second-paper/runs/generic_refactor/baby_formal/backgrounds.npz",
+    "definition": "Frozen MSCA Top100 masked by x_label==0 TRAIN histories, reranked by frozen Full CoLiftRec; hard region rank 6-30.",
+    "TRAIN_ONLY": true,
+    "validation_positive_used": false,
+    "validation_metric_used": false,
+    "test_used": false,
+    "train_users_with_valid_hard_pool": 19445,
+    "mean_candidates_per_user": 25.0,
+    "median_candidates_per_user": 25.0,
+    "fallback_ratio": 0.0,
+    "mean_frozen_rank": 18.0,
+    "rank_histogram": {
+      "6-10": 97225,
+      "11-15": 97225,
+      "16-20": 97225,
+      "21-25": 97225,
+      "26-30": 97225
+    },
+    "observed_positive_violations": 0,
+    "hard_shape": [
+      19445,
+      25
+    ],
+    "output": "/home/gxy/code/Second-paper/diffusion_experiments/round14_aihu/outputs/seed999/ROUND14_TRAIN_HARD_CANDIDATES.npz",
+    "TEST_ACCESSED": false,
+    "SPORTS_ACCESSED": false,
+    "ELECTRONICS_ACCESSED": false
+  },
+  "PASS": true,
+  "TEST_ACCESSED": false
+}

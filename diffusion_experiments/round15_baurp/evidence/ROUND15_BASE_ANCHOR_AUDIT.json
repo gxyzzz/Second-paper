@@ -1,0 +1,8 @@
+{
+  "true_reconstruction_anchor": false,
+  "zero_base_reconstruction_anchor": true,
+  "base_grad_norm": 0.007973258383572102,
+  "base_grad_finite": true,
+  "PASS": true,
+  "TEST_ACCESSED": false
+}

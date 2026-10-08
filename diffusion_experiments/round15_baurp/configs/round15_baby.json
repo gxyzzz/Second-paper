@@ -1,0 +1,22 @@
+{
+  "protocol": "ROUND15_BAURP_V1",
+  "source_commit": "394b6acb2a9597124ce2ceb863bf47b3890cfc02",
+  "preflight_backbones": [999, 1000],
+  "expansion_backbones": [1001, 1002],
+  "variants": ["A0", "A1", "A2"],
+  "epochs": 5,
+  "rho": 0.20,
+  "t_preference": 3,
+  "theta_max_deg": 5.0,
+  "tangent_norm_cap": 0.4374433176,
+  "lambda_rec": 1.0,
+  "lambda_user": 0.5,
+  "lambda_base": 0.25,
+  "lambda_bound": 0.05,
+  "user_margin": 0.05,
+  "hard_rank_min": 6,
+  "hard_rank_max": 30,
+  "test_access": false,
+  "sports_access": false,
+  "electronics_access": false
+}

@@ -1,0 +1,341 @@
+{
+  "rows": [
+    {
+      "name": "user_embedding.weight",
+      "shape": [
+        19445,
+        64
+      ],
+      "numel": 1244480,
+      "trainable": false,
+      "group": "recommender"
+    },
+    {
+      "name": "item_id_embedding.weight",
+      "shape": [
+        7050,
+        64
+      ],
+      "numel": 451200,
+      "trainable": false,
+      "group": "recommender"
+    },
+    {
+      "name": "image_embedding.weight",
+      "shape": [
+        7050,
+        4096
+      ],
+      "numel": 28876800,
+      "trainable": false,
+      "group": "recommender"
+    },
+    {
+      "name": "text_embedding.weight",
+      "shape": [
+        7050,
+        384
+      ],
+      "numel": 2707200,
+      "trainable": false,
+      "group": "recommender"
+    },
+    {
+      "name": "image_trs.weight",
+      "shape": [
+        64,
+        4096
+      ],
+      "numel": 262144,
+      "trainable": false,
+      "group": "recommender"
+    },
+    {
+      "name": "image_trs.bias",
+      "shape": [
+        64
+      ],
+      "numel": 64,
+      "trainable": false,
+      "group": "recommender"
+    },
+    {
+      "name": "text_trs.weight",
+      "shape": [
+        64,
+        384
+      ],
+      "numel": 24576,
+      "trainable": false,
+      "group": "recommender"
+    },
+    {
+      "name": "text_trs.bias",
+      "shape": [
+        64
+      ],
+      "numel": 64,
+      "trainable": false,
+      "group": "recommender"
+    },
+    {
+      "name": "query_common.0.weight",
+      "shape": [
+        64,
+        64
+      ],
+      "numel": 4096,
+      "trainable": false,
+      "group": "recommender"
+    },
+    {
+      "name": "query_common.0.bias",
+      "shape": [
+        64
+      ],
+      "numel": 64,
+      "trainable": false,
+      "group": "recommender"
+    },
+    {
+      "name": "query_common.2.weight",
+      "shape": [
+        1,
+        64
+      ],
+      "numel": 64,
+      "trainable": false,
+      "group": "recommender"
+    },
+    {
+      "name": "gate_v.0.weight",
+      "shape": [
+        64,
+        64
+      ],
+      "numel": 4096,
+      "trainable": false,
+      "group": "recommender"
+    },
+    {
+      "name": "gate_v.0.bias",
+      "shape": [
+        64
+      ],
+      "numel": 64,
+      "trainable": false,
+      "group": "recommender"
+    },
+    {
+      "name": "gate_t.0.weight",
+      "shape": [
+        64,
+        64
+      ],
+      "numel": 4096,
+      "trainable": false,
+      "group": "recommender"
+    },
+    {
+      "name": "gate_t.0.bias",
+      "shape": [
+        64
+      ],
+      "numel": 64,
+      "trainable": false,
+      "group": "recommender"
+    },
+    {
+      "name": "iudlp.condition.net.0.weight",
+      "shape": [
+        128,
+        128
+      ],
+      "numel": 16384,
+      "trainable": true,
+      "group": "diffusion"
+    },
+    {
+      "name": "iudlp.condition.net.0.bias",
+      "shape": [
+        128
+      ],
+      "numel": 128,
+      "trainable": true,
+      "group": "diffusion"
+    },
+    {
+      "name": "iudlp.condition.net.2.weight",
+      "shape": [
+        64,
+        128
+      ],
+      "numel": 8192,
+      "trainable": true,
+      "group": "diffusion"
+    },
+    {
+      "name": "iudlp.condition.net.2.bias",
+      "shape": [
+        64
+      ],
+      "numel": 64,
+      "trainable": true,
+      "group": "diffusion"
+    },
+    {
+      "name": "iudlp.text.time_mlp.0.weight",
+      "shape": [
+        64,
+        64
+      ],
+      "numel": 4096,
+      "trainable": true,
+      "group": "diffusion"
+    },
+    {
+      "name": "iudlp.text.time_mlp.0.bias",
+      "shape": [
+        64
+      ],
+      "numel": 64,
+      "trainable": true,
+      "group": "diffusion"
+    },
+    {
+      "name": "iudlp.text.net.0.weight",
+      "shape": [
+        256,
+        192
+      ],
+      "numel": 49152,
+      "trainable": true,
+      "group": "diffusion"
+    },
+    {
+      "name": "iudlp.text.net.0.bias",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "trainable": true,
+      "group": "diffusion"
+    },
+    {
+      "name": "iudlp.text.net.2.weight",
+      "shape": [
+        256,
+        256
+      ],
+      "numel": 65536,
+      "trainable": true,
+      "group": "diffusion"
+    },
+    {
+      "name": "iudlp.text.net.2.bias",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "trainable": true,
+      "group": "diffusion"
+    },
+    {
+      "name": "iudlp.text.net.4.weight",
+      "shape": [
+        64,
+        256
+      ],
+      "numel": 16384,
+      "trainable": true,
+      "group": "diffusion"
+    },
+    {
+      "name": "iudlp.text.net.4.bias",
+      "shape": [
+        64
+      ],
+      "numel": 64,
+      "trainable": true,
+      "group": "diffusion"
+    },
+    {
+      "name": "iudlp.visual.time_mlp.0.weight",
+      "shape": [
+        64,
+        64
+      ],
+      "numel": 4096,
+      "trainable": true,
+      "group": "diffusion"
+    },
+    {
+      "name": "iudlp.visual.time_mlp.0.bias",
+      "shape": [
+        64
+      ],
+      "numel": 64,
+      "trainable": true,
+      "group": "diffusion"
+    },
+    {
+      "name": "iudlp.visual.net.0.weight",
+      "shape": [
+        256,
+        192
+      ],
+      "numel": 49152,
+      "trainable": true,
+      "group": "diffusion"
+    },
+    {
+      "name": "iudlp.visual.net.0.bias",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "trainable": true,
+      "group": "diffusion"
+    },
+    {
+      "name": "iudlp.visual.net.2.weight",
+      "shape": [
+        256,
+        256
+      ],
+      "numel": 65536,
+      "trainable": true,
+      "group": "diffusion"
+    },
+    {
+      "name": "iudlp.visual.net.2.bias",
+      "shape": [
+        256
+      ],
+      "numel": 256,
+      "trainable": true,
+      "group": "diffusion"
+    },
+    {
+      "name": "iudlp.visual.net.4.weight",
+      "shape": [
+        64,
+        256
+      ],
+      "numel": 16384,
+      "trainable": true,
+      "group": "diffusion"
+    },
+    {
+      "name": "iudlp.visual.net.4.bias",
+      "shape": [
+        64
+      ],
+      "numel": 64,
+      "trainable": true,
+      "group": "diffusion"
+    }
+  ],
+  "recommender_trainable_count": 0,
+  "TEST_ACCESSED": false
+}

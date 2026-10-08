@@ -1,0 +1,11 @@
+{
+  "L_rec_grad_norm": 0.01650008000433445,
+  "L_user_grad_norm": 0.0005800683866254985,
+  "p0_reference_autograd_none": [
+    true,
+    true
+  ],
+  "p0_reference_detached": true,
+  "PASS": true,
+  "TEST_ACCESSED": false
+}
