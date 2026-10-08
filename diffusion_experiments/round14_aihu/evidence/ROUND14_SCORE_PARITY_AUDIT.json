@@ -1,0 +1,15 @@
+{
+  "seed": 999,
+  "candidate_set_exact": true,
+  "candidate_shape": [
+    19445,
+    100
+  ],
+  "rho0_internal_scorer_delta_max_abs": 0.0,
+  "msca_candidate_score_max_abs_diff": 0.0,
+  "coliftrec_final_score_max_abs_diff": 0.0,
+  "ranking_exact": true,
+  "score_formulation": "frozen_full_coliftrec + (original_scorer_aug - original_scorer_base)",
+  "PASS": true,
+  "TEST_ACCESSED": false
+}

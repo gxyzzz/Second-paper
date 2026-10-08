@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "true_anchor_grad_norm": 0.007976274937391281,
+  "zero_anchor_grad_norm": 0.007973258383572102,
+  "zero_anchor_finite": true,
+  "TEST_ACCESSED": false
+}

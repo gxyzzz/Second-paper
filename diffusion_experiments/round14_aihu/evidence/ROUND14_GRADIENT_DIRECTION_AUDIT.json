@@ -1,0 +1,83 @@
+{
+  "status": "PASS",
+  "checks": {
+    "all_recommender_frozen": true,
+    "true_anchor_gradient": true,
+    "zero_anchor_gradient": true,
+    "zero_anchor_finite": true,
+    "same_item_noise_timestep_true_zero": true,
+    "preference_t_exact_3": true,
+    "reconstruction_random_t_1_20": true,
+    "A3_hard_rank_6_30": true,
+    "hard_pool_train_only": true,
+    "L_user_gradient_direction_correct": true,
+    "rho0_full_score_parity_exact": true,
+    "fixed_inference_repeatable": true,
+    "test_loader_not_called": true
+  },
+  "true_anchor_grad_norm": 0.007976274937391281,
+  "zero_anchor_grad_norm": 0.007973258383572102,
+  "total_grad_norm": 0.001877993461675942,
+  "frozen_recommender_received_grad": false,
+  "synthetic_gradient_direction": {
+    "before_margin_gap": -7.64988362789154e-06,
+    "after_one_L_user_step_margin_gap": -7.614493370056152e-06,
+    "delta": 3.5390257835388184e-08,
+    "PASS": true,
+    "step_lr": 0.1,
+    "same_batch_noise_timestep": true
+  },
+  "hard_candidate_audit": {
+    "status": "PASS",
+    "seed": 999,
+    "mode": "formal",
+    "checkpoint": "/home/gxy/code/Second-paper/runs/checkpoints/MSCA-Sep-26-2026-12-48-04.pth",
+    "checkpoint_sha256": "aa389ef8576e491ffb56eaec9d165444487bef9c1e542f280e991e2e063cc1cb",
+    "interaction_path": "/home/gxy/code/Second-paper/data/baby/baby.inter",
+    "interaction_sha256": "9ef5de9a05949d973928cca113aacba12067ff8f104e310ef28ea42db00c17b1",
+    "backgrounds_path": "/home/gxy/code/Second-paper/runs/generic_refactor/baby_formal/backgrounds.npz",
+    "definition": "Frozen MSCA Top100 masked by x_label==0 TRAIN histories, reranked by frozen Full CoLiftRec; hard region rank 6-30.",
+    "TRAIN_ONLY": true,
+    "validation_positive_used": false,
+    "validation_metric_used": false,
+    "test_used": false,
+    "train_users_with_valid_hard_pool": 19445,
+    "mean_candidates_per_user": 25.0,
+    "median_candidates_per_user": 25.0,
+    "fallback_ratio": 0.0,
+    "mean_frozen_rank": 18.0,
+    "rank_histogram": {
+      "6-10": 97225,
+      "11-15": 97225,
+      "16-20": 97225,
+      "21-25": 97225,
+      "26-30": 97225
+    },
+    "observed_positive_violations": 0,
+    "hard_shape": [
+      19445,
+      25
+    ],
+    "output": "/home/gxy/code/Second-paper/diffusion_experiments/round14_aihu/outputs/seed999/ROUND14_TRAIN_HARD_CANDIDATES.npz",
+    "TEST_ACCESSED": false,
+    "SPORTS_ACCESSED": false,
+    "ELECTRONICS_ACCESSED": false
+  },
+  "score_parity": {
+    "seed": 999,
+    "candidate_set_exact": true,
+    "candidate_shape": [
+      19445,
+      100
+    ],
+    "rho0_internal_scorer_delta_max_abs": 0.0,
+    "msca_candidate_score_max_abs_diff": 0.0,
+    "coliftrec_final_score_max_abs_diff": 0.0,
+    "ranking_exact": true,
+    "score_formulation": "frozen_full_coliftrec + (original_scorer_aug - original_scorer_base)",
+    "PASS": true,
+    "TEST_ACCESSED": false
+  },
+  "repeat_inference_max_abs_diff": 0.0,
+  "TEST_ACCESSED": false
+}
