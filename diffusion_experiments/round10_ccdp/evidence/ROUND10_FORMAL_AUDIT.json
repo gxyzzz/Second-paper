@@ -1,0 +1,136 @@
+{
+  "status": "PASS",
+  "protocol": "ROUND10_CCDP_V1",
+  "branch": "exp/round10-ccdp-20261008",
+  "source_round9_commit": "a1104fd3c87a70accbed4cabb9f1eac0e08e42f3",
+  "implementation_commit": "ba74cf23a91da8200a708847bfcf9b3ab5d5edee",
+  "evidence_generation_base_head": "ba74cf23a91da8200a708847bfcf9b3ab5d5edee",
+  "gpu": "NVIDIA GeForce RTX 5090 / CUDA_VISIBLE_DEVICES=0",
+  "launcher_pid": 705649,
+  "launcher_wrapper_pids": [
+    705656,
+    705657,
+    705658,
+    705659
+  ],
+  "formal_python_pids": [
+    705660,
+    705662,
+    705663,
+    705661
+  ],
+  "formal_logs": {
+    "999": "diffusion_experiments/round10_ccdp/logs/formal_seed999.log",
+    "1000": "diffusion_experiments/round10_ccdp/logs/formal_seed1000.log",
+    "1001": "diffusion_experiments/round10_ccdp/logs/formal_seed1001.log",
+    "1002": "diffusion_experiments/round10_ccdp/logs/formal_seed1002.log"
+  },
+  "output_dirs": {
+    "999": "diffusion_experiments/round10_ccdp/outputs/seed999",
+    "1000": "diffusion_experiments/round10_ccdp/outputs/seed1000",
+    "1001": "diffusion_experiments/round10_ccdp/outputs/seed1001",
+    "1002": "diffusion_experiments/round10_ccdp/outputs/seed1002"
+  },
+  "per_seed_checks": {
+    "999": {
+      "status": "PASS",
+      "python_pid": 705660,
+      "exit_code": 0,
+      "elapsed_seconds": 244.22224974632263,
+      "result_sha256": "102f91d96434d1046d218c40250a746110de758fec7ef303153a58185db40947",
+      "paired_assets_sha256": "ec8c72c4e4b0f0a9b47312058d4e2bd1bbac06721a9ac22ff7f269896d8e93ad",
+      "paired_xt_max_abs_diff": 0.0,
+      "decomposition_max_abs_error": 1.4901161193847656e-08,
+      "eta0_identity": true,
+      "B1_round9_A0_exact": true,
+      "B3_cap_valid": true,
+      "TEST_ACCESSED": false
+    },
+    "1000": {
+      "status": "PASS",
+      "python_pid": 705662,
+      "exit_code": 0,
+      "elapsed_seconds": 306.9977900981903,
+      "result_sha256": "744b6f58f7baa2ccb35089d68eef445ca2babc2ae21658cff92c250f16a6985f",
+      "paired_assets_sha256": "3c759885385fae43e9dee74cb9a92013d7f576ee80cba95dc8a9a2f3e0c79b43",
+      "paired_xt_max_abs_diff": 0.0,
+      "decomposition_max_abs_error": 2.9802322387695312e-08,
+      "eta0_identity": true,
+      "B1_round9_A0_exact": true,
+      "B3_cap_valid": true,
+      "TEST_ACCESSED": false
+    },
+    "1001": {
+      "status": "PASS",
+      "python_pid": 705663,
+      "exit_code": 0,
+      "elapsed_seconds": 319.90409755706787,
+      "result_sha256": "629d254cd44fd361a6190b2158df93bdb5f4720c0f13f8d2eb4b76d9ab0b2d49",
+      "paired_assets_sha256": "0a9e9029cbc52fd8059be97755ab588af05ef0b2a384b2aebe29c34c8a5ece33",
+      "paired_xt_max_abs_diff": 0.0,
+      "decomposition_max_abs_error": 1.4901161193847656e-08,
+      "eta0_identity": true,
+      "B1_round9_A0_exact": true,
+      "B3_cap_valid": true,
+      "TEST_ACCESSED": false
+    },
+    "1002": {
+      "status": "PASS",
+      "python_pid": 705661,
+      "exit_code": 0,
+      "elapsed_seconds": 319.94109416007996,
+      "result_sha256": "2e9df779bf796effc6a19a61e4b533d7ea4c3222a47ab900bde1e0d522c5aa30",
+      "paired_assets_sha256": "86fba5a842a16dde4353a6dc824a5a3f94dbc375a60cbd0bc82dece38981f4a7",
+      "paired_xt_max_abs_diff": 0.0,
+      "decomposition_max_abs_error": 2.9802322387695312e-08,
+      "eta0_identity": true,
+      "B1_round9_A0_exact": true,
+      "B3_cap_valid": true,
+      "TEST_ACCESSED": false
+    }
+  },
+  "selection": {
+    "rule": [
+      "maximize positive_backbones",
+      "maximize worst_seed_U",
+      "maximize mean_U",
+      "smaller_eta_on_exact_tie"
+    ],
+    "selected_eta": 0.5,
+    "selected_B3": {
+      "seed_U": {
+        "999": -0.0004917174757909169,
+        "1000": 0.004598417787896873,
+        "1001": 0.0016751543100947902,
+        "1002": 0.002709208297004628
+      },
+      "mean_U": 0.0021227657298013435,
+      "median_U": 0.0021921813035497093,
+      "worst_seed_U": -0.0004917174757909169,
+      "positive_seeds": 3,
+      "primary_positive_counts": {
+        "999": 0,
+        "1000": 3,
+        "1001": 3,
+        "1002": 3
+      }
+    },
+    "cap_degeneracy_note": "All registered eta values map to essentially identical final interventions because the fixed 10-degree safety cap is saturated for almost all items; tie resolves to smaller eta=0.5."
+  },
+  "decision": {
+    "status": "VALIDATION_DECISION",
+    "verdict": "PARTIAL_SIGNAL",
+    "TEST_ACCESSED": false,
+    "SPORTS_ACCESSED": false,
+    "ELECTRONICS_ACCESSED": false
+  },
+  "evidence_sha256": {
+    "ROUND10_PROVENANCE.json": "81f0c2377d34c54c487749d696a71bef928e88785505b6d5146b2de56998992a",
+    "ROUND10_RESIDUAL_DECOMPOSITION.json": "c2825468c3e0c64fc558828ac155a11b318be1d0f0cf9d6b5adc639821eb5e3c",
+    "ROUND10_MOVEMENT_DIAGNOSTICS.json": "b234d09b0373874f44ed2c5f10e7a05a10ca3a7be3c0e85060b5701db092f3f6",
+    "ROUND10_VALIDATION_RESULTS.json": "8395b73048da9acb38591c7c3d6e5a0e52a81c5df1bdf025cc14da1ffe11e2bd",
+    "ROUND10_REPORT.md": "8237a7b839c8491d5f26c19c2880856db047621d076e1944fe7d21968fad1d09",
+    "ROUND10_SMOKE.json": "791fa2cf0e9a98520c3e64aff69196dbb7ab64d4a993cd67c86e31d182ee42aa",
+    "ROUND10_CAP_DIAGNOSTIC.json": "796830f6cf5df97d508801ffdba03e178a7055c61710d25ed7cd2f4090e003d0"
+  }
+}

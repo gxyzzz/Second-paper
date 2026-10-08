@@ -1,0 +1,87 @@
+{
+  "protocol": "ROUND10_CCDP_V1",
+  "fixed_cap_deg": 10.0,
+  "seeds": {
+    "999": {
+      "0.5": {
+        "text_fraction_at_cap": 1.0,
+        "visual_fraction_at_cap": 0.9990070921985815,
+        "text_mean_applied_deg": 9.99998664855957,
+        "visual_mean_applied_deg": 9.999215126037598
+      },
+      "1.0": {
+        "text_fraction_at_cap": 1.0,
+        "visual_fraction_at_cap": 1.0,
+        "text_mean_applied_deg": 9.999984741210938,
+        "visual_mean_applied_deg": 9.999984741210938
+      },
+      "2.0": {
+        "text_fraction_at_cap": 1.0,
+        "visual_fraction_at_cap": 1.0,
+        "text_mean_applied_deg": 9.999981880187988,
+        "visual_mean_applied_deg": 9.999984741210938
+      }
+    },
+    "1000": {
+      "0.5": {
+        "text_fraction_at_cap": 1.0,
+        "visual_fraction_at_cap": 0.9998581560283688,
+        "text_mean_applied_deg": 9.99998664855957,
+        "visual_mean_applied_deg": 9.99990463256836
+      },
+      "1.0": {
+        "text_fraction_at_cap": 1.0,
+        "visual_fraction_at_cap": 1.0,
+        "text_mean_applied_deg": 9.999984741210938,
+        "visual_mean_applied_deg": 9.999984741210938
+      },
+      "2.0": {
+        "text_fraction_at_cap": 1.0,
+        "visual_fraction_at_cap": 1.0,
+        "text_mean_applied_deg": 9.999981880187988,
+        "visual_mean_applied_deg": 9.999984741210938
+      }
+    },
+    "1001": {
+      "0.5": {
+        "text_fraction_at_cap": 1.0,
+        "visual_fraction_at_cap": 0.9982978723404256,
+        "text_mean_applied_deg": 9.99998664855957,
+        "visual_mean_applied_deg": 9.999124526977539
+      },
+      "1.0": {
+        "text_fraction_at_cap": 1.0,
+        "visual_fraction_at_cap": 1.0,
+        "text_mean_applied_deg": 9.999984741210938,
+        "visual_mean_applied_deg": 9.999984741210938
+      },
+      "2.0": {
+        "text_fraction_at_cap": 1.0,
+        "visual_fraction_at_cap": 1.0,
+        "text_mean_applied_deg": 9.999981880187988,
+        "visual_mean_applied_deg": 9.999983787536621
+      }
+    },
+    "1002": {
+      "0.5": {
+        "text_fraction_at_cap": 1.0,
+        "visual_fraction_at_cap": 0.9991489361702127,
+        "text_mean_applied_deg": 9.99998664855957,
+        "visual_mean_applied_deg": 9.999615669250488
+      },
+      "1.0": {
+        "text_fraction_at_cap": 1.0,
+        "visual_fraction_at_cap": 1.0,
+        "text_mean_applied_deg": 9.999984741210938,
+        "visual_mean_applied_deg": 9.999984741210938
+      },
+      "2.0": {
+        "text_fraction_at_cap": 1.0,
+        "visual_fraction_at_cap": 1.0,
+        "text_mean_applied_deg": 9.999981880187988,
+        "visual_mean_applied_deg": 9.999984741210938
+      }
+    }
+  },
+  "TEST_ACCESSED": false
+}

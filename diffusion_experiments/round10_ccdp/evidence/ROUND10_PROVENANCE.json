@@ -1,0 +1,89 @@
+{
+  "999": {
+    "backbone_seed": 999,
+    "diffusion_checkpoint": "runs/diffusion_rescue/baby_historical_seed_replay/beta_0p5/checkpoints/baby_beta_0p5.pt",
+    "diffusion_sha256": "289a421e34b7aef1c06d7f36be202354de130d71998a80540f878d2778e352ab",
+    "condition_path": "runs/diffusion_rescue/baby_historical_seed_replay/beta_0p5/assets/condition_beta_0p5.npy",
+    "condition_sha256": "a7f5be2c5a2fd8351bd041a6d805df017b1cecc20353c7065c1215186260c1f4",
+    "purification_seeds": [
+      20261001,
+      20261002,
+      20261003,
+      20261004
+    ],
+    "paired_initial_xt_max_abs_diff": 0.0,
+    "same_raw_x0": true,
+    "same_t_edit": true,
+    "same_noise": true,
+    "same_ddim_schedule": true,
+    "condition_only_difference": true,
+    "TEST_ACCESSED": false
+  },
+  "1000": {
+    "backbone_seed": 1000,
+    "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1000/diffusion/checkpoints/baby_beta_0p5.pt",
+    "diffusion_sha256": "b963630c7899f9bd16abb87401fea6c1053407f22eacc5931eb64d9422bb138c",
+    "condition_path": "runs/backbone_robustness/baby_seed1000/diffusion/assets/condition_beta_0p5.npy",
+    "condition_sha256": "1e93f37e7002454e77d6e7c6283402b9643777e5f85c8bf16fa374d6950eba4c",
+    "purification_seeds": [
+      20261001,
+      20261002,
+      20261003,
+      20261004
+    ],
+    "paired_initial_xt_max_abs_diff": 0.0,
+    "same_raw_x0": true,
+    "same_t_edit": true,
+    "same_noise": true,
+    "same_ddim_schedule": true,
+    "condition_only_difference": true,
+    "TEST_ACCESSED": false
+  },
+  "1001": {
+    "backbone_seed": 1001,
+    "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1001/diffusion/checkpoints/baby_beta_0p5.pt",
+    "diffusion_sha256": "2998cc8bf3033fa382042bcfa181643075e4f0b2804a115513fcee9cfa641a97",
+    "condition_path": "runs/backbone_robustness/baby_seed1001/diffusion/assets/condition_beta_0p5.npy",
+    "condition_sha256": "bbc8daf85a37ac8dde94e3514c2073ec6911a79746e88d9ba46a608262d10ed1",
+    "purification_seeds": [
+      20261001,
+      20261002,
+      20261003,
+      20261004
+    ],
+    "paired_initial_xt_max_abs_diff": 0.0,
+    "same_raw_x0": true,
+    "same_t_edit": true,
+    "same_noise": true,
+    "same_ddim_schedule": true,
+    "condition_only_difference": true,
+    "TEST_ACCESSED": false
+  },
+  "1002": {
+    "backbone_seed": 1002,
+    "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1002/diffusion/checkpoints/baby_beta_0p5.pt",
+    "diffusion_sha256": "4148bb16f6e29a3b43d40420afcb9f7e6bbd2888dda87f5c1834a67ac7282d39",
+    "condition_path": "runs/backbone_robustness/baby_seed1002/diffusion/assets/condition_beta_0p5.npy",
+    "condition_sha256": "e26fb3d961ccde39e07fb2b1a239186de8373aa50352e142dadd6b587ef451ba",
+    "purification_seeds": [
+      20261001,
+      20261002,
+      20261003,
+      20261004
+    ],
+    "paired_initial_xt_max_abs_diff": 0.0,
+    "same_raw_x0": true,
+    "same_t_edit": true,
+    "same_noise": true,
+    "same_ddim_schedule": true,
+    "condition_only_difference": true,
+    "TEST_ACCESSED": false
+  },
+  "source_round9_commit": "a1104fd3c87a70accbed4cabb9f1eac0e08e42f3",
+  "protocol": "ROUND10_CCDP_V1",
+  "closed": {
+    "TEST": true,
+    "SPORTS": true,
+    "ELECTRONICS": true
+  }
+}
