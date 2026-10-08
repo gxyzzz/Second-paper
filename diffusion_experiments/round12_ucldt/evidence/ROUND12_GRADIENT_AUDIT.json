@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "raw_loss_exact_max_abs_diff": 0.0,
+  "diffusion_off_forward_max_abs_diff": 4.76837158203125e-07,
+  "D1_true_vs_zero_mean_output_norm": 0.003578079864382744,
+  "D0_rec_aug_finite": true,
+  "D0_diff_finite": true,
+  "rec_aug_gradient_to_diffusion": 0.0013812761753797531,
+  "rec_aug_gradient_to_permitted_recommender": 0.0034065551590174437,
+  "total_gradient_to_diffusion": 0.008028758689761162,
+  "total_gradient_to_permitted_recommender": 0.004905289504677057,
+  "frozen_params_with_grad_after_rec_aug": [],
+  "frozen_CF_received_grad_after_total": false,
+  "peak_gpu_memory_GiB": 0.8592801094055176,
+  "batch_size": 2048,
+  "TEST_loader_called": false,
+  "direct_ranking_residual": false,
+  "checks": {
+    "raw_loss_exact": true,
+    "user_condition_changes_output": true,
+    "D0_zero_path": true,
+    "rec_gradient_reaches_diffusion": true,
+    "rec_gradient_reaches_recommender": true,
+    "frozen_CF_no_grad": true,
+    "diffusion_off_inference_identity": true,
+    "memory_safe_5090": true,
+    "no_test_loader": true,
+    "no_direct_ranking_residual": true
+  }
+}

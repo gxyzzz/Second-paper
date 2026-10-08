@@ -1,0 +1,22 @@
+protocol: ROUND12_UCLDT_V1
+dataset: baby
+preflight_backbones: [999, 1000]
+expansion_backbones: [1001, 1002]
+variants: [C0, D0, D1]
+continuation_epochs: 3
+learning_rate_scale: 0.1
+rho_latent: 0.10
+lambda_aug: 0.25
+lambda_diff: 1.0
+T_latent: 20
+latent_dim: 64
+condition_dim: 64
+denoiser_hidden: 256
+condition_hidden: 128
+inference_diffusion: false
+selection_metric: R20
+expansion_gate:
+  both_D1_positive_vs_C0: true
+  mean_D1_vs_C0_min: 0.0025
+  clear_mean_D1_minus_D0_min: 0.0010
+closed: [test, sports, electronics, raw_4480d_diffusion, inference_time_diffusion, direct_ranking_diffusion]

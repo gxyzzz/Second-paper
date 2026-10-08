@@ -1,0 +1,37 @@
+{
+  "status": "PASS",
+  "protocol": "ROUND12_UCLDT_V1",
+  "source_module": "src/models/msca.py",
+  "selected_interface": {
+    "text": "text_embeds item half after semantic_encode",
+    "visual": "image_embeds item half after semantic_encode",
+    "code_location": "src/models/msca.py:174-189",
+    "text_dimension": 64,
+    "visual_dimension": 64,
+    "user_CF_dimension": 64,
+    "item_CF_dimension": 64,
+    "participates_original_recommendation_loss": true,
+    "loss_evidence": "src/models/msca.py:219-240 (BPR + modality-aware contrastive alignment)",
+    "graph_propagation_already_occurred": true,
+    "fusion_consumer": "src/models/msca.py:178-185"
+  },
+  "earlier_candidate": {
+    "tensor": "image_item_embeds/text_item_embeds before semantic_encode",
+    "code_location": "src/models/msca.py:157-160",
+    "dimension": 64,
+    "selected": false,
+    "reason": "user-specific perturbation here would alter fixed item-item and user propagation globally; selected graph-propagated latent is the first exact user-specific replacement interface at original fusion consumer"
+  },
+  "latent_norms": {
+    "visual": {
+      "mean": 0.5108124017715454,
+      "median": 0.4950137138366699
+    },
+    "text": {
+      "mean": 2.085430145263672,
+      "median": 2.042459011077881
+    }
+  },
+  "normalization_policy": "diffusion trains on L2 direction; augmented direction is normalized then rescaled to source latent norm, so rho=0 is exact latent identity",
+  "TEST_ACCESSED": false
+}

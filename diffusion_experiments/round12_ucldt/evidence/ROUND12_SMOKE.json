@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "protocol": "ROUND12_UCLDT_V1",
+  "seed": 999,
+  "checks": {
+    "raw_loss_exact": true,
+    "user_condition_changes_output": true,
+    "D0_zero_path": true,
+    "rec_gradient_reaches_diffusion": true,
+    "rec_gradient_reaches_recommender": true,
+    "frozen_CF_no_grad": true,
+    "diffusion_off_inference_identity": true,
+    "memory_safe_5090": true,
+    "no_test_loader": true,
+    "no_direct_ranking_residual": true
+  },
+  "peak_gpu_memory_GiB": 0.8592801094055176,
+  "original_lr": 0.001,
+  "continuation_lr": 0.0001,
+  "train_batch_size": 2048,
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false
+}
