@@ -1,0 +1,106 @@
+{
+  "999": {
+    "sampled_items": 500,
+    "sampled_user_item_pairs": 2000,
+    "users_per_item_max": 4,
+    "text": {
+      "same_item_cross_user_pairwise_cosine": {
+        "mean": 0.33948907123071453,
+        "median": 0.36066460609436035,
+        "fraction_positive": 0.8743333333333333,
+        "p10": -0.0485210314393043,
+        "p90": 0.6768296837806701
+      },
+      "same_item_cross_user_norm_abs_difference": {
+        "mean": 0.0015910337953052172,
+        "median": 0.0013164562406018376,
+        "fraction_positive": 1.0,
+        "p10": 0.0002123028738424182,
+        "p90": 0.0029703377978876227
+      },
+      "true_D2_vs_item_only_D0_cosine": {
+        "mean": -0.09685195586690679,
+        "median": -0.10903090238571167,
+        "fraction_positive": 0.2805,
+        "p10": -0.33890815675258634,
+        "p90": 0.20076491385698322
+      }
+    },
+    "visual": {
+      "same_item_cross_user_pairwise_cosine": {
+        "mean": 0.34727207040941965,
+        "median": 0.38204924762248993,
+        "fraction_positive": 0.8706666666666667,
+        "p10": -0.06386782974004743,
+        "p90": 0.689040869474411
+      },
+      "same_item_cross_user_norm_abs_difference": {
+        "mean": 0.001317923004273325,
+        "median": 0.0010767357889562845,
+        "fraction_positive": 1.0,
+        "p10": 0.00021973771508783103,
+        "p90": 0.002714902954176068
+      },
+      "true_D2_vs_item_only_D0_cosine": {
+        "mean": 0.08159358597360551,
+        "median": 0.0964156836271286,
+        "fraction_positive": 0.7435,
+        "p10": -0.1194701299071312,
+        "p90": 0.2572273671627045
+      }
+    },
+    "TEST_ACCESSED": false
+  },
+  "1000": {
+    "sampled_items": 500,
+    "sampled_user_item_pairs": 2000,
+    "users_per_item_max": 4,
+    "text": {
+      "same_item_cross_user_pairwise_cosine": {
+        "mean": 0.4324093777562181,
+        "median": 0.5816178321838379,
+        "fraction_positive": 0.8006666666666666,
+        "p10": -0.33704890906810747,
+        "p90": 0.9323676705360412
+      },
+      "same_item_cross_user_norm_abs_difference": {
+        "mean": 0.4498272121573488,
+        "median": 0.3507951945066452,
+        "fraction_positive": 1.0,
+        "p10": 0.06228637695312501,
+        "p90": 0.9323649704456328
+      },
+      "true_D2_vs_item_only_D0_cosine": {
+        "mean": 0.0976517938936595,
+        "median": 0.13571351766586304,
+        "fraction_positive": 0.617,
+        "p10": -0.39577490985393526,
+        "p90": 0.5230618059635163
+      }
+    },
+    "visual": {
+      "same_item_cross_user_pairwise_cosine": {
+        "mean": 0.3849205617342765,
+        "median": 0.548215925693512,
+        "fraction_positive": 0.7676666666666667,
+        "p10": -0.4921549946069717,
+        "p90": 0.9410142183303832
+      },
+      "same_item_cross_user_norm_abs_difference": {
+        "mean": 0.041226005281632144,
+        "median": 0.030530733987689018,
+        "fraction_positive": 1.0,
+        "p10": 0.004978293552994728,
+        "p90": 0.0819089412689209
+      },
+      "true_D2_vs_item_only_D0_cosine": {
+        "mean": -0.05506697434699163,
+        "median": -0.07061517611145973,
+        "fraction_positive": 0.3825,
+        "p10": -0.3207812964916229,
+        "p90": 0.25019211173057565
+      }
+    },
+    "TEST_ACCESSED": false
+  }
+}

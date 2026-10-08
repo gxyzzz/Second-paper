@@ -1,0 +1,136 @@
+{
+  "stage": "preflight_stop",
+  "cost": {
+    "999": {
+      "D0": {
+        "training_seconds_per_epoch": [
+          1.857863426208496,
+          1.6601972579956055,
+          1.6624946594238281,
+          1.776371717453003,
+          1.7613675594329834
+        ],
+        "mean_training_seconds_per_epoch": 1.7436589241027831,
+        "training_peak_gpu_memory_GiB": 0.32317304611206055,
+        "validation_inference_seconds": [
+          1.152104139328003,
+          1.1359961032867432,
+          1.2891640663146973,
+          1.278439998626709,
+          1.2276051044464111
+        ],
+        "mean_validation_inference_seconds": 1.2166618824005127,
+        "baseline_candidate_inference_seconds": 0.08532452583312988,
+        "inference_slowdown_vs_C0_candidate_stage": 14.25922817057257
+      },
+      "D1": {
+        "training_seconds_per_epoch": [
+          1.8402585983276367,
+          1.6937317848205566,
+          1.6931335926055908,
+          1.6451098918914795,
+          1.6970033645629883
+        ],
+        "mean_training_seconds_per_epoch": 1.7138474464416504,
+        "training_peak_gpu_memory_GiB": 0.32317304611206055,
+        "validation_inference_seconds": [
+          0.8257362842559814,
+          0.8203368186950684,
+          0.8235757350921631,
+          0.8190231323242188,
+          0.8239679336547852
+        ],
+        "mean_validation_inference_seconds": 0.8225279808044433,
+        "baseline_candidate_inference_seconds": 0.0824577808380127,
+        "inference_slowdown_vs_C0_candidate_stage": 9.975140883554573
+      },
+      "D2": {
+        "training_seconds_per_epoch": [
+          2.460198402404785,
+          2.395463705062866,
+          2.787148952484131,
+          2.603017568588257,
+          2.7746896743774414
+        ],
+        "mean_training_seconds_per_epoch": 2.604103660583496,
+        "training_peak_gpu_memory_GiB": 0.4378809928894043,
+        "validation_inference_seconds": [
+          0.8378305435180664,
+          1.1372554302215576,
+          1.1384778022766113,
+          1.138895034790039,
+          1.13592529296875
+        ],
+        "mean_validation_inference_seconds": 1.077676820755005,
+        "baseline_candidate_inference_seconds": 0.08163285255432129,
+        "inference_slowdown_vs_C0_candidate_stage": 13.201508792527886
+      }
+    },
+    "1000": {
+      "D0": {
+        "training_seconds_per_epoch": [
+          1.8729925155639648,
+          1.6773886680603027,
+          1.746330976486206,
+          1.7858526706695557,
+          1.781641960144043
+        ],
+        "mean_training_seconds_per_epoch": 1.7728413581848144,
+        "training_peak_gpu_memory_GiB": 0.32317304611206055,
+        "validation_inference_seconds": [
+          1.1452364921569824,
+          1.2918601036071777,
+          1.2855455875396729,
+          1.2846503257751465,
+          1.2592058181762695
+        ],
+        "mean_validation_inference_seconds": 1.2532996654510498,
+        "baseline_candidate_inference_seconds": 0.08275151252746582,
+        "inference_slowdown_vs_C0_candidate_stage": 15.145338461760087
+      },
+      "D1": {
+        "training_seconds_per_epoch": [
+          1.8178894519805908,
+          1.6297647953033447,
+          1.610973834991455,
+          1.6233420372009277,
+          1.7180583477020264
+        ],
+        "mean_training_seconds_per_epoch": 1.6800056934356689,
+        "training_peak_gpu_memory_GiB": 0.32317304611206055,
+        "validation_inference_seconds": [
+          0.8216311931610107,
+          0.8126881122589111,
+          0.957794189453125,
+          1.0009398460388184,
+          1.1277155876159668
+        ],
+        "mean_validation_inference_seconds": 0.9441537857055664,
+        "baseline_candidate_inference_seconds": 0.09494233131408691,
+        "inference_slowdown_vs_C0_candidate_stage": 9.944497598043277
+      },
+      "D2": {
+        "training_seconds_per_epoch": [
+          2.465076208114624,
+          2.5519473552703857,
+          2.6721882820129395,
+          2.752000570297241,
+          2.746279001235962
+        ],
+        "mean_training_seconds_per_epoch": 2.6374982833862304,
+        "training_peak_gpu_memory_GiB": 0.4378809928894043,
+        "validation_inference_seconds": [
+          1.0196878910064697,
+          1.135129690170288,
+          1.132899522781372,
+          1.1277291774749756,
+          1.3854563236236572
+        ],
+        "mean_validation_inference_seconds": 1.1601805210113525,
+        "baseline_candidate_inference_seconds": 0.09551119804382324,
+        "inference_slowdown_vs_C0_candidate_stage": 12.147062802824742
+      }
+    }
+  },
+  "TEST_ACCESSED": false
+}

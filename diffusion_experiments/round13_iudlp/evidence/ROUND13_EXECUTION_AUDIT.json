@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "protocol": "ROUND13_IUDLP_V1",
+  "branch": "exp/round13-iudlp-20261008",
+  "implementation_commit": "3a139ce",
+  "launcher_pid": 2251306,
+  "worker_pids": [
+    2251318,
+    2251319
+  ],
+  "all_formal_exit_zero": true,
+  "exit_codes": {
+    "999_C0": 0,
+    "999_D0": 0,
+    "999_D1": 0,
+    "999_D2": 0,
+    "1000_C0": 0,
+    "1000_D0": 0,
+    "1000_D1": 0,
+    "1000_D2": 0
+  },
+  "epoch_records_per_train_run": [
+    5,
+    5,
+    5,
+    5,
+    5,
+    5
+  ],
+  "max_NaN_count": 0,
+  "any_OOM": false,
+  "max_training_peak_gpu_memory_GiB": 0.4378809928894043,
+  "score_parity_status": "PASS",
+  "gradient_smoke_status": "PASS",
+  "preflight_gate": {
+    "D2_positive_both": false,
+    "mean_D2_ge_0p25pct": true,
+    "D2_gt_D1_both": false,
+    "mean_D2_minus_D1_ge_0p15pct": true
+  },
+  "EXPANSION_OPEN": false,
+  "final_verdict": "FAIL",
+  "seed1001_1002_run": false,
+  "expansion_output_dirs_exist": {
+    "1001": false,
+    "1002": false
+  },
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false,
+  "MAIN_TOUCHED": false
+}
