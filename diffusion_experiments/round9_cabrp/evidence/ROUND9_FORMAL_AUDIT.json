@@ -1,0 +1,103 @@
+{
+  "status": "PASS",
+  "protocol": "ROUND9_CABRP_V1",
+  "source_round8_commit": "ee82c3118dcfdd09cda8a430e0f61b88f84e4ab7",
+  "implementation_commit": "c8322284adb78886807806d24c3467e5f91b1995",
+  "branch": "exp/round9-cabrp-20261008",
+  "gpu": "RTX 5090 / CUDA_VISIBLE_DEVICES=0",
+  "formal_python_pids": [
+    360324,
+    360327,
+    360328,
+    360329
+  ],
+  "launcher_wrapper_pids": [
+    360322,
+    360323,
+    360325,
+    360326
+  ],
+  "formal_logs": {
+    "999": "diffusion_experiments/round9_cabrp/logs/formal_seed999.log",
+    "1000": "diffusion_experiments/round9_cabrp/logs/formal_seed1000.log",
+    "1001": "diffusion_experiments/round9_cabrp/logs/formal_seed1001.log",
+    "1002": "diffusion_experiments/round9_cabrp/logs/formal_seed1002.log"
+  },
+  "output_dirs": {
+    "999": "diffusion_experiments/round9_cabrp/outputs/seed999",
+    "1000": "diffusion_experiments/round9_cabrp/outputs/seed1000",
+    "1001": "diffusion_experiments/round9_cabrp/outputs/seed1001",
+    "1002": "diffusion_experiments/round9_cabrp/outputs/seed1002"
+  },
+  "per_seed_checks": {
+    "999": {
+      "status_pass": true,
+      "a0_exact": true,
+      "closed": true,
+      "angular_caps": true,
+      "adaptive_quartiles": true,
+      "confidence_bounds_summary": true,
+      "formal_result_sha256": "0646280230d891bc8927cd4709ca411803b31889f2465459f34f52e890ae84ce",
+      "elapsed_seconds": 343.91941571235657,
+      "exit_code": 0
+    },
+    "1000": {
+      "status_pass": true,
+      "a0_exact": true,
+      "closed": true,
+      "angular_caps": true,
+      "adaptive_quartiles": true,
+      "confidence_bounds_summary": true,
+      "formal_result_sha256": "d6463733e6bbf7ef93a3f7d11e9a17d40f91a1c303224e1a8edc2fa87735919d",
+      "elapsed_seconds": 312.1514949798584,
+      "exit_code": 0
+    },
+    "1001": {
+      "status_pass": true,
+      "a0_exact": true,
+      "closed": true,
+      "angular_caps": true,
+      "adaptive_quartiles": true,
+      "confidence_bounds_summary": true,
+      "formal_result_sha256": "ae869dd3d757ed36152eb0f0ab3d93ff22bbf86b01fe64fd8f606a7c6ac6ed1d",
+      "elapsed_seconds": 300.8227894306183,
+      "exit_code": 0
+    },
+    "1002": {
+      "status_pass": true,
+      "a0_exact": true,
+      "closed": true,
+      "angular_caps": true,
+      "adaptive_quartiles": true,
+      "confidence_bounds_summary": true,
+      "formal_result_sha256": "5b9c11998db0305f49481678d1df37a5e335677a8c8fd5391984d8c7ff8e3982",
+      "elapsed_seconds": 345.93900990486145,
+      "exit_code": 0
+    }
+  },
+  "selection": {
+    "rule": "prefer 4/4 U>0; otherwise maximize mean U; exact mean tie -> smaller theta",
+    "close_tie_numeric_threshold_defined_in_guide": false,
+    "posthoc_close_tie_threshold_added": false,
+    "selected_A2_theta_cap_deg": 15.0,
+    "A2_5_mean_U": 0.0004035416028191666,
+    "A2_5_positive_seeds": 3,
+    "A2_15_mean_U": 0.0004989179054910676,
+    "A2_15_positive_seeds": 1
+  },
+  "decision": {
+    "status": "VALIDATION_DECISION",
+    "verdict": "NO_STABILITY_GAIN",
+    "TEST_ACCESSED": false,
+    "SPORTS_ACCESSED": false,
+    "ELECTRONICS_ACCESSED": false
+  },
+  "evidence_sha256": {
+    "A0_REPRODUCTION_AUDIT.json": "8f20b184d91e9563597df9665f8581bc14ffef71ae58d1ef5ce8c2281392b5d1",
+    "CONFIDENCE_DIAGNOSTICS.json": "f8169401413e697d33ba6e2794212a63d1db4ca00e5da53e9077d94a84e9c739",
+    "REPRESENTATION_MOVEMENT.json": "eb1586d4ee473acb4eba28c6e0a6d398e43777ae3a5d51d6288f7fec27f4c634",
+    "ROUND9_REPORT.md": "37cb2150965d50b53f5e52062bf114239b450ff15f8e0c612fe4b47a2aac56cf",
+    "ROUND9_SMOKE.json": "bfafc6b0a6565bda89d7bc8709613b22e419f2190caaf9e21c9d4625b82b1267",
+    "ROUND9_VALIDATION_RESULTS.json": "473557127630d81d96577cba97edff01700d4f4f702879c9c59ae13d365b2249"
+  }
+}

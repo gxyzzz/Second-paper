@@ -1,0 +1,170 @@
+{
+  "status": "PASS",
+  "seeds": {
+    "999": {
+      "backbone_seed": 999,
+      "backbone_checkpoint": "/home/gxy/code/Second-paper/runs/checkpoints/MSCA-Sep-26-2026-12-48-04.pth",
+      "backbone_sha256": "aa389ef8576e491ffb56eaec9d165444487bef9c1e542f280e991e2e063cc1cb",
+      "diffusion_checkpoint": "runs/diffusion_rescue/baby_historical_seed_replay/beta_0p5/checkpoints/baby_beta_0p5.pt",
+      "diffusion_sha256": "289a421e34b7aef1c06d7f36be202354de130d71998a80540f878d2778e352ab",
+      "condition_sha256": "a7f5be2c5a2fd8351bd041a6d805df017b1cecc20353c7065c1215186260c1f4",
+      "beta": 0.5,
+      "t_edit": 3,
+      "guidance": 2.0,
+      "rho_text": 0.25,
+      "rho_visual": 1.0,
+      "purification_seeds": [
+        20261001,
+        20261002,
+        20261003,
+        20261004
+      ],
+      "metrics": {
+        "R10": 0.07229022027942059,
+        "N10": 0.038727015572241584,
+        "R20": 0.10660758672201204,
+        "N20": 0.04749501865738483,
+        "R50": 0.1736795479312835,
+        "N50": 0.06089562518711908
+      },
+      "historical_metrics": {
+        "R10": 0.07229022027942059,
+        "N10": 0.038727015572241584,
+        "R20": 0.10660758672201204,
+        "N20": 0.04749501865738483,
+        "R50": 0.1736795479312835,
+        "N50": 0.06089562518711908
+      },
+      "U_diff_vs_colift": -0.003300599808239091,
+      "historical_U": -0.003300599808239091,
+      "metric_max_abs_diff": 0.0,
+      "colift_metric_max_abs_diff": 0.0,
+      "match": true,
+      "TEST_ACCESSED": false
+    },
+    "1000": {
+      "backbone_seed": 1000,
+      "backbone_checkpoint": "/home/gxy/code/Second-paper/runs/backbone_robustness/baby_seed1000/msca/checkpoints/MSCA-Sep-28-2026-11-29-35.pth",
+      "backbone_sha256": "39267b02da4aee97613805a5d2fd54971e3777a3dc57b02afb17688fe7053948",
+      "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1000/diffusion/checkpoints/baby_beta_0p5.pt",
+      "diffusion_sha256": "b963630c7899f9bd16abb87401fea6c1053407f22eacc5931eb64d9422bb138c",
+      "condition_sha256": "1e93f37e7002454e77d6e7c6283402b9643777e5f85c8bf16fa374d6950eba4c",
+      "beta": 0.5,
+      "t_edit": 3,
+      "guidance": 2.0,
+      "rho_text": 0.25,
+      "rho_visual": 1.0,
+      "purification_seeds": [
+        20261001,
+        20261002,
+        20261003,
+        20261004
+      ],
+      "metrics": {
+        "R10": 0.07197871897537621,
+        "N10": 0.03850597874750487,
+        "R20": 0.10635614492647148,
+        "N20": 0.04730352745299175,
+        "R50": 0.17188700730999518,
+        "N50": 0.060417472781964195
+      },
+      "historical_metrics": {
+        "R10": 0.07197871897537621,
+        "N10": 0.03850597874750487,
+        "R20": 0.10635614492647148,
+        "N20": 0.04730352745299175,
+        "R50": 0.17188700730999518,
+        "N50": 0.060417472781964195
+      },
+      "U_diff_vs_colift": 0.007829821744508175,
+      "historical_U": 0.007829821744508175,
+      "metric_max_abs_diff": 0.0,
+      "colift_metric_max_abs_diff": 0.0,
+      "match": true,
+      "TEST_ACCESSED": false
+    },
+    "1001": {
+      "backbone_seed": 1001,
+      "backbone_checkpoint": "/home/gxy/code/Second-paper/runs/backbone_robustness/baby_seed1001/msca/checkpoints/MSCA-Sep-28-2026-11-29-34.pth",
+      "backbone_sha256": "6789e7f3e2a9878cbbcad9e49f1388e474f27313053fe1a1fd5eaf642edf8e07",
+      "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1001/diffusion/checkpoints/baby_beta_0p5.pt",
+      "diffusion_sha256": "2998cc8bf3033fa382042bcfa181643075e4f0b2804a115513fcee9cfa641a97",
+      "condition_sha256": "bbc8daf85a37ac8dde94e3514c2073ec6911a79746e88d9ba46a608262d10ed1",
+      "beta": 0.5,
+      "t_edit": 3,
+      "guidance": 2.0,
+      "rho_text": 0.25,
+      "rho_visual": 1.0,
+      "purification_seeds": [
+        20261001,
+        20261002,
+        20261003,
+        20261004
+      ],
+      "metrics": {
+        "R10": 0.07136924659295447,
+        "N10": 0.038810972431632805,
+        "R20": 0.1052668087034248,
+        "N20": 0.04746920581440572,
+        "R50": 0.17498493920581853,
+        "N50": 0.061425812694338625
+      },
+      "historical_metrics": {
+        "R10": 0.07136924659295447,
+        "N10": 0.038810972431632805,
+        "R20": 0.1052668087034248,
+        "N20": 0.04746920581440572,
+        "R50": 0.17498493920581853,
+        "N50": 0.061425812694338625
+      },
+      "U_diff_vs_colift": 0.0016466158795825905,
+      "historical_U": 0.0016466158795825905,
+      "metric_max_abs_diff": 0.0,
+      "colift_metric_max_abs_diff": 0.0,
+      "match": true,
+      "TEST_ACCESSED": false
+    },
+    "1002": {
+      "backbone_seed": 1002,
+      "backbone_checkpoint": "/home/gxy/code/Second-paper/runs/backbone_robustness/baby_seed1002/msca/checkpoints/MSCA-Sep-28-2026-11-29-35.pth",
+      "backbone_sha256": "450f01580d9c044dca9bfee0befceaf2fc338bd06a92ff546dd9bbc07c62bc30",
+      "diffusion_checkpoint": "runs/backbone_robustness/baby_seed1002/diffusion/checkpoints/baby_beta_0p5.pt",
+      "diffusion_sha256": "4148bb16f6e29a3b43d40420afcb9f7e6bbd2888dda87f5c1834a67ac7282d39",
+      "condition_sha256": "e26fb3d961ccde39e07fb2b1a239186de8373aa50352e142dadd6b587ef451ba",
+      "beta": 0.5,
+      "t_edit": 3,
+      "guidance": 2.0,
+      "rho_text": 0.25,
+      "rho_visual": 1.0,
+      "purification_seeds": [
+        20261001,
+        20261002,
+        20261003,
+        20261004
+      ],
+      "metrics": {
+        "R10": 0.07088834196573975,
+        "N10": 0.03812313014022157,
+        "R20": 0.10714940797609862,
+        "N20": 0.047388981465611706,
+        "R50": 0.1739020313705322,
+        "N50": 0.06074013761727011
+      },
+      "historical_metrics": {
+        "R10": 0.07088834196573975,
+        "N10": 0.03812313014022157,
+        "R20": 0.10714940797609862,
+        "N20": 0.047388981465611706,
+        "R50": 0.1739020313705322,
+        "N50": 0.06074013761727011
+      },
+      "U_diff_vs_colift": -0.00257793799042244,
+      "historical_U": -0.00257793799042244,
+      "metric_max_abs_diff": 0.0,
+      "colift_metric_max_abs_diff": 0.0,
+      "match": true,
+      "TEST_ACCESSED": false
+    }
+  },
+  "TEST_ACCESSED": false
+}
