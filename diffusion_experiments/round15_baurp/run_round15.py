@@ -121,23 +121,33 @@ class ValidationEvaluator(r14run.ValidationEvaluator):
                 'mean_residual_norm':rn/max(rc,1),'inference_seconds':time.time()-t0,'condition_mode':condition_mode}
 
 def diag_pairs(ev,n,hard_shell):
-    n=min(n,len(ev.users)); users=ev.users[:n]
-    pos=np.asarray([min(ev.eval_sets[int(u)]) for u in users],np.int64); neg=[]
-    pool=ev.c0_rank if hard_shell else ev.items
-    for r,u in enumerate(users):
-        ps=ev.eval_sets[int(u)]; cand=pool[r,5:30] if hard_shell else pool[r]
-        neg.append(next(int(x) for x in cand if int(x) not in ps))
-    return users,pos,np.asarray(neg,np.int64)
+    n=min(n,len(ev.users)); base_users=ev.users[:n]
+    if not hard_shell:
+        pos=np.asarray([min(ev.eval_sets[int(u)]) for u in base_users],np.int64); neg=[]
+        for r,u in enumerate(base_users):
+            ps=ev.eval_sets[int(u)]
+            neg.append(next(int(x) for x in ev.items[r] if int(x) not in ps))
+        return base_users,pos,np.asarray(neg,np.int64),n
+    users=[]; pos=[]; neg=[]
+    for r,u in enumerate(base_users):
+        ps=ev.eval_sets[int(u)]; p=min(ps)
+        for x in ev.c0_rank[r,5:30]:
+            xi=int(x)
+            if xi not in ps:
+                users.append(int(u)); pos.append(int(p)); neg.append(xi)
+    return np.asarray(users,np.int64),np.asarray(pos,np.int64),np.asarray(neg,np.int64),n
 
 def identity_diag(model,modules,c,ev,variant,hard_shell=False,n=DIAG_USERS):
-    users,pos,neg=diag_pairs(ev,n,hard_shell); n=len(users)
+    users,pos,neg,sample_users=diag_pairs(ev,n,hard_shell); npairs=len(users)
     ut=torch.as_tensor(users,device=model.device); ids=torch.as_tensor(np.concatenate([pos,neg]),device=model.device)
     su=torch.cat([ut,ut]); ab=br.cosine_alpha_bar(device=model.device); noise=br.build_noise_tables(model.n_items,model.device)
     with torch.no_grad():
         _,st,rt,rv=variant_pair_scores(model,modules,c,su,ids,variant,ab,noise,'true')
         _,ss,rst,rsv=variant_pair_scores(model,modules,c,su,ids,variant,ab,noise,'shuffled')
-    mt=(st[:n]-st[n:]).cpu().numpy(); ms=(ss[:n]-ss[n:]).cpu().numpy()
-    out={'sample_n':n,'hard_shell_rank_6_30':bool(hard_shell),'same_item_noise_timestep':True,'t_infer':br.T_INFER}
+    mt=(st[:npairs]-st[npairs:]).cpu().numpy(); ms=(ss[:npairs]-ss[npairs:]).cpu().numpy()
+    out={'sample_users':sample_users,'pair_count':npairs,'hard_shell_rank_6_30':bool(hard_shell),
+         'hard_shell_aggregation':'all non-positive candidates in frozen C0 ranks 6-30' if hard_shell else 'one deterministic non-positive per user',
+         'same_item_noise_timestep':True,'t_infer':br.T_INFER}
     for name,a,b in [('text',rt,rst),('visual',rv,rsv)]:
         out[name]={'true_residual_norm':stat(a.norm(dim=1).cpu().numpy()),
                    'shuffled_residual_norm':stat(b.norm(dim=1).cpu().numpy()),
@@ -293,6 +303,23 @@ def smoke(root,evid):
           'gradient':grad_audit['PASS'],'bound':bpass,'hard':hard_audit['PASS'],'identity':same_ok}},sort_keys=True))
     del model,mods,opt,oldmods; torch.cuda.empty_cache(); return out
 
+def rediagnose(seed,variant,root):
+    p=root/f'seed{seed}'/variant/'result.json'
+    r=json.loads(p.read_text())
+    model,mods,opt,ab,train_data,ck,cfg,a,c,hard,ha=load_training(seed,variant)
+    ev=ValidationEvaluator(seed)
+    for rec in r['epoch_logs']:
+        restore(root/f'seed{seed}'/variant/f"checkpoint_ep{rec['epoch']}.pt",mods)
+        rec['hard_shell_mechanism']=identity_diag(model,mods,c,ev,variant,True)
+    restore(root/f'seed{seed}'/variant/'best_checkpoint.pt',mods)
+    r['hard_shell_mechanism']=identity_diag(model,mods,c,ev,variant,True)
+    r['hard_shell_mechanism_definition']='all non-positive candidates in frozen Full-CoLiftRec C0 ranks 6-30 for the first 1024 Validation users'
+    p.write_text(json.dumps(r,indent=2)+chr(10))
+    print(json.dumps({'status':'REDIAGNOSED','seed':seed,'variant':variant,
+                      'pair_count':r['hard_shell_mechanism']['pair_count'],
+                      'margin':r['hard_shell_mechanism']['margin_true_minus_shuffled']},sort_keys=True))
+    del model,mods,opt; torch.cuda.empty_cache(); gc.collect(); return r
+
 def load_result(root,seed,v):
     r=json.loads((root/f'seed{seed}'/v/'result.json').read_text())
     if r['status']!='PASS' or r.get('TEST_ACCESSED') is not False: raise RuntimeError('invalid result')
@@ -331,8 +358,8 @@ def final(root,evid):
     if not expanded:
         if not pf['gates']['Gate_B']: verdict='ROUND15_BOUND_FAIL'
         elif not pf['gates']['Gate_I']: verdict='ROUND15_IDENTITY_FAIL'
-        elif pf['gates']['Gate_M'] and not pf['gates']['Gate_U']: verdict='ROUND15_MECHANISM_PASS_UTILITY_FAIL'
-        elif not pf['gates']['Gate_U']: verdict='ROUND15_MAGNITUDE_FAIL'
+        elif not pf['gates']['Gate_M']: verdict='ROUND15_FAIL'
+        elif not pf['gates']['Gate_U']: verdict='ROUND15_MECHANISM_PASS_UTILITY_FAIL'
         else: verdict='ROUND15_FAIL'
     else:
         mpass=sum(m['mean']>0 and m['fraction_positive']>=.55 for m in mech); ipass=sum(ident); positive=int(np.sum(U>0))
@@ -365,13 +392,14 @@ def write_report(s,pf,evid):
     (evid/'ROUND15_REPORT.md').write_text('\n'.join(L)+'\n')
 
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument('--mode',choices=['smoke','formal','preflight','final'],required=True)
+    ap=argparse.ArgumentParser(); ap.add_argument('--mode',choices=['smoke','formal','rediagnose','preflight','final'],required=True)
     ap.add_argument('--seed',type=int); ap.add_argument('--variant',choices=VARIANTS)
     ap.add_argument('--root',default=str(ROOT/'diffusion_experiments/round15_baurp/outputs'))
     ap.add_argument('--evidence',default=str(ROOT/'diffusion_experiments/round15_baurp/evidence'))
     a=ap.parse_args(); root=Path(a.root); evid=Path(a.evidence)
     if a.mode=='smoke': smoke(root,evid)
     elif a.mode=='formal': run_variant(a.seed,a.variant,root)
+    elif a.mode=='rediagnose': rediagnose(a.seed,a.variant,root)
     elif a.mode=='preflight': gate_preflight(root,evid)
     else: final(root,evid)
 if __name__=='__main__': main()
