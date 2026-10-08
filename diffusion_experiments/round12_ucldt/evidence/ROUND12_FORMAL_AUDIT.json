@@ -1,0 +1,57 @@
+{
+  "status": "PASS",
+  "protocol": "ROUND12_UCLDT_V1",
+  "implementation_commit": "3442b42",
+  "preformal_fix_commit": "8f477b6",
+  "all_six_preflight_exit_zero": true,
+  "exit_codes": {
+    "999_C0": 0,
+    "999_D0": 0,
+    "999_D1": 0,
+    "1000_C0": 0,
+    "1000_D0": 0,
+    "1000_D1": 0
+  },
+  "epoch_records_per_run": [
+    3,
+    3,
+    3,
+    3,
+    3,
+    3
+  ],
+  "max_NaN_count": 0,
+  "any_OOM": false,
+  "max_training_peak_gpu_memory_GiB": 0.40059947967529297,
+  "sampler_first_batch_exact": true,
+  "gradient_audit_status": "PASS",
+  "D1_vs_C0_seed_U": {
+    "999": 0.00021418885112786684,
+    "1000": -1.1406147628494674e-05
+  },
+  "D0_vs_C0_seed_U": {
+    "999": 0.00021418885112786684,
+    "1000": -1.1406147628494674e-05
+  },
+  "mean_D1_U_vs_C0": 0.00010139135174968608,
+  "mean_D0_U_vs_C0": 0.00010139135174968608,
+  "gate_checks": {
+    "D1_positive_both": false,
+    "mean_D1_ge_0p25pct": false,
+    "D1_ge_D0_both": true,
+    "D1_mean_minus_D0_mean": 0.0,
+    "clear_mean_threshold": 0.001,
+    "D1_mean_clearly_exceeds_D0": false
+  },
+  "EXPANSION_OPEN": false,
+  "final_verdict": "FAIL",
+  "expanded": false,
+  "seed1001_1002_run": false,
+  "diffusion_inference": "OFF",
+  "direct_ranking_residual": false,
+  "raw_4480D_diffusion": false,
+  "hyperparameter_search": false,
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false
+}

@@ -1,0 +1,40 @@
+{
+  "stage": "preflight_stop",
+  "cost": {
+    "999": {
+      "C0": {
+        "mean_seconds_per_epoch": 2.4120763142903647,
+        "peak_gpu_memory_GiB": 0.3840475082397461,
+        "slowdown_vs_C0": 1.0
+      },
+      "D0": {
+        "mean_seconds_per_epoch": 2.8073065280914307,
+        "peak_gpu_memory_GiB": 0.40059947967529297,
+        "slowdown_vs_C0": 1.163854771700017
+      },
+      "D1": {
+        "mean_seconds_per_epoch": 2.758646806081136,
+        "peak_gpu_memory_GiB": 0.40059947967529297,
+        "slowdown_vs_C0": 1.1436813958735517
+      }
+    },
+    "1000": {
+      "C0": {
+        "mean_seconds_per_epoch": 2.458165407180786,
+        "peak_gpu_memory_GiB": 0.3840475082397461,
+        "slowdown_vs_C0": 1.0
+      },
+      "D0": {
+        "mean_seconds_per_epoch": 2.8673086166381836,
+        "peak_gpu_memory_GiB": 0.40059947967529297,
+        "slowdown_vs_C0": 1.1664425055621601
+      },
+      "D1": {
+        "mean_seconds_per_epoch": 2.945122480392456,
+        "peak_gpu_memory_GiB": 0.40059947967529297,
+        "slowdown_vs_C0": 1.198097765019869
+      }
+    }
+  },
+  "TEST_ACCESSED": false
+}

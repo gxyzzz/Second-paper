@@ -1,0 +1,63 @@
+{
+  "status": "PASS",
+  "protocol": "ROUND12_UCLDT_V1",
+  "branch": "exp/round12-ucldt-20261008",
+  "source_round11_commit": "e9c41390a4bbd16ca3beeb1934607c57fbbe6491",
+  "implementation_commit": "3442b42",
+  "preformal_fix_commit": "8f477b6",
+  "gpu": "NVIDIA GeForce RTX 5090 / CUDA_VISIBLE_DEVICES=0",
+  "launcher_pid": 2009229,
+  "worker_pids": [
+    2009235,
+    2009236
+  ],
+  "formal_python_pids": {
+    "999": {
+      "C0": 2009237,
+      "D0": 2025293,
+      "D1": 2037316
+    },
+    "1000": {
+      "C0": 2009238,
+      "D0": 2025462,
+      "D1": 2037539
+    }
+  },
+  "logs": {
+    "999_C0": "diffusion_experiments/round12_ucldt/logs/preflight_seed999_C0.log",
+    "999_D0": "diffusion_experiments/round12_ucldt/logs/preflight_seed999_D0.log",
+    "999_D1": "diffusion_experiments/round12_ucldt/logs/preflight_seed999_D1.log",
+    "1000_C0": "diffusion_experiments/round12_ucldt/logs/preflight_seed1000_C0.log",
+    "1000_D0": "diffusion_experiments/round12_ucldt/logs/preflight_seed1000_D0.log",
+    "1000_D1": "diffusion_experiments/round12_ucldt/logs/preflight_seed1000_D1.log"
+  },
+  "outputs": {
+    "999_C0": "diffusion_experiments/round12_ucldt/outputs/seed999/C0",
+    "999_D0": "diffusion_experiments/round12_ucldt/outputs/seed999/D0",
+    "999_D1": "diffusion_experiments/round12_ucldt/outputs/seed999/D1",
+    "1000_C0": "diffusion_experiments/round12_ucldt/outputs/seed1000/C0",
+    "1000_D0": "diffusion_experiments/round12_ucldt/outputs/seed1000/D0",
+    "1000_D1": "diffusion_experiments/round12_ucldt/outputs/seed1000/D1"
+  },
+  "expansion_backbones_not_run": [
+    1001,
+    1002
+  ],
+  "expansion_output_dirs_exist": {
+    "1001": {
+      "C0": false,
+      "D0": false,
+      "D1": false
+    },
+    "1002": {
+      "C0": false,
+      "D0": false,
+      "D1": false
+    }
+  },
+  "first_aborted_preflight_note": "Earlier launcher stopped at M0 replay parity gate before continuation epoch1; no result from it was used. A documented float32 sparse near-tie parity audit and matched negative-sampler setup were frozen before the successful formal launch.",
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false,
+  "MAIN_TOUCHED": false
+}

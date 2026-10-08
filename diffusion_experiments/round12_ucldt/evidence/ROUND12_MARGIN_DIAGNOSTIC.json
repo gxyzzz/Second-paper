@@ -1,0 +1,28 @@
+{
+  "999": {
+    "sample_n": 2048,
+    "negative_definition": "first standard updated-recommender Top100 item not in Validation positives",
+    "timestep": 10,
+    "delta_margin": {
+      "mean": 0.00048521975986659527,
+      "median": 0.00029277801513671875,
+      "fraction_positive": 0.52978515625,
+      "p10": -0.0051479339599609375,
+      "p90": 0.006367254257202148
+    },
+    "TEST_ACCESSED": false
+  },
+  "1000": {
+    "sample_n": 2048,
+    "negative_definition": "first standard updated-recommender Top100 item not in Validation positives",
+    "timestep": 10,
+    "delta_margin": {
+      "mean": -0.002167416037991643,
+      "median": -0.0014371871948242188,
+      "fraction_positive": 0.40576171875,
+      "p10": -0.011717271804809571,
+      "p90": 0.006457114219665527
+    },
+    "TEST_ACCESSED": false
+  }
+}
