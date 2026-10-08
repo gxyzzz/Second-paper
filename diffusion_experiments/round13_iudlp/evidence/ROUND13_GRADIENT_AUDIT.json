@@ -1,0 +1,38 @@
+{
+  "status": "PASS",
+  "checks": {
+    "all_recommender_frozen": true,
+    "only_diffusion_trainable": true,
+    "D2_L_user_gradient_reaches_diffusion": true,
+    "D2_L_user_no_recommender_gradient": true,
+    "total_loss_gradient_reaches_diffusion": true,
+    "total_loss_no_recommender_gradient": true,
+    "rho0_score_parity": true,
+    "D1_different_users_different_residual": true,
+    "D0_user_independent": true,
+    "inference_one_step_repeatable": true,
+    "two_fixed_noise_tables_repeatable": true,
+    "sampler_first_batch_exact": true,
+    "no_test_loader": true
+  },
+  "D2_L_user_gradient_norm": 0.00018496022676117718,
+  "D2_total_gradient_norm": 0.00190292252227664,
+  "recommender_trainable_names": [],
+  "diffusion_trainable_count": 20,
+  "D1_same_item_cross_user_residual_difference": 0.006185207515954971,
+  "D0_same_item_cross_user_max_difference": 0.0,
+  "repeat_inference_max_difference": 0.0,
+  "noise_table_repeat_max_difference": 0.0,
+  "sampler_fairness": {
+    "PASS": true,
+    "setup_seed": 202614699,
+    "epoch_seed": 9990001,
+    "first_batch_exact": true,
+    "batch_shape": [
+      3,
+      2048
+    ]
+  },
+  "peak_gpu_memory_GiB": 0.5522141456604004,
+  "TEST_ACCESSED": false
+}

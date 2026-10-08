@@ -1,0 +1,17 @@
+{
+  "protocol": "ROUND13_IUDLP_V1",
+  "preflight_backbones": [999, 1000],
+  "expansion_backbones": [1001, 1002],
+  "variants": ["D0", "D1", "D2"],
+  "epochs": 5,
+  "rho": 0.20,
+  "T_latent": 20,
+  "t_infer": 3,
+  "inference_noise_seeds": [20261301, 20261302],
+  "lambda_rec": 1.0,
+  "lambda_diff": 0.25,
+  "lambda_user": 0.5,
+  "user_margin": 0.05,
+  "recommender_trainable": false,
+  "test_access": false
+}
