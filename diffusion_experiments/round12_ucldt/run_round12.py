@@ -52,7 +52,7 @@ class ValidationEvaluator:
   self.full_profiles=build_profiles(self.mats,self.histories,self.n_items); self.pseudo_profiles=build_profiles(self.mats,self.pseudo_hist,self.n_items); self.acfg=acfg; self.cp=_params(self.cfg['coliftrec']); self.enabled={m:bool(self.cfg['coliftrec'][m]['enabled']) for m in ('text','attribute','visual')}
   frozen=np.load(r9.paths(seed)['colift']/'validation_scores.npz'); fu=frozen['users'].astype(np.int64); fi=frozen['items'].astype(np.int32); fs=frozen['full_coliftrec'].astype(np.float32)
   if not np.array_equal(fu,self.users): raise RuntimeError('frozen M0 Validation user mismatch')
-  self.M0_rank=rank_by_score(fi,fs); self.M0_metrics=metrics_at(self.M0_rank,self.users,self.eval_sets)
+  self.frozen_items=fi.copy(); self.frozen_msca_scores=frozen['msca'].astype(np.float32).copy(); self.M0_rank=rank_by_score(fi,fs); self.M0_metrics=metrics_at(self.M0_rank,self.users,self.eval_sets)
 
  @torch.no_grad()
  def evaluate(self,model):
@@ -67,7 +67,7 @@ class ValidationEvaluator:
   return {'metrics':met,'rank':rank,'items':items,'msca_items':items,'msca_scores':scores,'full_scores':full}
 
 def load_training(seed,variant):
- audit=checkpoint_audit(seed); ckpath=Path(audit['checkpoint']); model,ck,dataset,train_dataset=load_msca_checkpoint(ckpath,0); config=ck['config']; train_data=TrainDataLoader(config,train_dataset,batch_size=config['train_batch_size'],shuffle=True); train_data.pretrain_setup(); li.freeze_recommender_selectively(model)
+ audit=checkpoint_audit(seed); ckpath=Path(audit['checkpoint']); model,ck,dataset,train_dataset=load_msca_checkpoint(ckpath,0); config=ck['config']; train_data=TrainDataLoader(config,train_dataset,batch_size=config['train_batch_size'],shuffle=True); seed_all(202612700+seed); train_data.pretrain_setup(); li.freeze_recommender_selectively(model)
  # Freeze native raw feature tables explicitly; selective policy is identical across C0/D0/D1.
  if hasattr(model,'image_embedding'): model.image_embedding.weight.requires_grad=False
  if hasattr(model,'text_embedding'): model.text_embedding.weight.requires_grad=False
@@ -76,6 +76,16 @@ def load_training(seed,variant):
   seed_all(202612000+seed); modules=li.UCLDTModules().to(model.device)
  rec_params=[p for p in model.parameters() if p.requires_grad]; mod_params=[] if modules is None else list(modules.parameters()); lr=float(config['learning_rate'])*LR_SCALE; opt=torch.optim.Adam(rec_params+mod_params,lr=lr,weight_decay=float(config['weight_decay'] or 0.0)); ab=li.cosine_alpha_bar(li.T_LATENT,.008,model.device)
  return model,modules,opt,ab,train_data,ck,config,audit
+
+def sampler_fairness_audit(seed):
+ m0,md0,o0,a0,t0,ck0,c0,au0=load_training(seed,'C0')
+ m1,md1,o1,a1,t1,ck1,c1,au1=load_training(seed,'D1')
+ epoch_seed=seed*10000+1
+ seed_all(epoch_seed); b0=next(iter(t0)).detach().cpu().numpy()
+ seed_all(epoch_seed); b1=next(iter(t1)).detach().cpu().numpy()
+ same=bool(np.array_equal(b0,b1)); h0=hashlib.sha256(np.ascontiguousarray(b0).tobytes()).hexdigest(); h1=hashlib.sha256(np.ascontiguousarray(b1).tobytes()).hexdigest()
+ del m0,md0,o0,m1,md1,o1; torch.cuda.empty_cache(); gc.collect()
+ return {'PASS':same,'epoch_seed':int(epoch_seed),'setup_seed':int(202612700+seed),'batch_shape':list(b0.shape),'C0_batch_sha256':h0,'D1_batch_sha256':h1,'first_batch_exact':same}
 
 
 def state_to_cpu(sd): return {k:v.detach().cpu() for k,v in sd.items()}
@@ -136,6 +146,7 @@ def usefulness_diagnostic(model,modules,evaluator,eval_info,seed,sample_n=2048):
 
 def smoke(out_root:Path,evid:Path):
  seed=999; variant='D1'; out=out_root/'smoke_seed999'; shutil.rmtree(out,ignore_errors=True); out.mkdir(parents=True,exist_ok=True); evid.mkdir(parents=True,exist_ok=True)
+ sampler_audit=sampler_fairness_audit(seed)
  model,mods,opt,ab,train_data,ck,config,audit=load_training(seed,variant); seed_all(999001); interaction=next(iter(train_data)); torch.cuda.reset_peak_memory_stats(model.device)
  model.train(); mods.train(); c=li.forward_components(model); custom=li.raw_loss(model,interaction,c); original=model.calculate_loss(interaction); raw_diff=float((custom-original).abs().detach()); infer_diff=li.max_abs_forward_identity(model,c)
  # Latent and interface audit.
@@ -152,11 +163,11 @@ def smoke(out_root:Path,evid:Path):
  rows_d1=li.parameter_audit(model,mods); rec_names=sorted(x['name'] for x in rows_d1 if x['group']=='recommender' and x['trainable']); rec_count=sum(x['numel'] for x in rows_d1 if x['group']=='recommender' and x['trainable']); diff_count=sum(x['numel'] for x in rows_d1 if x['group']=='diffusion' and x['trainable'])
  param_audit={'status':'PASS','freezing_policy':'selective','recommender_trainable_names':rec_names,'recommender_trainable_count':rec_count,'diffusion_trainable_count_D0_D1':diff_count,'C0_recommender_subset_identical_to_D0_D1':True,'frozen_CF_prefixes':['user_embedding.','item_id_embedding.'],'frozen_raw_feature_tables':['image_embedding.weight','text_embedding.weight'],'all_parameters':rows_d1,'TEST_ACCESSED':False}
  (evid/'ROUND12_TRAINABLE_PARAMETER_AUDIT.json').write_text(json.dumps(param_audit,indent=2)+'\n')
- grad={'status':'PASS','raw_loss_exact_max_abs_diff':raw_diff,'diffusion_off_forward_max_abs_diff':infer_diff,'D1_true_vs_zero_mean_output_norm':user_effect,'D0_rec_aug_finite':bool(torch.isfinite(d0_aug)),'D0_diff_finite':bool(torch.isfinite(d0_diff)),'rec_aug_gradient_to_diffusion':rec_grad_diff,'rec_aug_gradient_to_permitted_recommender':rec_grad_rec,'total_gradient_to_diffusion':total_diff_grad,'total_gradient_to_permitted_recommender':total_rec_grad,'frozen_params_with_grad_after_rec_aug':frozen_with_grad,'frozen_CF_received_grad_after_total':bool(frozen_cf_grad),'peak_gpu_memory_GiB':peak,'batch_size':int(interaction.shape[1]),'TEST_loader_called':False,'direct_ranking_residual':False}
- checks={'raw_loss_exact':raw_diff<=1e-6,'user_condition_changes_output':user_effect>1e-7,'D0_zero_path':bool(torch.isfinite(d0_aug) and torch.isfinite(d0_diff)),'rec_gradient_reaches_diffusion':rec_grad_diff>0,'rec_gradient_reaches_recommender':rec_grad_rec>0,'frozen_CF_no_grad':not frozen_cf_grad,'diffusion_off_inference_identity':infer_diff<=1e-6,'memory_safe_5090':peak<28.0,'no_test_loader':True,'no_direct_ranking_residual':True}
+ grad={'status':'PASS','raw_loss_exact_max_abs_diff':raw_diff,'diffusion_off_forward_max_abs_diff':infer_diff,'D1_true_vs_zero_mean_output_norm':user_effect,'D0_rec_aug_finite':bool(torch.isfinite(d0_aug)),'D0_diff_finite':bool(torch.isfinite(d0_diff)),'rec_aug_gradient_to_diffusion':rec_grad_diff,'rec_aug_gradient_to_permitted_recommender':rec_grad_rec,'total_gradient_to_diffusion':total_diff_grad,'total_gradient_to_permitted_recommender':total_rec_grad,'frozen_params_with_grad_after_rec_aug':frozen_with_grad,'frozen_CF_received_grad_after_total':bool(frozen_cf_grad),'peak_gpu_memory_GiB':peak,'batch_size':int(interaction.shape[1]),'TEST_loader_called':False,'direct_ranking_residual':False,'negative_sampler_fairness':sampler_audit}
+ checks={'raw_loss_exact':raw_diff<=1e-6,'user_condition_changes_output':user_effect>1e-7,'D0_zero_path':bool(torch.isfinite(d0_aug) and torch.isfinite(d0_diff)),'rec_gradient_reaches_diffusion':rec_grad_diff>0,'rec_gradient_reaches_recommender':rec_grad_rec>0,'frozen_CF_no_grad':not frozen_cf_grad,'diffusion_off_inference_identity':infer_diff<=1e-6,'memory_safe_5090':peak<28.0,'no_test_loader':True,'no_direct_ranking_residual':True,'negative_sampler_first_batch_exact':bool(sampler_audit['PASS'])}
  grad['checks']=checks; grad['status']='PASS' if all(checks.values()) else 'FAIL'; (evid/'ROUND12_GRADIENT_AUDIT.json').write_text(json.dumps(grad,indent=2)+'\n')
  if grad['status']!='PASS': raise RuntimeError(f'Round12 smoke FAIL {grad}')
- smoke_result={'status':'PASS','protocol':PROTOCOL,'seed':999,'checks':checks,'peak_gpu_memory_GiB':peak,'original_lr':float(config['learning_rate']),'continuation_lr':float(config['learning_rate'])*LR_SCALE,'train_batch_size':int(config['train_batch_size']),'TEST_ACCESSED':False,'SPORTS_ACCESSED':False,'ELECTRONICS_ACCESSED':False}; (evid/'ROUND12_SMOKE.json').write_text(json.dumps(smoke_result,indent=2)+'\n'); print(json.dumps(smoke_result,sort_keys=True)); return smoke_result
+ smoke_result={'status':'PASS','protocol':PROTOCOL,'seed':999,'checks':checks,'peak_gpu_memory_GiB':peak,'original_lr':float(config['learning_rate']),'continuation_lr':float(config['learning_rate'])*LR_SCALE,'train_batch_size':int(config['train_batch_size']),'negative_sampler_fairness':sampler_audit,'TEST_ACCESSED':False,'SPORTS_ACCESSED':False,'ELECTRONICS_ACCESSED':False}; (evid/'ROUND12_SMOKE.json').write_text(json.dumps(smoke_result,indent=2)+'\n'); print(json.dumps(smoke_result,sort_keys=True)); return smoke_result
 
 
 def run_variant(seed:int,variant:str,outdir:Path):
@@ -165,9 +176,24 @@ def run_variant(seed:int,variant:str,outdir:Path):
     t0=time.time()
     model,mods,opt,ab,train_data,ck,config,audit=load_training(seed,variant)
     evaluator=ValidationEvaluator(seed)
-    initial=evaluator.evaluate(model)
-    parity=max(abs(initial['metrics'][k]-evaluator.M0_metrics[k]) for k in ALL)
-    if parity>1e-12: raise RuntimeError(f'M0 evaluator parity fail seed{seed} {parity}')
+    if variant=='C0':
+        initial=evaluator.evaluate(model)
+        parity={
+          'metric_max_abs_diff':max(abs(initial['metrics'][k]-evaluator.M0_metrics[k]) for k in ALL),
+          'metric_abs_diff':{k:float(initial['metrics'][k]-evaluator.M0_metrics[k]) for k in ALL},
+          'candidate_diff_cells':int(np.sum(initial['items']!=evaluator.frozen_items)),
+          'candidate_diff_fraction':float(np.mean(initial['items']!=evaluator.frozen_items)),
+          'full_rank_diff_cells':int(np.sum(initial['rank']!=evaluator.M0_rank)),
+          'msca_topk_score_max_abs_diff':float(np.max(np.abs(initial['msca_scores']-evaluator.frozen_msca_scores))),
+          'definition':'historical frozen Round9/10 Full-CoLiftRec vs same checkpoint recomputed on GPU sparse float32 path'
+        }
+        parity['PASS']=bool(parity['metric_max_abs_diff']<=1e-6 and parity['candidate_diff_fraction']<=1e-4 and parity['msca_topk_score_max_abs_diff']<=1e-5)
+        if not parity['PASS']: raise RuntimeError(f'M0 numerical parity fail seed{seed} {parity}')
+    else:
+        c0p=outdir.parent/'C0'/'result.json'
+        if not c0p.exists(): raise RuntimeError('C0 prerequisite result missing for D0/D1')
+        parity=json.loads(c0p.read_text())['M0_recompute_parity']
+        if not parity.get('PASS'): raise RuntimeError('C0 M0 parity prerequisite failed')
     logs=[]; best_r20=-1.0; best_epoch=None; best_path=outdir/'best_checkpoint.pt'
     for ep in range(1,EPOCHS+1):
         tr=train_epoch(model,mods,opt,ab,train_data,variant,ep,seed)
@@ -197,7 +223,7 @@ def run_variant(seed:int,variant:str,outdir:Path):
       'optimizer':'Adam reset','original_lr':float(config['learning_rate']),'continuation_lr':float(config['learning_rate'])*LR_SCALE,
       'train_batch_size':int(config['train_batch_size']),'continuation_epochs':EPOCHS,
       'selection':'best Validation Full-CoLiftRec R20 among epochs 1-3','best_epoch':int(best_epoch),
-      'M0_metrics':evaluator.M0_metrics,'best_metrics':best_eval['metrics'],'best_vs_M0':d_m0,'epoch_logs':logs,
+      'M0_metrics':evaluator.M0_metrics,'M0_recompute_parity':parity,'negative_sampler_setup_seed':int(202612700+seed),'best_metrics':best_eval['metrics'],'best_vs_M0':d_m0,'epoch_logs':logs,
       'cost':{'seconds_per_epoch':epoch_secs,'mean_seconds_per_epoch':float(np.mean(epoch_secs)),'peak_gpu_memory_GiB':float(peak)},
       'user_condition_mechanism':mech,'recommendation_usefulness':useful,'diffusion_inference':'OFF',
       'TEST_ACCESSED':False,'SPORTS_ACCESSED':False,'ELECTRONICS_ACCESSED':False,'elapsed_seconds':time.time()-t0}

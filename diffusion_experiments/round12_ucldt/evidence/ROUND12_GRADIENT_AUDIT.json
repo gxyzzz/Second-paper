@@ -2,19 +2,31 @@
   "status": "PASS",
   "raw_loss_exact_max_abs_diff": 0.0,
   "diffusion_off_forward_max_abs_diff": 4.76837158203125e-07,
-  "D1_true_vs_zero_mean_output_norm": 0.003578079864382744,
+  "D1_true_vs_zero_mean_output_norm": 0.0035780793987214565,
   "D0_rec_aug_finite": true,
   "D0_diff_finite": true,
-  "rec_aug_gradient_to_diffusion": 0.0013812761753797531,
-  "rec_aug_gradient_to_permitted_recommender": 0.0034065551590174437,
-  "total_gradient_to_diffusion": 0.008028758689761162,
-  "total_gradient_to_permitted_recommender": 0.004905289504677057,
+  "rec_aug_gradient_to_diffusion": 0.0017654801486060023,
+  "rec_aug_gradient_to_permitted_recommender": 0.003395392559468746,
+  "total_gradient_to_diffusion": 0.007939008995890617,
+  "total_gradient_to_permitted_recommender": 0.004104242194443941,
   "frozen_params_with_grad_after_rec_aug": [],
   "frozen_CF_received_grad_after_total": false,
   "peak_gpu_memory_GiB": 0.8592801094055176,
   "batch_size": 2048,
   "TEST_loader_called": false,
   "direct_ranking_residual": false,
+  "negative_sampler_fairness": {
+    "PASS": true,
+    "epoch_seed": 9990001,
+    "setup_seed": 202613699,
+    "batch_shape": [
+      3,
+      2048
+    ],
+    "C0_batch_sha256": "d7e8d02ffd34a7a54d7e6d748b32ef939fb08b26eeea5a593267b9e3faa1c330",
+    "D1_batch_sha256": "d7e8d02ffd34a7a54d7e6d748b32ef939fb08b26eeea5a593267b9e3faa1c330",
+    "first_batch_exact": true
+  },
   "checks": {
     "raw_loss_exact": true,
     "user_condition_changes_output": true,
@@ -25,6 +37,7 @@
     "diffusion_off_inference_identity": true,
     "memory_safe_5090": true,
     "no_test_loader": true,
-    "no_direct_ranking_residual": true
+    "no_direct_ranking_residual": true,
+    "negative_sampler_first_batch_exact": true
   }
 }

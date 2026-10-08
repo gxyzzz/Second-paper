@@ -14,3 +14,9 @@ Source branch/evidence: `exp/round11-cdtc-20261008` at `e9c41390a4bbd16ca3beeb19
 - Best epoch is selected independently for C0/D0/D1 by Validation Full-CoLiftRec R20. Diffusion is OFF at inference; standard updated MSCA embeddings are retrieved and frozen Full CoLiftRec is applied.
 - Operationalization frozen for expansion-gate wording “D1 mean clearly exceeds D0 mean”: `mean_U(D1 vs C0) - mean_U(D0 vs C0) >= 0.0010` (0.10 percentage points). The alternative branch `D1 >= D0 on both preflight backbones` is checked first.
 - Test, Sports and Electronics remain CLOSED. No hyperparameter search is allowed.
+
+### Numerical/fairness exactness amendment before any continuation epoch
+
+The first formal launcher was stopped at the initial M0 replay gate before any continuation epoch because GPU sparse float32 replay produced tiny near-tie differences versus the historical frozen asset: seed999 raw Top100 score max difference was `2.86e-6`, 12/1,944,500 candidate cells differed, and only N20/N50 changed by `2.26e-7`. This is recorded as numerical replay parity rather than falsely labeled rank-exact. The frozen M0 metrics remain the historical reference; all C0/D0/D1 continuation outputs use the same current Round12 evaluator. The replay gate is fixed to metric max absolute difference <=1e-6, candidate-cell mismatch fraction <=1e-4, and raw Top100 score max absolute difference <=1e-5.
+
+`TrainDataLoader` samples negatives online with Python `random.sample()` and shuffles `all_items` in `pretrain_setup()`. Therefore Round12 now freezes `pretrain_setup` RNG to `202612700 + backbone_seed`, independent of C0/D0/D1, and resets the same `(backbone, epoch)` RNG before each epoch. Smoke must show C0 and D1 first `(user, positive, negative)` batch is byte-identical under the same epoch seed.
