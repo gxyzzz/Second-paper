@@ -1,0 +1,13 @@
+{
+  "status": "PASS",
+  "seed": 999,
+  "sample_pairs": 1000,
+  "positive_same_row_violations": 0,
+  "target_context_extrapolation_count": 0,
+  "invalid_hard_negative_col_count": 0,
+  "off_row_positive_count": 0,
+  "extra_items_path_used": false,
+  "positive_context_source": "row[target_col]",
+  "negative_context_source": "row[neg_col]",
+  "TEST_ACCESSED": false
+}

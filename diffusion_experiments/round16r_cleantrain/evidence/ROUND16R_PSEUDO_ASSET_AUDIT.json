@@ -1,0 +1,62 @@
+{
+  "protocol": "ROUND16R_CLEANTRAIN_V1",
+  "seeds": {
+    "999": {
+      "status": "PASS",
+      "seed": 999,
+      "pseudo_users_exact": true,
+      "pseudo_users_total": 19445,
+      "target_in_top100_count": 16700,
+      "target_in_top100_rate": 0.8588326047827205,
+      "kept_preference_users": 16700,
+      "dropped_target_not_top100": 2745,
+      "dropped_no_hard_negative": 0,
+      "target_rank": {
+        "mean": 26.43754491017964,
+        "std": 27.333392816019188,
+        "min": 1.0,
+        "max": 100.0,
+        "p1": 1.0,
+        "p50": 16.0,
+        "p99": 99.0099999999984,
+        "p99_9": 100.0
+      },
+      "hard_negative_pairs": 410552,
+      "prefix_observed_candidate_hits_rank6_30": 0,
+      "retrieval_source": "/home/gxy/code/Second-paper/runs/assets/msca_baby_seed999/train_pseudo_top100.npz",
+      "retrieval_prefix_mask": "h[:-1]",
+      "validation_used": false,
+      "test_used": false,
+      "TEST_ACCESSED": false
+    },
+    "1000": {
+      "status": "PASS",
+      "seed": 1000,
+      "pseudo_users_exact": true,
+      "pseudo_users_total": 19445,
+      "target_in_top100_count": 17573,
+      "target_in_top100_rate": 0.9037284649010028,
+      "kept_preference_users": 17573,
+      "dropped_target_not_top100": 1872,
+      "dropped_no_hard_negative": 0,
+      "target_rank": {
+        "mean": 23.078586467876857,
+        "std": 25.898011903385132,
+        "min": 1.0,
+        "max": 100.0,
+        "p1": 1.0,
+        "p50": 12.0,
+        "p99": 99.0,
+        "p99_9": 100.0
+      },
+      "hard_negative_pairs": 431973,
+      "prefix_observed_candidate_hits_rank6_30": 0,
+      "retrieval_source": "/home/gxy/code/Second-paper/runs/backbone_robustness/baby_seed1000/msca/assets/train_pseudo_top100.npz",
+      "retrieval_prefix_mask": "h[:-1]",
+      "validation_used": false,
+      "test_used": false,
+      "TEST_ACCESSED": false
+    }
+  },
+  "TEST_ACCESSED": false
+}

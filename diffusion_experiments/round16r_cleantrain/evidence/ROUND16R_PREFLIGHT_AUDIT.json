@@ -1,0 +1,137 @@
+{
+  "protocol": "ROUND16R_CLEANTRAIN_V1",
+  "Gate_C": {
+    "999": {
+      "seed": 999,
+      "checks": {
+        "self_inclusion_zero": true,
+        "off_row_positive_zero": true,
+        "extrapolation_zero": true,
+        "nan_zero": true,
+        "inf_zero": true,
+        "context_abs_lt_100": true,
+        "m_base_abs_lt_100": true,
+        "scale_consistent": true
+      },
+      "PASS": true
+    },
+    "1000": {
+      "seed": 1000,
+      "checks": {
+        "self_inclusion_zero": true,
+        "off_row_positive_zero": true,
+        "extrapolation_zero": true,
+        "nan_zero": true,
+        "inf_zero": true,
+        "context_abs_lt_100": true,
+        "m_base_abs_lt_100": true,
+        "scale_consistent": true
+      },
+      "PASS": true
+    }
+  },
+  "seeds": {
+    "999": {
+      "base": {
+        "status": "PASS",
+        "seed": 999,
+        "reused_round16_base": true,
+        "state_dict_sha256": "272b68b9d175dbbdf91b9df3e4c1d5ff1c600a74975fb399ce85ead431522950",
+        "expected_sha256": "272b68b9d175dbbdf91b9df3e4c1d5ff1c600a74975fb399ce85ead431522950",
+        "selected_epoch": 5,
+        "selection_used_validation": false,
+        "TEST_ACCESSED": false
+      },
+      "variants": {
+        "A1": {
+          "loss": 1.93526029586792,
+          "user_grad_norm": 0.12280713482448503,
+          "frozen_grad_none": true,
+          "max_angle": 0.8762568235397339,
+          "m_base_mean": -1.0219601392745972,
+          "Delta_true_mean": -7.212162017822266e-06,
+          "L_zero_after_update_grad_norm": 0.0006792250937909931,
+          "direct_delta_margin": true,
+          "context_dim": 0
+        },
+        "A2": {
+          "loss": 1.0523203611373901,
+          "user_grad_norm": 0.06869654662866831,
+          "frozen_grad_none": true,
+          "max_angle": 0.8726765513420105,
+          "m_base_mean": -1.0219601392745972,
+          "Delta_true_mean": -1.430511474609375e-06,
+          "L_zero_after_update_grad_norm": 0.0006589711697036613,
+          "direct_delta_margin": true,
+          "context_dim": 0
+        },
+        "A3": {
+          "loss": 1.0523202419281006,
+          "user_grad_norm": 0.07159784768977805,
+          "frozen_grad_none": true,
+          "max_angle": 0.8749158978462219,
+          "m_base_mean": -1.0219601392745972,
+          "Delta_true_mean": -7.897615432739258e-07,
+          "L_zero_after_update_grad_norm": 0.0006896946934540917,
+          "direct_delta_margin": true,
+          "context_dim": 8
+        }
+      },
+      "base_hash_unchanged": true,
+      "base_probe_max_abs_diff": 0.0,
+      "PASS": true
+    },
+    "1000": {
+      "base": {
+        "status": "PASS",
+        "seed": 1000,
+        "reused_round16_base": true,
+        "state_dict_sha256": "a3213b1c91891d75242f25be2182dd82ffbbf7a5dc71ad73a23026010548fae5",
+        "expected_sha256": "a3213b1c91891d75242f25be2182dd82ffbbf7a5dc71ad73a23026010548fae5",
+        "selected_epoch": 5,
+        "selection_used_validation": false,
+        "TEST_ACCESSED": false
+      },
+      "variants": {
+        "A1": {
+          "loss": 2.1447091102600098,
+          "user_grad_norm": 0.09831087969617278,
+          "frozen_grad_none": true,
+          "max_angle": 0.6410244703292847,
+          "m_base_mean": -1.3778222799301147,
+          "Delta_true_mean": 0.0004842206835746765,
+          "L_zero_after_update_grad_norm": 0.0005801728880427197,
+          "direct_delta_margin": true,
+          "context_dim": 0
+        },
+        "A2": {
+          "loss": 1.0519495010375977,
+          "user_grad_norm": 0.059367631120507657,
+          "frozen_grad_none": true,
+          "max_angle": 0.6458899974822998,
+          "m_base_mean": -1.3778222799301147,
+          "Delta_true_mean": 0.0004588477313518524,
+          "L_zero_after_update_grad_norm": 0.000553810372895076,
+          "direct_delta_margin": true,
+          "context_dim": 0
+        },
+        "A3": {
+          "loss": 1.0519436597824097,
+          "user_grad_norm": 0.06598323851476584,
+          "frozen_grad_none": true,
+          "max_angle": 0.6531204581260681,
+          "m_base_mean": -1.3778222799301147,
+          "Delta_true_mean": 0.00046510621905326843,
+          "L_zero_after_update_grad_norm": 0.0005573618407677617,
+          "direct_delta_margin": true,
+          "context_dim": 8
+        }
+      },
+      "base_hash_unchanged": true,
+      "base_probe_max_abs_diff": 0.0,
+      "PASS": true
+    }
+  },
+  "TEST_ACCESSED": false,
+  "PASS": true
+}

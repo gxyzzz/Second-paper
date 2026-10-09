@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "seed": 999,
+  "sample_users": 1000,
+  "violations": 0,
+  "target_not_in_prefix_required": true,
+  "profile_history": "canonical prefix h[:-1]",
+  "TEST_ACCESSED": false
+}

@@ -1,0 +1,24 @@
+{
+  "protocol": "ROUND16R_CLEANTRAIN_V1",
+  "seeds": {
+    "999": {
+      "status": "PASS",
+      "seed": 999,
+      "sample_users": 1000,
+      "violations": 0,
+      "target_not_in_prefix_required": true,
+      "profile_history": "canonical prefix h[:-1]",
+      "TEST_ACCESSED": false
+    },
+    "1000": {
+      "status": "PASS",
+      "seed": 1000,
+      "sample_users": 1000,
+      "violations": 0,
+      "target_not_in_prefix_required": true,
+      "profile_history": "canonical prefix h[:-1]",
+      "TEST_ACCESSED": false
+    }
+  },
+  "TEST_ACCESSED": false
+}
