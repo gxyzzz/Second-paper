@@ -166,3 +166,61 @@ Sports/Electronics: closed
 ```
 
 The user explicitly authorized a one-time exploratory Baby Test after this lock. Test results cannot revise the Validation verdict or method choice.
+
+## 8. User-authorized exploratory Baby Test
+
+The Validation verdict and frozen Test comparison were committed before Test access in `32e3522d5ff3cb48bde7b70d37cbc078e452993a`. Test evaluates only the fixed epoch4 F3 matched non-Diffusion control and fixed epoch4 F4 method. It does not select a variant, epoch, band, or hyperparameter. The existing frozen Baby Test F0 metrics reproduce exactly on both seeds (`max_abs_diff = 0`).
+
+### Backbone + Frozen Full CoLiftRec
+
+| Variant | Seed999 U vs F0 | Seed1000 U vs F0 | Mean |
+|---|---:|---:|---:|
+| F3 Positive-Sim Curriculum | -0.5098% | -0.5720% | -0.5409% |
+| F4 Diffusion Curriculum | **-0.5697%** | **-0.5993%** | **-0.5845%** |
+| F4 - F3 Diffusion-specific | **-0.0599%** | **-0.0273%** | **-0.0436%** |
+
+Thus `F4 > F3` is false on both Test backbones, matching the direction of the preregistered Validation result.
+
+### seed999 F4 Test
+
+```text
+F0 Full CoLift:
+R10 0.07239375  N10 0.03979682  R20 0.10820199  N20 0.04902839  R50 0.17597763  N50 0.06281241
+
+F4 Full CoLift:
+R10 0.07166520  N10 0.03952953  R20 0.10788486  N20 0.04887757  R50 0.17569692  N50 0.06267961
+```
+
+F4 has 0/4 positive primary and 0/6 positive overall metrics versus F0. `U_F4=-0.5697%`. F3 is also negative (`-0.5098%`) but remains better than F4.
+
+### seed1000 F4 Test
+
+```text
+F0 Full CoLift:
+R10 0.07137727  N10 0.03909140  R20 0.10755291  N20 0.04837593  R50 0.17507041  N50 0.06207041
+
+F4 Full CoLift:
+R10 0.07077128  N10 0.03889069  R20 0.10686293  N20 0.04818571  R50 0.17439928  N50 0.06188654
+```
+
+F4 again has 0/4 positive primary and 0/6 positive overall metrics versus F0. `U_F4=-0.5993%`. F3 is `-0.5720%`, again better than F4.
+
+For both Test seeds, Frozen Full CoLift still improves 4/4 primary metrics over the corresponding fine-tuned F4 backbone. Therefore the negative Test result is not explained by CoLift compatibility failure.
+
+### Validation-to-Test interpretation
+
+```text
+Diffusion-specific F4-F3:
+seed999:  Validation -0.0902% -> Test -0.0599%
+seed1000: Validation -0.2541% -> Test -0.0273%
+
+F4 absolute U vs F0:
+seed999:  Validation -0.4931% -> Test -0.5697%
+seed1000: Validation -0.3043% -> Test -0.5993%
+```
+
+Unlike prior inference-time rounds where signs often flipped across splits, Round18's key scientific comparison is directionally consistent: **F4 is worse than F3 on both Validation and Test for both backbones.** The tested history-conditioned Diffusion hard-negative generator therefore has no verified incremental value over direct positive-embedding similarity mining.
+
+No post-Test tuning, checkpoint switching, band changes, seed1001/1002 Test, Sports Test, or Electronics Test were performed.
+
+**Final verdict remains `ROUND18_FAIL`.**
