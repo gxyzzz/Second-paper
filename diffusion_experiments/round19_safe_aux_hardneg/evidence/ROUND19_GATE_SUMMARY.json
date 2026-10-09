@@ -1,0 +1,110 @@
+{
+  "protocol": "ROUND19_SA_DHN_V1",
+  "validation_verdict": "ROUND19_FAIL",
+  "FULL_TRAIN_CONTINUATION_UNSTABLE": true,
+  "U_backbone": {
+    "A1": {
+      "999": -0.00022596398333840173,
+      "1000": -0.002147371938459201,
+      "mean": -0.0011866679608988013
+    },
+    "A2": {
+      "999": -0.001021035504851201,
+      "1000": -0.0030368239183557904,
+      "mean": -0.002028929711603496
+    },
+    "A3": {
+      "999": 0.0007628672454201823,
+      "1000": 0.001522346004406169,
+      "mean": 0.0011426066249131757
+    },
+    "A4": {
+      "999": 6.01534187062632e-05,
+      "1000": -0.0009471992390282965,
+      "mean": -0.00044352291016101666
+    }
+  },
+  "U_colift": {
+    "A1": {
+      "999": -0.0012770753731982667,
+      "1000": -0.0010459394869848891,
+      "mean": -0.0011615074300915778
+    },
+    "A2": {
+      "999": -0.005932558678738507,
+      "1000": -0.0034874881484609262,
+      "mean": -0.004710023413599717
+    },
+    "A3": {
+      "999": -0.00484573396042996,
+      "1000": -0.00038805109855433796,
+      "mean": -0.002616892529492149
+    },
+    "A4": {
+      "999": -0.00717192422556724,
+      "1000": -0.0006042761915289877,
+      "mean": -0.003888100208548114
+    }
+  },
+  "incremental_decomposition_backbone": {
+    "A1_minus_A0": {
+      "999": -0.00022596398333840173,
+      "1000": -0.002147371938459201,
+      "mean": -0.0011866679608988013
+    },
+    "A2_minus_A1": {
+      "999": -0.0007950715215127993,
+      "1000": -0.0008894519798965895,
+      "mean": -0.0008422617507046943
+    },
+    "A3_minus_A2": {
+      "999": 0.0017839027502713832,
+      "1000": 0.004559169922761959,
+      "mean": 0.0031715363365166713
+    },
+    "A4_minus_A3": {
+      "999": -0.0007027138267139191,
+      "1000": -0.0024695452434344654,
+      "mean": -0.0015861295350741923
+    }
+  },
+  "gates": {
+    "CONT": false,
+    "RANK_diagnostic_mean": -0.0008422617507046943,
+    "SIM_diagnostic_mean": 0.0031715363365166713,
+    "DIF": false,
+    "ABS_BB": false,
+    "STAB": false,
+    "CL_COMPAT": true,
+    "CL_COMPAT_per_seed": {
+      "999": {
+        "primary_positive_count": 4,
+        "PASS": true
+      },
+      "1000": {
+        "primary_positive_count": 4,
+        "PASS": true
+      }
+    }
+  },
+  "initial_two_seed_pass": false,
+  "seed1001_not_opened": true,
+  "seed1002_not_opened": true,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false,
+  "TEST_ACCESSED": false,
+  "test_lock": {
+    "authorized_by_user": true,
+    "status": "LOCKED_BEFORE_TEST",
+    "validation_verdict": "ROUND19_FAIL",
+    "method_checkpoint": "A4 epoch3",
+    "matched_control_checkpoint": "A3 epoch3",
+    "reference": "A0 starting checkpoint",
+    "seeds": [
+      999,
+      1000
+    ],
+    "test_used_for_selection": false,
+    "no_post_test_tuning": true
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "same_epochs": 3,
+  "same_normal_batches_per_epoch": 58,
+  "same_normal_plan_sha256": {
+    "999": "dce1f775a415200ffce2caaf91f3a14f43d6d8923f78a93632c9dfa763c54b00",
+    "1000": "7432760eeddc1cb7d3bfc362e3d806277a5d83336312888e59aa5d894fca78a2"
+  },
+  "same_optimizer_family": "Adam",
+  "same_lr": 0.0001,
+  "same_weight_decay": 0.0,
+  "A1_aux_weight": 0.0,
+  "A2_A3_A4_aux_weight": 0.2,
+  "all_variants_start_from_same_seed_checkpoint": true,
+  "normal_negative_plan_reused_across_A1_A2_A3_A4": true,
+  "TEST_ACCESSED": false
+}
