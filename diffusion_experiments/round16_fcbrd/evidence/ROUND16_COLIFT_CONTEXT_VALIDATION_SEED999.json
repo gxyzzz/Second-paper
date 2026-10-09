@@ -1,0 +1,71 @@
+{
+  "status": "PASS",
+  "seed": 999,
+  "split": "VALIDATION",
+  "mode": "formal",
+  "users": 19445,
+  "context_shape": [
+    19445,
+    100,
+    8
+  ],
+  "context_names": [
+    "base_full_colift_score",
+    "total_colift_delta",
+    "text_lift_contribution",
+    "attribute_lift_contribution",
+    "visual_lift_contribution",
+    "rank_norm",
+    "gap10_norm",
+    "gap20_norm"
+  ],
+  "raw_msca_max_abs_diff": 4.76837158203125e-06,
+  "recomputed_full_colift_max_abs_diff": 6.4373016357421875e-06,
+  "rank_exact": true,
+  "rank_reference": "frozen validation_scores.npz full_coliftrec",
+  "validation_positive_used_for_context": false,
+  "test_used": false,
+  "context_mean": [
+    1.6986021478260227e-09,
+    -6.881585579154859e-11,
+    5.172683895798835e-12,
+    1.2000626187225194e-11,
+    -1.1661528513673414e-11,
+    0.5049999952316284,
+    -1.3954957723617554,
+    -0.6979624629020691
+  ],
+  "context_std": [
+    1.1473300457000732,
+    0.3677177131175995,
+    0.24984781444072723,
+    0.14988216757774353,
+    0.0249823946505785,
+    0.2882117033004761,
+    1.0168259143829346,
+    1.0088008642196655
+  ],
+  "context_min": [
+    -2.7112419605255127,
+    -1.7668368816375732,
+    -1.4910871982574463,
+    -0.5370583534240723,
+    -0.10566377639770508,
+    0.009999999776482582,
+    -3.8008477687835693,
+    -3.1934401988983154
+  ],
+  "context_max": [
+    10.152151107788086,
+    2.871795654296875,
+    1.4930024147033691,
+    1.4453133344650269,
+    0.16173763573169708,
+    1.0,
+    7.492075443267822,
+    7.893390655517578
+  ],
+  "nan_count": 0,
+  "inf_count": 0,
+  "TEST_ACCESSED": false
+}

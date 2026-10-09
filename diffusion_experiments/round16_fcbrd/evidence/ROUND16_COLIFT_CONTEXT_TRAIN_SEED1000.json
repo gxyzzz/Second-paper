@@ -1,0 +1,77 @@
+{
+  "status": "PASS",
+  "seed": 1000,
+  "split": "TRAIN",
+  "mode": "formal",
+  "TRAIN_ONLY": true,
+  "validation_positive_used": false,
+  "test_used": false,
+  "users": 19445,
+  "positive_pairs": 118551,
+  "candidate_shape": [
+    19445,
+    100
+  ],
+  "context_shape": [
+    19445,
+    100,
+    8
+  ],
+  "context_names": [
+    "base_full_colift_score",
+    "total_colift_delta",
+    "text_lift_contribution",
+    "attribute_lift_contribution",
+    "visual_lift_contribution",
+    "rank_norm",
+    "gap10_norm",
+    "gap20_norm"
+  ],
+  "rank_parity_round14": true,
+  "hard_rank_6_30_same_source": true,
+  "rank_reference": "Round14 saved Full-CoLift ordering; recomputed scores never redefine ranks",
+  "recomputed_rank_position_mismatch_count": 28,
+  "context_mean": [
+    4242109.5,
+    4242109.5,
+    0.02872091718018055,
+    4242109.5,
+    0.003321905853226781,
+    0.4857783615589142,
+    3724701.75,
+    3724702.25
+  ],
+  "context_std": [
+    244975936.0,
+    244975936.0,
+    0.28179338574409485,
+    244975936.0,
+    0.028988966718316078,
+    0.29753273725509644,
+    214531808.0,
+    214531808.0
+  ],
+  "context_min": [
+    -7.078017711639404,
+    -1.732663869857788,
+    -1.8166272640228271,
+    -0.5131537318229675,
+    -0.11407212167978287,
+    0.009999999776482582,
+    -7.989376068115234,
+    -7.288015842437744
+  ],
+  "context_max": [
+    33635995648.0,
+    33635995648.0,
+    1.9225555658340454,
+    33635995648.0,
+    0.25340336561203003,
+    1.0099999904632568,
+    29541924864.0,
+    29541924864.0
+  ],
+  "nan_count": 0,
+  "inf_count": 0,
+  "TEST_ACCESSED": false
+}

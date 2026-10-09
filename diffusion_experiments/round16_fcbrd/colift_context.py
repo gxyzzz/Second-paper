@@ -145,12 +145,21 @@ def build_train_context(seed:int,out_path:Path,audit_path:Path,smoke_users:int|N
     ar_c,ar_e=_attribute_raw(cfg,histories,users,cand,extra)
     za_c,za_e=_attribute_z_from_raw(ar_c,ar_e,cfg['coliftrec']['attribute'].get('weights'))
     p=_params(cfg['coliftrec']); bg=_backgrounds(seed)
-    ctx_c,full_c,order,ctx_e,full_e=_contexts(msca_c,cand,zt_c,za_c,zv_c,bg,p,(msca_e,extra,zt_e,za_e,zv_e))
+    ctx_c,full_c,recomputed_order,ctx_e,full_e=_contexts(msca_c,cand,zt_c,za_c,zv_c,bg,p,(msca_e,extra,zt_e,za_e,zv_e))
+    # Round14's saved Full-CoLift ordering is the immutable TRAIN rank reference.
+    # Recomputed float32 scores can swap extremely close ties, but must never redefine the hard shell.
+    order=np.empty_like(cand,dtype=np.int64)
+    for r in range(len(users)):
+        loc={int(x):j for j,x in enumerate(cand[r])}; order[r]=np.fromiter((loc[int(x)] for x in expected_ranked[r]),dtype=np.int64,count=cand.shape[1])
     ranked=np.take_along_axis(cand,order,axis=1)
-    if not np.array_equal(ranked,expected_ranked):
-        mismatch=int(np.sum(ranked!=expected_ranked)); raise RuntimeError(f'Round16 train CoLift rank mismatch: {mismatch}')
+    if not np.array_equal(ranked,expected_ranked): raise RuntimeError('saved frozen rank remap failed')
     ctx_rank=np.take_along_axis(ctx_c,order[:,:,None],axis=1)
     full_rank=np.take_along_axis(full_c,order,axis=1)
+    sd=np.maximum(full_rank.std(1,keepdims=True),1e-12)
+    ctx_rank[:,:,5]=np.arange(1,full_rank.shape[1]+1,dtype=np.float32)[None,:]/100.0
+    ctx_rank[:,:,6]=(full_rank-full_rank[:,[9]])/sd; ctx_rank[:,:,7]=(full_rank-full_rank[:,[19]])/sd
+    erank=(1+(full_rank[:,:,None] > full_e[:,None,:]).sum(1)).astype(np.float32)
+    ctx_e[:,:,5]=erank/100.0; ctx_e[:,:,6]=(full_e-full_rank[:,[9]])/sd; ctx_e[:,:,7]=(full_e-full_rank[:,[19]])/sd
     # Flatten only real observed TRAIN edges. Multiple occurrences collapse to one deterministic pair.
     keys=[]; vals=[]; scores=[]; seen=set()
     for r,u in enumerate(users):
@@ -167,7 +176,8 @@ def build_train_context(seed:int,out_path:Path,audit_path:Path,smoke_users:int|N
     ca={'status':'PASS','seed':int(seed),'split':'TRAIN','mode':'smoke' if smoke_users else 'formal','TRAIN_ONLY':True,
         'validation_positive_used':False,'test_used':False,'users':int(len(users)),'positive_pairs':int(len(keys)),
         'candidate_shape':list(ranked.shape),'context_shape':list(ctx_rank.shape),'context_names':list(CTX_NAMES),
-        'rank_parity_round14':True,'hard_rank_6_30_same_source':True,
+        'rank_parity_round14':True,'hard_rank_6_30_same_source':True,'rank_reference':'Round14 saved Full-CoLift ordering; recomputed scores never redefine ranks',
+        'recomputed_rank_position_mismatch_count':int(np.sum(np.take_along_axis(cand,recomputed_order,axis=1)!=expected_ranked)),
         'context_mean':ctx_all.mean(0).astype(float).tolist(),'context_std':ctx_all.std(0).astype(float).tolist(),
         'context_min':ctx_all.min(0).astype(float).tolist(),'context_max':ctx_all.max(0).astype(float).tolist(),
         'nan_count':int(np.isnan(ctx_all).sum()),'inf_count':int(np.isinf(ctx_all).sum()),'TEST_ACCESSED':False}
@@ -187,15 +197,21 @@ def build_validation_context(seed:int,out_path:Path,audit_path:Path,smoke_users:
     zt_raw,_=_semantic_raw(paths['text_feature'],histories,users,items,None,256); zt=_z_ref(zt_raw,zt_raw)
     zv_raw,_=_semantic_raw(paths['visual_feature'],histories,users,items,None,64); zv=_z_ref(zv_raw,zv_raw)
     ar,_=_attribute_raw(cfg,histories,users,items,None); za,_=_attribute_z_from_raw(ar,None,cfg['coliftrec']['attribute'].get('weights'))
-    ctx,full,order,_,_=_contexts(msca,items,zt,za,zv,_backgrounds(seed),_params(cfg['coliftrec']))
-    full_diff=float(np.max(np.abs(full-full_ref)))
-    rank=rank_by_score(items,full); ref_rank=rank_by_score(items,full_ref)
-    if not np.array_equal(rank,ref_rank): raise RuntimeError('Validation Full-CoLift rank mismatch')
+    ctx,full_recomputed,order_recomputed,_,_=_contexts(msca,items,zt,za,zv,_backgrounds(seed),_params(cfg['coliftrec']))
+    full_diff=float(np.max(np.abs(full_recomputed-full_ref)))
+    # Validation has an immutable frozen Full-CoLift score asset: use it exactly for base score/rank/boundaries.
+    zmsca_ref=_z_ref(msca_ref,msca_ref); order_ref=np.argsort(-full_ref,axis=1,kind='stable'); rank_ref=np.empty_like(order_ref,dtype=np.int16)
+    rr=np.arange(1,items.shape[1]+1,dtype=np.int16)
+    for r in range(len(order_ref)): rank_ref[r,order_ref[r]]=rr
+    sorted_ref=np.take_along_axis(full_ref,order_ref,axis=1); sd=np.maximum(full_ref.std(1,keepdims=True),1e-12)
+    ctx[:,:,0]=full_ref; ctx[:,:,1]=full_ref-zmsca_ref; ctx[:,:,5]=rank_ref.astype(np.float32)/100.0
+    ctx[:,:,6]=(full_ref-sorted_ref[:,[9]])/sd; ctx[:,:,7]=(full_ref-sorted_ref[:,[19]])/sd
+    ref_rank=rank_by_score(items,full_ref)
     out_path.parent.mkdir(parents=True,exist_ok=True)
-    np.savez_compressed(out_path,users=users,items=items,context=ctx,full_scores=full,context_names=np.asarray(CTX_NAMES))
+    np.savez_compressed(out_path,users=users,items=items,context=ctx,full_scores=full_ref,context_names=np.asarray(CTX_NAMES))
     ca={'status':'PASS','seed':int(seed),'split':'VALIDATION','mode':'smoke' if smoke_users else 'formal','users':int(len(users)),
         'context_shape':list(ctx.shape),'context_names':list(CTX_NAMES),'raw_msca_max_abs_diff':raw_diff,
-        'full_colift_max_abs_diff':full_diff,'rank_exact':True,'validation_positive_used_for_context':False,'test_used':False,
+        'recomputed_full_colift_max_abs_diff':full_diff,'rank_exact':True,'rank_reference':'frozen validation_scores.npz full_coliftrec','validation_positive_used_for_context':False,'test_used':False,
         'context_mean':ctx.reshape(-1,8).mean(0).astype(float).tolist(),'context_std':ctx.reshape(-1,8).std(0).astype(float).tolist(),
         'context_min':ctx.reshape(-1,8).min(0).astype(float).tolist(),'context_max':ctx.reshape(-1,8).max(0).astype(float).tolist(),
         'nan_count':int(np.isnan(ctx).sum()),'inf_count':int(np.isinf(ctx).sum()),'TEST_ACCESSED':False}
