@@ -1,0 +1,5 @@
+assets/*.npz
+outputs/
+outputs_smoke/
+logs/*.log
+__pycache__/

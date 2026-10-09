@@ -1,0 +1,113 @@
+{
+  "protocol": "ROUND17_TADGD_V1",
+  "seeds": {
+    "999": {
+      "base_reuse": {
+        "seed": 999,
+        "source_round16r": "/home/gxy/code/Second-paper/diffusion_experiments/round16r_cleantrain/outputs/seed999/BASE",
+        "state_dict_sha256": "272b68b9d175dbbdf91b9df3e4c1d5ff1c600a74975fb399ce85ead431522950",
+        "expected_sha256": "272b68b9d175dbbdf91b9df3e4c1d5ff1c600a74975fb399ce85ead431522950",
+        "hash_exact": true,
+        "selected_epoch": 5,
+        "selection_used_validation": false,
+        "TEST_ACCESSED": false
+      },
+      "variants": {
+        "D1": {
+          "input_dim": 256,
+          "loss": 1.0523769855499268,
+          "decision_grad_norm": 0.00277297174457779,
+          "frozen_grad_none": true,
+          "initial_gate_max_abs": 0.0,
+          "gate_min": 0.0,
+          "gate_max": 0.0,
+          "max_angle": 0.03426402062177658,
+          "loss_finite": true,
+          "PASS": true
+        },
+        "D2": {
+          "input_dim": 258,
+          "loss": 1.0523769855499268,
+          "decision_grad_norm": 0.0026420648064199876,
+          "frozen_grad_none": true,
+          "initial_gate_max_abs": 0.0,
+          "gate_min": 0.0,
+          "gate_max": 0.0,
+          "max_angle": 0.03426402062177658,
+          "loss_finite": true,
+          "PASS": true
+        },
+        "D3": {
+          "input_dim": 266,
+          "loss": 1.0523769855499268,
+          "decision_grad_norm": 0.0032948035031855425,
+          "frozen_grad_none": true,
+          "initial_gate_max_abs": 0.0,
+          "gate_min": 0.0,
+          "gate_max": 0.0,
+          "max_angle": 0.03426402062177658,
+          "loss_finite": true,
+          "PASS": true
+        }
+      },
+      "backbone_hash_unchanged": true,
+      "D_base_hash_unchanged": true,
+      "PASS": true
+    },
+    "1000": {
+      "base_reuse": {
+        "seed": 1000,
+        "source_round16r": "/home/gxy/code/Second-paper/diffusion_experiments/round16r_cleantrain/outputs/seed1000/BASE",
+        "state_dict_sha256": "a3213b1c91891d75242f25be2182dd82ffbbf7a5dc71ad73a23026010548fae5",
+        "expected_sha256": "a3213b1c91891d75242f25be2182dd82ffbbf7a5dc71ad73a23026010548fae5",
+        "hash_exact": true,
+        "selected_epoch": 5,
+        "selection_used_validation": false,
+        "TEST_ACCESSED": false
+      },
+      "variants": {
+        "D1": {
+          "input_dim": 256,
+          "loss": 1.0523769855499268,
+          "decision_grad_norm": 0.003859124518049468,
+          "frozen_grad_none": true,
+          "initial_gate_max_abs": 0.0,
+          "gate_min": 0.0,
+          "gate_max": 0.0,
+          "max_angle": 0.02797645516693592,
+          "loss_finite": true,
+          "PASS": true
+        },
+        "D2": {
+          "input_dim": 258,
+          "loss": 1.0523769855499268,
+          "decision_grad_norm": 0.004057283726873721,
+          "frozen_grad_none": true,
+          "initial_gate_max_abs": 0.0,
+          "gate_min": 0.0,
+          "gate_max": 0.0,
+          "max_angle": 0.02797645516693592,
+          "loss_finite": true,
+          "PASS": true
+        },
+        "D3": {
+          "input_dim": 266,
+          "loss": 1.0523769855499268,
+          "decision_grad_norm": 0.004794423177458237,
+          "frozen_grad_none": true,
+          "initial_gate_max_abs": 0.0,
+          "gate_min": 0.0,
+          "gate_max": 0.0,
+          "max_angle": 0.02797645516693592,
+          "loss_finite": true,
+          "PASS": true
+        }
+      },
+      "backbone_hash_unchanged": true,
+      "D_base_hash_unchanged": true,
+      "PASS": true
+    }
+  },
+  "TEST_ACCESSED": false,
+  "PASS": true
+}

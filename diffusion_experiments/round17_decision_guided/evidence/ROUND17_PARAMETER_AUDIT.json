@@ -1,0 +1,31 @@
+{
+  "protocol": "ROUND17_TADGD_V1",
+  "seeds": {
+    "999": {
+      "backbone_trainable_params": 0,
+      "D_base_trainable_params": 0,
+      "CoLift_trainable_params": 0,
+      "DecisionNet_trainable_params": 42119,
+      "backbone_hash": "aa424e4e57e287fb6d8757fb3f8acbfcf3dc6bbf5e4eeb87a180bd41724e20c9",
+      "D_base_hash": "272b68b9d175dbbdf91b9df3e4c1d5ff1c600a74975fb399ce85ead431522950",
+      "clean_asset_sha256": "dfff76a908679efd7a276108c4a742587d9806f8da6b01e00e062dac855d6c60",
+      "validation_context_sha256": "e69971fecf294bf1715dce06561760b8e7bcd2983ff6f918c01693d9e05c3b08",
+      "optimizer_lr": 0.0001,
+      "optimizer_weight_decay": 0.0
+    },
+    "1000": {
+      "backbone_trainable_params": 0,
+      "D_base_trainable_params": 0,
+      "CoLift_trainable_params": 0,
+      "DecisionNet_trainable_params": 42119,
+      "backbone_hash": "8c945193dbdbaac42a245b6fd592325fa54b6933e8637a212e28600e360fa946",
+      "D_base_hash": "a3213b1c91891d75242f25be2182dd82ffbbf7a5dc71ad73a23026010548fae5",
+      "clean_asset_sha256": "747b2e0715fa2da4b3b5616ce48734c5507857e2bdcee1e0f8c480fa1a882df5",
+      "validation_context_sha256": "72684a1a56534f58a839cc02c592413cf5736f286c22a0b95b21d5928066e0ee",
+      "optimizer_lr": 0.0001,
+      "optimizer_weight_decay": 0.0
+    }
+  },
+  "TEST_ACCESSED": false,
+  "PASS": true
+}

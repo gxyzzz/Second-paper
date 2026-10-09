@@ -1,0 +1,41 @@
+{
+  "protocol": "ROUND17_TADGD_V1",
+  "seeds": {
+    "999": {
+      "clean_users": 16700,
+      "target_is_last_event_mismatch": 0,
+      "TRAIN_target_self_inclusion": 0,
+      "TRAIN_history_source": "canonical prefix h[:-1]",
+      "Validation_history_source": "complete TRAIN history",
+      "Validation_label_used_in_history": false,
+      "Test_used": false,
+      "target_aware_shape": [
+        32,
+        258
+      ],
+      "target_aware_dim": 258,
+      "history_len_min": 2,
+      "history_len_max": 23,
+      "PASS": true
+    },
+    "1000": {
+      "clean_users": 17573,
+      "target_is_last_event_mismatch": 0,
+      "TRAIN_target_self_inclusion": 0,
+      "TRAIN_history_source": "canonical prefix h[:-1]",
+      "Validation_history_source": "complete TRAIN history",
+      "Validation_label_used_in_history": false,
+      "Test_used": false,
+      "target_aware_shape": [
+        32,
+        258
+      ],
+      "target_aware_dim": 258,
+      "history_len_min": 2,
+      "history_len_max": 25,
+      "PASS": true
+    }
+  },
+  "TEST_ACCESSED": false,
+  "PASS": true
+}
