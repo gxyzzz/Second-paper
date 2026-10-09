@@ -86,3 +86,71 @@ Sports/Electronics: closed
 ```
 
 Test cannot revise the Validation verdict or choose method/epoch/maps/lambda/pool/Q-stage.
+
+## 8. User-authorized exploratory Baby Test
+
+The Validation verdict and Test choice were frozen before any Test access in commit `4ded786e7331340ab5a71f7c57f5ff6969e57e25`. Test evaluates only A0, A3 epoch3, and A4 epoch3. It cannot select a variant, epoch, negative map, lambda, pool, or Diffusion stage. The historical frozen Baby Test A0 metrics reproduce exactly for both seeds (`max_abs_diff = 0`). Diffusion is not loaded during recommendation inference.
+
+### Backbone-only Test utility versus A0
+
+| Variant | seed999 | seed1000 | Mean |
+|---|---:|---:|---:|
+| A3 Positive-Sim Aux | +0.0405% | -0.4937% | -0.2266% |
+| A4 Diffusion Aux | **-0.2036%** | **-0.6192%** | **-0.4114%** |
+| A4 - A3 Diffusion-specific | **-0.2440%** | **-0.1255%** | **-0.1848%** |
+
+Thus the primary Round19 comparison remains negative on Test: A4 is worse than A3 on both backbones. A4 is also below A0 on both Test seeds.
+
+### Backbone + Frozen Full CoLift Test utility versus A0+CoLift
+
+| Variant | seed999 | seed1000 | Mean |
+|---|---:|---:|---:|
+| A3 Positive-Sim Aux | -0.7335% | -1.2002% | -0.9669% |
+| A4 Diffusion Aux | -0.6793% | -1.2355% | -0.9574% |
+| A4 - A3 | +0.0542% | -0.0353% | +0.0095% |
+
+The CoLift-space A4-vs-A3 comparison is mixed and essentially zero on average, while both methods remain substantially below the frozen A0+CoLift reference. Frozen CoLift still improves 4/4 primary metrics over each corresponding A4 backbone, so this does not indicate loss of CoLift compatibility with the fine-tuned backbone.
+
+### A4 Test six metrics
+
+```text
+seed999 A0 backbone:
+R10 0.06975933  N10 0.03805872  R20 0.10383620  N20 0.04685222  R50 0.17140490  N50 0.06057006
+seed999 A4 backbone:
+R10 0.06922670  N10 0.03782458  R20 0.10431025  N20 0.04690281  R50 0.16904826  N50 0.06005667
+
+seed999 A0 + CoLift:
+R10 0.07239375  N10 0.03979682  R20 0.10820199  N20 0.04902839  R50 0.17597763  N50 0.06281241
+seed999 A4 + CoLift:
+R10 0.07172091  N10 0.03940810  R20 0.10794614  N20 0.04874667  R50 0.17496409  N50 0.06235278
+
+seed1000 A0 backbone:
+R10 0.06821181  N10 0.03774218  R20 0.10371559  N20 0.04688951  R50 0.17215370  N50 0.06078579
+seed1000 A4 backbone:
+R10 0.06852314  N10 0.03750060  R20 0.10261419  N20 0.04631215  R50 0.17007996  N50 0.06000333
+
+seed1000 A0 + CoLift:
+R10 0.07137727  N10 0.03909140  R20 0.10755291  N20 0.04837593  R50 0.17507041  N50 0.06207041
+seed1000 A4 + CoLift:
+R10 0.07019101  N10 0.03857986  R20 0.10639323  N20 0.04794380  R50 0.17317938  N50 0.06146475
+```
+
+### Validation-to-Test interpretation
+
+```text
+A4 - A3, backbone:
+seed999:  Validation -0.0703% -> Test -0.2440%
+seed1000: Validation -0.2469% -> Test -0.1255%
+
+A4 absolute backbone U vs A0:
+seed999:  Validation +0.0060% -> Test -0.2036%
+seed1000: Validation -0.0947% -> Test -0.6192%
+```
+
+The Diffusion-specific comparison is directionally consistent across Validation and Test: **A4 < A3 for both seeds on both splits**. The small safe-auxiliary formulation therefore does not rescue the tested history-conditioned Diffusion hard-negative signal.
+
+A3 itself does not establish a robust deployable method either: although A3 backbone was positive on both Validation seeds, Test is only +0.0405% on seed999 and -0.4937% on seed1000. Its semantic-mining signal remains a research lead rather than validated cross-split evidence.
+
+No post-Test tuning, checkpoint switching, map regeneration, seed1001/1002 Test, Sports Test, or Electronics Test was performed.
+
+**Final verdict remains `ROUND19_FAIL` with `FULL_TRAIN_CONTINUATION_UNSTABLE`.**
