@@ -1,0 +1,23 @@
+{
+  "seed": 999,
+  "source": "TRAIN-only starting backbone Top100 reranked by frozen Full CoLiftRec",
+  "background_fit_source": "TRAIN pseudo history only",
+  "validation_labels_used": false,
+  "users": 19445,
+  "shape": [
+    19445,
+    100
+  ],
+  "safe_pool_rank": [
+    21,
+    100
+  ],
+  "protected_rank": [
+    1,
+    20
+  ],
+  "train_observed_collisions_rank21_100": 0,
+  "coverage": 1.0,
+  "sha256": "7b081297d3af081c3c3f99755e07b10bd5c2419836f0bf1d7bd5219b1c2c48f5",
+  "TEST_ACCESSED": false
+}

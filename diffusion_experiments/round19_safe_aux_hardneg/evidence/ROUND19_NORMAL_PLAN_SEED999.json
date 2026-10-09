@@ -1,0 +1,16 @@
+{
+  "seed": 999,
+  "train_interactions_per_epoch": 118551,
+  "batch_size": 2048,
+  "batches_per_epoch": 58,
+  "epochs": 3,
+  "rows": 355653,
+  "source": "original TrainDataLoader + original _sample_neg_ids",
+  "plan_seeds": [
+    20261921,
+    20261922,
+    20261923
+  ],
+  "sha256": "dce1f775a415200ffce2caaf91f3a14f43d6d8923f78a93632c9dfa763c54b00",
+  "TEST_ACCESSED": false
+}

@@ -1,0 +1,44 @@
+{
+  "protocol": "ROUND19_SA_DHN_V1",
+  "branch": "exp/round19-safe-aux-hardneg-20261009",
+  "full_train_distribution": true,
+  "normal_negative_retained": true,
+  "auxiliary_replaces_normal_negative": false,
+  "lambda_hard": 0.2,
+  "auxiliary_loss": "BPR only",
+  "auxiliary_contrastive_loss": false,
+  "auxiliary_regularization": false,
+  "safe_pool_rank": [
+    21,
+    100
+  ],
+  "protected_rank": [
+    1,
+    20
+  ],
+  "all_train_observed_excluded": true,
+  "diffusion_stage": "Q75",
+  "reverse_steps": 24,
+  "curriculum": false,
+  "dynamic_candidate_pool": false,
+  "top_k": 5,
+  "top5_sampling": "uniform deterministic per epoch",
+  "epochs": 3,
+  "fixed_final_epoch": 3,
+  "early_stop": false,
+  "fine_tune_lr_scale": 0.1,
+  "starting_seeds": [
+    999,
+    1000
+  ],
+  "test_accessed": false,
+  "seed999_preflight": {
+    "generator_hash": "a4b6aba18442fe60e9c6648faa8d28df491ca919b4b0d7fb98b86aa7a6f805cf",
+    "events": 79661,
+    "safe_pool_violations": 0,
+    "loss_parity": 0.0,
+    "aux_identity_error": 1.9073486329235223e-07,
+    "smoke_pass": true
+  },
+  "TEST_ACCESSED": false
+}
