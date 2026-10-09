@@ -53,7 +53,7 @@ class CleanTrain:
 
 class Evaluator(r16.ValidationEvaluator):
  def __init__(self,seed):
-  super().__init__(seed);z=np.load(OLD/f'assets/seed{seed}_validation.npz');u=z['users'].astype(np.int64);it=z['items'].astype(np.int32)
+  super().__init__(seed,OLD/f'assets/seed{seed}_validation.npz');z=np.load(OLD/f'assets/seed{seed}_validation.npz');u=z['users'].astype(np.int64);it=z['items'].astype(np.int32)
   if not np.array_equal(u,self.users) or not np.array_equal(it,self.items):raise RuntimeError('validation context identity mismatch')
   self.ctx=z['context'].astype(np.float32)
  @torch.no_grad()
@@ -148,7 +148,7 @@ def smoke(root,evid):
  for seed in PREFLIGHT:
   gcate=gate_c(seed);out['Gate_C'][str(seed)]=gcate
   if not gcate['PASS']:raise RuntimeError(f'Gate C FAIL seed{seed}')
-  b=prepare_base(seed,root);model,_,cfg,_,c,ab=load_backbone(seed);base,_=load_base(seed,root,model.device);h0=fr.state_sha256(base);p0=base_probe(base,c);tc=CleanTrain(RDIR/f'assets/seed{seed}_train_clean.npz',model.device);uu,pp,nn,full,pc,nc,ranks=tc.first_batch();sr={'base':b,'variants':{}}
+  b=prepare_base(seed,root);model,_,cfg,_,c,ab=load_backbone(seed);base,_=load_base(seed,root,model.device);h0=fr.state_sha256(base);p0=base_probe(base,c);tc=CleanTrain(RDIR/f'assets/seed{seed}_train_clean.npz',model.device);ev=Evaluator(seed);uu,pp,nn,full,pc,nc,ranks=tc.first_batch();sr={'base':b,'variants':{},'validation_evaluator_users':int(len(ev.users)),'validation_C0_metrics':ev.c0_metrics}
   if float(full.abs().max())>=100:raise RuntimeError('smoke mbase/full scale impossible')
   for v in VARIANTS:
    user=fr.clone_user_from_base(base,8 if v=='A3' else 0).to(model.device);cp=pc if v=='A3' else None;cn=nc if v=='A3' else None;user.zero_grad(set_to_none=True);loss,parts=fr.preference_terms(model,base,user,c,uu,pp,nn,full,ab,v,cp,cn);loss.backward();gn=_grad_norm(user);frozen=all(p.grad is None for p in base.parameters()) and all(p.grad is None for p in model.parameters());ma=max(float(parts['angle_text_max']),float(parts['angle_visual_max']))
