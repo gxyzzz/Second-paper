@@ -1,0 +1,24 @@
+{
+  "seed": 1000,
+  "A3_A4_top5_overlap": {
+    "mean": 0.042458216204193266,
+    "median": 0.0,
+    "p10": 0.0,
+    "p50": 0.0,
+    "p90": 0.20000000298023224,
+    "min": 0.0,
+    "max": 1.0
+  },
+  "A3_A4_selected_negative_agreement_epoch1": 0.008176909231164825,
+  "A4_true_shuffled_top5_overlap": {
+    "mean": 0.5169966685339735,
+    "median": 0.6000000238418579,
+    "p10": 0.20000000298023224,
+    "p50": 0.6000000238418579,
+    "p90": 0.800000011920929,
+    "min": 0.0,
+    "max": 1.0
+  },
+  "diffusion_negative_redundant": false,
+  "TEST_ACCESSED": false
+}

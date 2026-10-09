@@ -1,0 +1,78 @@
+{
+  "seeds": {
+    "999": {
+      "seed": 999,
+      "users": 19445,
+      "retrieval_source": "/home/gxy/code/Second-paper/runs/assets/msca_baby_seed999/train_pseudo_top100.npz",
+      "retrieval_prefix_mask": "h[:-1]",
+      "colift_profile_history": "h[:-1]",
+      "background_fit_history": "all clean h[:-1]",
+      "safe_pool_rank": [
+        21,
+        100
+      ],
+      "protected_rank": [
+        1,
+        20
+      ],
+      "legal_count": {
+        "mean": 79.6334790434559,
+        "median": 80.0,
+        "p10": 79.0,
+        "p50": 80.0,
+        "p90": 80.0,
+        "min": 79.0,
+        "max": 80.0
+      },
+      "prefix_observed_hits_before_filter": 0,
+      "positive_target_hits_before_filter": 7126,
+      "sampled_prefix_alignment_users": 1000,
+      "prefix_alignment_mismatch": 0,
+      "target_in_prefix": 0,
+      "future_train_event_count": 0,
+      "validation_used": false,
+      "test_used": false,
+      "sha256": "1f90189a0f9b822753c80468a3f5e9061bf0428f9af1782aee61af9330f6c270",
+      "TEST_ACCESSED": false
+    },
+    "1000": {
+      "seed": 1000,
+      "users": 19445,
+      "retrieval_source": "/home/gxy/code/Second-paper/runs/backbone_robustness/baby_seed1000/msca/assets/train_pseudo_top100.npz",
+      "retrieval_prefix_mask": "h[:-1]",
+      "colift_profile_history": "h[:-1]",
+      "background_fit_history": "all clean h[:-1]",
+      "safe_pool_rank": [
+        21,
+        100
+      ],
+      "protected_rank": [
+        1,
+        20
+      ],
+      "legal_count": {
+        "mean": 79.67004371303678,
+        "median": 80.0,
+        "p10": 79.0,
+        "p50": 80.0,
+        "p90": 80.0,
+        "min": 78.0,
+        "max": 80.0
+      },
+      "prefix_observed_hits_before_filter": 0,
+      "positive_target_hits_before_filter": 6402,
+      "sampled_prefix_alignment_users": 1000,
+      "prefix_alignment_mismatch": 0,
+      "target_in_prefix": 0,
+      "future_train_event_count": 0,
+      "validation_used": false,
+      "test_used": false,
+      "sha256": "ece3af970493f3c6864adb70b5f919fae1b12778619df1190ae22ed049385db8",
+      "TEST_ACCESSED": false
+    }
+  },
+  "rank1_20_protected": true,
+  "prefix_only": true,
+  "validation_used": false,
+  "TEST_ACCESSED": false
+}

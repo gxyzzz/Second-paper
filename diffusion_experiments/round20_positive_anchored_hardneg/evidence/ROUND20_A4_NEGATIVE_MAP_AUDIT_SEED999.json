@@ -1,0 +1,46 @@
+{
+  "seed": 999,
+  "variant": "A4",
+  "events": 19445,
+  "top5_path": "/home/gxy/code/Second-paper/diffusion_experiments/round20_positive_anchored_hardneg/assets/seed999_A4_top5.npz",
+  "top5_sha256": "d719db5eb0567f7bd9a1b8eacfa3accbb891573efbf4f492dec37dda1c310f5e",
+  "rank": {
+    "mean": 55.67729493443044,
+    "median": 54.0,
+    "p10": 26.0,
+    "p50": 54.0,
+    "p90": 89.0,
+    "min": 21.0,
+    "max": 100.0
+  },
+  "positive_negative_cosine": {
+    "mean": 0.3098272527856132,
+    "median": 0.2958143353462219,
+    "p10": 0.07236347198486329,
+    "p50": 0.2958143353462219,
+    "p90": 0.5664444327354432,
+    "min": -0.2857980728149414,
+    "max": 0.9770920276641846
+  },
+  "teacher_backbone_margin": {
+    "mean": 0.6384814371637221,
+    "median": 0.6306009292602539,
+    "p10": -0.79629065990448,
+    "p50": 0.6306009292602539,
+    "p90": 2.014439344406128,
+    "min": -8.548990249633789,
+    "max": 14.93465805053711
+  },
+  "teacher_full_colift_margin": {
+    "mean": 1.1224264636727739,
+    "median": 1.0753262042999268,
+    "p10": -1.589852523803711,
+    "p50": 1.0753262042999268,
+    "p90": 3.8965012550354055,
+    "min": -6.992575168609619,
+    "max": 10.539515495300293
+  },
+  "selected_negative_equals_positive": 0,
+  "selected_negative_protected_rank_count": 0,
+  "TEST_ACCESSED": false
+}

@@ -1,0 +1,16 @@
+{
+  "seeds": {
+    "999": {
+      "mean_delta": 0.05437901105576545,
+      "positive_fraction": 0.6966315248135767,
+      "PASS": true
+    },
+    "1000": {
+      "mean_delta": 0.05286017873612544,
+      "positive_fraction": 0.7114425302134225,
+      "PASS": true
+    }
+  },
+  "gate_HS_pass": true,
+  "TEST_ACCESSED": false
+}

@@ -1,0 +1,18 @@
+{
+  "seeds": {
+    "999": {
+      "sampled_users": 1000,
+      "mismatch": 0,
+      "target_in_prefix": 0,
+      "future_train_event_count": 0
+    },
+    "1000": {
+      "sampled_users": 1000,
+      "mismatch": 0,
+      "target_in_prefix": 0,
+      "future_train_event_count": 0
+    }
+  },
+  "all_pass": true,
+  "TEST_ACCESSED": false
+}
