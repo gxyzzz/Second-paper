@@ -1,0 +1,75 @@
+{
+  "protocol": "ROUND18_HCD_HNC_V1",
+  "seeds": {
+    "999": {
+      "seed": 999,
+      "checkpoint": "/home/gxy/code/Second-paper/runs/checkpoints/MSCA-Sep-26-2026-12-48-04.pth",
+      "checkpoint_epoch": 37,
+      "checkpoint_sha256": "aa389ef8576e491ffb56eaec9d165444487bef9c1e542f280e991e2e063cc1cb",
+      "n_users": 19445,
+      "n_items": 7050,
+      "clean_users": 16700,
+      "chronological_train_events": 71522,
+      "chronological_audit_events": 8139,
+      "diffusion_train_users": 17500,
+      "diffusion_audit_users": 1945,
+      "user_split_overlap": 0,
+      "history_len": 20,
+      "target_self_inclusion_clean": 0,
+      "x0_definition": "starting-backbone frozen final_item 64D",
+      "x0_shape": [
+        64
+      ],
+      "id_token_shape": [
+        7050,
+        64
+      ],
+      "visual_token_shape": [
+        7050,
+        64
+      ],
+      "text_token_shape": [
+        7050,
+        64
+      ],
+      "frozen_repr_path": "/home/gxy/code/Second-paper/diffusion_experiments/round18_diffusion_hard_negative/assets/seed999_frozen_repr.npz",
+      "TEST_ACCESSED": false
+    },
+    "1000": {
+      "seed": 1000,
+      "checkpoint": "/home/gxy/code/Second-paper/runs/backbone_robustness/baby_seed1000/msca/checkpoints/MSCA-Sep-28-2026-11-29-35.pth",
+      "checkpoint_epoch": 45,
+      "checkpoint_sha256": "39267b02da4aee97613805a5d2fd54971e3777a3dc57b02afb17688fe7053948",
+      "n_users": 19445,
+      "n_items": 7050,
+      "clean_users": 17573,
+      "chronological_train_events": 71522,
+      "chronological_audit_events": 8139,
+      "diffusion_train_users": 17500,
+      "diffusion_audit_users": 1945,
+      "user_split_overlap": 0,
+      "history_len": 20,
+      "target_self_inclusion_clean": 0,
+      "x0_definition": "starting-backbone frozen final_item 64D",
+      "x0_shape": [
+        64
+      ],
+      "id_token_shape": [
+        7050,
+        64
+      ],
+      "visual_token_shape": [
+        7050,
+        64
+      ],
+      "text_token_shape": [
+        7050,
+        64
+      ],
+      "frozen_repr_path": "/home/gxy/code/Second-paper/diffusion_experiments/round18_diffusion_hard_negative/assets/seed1000_frozen_repr.npz",
+      "TEST_ACCESSED": false
+    }
+  },
+  "TEST_ACCESSED": false,
+  "PASS": true
+}

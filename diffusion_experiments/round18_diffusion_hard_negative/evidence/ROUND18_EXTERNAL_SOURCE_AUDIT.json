@@ -1,0 +1,59 @@
+{
+  "protocol": "ROUND18_HCD_HNC_V1",
+  "sources": [
+    {
+      "repo": "Yimeng-yang/CCDRec",
+      "branch": "main",
+      "commit": "4be16f3761f2d1a0b35ba61395b601eb3e55c949",
+      "files_inspected": [
+        "CCDRec_code/CCDRec/src/models/ccdrec.py",
+        "CCDRec_code/CCDRec/src/models/diffusion_ver15.py",
+        "CCDRec_code/CCDRec/src/models/Unet.py"
+      ],
+      "mechanism_borrowed": [
+        "reverse diffusion trajectory as a difficulty axis",
+        "quarter/half/three-quarter/full reverse stages for curriculum calibration"
+      ],
+      "mechanism_not_borrowed": [
+        "CCDRec recommender",
+        "CCDRec full negative sampler",
+        "CCDRec reported hyperparameter search",
+        "CCDRec multimodal alignment objective"
+      ],
+      "external_baseline_run": false
+    },
+    {
+      "repo": "YongfuZha/SDPDRec",
+      "branch": "main",
+      "commit": "e949c1ae2bfccffe4d55819a369cd1ecf1fbdb1a",
+      "files_inspected": [
+        "diffusier.py",
+        "smore_model.py",
+        "training.py",
+        "main.py"
+      ],
+      "mechanism_borrowed": [
+        "history-conditioned self-attention token layout",
+        "32-step cosine diffusion schedule",
+        "sinusoidal timestep token",
+        "training/inference separation concept"
+      ],
+      "mechanism_not_borrowed": [
+        "personalized non-zero-mean diffusion noise prior",
+        "SDPDRec recommender/collaborative path",
+        "SDPDRec contrastive alignment",
+        "SDPDRec stochastic catalog sampling strategy",
+        "SDPDRec reported hyperparameter search"
+      ],
+      "external_baseline_run": false
+    }
+  ],
+  "history_length_resolution": {
+    "official_SDPPRec_has_fixed_Baby_history_length_20": false,
+    "official_behavior": "smore_model.py sets max_len to integer mean interaction length and randomly resamples history items",
+    "round18_choice": 20,
+    "reason": "advisor protocol fallback when official repo does not specify a fixed history length",
+    "tuned": false
+  },
+  "TEST_ACCESSED": false
+}

@@ -1,0 +1,93 @@
+{
+  "protocol": "ROUND18_HCD_HNC_V1",
+  "seeds": {
+    "999": {
+      "generator_loss": 0.46685683727264404,
+      "generator_grad_norm": 0.6002211245849663,
+      "MSCA_grads_none_during_generator": true,
+      "x0_shape": [
+        32,
+        64
+      ],
+      "pred_x0_shape": [
+        32,
+        64
+      ],
+      "forward_loss_finite": true,
+      "reverse_stage_shapes": {
+        "8": [
+          32,
+          64
+        ],
+        "16": [
+          32,
+          64
+        ],
+        "24": [
+          32,
+          64
+        ],
+        "32": [
+          32,
+          64
+        ]
+      },
+      "real_item_negative": true,
+      "negative_not_target": true,
+      "negative_rank_band": [
+        26,
+        30
+      ],
+      "MSCA_finetune_loss": 4.829961776733398,
+      "MSCA_grad_norm": 0.2379020889895212,
+      "generator_loaded_during_finetune": false,
+      "diffusion_inference_calls_during_evaluation": 0,
+      "PASS": true
+    },
+    "1000": {
+      "generator_loss": 0.4250405430793762,
+      "generator_grad_norm": 0.615574668446113,
+      "MSCA_grads_none_during_generator": true,
+      "x0_shape": [
+        32,
+        64
+      ],
+      "pred_x0_shape": [
+        32,
+        64
+      ],
+      "forward_loss_finite": true,
+      "reverse_stage_shapes": {
+        "8": [
+          32,
+          64
+        ],
+        "16": [
+          32,
+          64
+        ],
+        "24": [
+          32,
+          64
+        ],
+        "32": [
+          32,
+          64
+        ]
+      },
+      "real_item_negative": true,
+      "negative_not_target": true,
+      "negative_rank_band": [
+        26,
+        30
+      ],
+      "MSCA_finetune_loss": 4.080107688903809,
+      "MSCA_grad_norm": 0.12856698951614323,
+      "generator_loaded_during_finetune": false,
+      "diffusion_inference_calls_during_evaluation": 0,
+      "PASS": true
+    }
+  },
+  "TEST_ACCESSED": false,
+  "PASS": true
+}

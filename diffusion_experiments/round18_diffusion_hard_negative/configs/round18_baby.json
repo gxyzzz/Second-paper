@@ -1,0 +1,11 @@
+{
+  "protocol": "ROUND18_HCD_HNC_V1",
+  "seeds": [999, 1000],
+  "history_len": 20,
+  "diffusion": {"timesteps": 32, "schedule": "cosine", "beta_start": 0.001, "beta_end": 0.02, "epochs": 10, "lr": 0.001, "weight_decay": 0.0, "audit_t": [8,16,24,31], "reverse_noise_seeds": [20261801,20261802]},
+  "bands": {"1":[26,30],"2":[21,25],"3":[16,20],"4":[11,15]},
+  "uniform_negative_seeds": [20261811,20261812,20261813,20261814],
+  "fine_tune": {"epochs": 4, "lr_scale": 0.1, "final_epoch": 4},
+  "variants": ["F0","F1","F2","F3","F4"],
+  "test_access_during_validation_selection": false
+}

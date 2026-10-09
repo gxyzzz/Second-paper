@@ -1,0 +1,99 @@
+{
+  "protocol": "ROUND18_HCD_HNC_V1",
+  "seeds": {
+    "999": {
+      "1": {
+        "band": [
+          26,
+          30
+        ],
+        "coverage": 1.0,
+        "eligible": 16700,
+        "violations": 0,
+        "LOW_BAND_COVERAGE": false,
+        "PASS": true
+      },
+      "2": {
+        "band": [
+          21,
+          25
+        ],
+        "coverage": 1.0,
+        "eligible": 16700,
+        "violations": 0,
+        "LOW_BAND_COVERAGE": false,
+        "PASS": true
+      },
+      "3": {
+        "band": [
+          16,
+          20
+        ],
+        "coverage": 1.0,
+        "eligible": 16700,
+        "violations": 0,
+        "LOW_BAND_COVERAGE": false,
+        "PASS": true
+      },
+      "4": {
+        "band": [
+          11,
+          15
+        ],
+        "coverage": 1.0,
+        "eligible": 16700,
+        "violations": 0,
+        "LOW_BAND_COVERAGE": false,
+        "PASS": true
+      }
+    },
+    "1000": {
+      "1": {
+        "band": [
+          26,
+          30
+        ],
+        "coverage": 1.0,
+        "eligible": 17573,
+        "violations": 0,
+        "LOW_BAND_COVERAGE": false,
+        "PASS": true
+      },
+      "2": {
+        "band": [
+          21,
+          25
+        ],
+        "coverage": 1.0,
+        "eligible": 17573,
+        "violations": 0,
+        "LOW_BAND_COVERAGE": false,
+        "PASS": true
+      },
+      "3": {
+        "band": [
+          16,
+          20
+        ],
+        "coverage": 1.0,
+        "eligible": 17573,
+        "violations": 0,
+        "LOW_BAND_COVERAGE": false,
+        "PASS": true
+      },
+      "4": {
+        "band": [
+          11,
+          15
+        ],
+        "coverage": 1.0,
+        "eligible": 17573,
+        "violations": 0,
+        "LOW_BAND_COVERAGE": false,
+        "PASS": true
+      }
+    }
+  },
+  "TEST_ACCESSED": false,
+  "PASS": true
+}
