@@ -1,0 +1,314 @@
+{
+  "phase": "ROUND20_LOCKED_BABY_TEST_COMPLETE",
+  "validation_lock_commit": "543460ea0252c2b93a41ec43b7ddac99fbaa523e",
+  "test_runner_commit": "1e9606e1db26063570c34f5d45b0175832a0c720",
+  "validation_verdict_before_test": "ROUND20_VALIDATION_PASS_WEAK_A4_MARGIN",
+  "test_used_for_selection": false,
+  "no_post_test_tuning": true,
+  "canonical_parity": {
+    "999": 0.0,
+    "1000": 0.0
+  },
+  "per_seed": {
+    "999": {
+      "B0": {
+        "R10": 0.07237660556637159,
+        "N10": 0.03966500969504545,
+        "R20": 0.10742152636084239,
+        "N20": 0.04868445113147752,
+        "R50": 0.17595148858455623,
+        "N50": 0.06264064846063858
+      },
+      "A3": {
+        "R10": 0.07263374107678557,
+        "N10": 0.03985244240603048,
+        "R20": 0.1074584214105942,
+        "N20": 0.04883601702273723,
+        "R50": 0.17575147389109846,
+        "N50": 0.06266714791421205
+      },
+      "A4": {
+        "R10": 0.07230717897855982,
+        "N10": 0.03957727889198793,
+        "R20": 0.10815099531479065,
+        "N20": 0.04881832414069331,
+        "R50": 0.17375089839733707,
+        "N50": 0.06213304404079721
+      },
+      "A3_vs_B0": {
+        "absolute_delta": {
+          "R10": 0.00025713551041398053,
+          "N10": 0.00018743271098502906,
+          "R20": 3.6895049751808906e-05,
+          "N20": 0.0001515658912597112,
+          "R50": -0.0002000146934577618,
+          "N50": 2.6499453573469722e-05
+        },
+        "relative_delta": {
+          "R10": 0.0035527434369408127,
+          "N10": 0.004725391785507145,
+          "R20": 0.00034346048694070685,
+          "N20": 0.0031132299479024925,
+          "R50": -0.0011367604506604763,
+          "N50": 0.00042303926004407747
+        },
+        "U": 0.0029337064143227895,
+        "primary_positive_count": 4,
+        "overall_positive_count": 5
+      },
+      "A4_vs_B0": {
+        "absolute_delta": {
+          "R10": -6.942658781176891e-05,
+          "N10": -8.77308030575244e-05,
+          "R20": 0.0007294689539482646,
+          "N20": 0.00013387300921578749,
+          "R50": -0.002200590187219159,
+          "N50": -0.0005076044198413648
+        },
+        "relative_delta": {
+          "R10": -0.0009592407279739388,
+          "N10": -0.002211793309317729,
+          "R20": 0.006790714847021321,
+          "N20": 0.0027498103830779406,
+          "R50": -0.012506800623977849,
+          "N50": -0.008103434947042855
+        },
+        "U": 0.0015923727982018986,
+        "primary_positive_count": 2,
+        "overall_positive_count": 2
+      },
+      "A4_vs_A3": {
+        "absolute_delta": {
+          "R10": -0.00032656209822574944,
+          "N10": -0.00027516351404255346,
+          "R20": 0.0006925739041964557,
+          "N20": -1.769288204392372e-05,
+          "R50": -0.0020005754937613973,
+          "N50": -0.0005341038734148346
+        },
+        "relative_delta": {
+          "R10": -0.004496010991372738,
+          "N10": -0.006904558351508104,
+          "R20": 0.006445040743248585,
+          "N20": -0.0003622916675552433,
+          "R50": -0.0113829798946723,
+          "N50": -0.008522868699019047
+        },
+        "U": -0.001329455066796875,
+        "primary_positive_count": 1,
+        "overall_positive_count": 1
+      },
+      "bootstrap_A3_vs_B0": {
+        "point_U": 0.0029337064143227895,
+        "ci95": [
+          -0.005610979316035371,
+          0.011906831351586817
+        ],
+        "positive_replicate_fraction": 0.74,
+        "resamples": 1000,
+        "seed": 20263098,
+        "note": "paired user bootstrap; positive replicate fraction is descriptive, not a p-value"
+      },
+      "bootstrap_A4_vs_B0": {
+        "point_U": 0.0015923727982018986,
+        "ci95": [
+          -0.009326631382050065,
+          0.012686977828188896
+        ],
+        "positive_replicate_fraction": 0.63,
+        "resamples": 1000,
+        "seed": 20263198,
+        "note": "paired user bootstrap; positive replicate fraction is descriptive, not a p-value"
+      },
+      "bootstrap_A4_vs_A3": {
+        "point_U": -0.001329455066796875,
+        "ci95": [
+          -0.01051194399898479,
+          0.007826619038747259
+        ],
+        "positive_replicate_fraction": 0.412,
+        "resamples": 1000,
+        "seed": 20263298,
+        "note": "paired user bootstrap; positive replicate fraction is descriptive, not a p-value"
+      },
+      "test_user_count": 19445,
+      "candidate_shape": [
+        19445,
+        100
+      ],
+      "diffusion_inference_calls": 0
+    },
+    "1000": {
+      "B0": {
+        "R10": 0.07103013383291092,
+        "N10": 0.03898739849221591,
+        "R20": 0.10730862977198796,
+        "N20": 0.048341646928064405,
+        "R50": 0.17474684639379937,
+        "N50": 0.062027523950364795
+      },
+      "A3": {
+        "R10": 0.07075875568675777,
+        "N10": 0.03908180144139402,
+        "R20": 0.1076900474457687,
+        "N20": 0.04858780920887158,
+        "R50": 0.17780678251493373,
+        "N50": 0.06276755215803277
+      },
+      "A4": {
+        "R10": 0.07038039915000575,
+        "N10": 0.03920325298303474,
+        "R20": 0.10775090284990002,
+        "N20": 0.04887034578953053,
+        "R50": 0.17709010911376555,
+        "N50": 0.0628274741197348
+      },
+      "A3_vs_B0": {
+        "absolute_delta": {
+          "R10": -0.0002713781461531478,
+          "N10": 9.440294917810454e-05,
+          "R20": 0.00038141767378073455,
+          "N20": 0.0002461622808071773,
+          "R50": 0.0030599361211343656,
+          "N50": 0.0007400282076679768
+        },
+        "relative_delta": {
+          "R10": -0.0038206058683703083,
+          "N10": 0.0024213708231123118,
+          "R20": 0.003554398882840833,
+          "N20": 0.005092136831280969,
+          "R50": 0.01751068007395493,
+          "N50": 0.011930642407395733
+        },
+        "U": 0.0018118251672159514,
+        "primary_positive_count": 3,
+        "overall_positive_count": 5
+      },
+      "A4_vs_B0": {
+        "absolute_delta": {
+          "R10": -0.000649734682905162,
+          "N10": 0.00021585449081882452,
+          "R20": 0.0004422730779120587,
+          "N20": 0.0005286988614661217,
+          "R50": 0.0023432627199661826,
+          "N50": 0.0007999501693700048
+        },
+        "relative_delta": {
+          "R10": -0.009147310413824895,
+          "N10": 0.005536519469538889,
+          "R20": 0.004121505221451541,
+          "N20": 0.010936715959488532,
+          "R50": 0.0134094707190626,
+          "N50": 0.012896696795605367
+        },
+        "U": 0.0028618575591635165,
+        "primary_positive_count": 3,
+        "overall_positive_count": 5
+      },
+      "A4_vs_A3": {
+        "absolute_delta": {
+          "R10": -0.0003783565367520142,
+          "N10": 0.00012145154164071997,
+          "R20": 6.0855404131324176e-05,
+          "N20": 0.00028253658065894444,
+          "R50": -0.000716673401168183,
+          "N50": 5.9921961702028015e-05
+        },
+        "relative_delta": {
+          "R10": -0.0053471338363687785,
+          "N10": 0.0031076239364975365,
+          "R20": 0.0005650977557788724,
+          "N20": 0.005814968512870436,
+          "R50": -0.004030630277604796,
+          "N50": 0.0009546646259385697
+        },
+        "U": 0.0010351390921945164,
+        "primary_positive_count": 3,
+        "overall_positive_count": 4
+      },
+      "bootstrap_A3_vs_B0": {
+        "point_U": 0.0018118251672159514,
+        "ci95": [
+          -0.008694189496998779,
+          0.012594184455099735
+        ],
+        "positive_replicate_fraction": 0.624,
+        "resamples": 1000,
+        "seed": 20263099,
+        "note": "paired user bootstrap; positive replicate fraction is descriptive, not a p-value"
+      },
+      "bootstrap_A4_vs_B0": {
+        "point_U": 0.0028618575591635165,
+        "ci95": [
+          -0.008918402656940317,
+          0.013623657863099598
+        ],
+        "positive_replicate_fraction": 0.674,
+        "resamples": 1000,
+        "seed": 20263199,
+        "note": "paired user bootstrap; positive replicate fraction is descriptive, not a p-value"
+      },
+      "bootstrap_A4_vs_A3": {
+        "point_U": 0.0010351390921945164,
+        "ci95": [
+          -0.00843522242025817,
+          0.010337442231346262
+        ],
+        "positive_replicate_fraction": 0.612,
+        "resamples": 1000,
+        "seed": 20263299,
+        "note": "paired user bootstrap; positive replicate fraction is descriptive, not a p-value"
+      },
+      "test_user_count": 19445,
+      "candidate_shape": [
+        19445,
+        100
+      ],
+      "diffusion_inference_calls": 0
+    }
+  },
+  "equal_weight_mean_metrics": {
+    "B0": {
+      "R10": 0.07170336969964125,
+      "N10": 0.03932620409363068,
+      "R20": 0.10736507806641518,
+      "N20": 0.048513049029770966,
+      "R50": 0.17534916748917778,
+      "N50": 0.06233408620550168
+    },
+    "A3": {
+      "R10": 0.07169624838177166,
+      "N10": 0.03946712192371225,
+      "R20": 0.10757423442818145,
+      "N20": 0.0487119131158044,
+      "R50": 0.1767791282030161,
+      "N50": 0.06271735003612242
+    },
+    "A4": {
+      "R10": 0.07134378906428279,
+      "N10": 0.03939026593751133,
+      "R20": 0.10795094908234534,
+      "N20": 0.04884433496511192,
+      "R50": 0.1754205037555513,
+      "N50": 0.062480259080266005
+    }
+  },
+  "equal_weight_mean_metric_U": {
+    "A3_vs_B0": 0.0023828157366445977,
+    "A4_vs_B0": 0.002224940629577282,
+    "A4_vs_A3": -0.0001607440676659489
+  },
+  "mean_per_seed_U": {
+    "A3_vs_B0": 0.0023727657907693703,
+    "A4_vs_B0": 0.0022271151786827075,
+    "A4_vs_A3": -0.00014715798730117926
+  },
+  "A4_vs_A3_positive_seeds": 1,
+  "A4_vs_B0_positive_seeds": 2,
+  "final_test_verdict": "ROUND20_NO_ROBUST_INCREMENTAL_DIFFUSION_GAIN",
+  "scientific_conclusion": "Positive anchoring removes the prior systematic A4 disadvantage and A4 is mildly positive versus fresh B0 on both seeds, but A4 does not outperform the matched raw-positive A3 control consistently or on the equal-weight mean. The Test evidence therefore supports the hard-negative auxiliary-training idea, not an incremental benefit attributable to Diffusion.",
+  "recommended_line_status": "CLOSE_DIFFUSION_HARD_NEGATIVE_LINE_UNLESS_NEW_MECHANISM_CHANGES_THE_CAUSAL_ROLE_OF_DIFFUSION",
+  "TEST_ACCESSED": true,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false
+}
