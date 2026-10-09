@@ -93,3 +93,40 @@ Baby Test during development/selection: NOT ACCESSED
 Test authorization: user explicitly authorized one exploratory A3 Test after this lock
 Post-Test variant/checkpoint/hyperparameter changes: FORBIDDEN
 ```
+
+## 8. User-authorized exploratory Baby Test
+
+The Validation verdict, A3 variant and checkpoints were committed in `2de5420fd55d618dfc4e7f8e45ac18f93f0f6049` before Test was opened. Frozen candidate items, Full-CoLift C0 scores and the already-built Round16 Test 8D candidate context were reused exactly; C0 metric parity is `max_abs_diff=0` on both seeds and Test ground truth was not used to construct context.
+
+### seed999 — A3 epoch3
+
+| Method | R10 | N10 | R20 | N20 | R50 | N50 | U vs C0 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| C0 Full CoLiftRec | 0.07239375 | 0.03979682 | 0.10820199 | 0.04902839 | 0.17597763 | 0.06281241 | 0 |
+| A3 TRUE | 0.07296630 | 0.04003841 | 0.10798390 | 0.04906631 | 0.17602734 | 0.06286279 | **+0.3184%** |
+| A3 SHUFFLED | 0.07301773 | 0.04004941 | 0.10797533 | 0.04906935 | 0.17582164 | 0.06282372 | **+0.3427%** |
+| A3 NEGATED | 0.07178519 | 0.03968553 | 0.10802322 | 0.04903284 | 0.17624587 | 0.06290050 | -0.3191% |
+
+TRUE has 3/4 positive primary metrics and 5/6 positive overall metrics, but `SHUFFLED > TRUE`. Therefore the positive Test movement cannot be attributed to correct CF identity.
+
+### seed1000 — A3 epoch2
+
+| Method | R10 | N10 | R20 | N20 | R50 | N50 | U vs C0 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| C0 Full CoLiftRec | 0.07137727 | 0.03909140 | 0.10755291 | 0.04837593 | 0.17507041 | 0.06207041 | 0 |
+| A3 TRUE | 0.07098685 | 0.03889274 | 0.10730434 | 0.04824885 | 0.17456279 | 0.06186700 | **-0.3872%** |
+| A3 SHUFFLED | 0.07090971 | 0.03884519 | 0.10736863 | 0.04823518 | 0.17474278 | 0.06186547 | -0.4368% |
+| A3 NEGATED | 0.07109870 | 0.03897425 | 0.10700864 | 0.04820746 | 0.17544068 | 0.06209307 | **-0.3861%** |
+
+TRUE has 0/4 positive primary and 0/6 positive overall metrics. It is slightly better than SHUFFLED, but NEGATED is also slightly better than TRUE on aggregate U.
+
+Two-seed Test mean `U_TRUE = -0.0344%`, with only 1/2 positive seeds.
+
+```text
+seed999:  Validation -0.5523%  -> Test +0.3184%
+seed1000: Validation -0.0998%  -> Test -0.3872%
+```
+
+The Test therefore does not change the Validation verdict. It again shows split behavior, and the positive seed999 result fails the identity control because SHUFFLED performs better. No post-Test tuning or additional variant/seed Test was performed.
+
+**Final verdict remains: ROUND16R_FAIL.**
