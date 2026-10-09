@@ -1,0 +1,38 @@
+{
+  "protocol": "ROUND17_TADGD_V1",
+  "variants": {
+    "D2": {
+      "999": {
+        "U_TRUE": -0.0005071756537040848,
+        "U_HISTORY_SHUFFLED": -0.0005246684252186509,
+        "history_control_label": "HISTORY_SHUFFLED",
+        "mean_true_minus_shuffled": 6.821551943550566e-05,
+        "fraction_true_gt_shuffled": 0.49854870544525715
+      },
+      "1000": {
+        "U_TRUE": 0.002046546767607839,
+        "U_HISTORY_SHUFFLED": 0.001267264710621145,
+        "history_control_label": "HISTORY_SHUFFLED",
+        "mean_true_minus_shuffled": 0.0012436101606776969,
+        "fraction_true_gt_shuffled": 0.5030456269394322
+      }
+    },
+    "D3": {
+      "999": {
+        "U_TRUE": -0.0006770009864596931,
+        "U_HISTORY_SHUFFLED": -0.0007184810558897634,
+        "history_control_label": "HISTORY_SHUFFLED_CTX_FIXED",
+        "mean_true_minus_shuffled": 0.006369248314572588,
+        "fraction_true_gt_shuffled": 0.5199117612910716
+      },
+      "1000": {
+        "U_TRUE": 0.0013844892944784462,
+        "U_HISTORY_SHUFFLED": -0.0002673387803777099,
+        "history_control_label": "HISTORY_SHUFFLED_CTX_FIXED",
+        "mean_true_minus_shuffled": 0.013873705054518683,
+        "fraction_true_gt_shuffled": 0.5939547178485232
+      }
+    }
+  },
+  "TEST_ACCESSED": false
+}

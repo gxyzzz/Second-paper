@@ -1,0 +1,27 @@
+{
+  "pair_count": 8701,
+  "fraction_oracle_improves_BASE": 1.0,
+  "best_Delta_margin": {
+    "mean": 0.08001862937123622,
+    "median": 0.07228279113769531,
+    "fraction_positive": 1.0,
+    "p10": 0.030079126358032227,
+    "p90": 0.13794612884521484
+  },
+  "best_action_distribution": {
+    "(+,+)": 0.0432134237443972,
+    "(+,0)": 0.0,
+    "(+,-)": 0.9000114929318469,
+    "(0,+)": 0.0009194345477531318,
+    "(0,0)": 0.0,
+    "(0,-)": 0.007585335018963337,
+    "(-,+)": 0.007470405700494196,
+    "(-,0)": 0.0,
+    "(-,-)": 0.04079990805654522
+  },
+  "DIFFUSION_BASIS_CAPACITY_LIMITED": false,
+  "oracle_used_for_inference": false,
+  "oracle_used_for_selection": false,
+  "TEST_ACCESSED": false,
+  "seed": 1000
+}

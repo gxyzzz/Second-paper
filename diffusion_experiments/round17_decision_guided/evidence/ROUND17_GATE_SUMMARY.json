@@ -1,0 +1,108 @@
+{
+  "protocol": "ROUND17_TADGD_V1",
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false,
+  "validation_verdict": "ROUND17_FAIL",
+  "variants": {
+    "D2": {
+      "per_seed": {
+        "999": {
+          "C": true,
+          "F": true,
+          "G": false,
+          "H": false,
+          "U_seed": false,
+          "B": true,
+          "RB": true
+        },
+        "1000": {
+          "C": true,
+          "F": true,
+          "G": false,
+          "H": false,
+          "U_seed": true,
+          "B": true,
+          "RB": true
+        }
+      },
+      "U_true": {
+        "999": -0.0005071756537040848,
+        "1000": 0.002046546767607839
+      },
+      "mean_U_true": 0.0007696855569518772,
+      "two_seed_gates": {
+        "C": true,
+        "F": true,
+        "G": false,
+        "H": false,
+        "B": true,
+        "RB": true,
+        "U": false
+      },
+      "all_required_pass": false
+    },
+    "D3": {
+      "per_seed": {
+        "999": {
+          "C": true,
+          "F": true,
+          "G": true,
+          "H": false,
+          "U_seed": false,
+          "B": true,
+          "RB": false
+        },
+        "1000": {
+          "C": true,
+          "F": true,
+          "G": true,
+          "H": true,
+          "U_seed": true,
+          "B": true,
+          "RB": false
+        }
+      },
+      "U_true": {
+        "999": -0.0006770009864596931,
+        "1000": 0.0013844892944784462
+      },
+      "mean_U_true": 0.00035374415400937656,
+      "two_seed_gates": {
+        "C": true,
+        "F": true,
+        "G": true,
+        "H": false,
+        "B": true,
+        "RB": false,
+        "U": false
+      },
+      "all_required_pass": false
+    }
+  },
+  "D1_U": {
+    "999": -0.0005961970283577409,
+    "1000": 0.002408118939335719
+  },
+  "D0_U": {
+    "999": -6.985129210675608e-06,
+    "1000": 0.0010409715331670703
+  },
+  "expansion_open": false,
+  "seed1001_not_opened": true,
+  "seed1002_not_opened": true,
+  "comparison": {
+    "D2_gt_D1_both_seeds": false,
+    "D3_gt_D2_both_seeds": false
+  },
+  "test_lock": {
+    "authorized_by_user": true,
+    "status": "LOCKED_BEFORE_TEST",
+    "purpose": "EXPLORATORY_BABY_TEST_AFTER_ROUND17_VALIDATION_FAIL",
+    "variant": "D2",
+    "reason": "D2 is the preregistered primary target-aware variant; D3 is lower-U on both Validation seeds and fails RB on both, while D2 passes RB on both. Selection remains FAIL/ineligible for method PASS.",
+    "seed999_checkpoint_epoch": 1,
+    "seed1000_checkpoint_epoch": 5,
+    "test_must_not_change_variant_checkpoint_or_hyperparameters": true
+  }
+}
