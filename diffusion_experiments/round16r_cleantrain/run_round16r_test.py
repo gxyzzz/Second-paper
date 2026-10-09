@@ -32,7 +32,7 @@ def frozen_test_asset(seed): return ROOT/f'runs/test/baby_multiseed/seed{seed}/t
 def frozen_summary(seed): return ROOT/f'runs/test/baby_multiseed/seed{seed}/summary.json'
 
 def run(seed,out_root,evidence):
-    gates=json.loads((evidence/'ROUND16_GATE_SUMMARY.json').read_text()); lock=gates['test_lock']
+    gates=json.loads((evidence/'ROUND16R_GATE_SUMMARY.json').read_text()); lock=gates['test_lock']
     if lock['status']!='LOCKED_BEFORE_TEST' or lock['variant']!=VARIANT or not lock['authorized_by_user']:
         raise RuntimeError('Test selection lock invalid')
     expected_ep=int(lock[f'seed{seed}_checkpoint_epoch'])
