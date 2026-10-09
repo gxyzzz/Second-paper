@@ -1,0 +1,170 @@
+{
+  "protocol": "ROUND16R_CLEANTRAIN_V1",
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false,
+  "Gate_C": {
+    "999": {
+      "seed": 999,
+      "checks": {
+        "self_inclusion_zero": true,
+        "off_row_positive_zero": true,
+        "extrapolation_zero": true,
+        "nan_zero": true,
+        "inf_zero": true,
+        "context_abs_lt_100": true,
+        "m_base_abs_lt_100": true,
+        "scale_consistent": true
+      },
+      "PASS": true
+    },
+    "1000": {
+      "seed": 1000,
+      "checks": {
+        "self_inclusion_zero": true,
+        "off_row_positive_zero": true,
+        "extrapolation_zero": true,
+        "nan_zero": true,
+        "inf_zero": true,
+        "context_abs_lt_100": true,
+        "m_base_abs_lt_100": true,
+        "scale_consistent": true
+      },
+      "PASS": true
+    }
+  },
+  "variants": {
+    "A1": {
+      "per_seed": {
+        "999": {
+          "C": true,
+          "R": true,
+          "G": false,
+          "I": false,
+          "D": false,
+          "U_seed": false,
+          "B": true,
+          "RND": null
+        },
+        "1000": {
+          "C": true,
+          "R": true,
+          "G": false,
+          "I": false,
+          "D": false,
+          "U_seed": false,
+          "B": true,
+          "RND": null
+        }
+      },
+      "U_true": {
+        "999": -0.001247925221348136,
+        "1000": 0.00019883389064499757
+      },
+      "mean_U_true": -0.0005245456653515692,
+      "two_seed_gates": {
+        "C": true,
+        "R": true,
+        "G": false,
+        "I": false,
+        "D": false,
+        "B": true,
+        "U": false
+      },
+      "all_required_pass": false
+    },
+    "A2": {
+      "per_seed": {
+        "999": {
+          "C": true,
+          "R": true,
+          "G": false,
+          "I": false,
+          "D": false,
+          "U_seed": false,
+          "B": true,
+          "RND": null
+        },
+        "1000": {
+          "C": true,
+          "R": true,
+          "G": false,
+          "I": false,
+          "D": false,
+          "U_seed": true,
+          "B": true,
+          "RND": null
+        }
+      },
+      "U_true": {
+        "999": -0.0031020235651977282,
+        "1000": 0.004334346936812262
+      },
+      "mean_U_true": 0.0006161616858072667,
+      "two_seed_gates": {
+        "C": true,
+        "R": true,
+        "G": false,
+        "I": false,
+        "D": false,
+        "B": true,
+        "U": false
+      },
+      "all_required_pass": false
+    },
+    "A3": {
+      "per_seed": {
+        "999": {
+          "C": true,
+          "R": true,
+          "G": false,
+          "I": false,
+          "D": false,
+          "U_seed": false,
+          "B": true,
+          "RND": false
+        },
+        "1000": {
+          "C": true,
+          "R": true,
+          "G": false,
+          "I": false,
+          "D": false,
+          "U_seed": false,
+          "B": true,
+          "RND": false
+        }
+      },
+      "U_true": {
+        "999": -0.005523343349582523,
+        "1000": -0.0009982448922923296
+      },
+      "mean_U_true": -0.003260794120937426,
+      "two_seed_gates": {
+        "C": true,
+        "R": true,
+        "G": false,
+        "I": false,
+        "D": false,
+        "B": true,
+        "U": false,
+        "RND": false
+      },
+      "all_required_pass": false
+    }
+  },
+  "expansion_open": false,
+  "seed1001_not_opened": true,
+  "seed1002_not_opened": true,
+  "validation_verdict": "ROUND16R_FAIL",
+  "scientific_interpretation": "CLEAN_TRAIN_BUG_FIXED_BUT_PERSONALIZED_LATENT_DIFFUSION_STILL_UNSTABLE",
+  "test_lock": {
+    "authorized_by_user": true,
+    "status": "LOCKED_BEFORE_TEST",
+    "purpose": "EXPLORATORY_BABY_TEST_AFTER_ROUND16R_VALIDATION_LOCK",
+    "variant": "A3",
+    "seed999_checkpoint_epoch": 3,
+    "seed1000_checkpoint_epoch": 2,
+    "test_must_not_change_checkpoint_variant_or_hyperparameters": true
+  }
+}
