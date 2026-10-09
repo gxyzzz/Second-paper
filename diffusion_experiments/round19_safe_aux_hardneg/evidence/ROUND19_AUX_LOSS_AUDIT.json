@@ -1,25 +1,50 @@
 {
-  "seed999": {
-    "seed": 999,
-    "direct_calculate_loss": 4.476809978485107,
-    "round19_wrapper_lambda0": 4.476809978485107,
-    "abs_loss_diff": 0.0,
-    "LOSS_PARITY_PASS": true,
-    "aux_parts": {
-      "L_MSCA": 4.476809978485107,
-      "L_normal_BPR": 0.07685165107250214,
-      "L_CL": 24.711618423461914,
-      "L_reg": 14254667.0,
-      "L_aux": 0.9818539619445801,
-      "L_total": 4.67318058013916
+  "seeds": {
+    "999": {
+      "seed": 999,
+      "direct_calculate_loss": 4.476809978485107,
+      "round19_wrapper_lambda0": 4.476809978485107,
+      "abs_loss_diff": 0.0,
+      "LOSS_PARITY_PASS": true,
+      "aux_parts": {
+        "L_MSCA": 4.476809978485107,
+        "L_normal_BPR": 0.07685165107250214,
+        "L_CL": 24.711618423461914,
+        "L_reg": 14254667.0,
+        "L_aux": 0.9818539619445801,
+        "L_total": 4.67318058013916
+      },
+      "aux_identity_error": 1.9073486329235223e-07,
+      "AUX_LOSS_PASS": true,
+      "normal_negative_present": true,
+      "auxiliary_batch_independent": true,
+      "lambda_hard": 0.2,
+      "TEST_ACCESSED": false
     },
-    "aux_identity_error": 1.9073486329235223e-07,
-    "AUX_LOSS_PASS": true,
-    "normal_negative_present": true,
-    "auxiliary_batch_independent": true,
-    "lambda_hard": 0.2,
-    "TEST_ACCESSED": false
+    "1000": {
+      "seed": 1000,
+      "direct_calculate_loss": 3.605970621109009,
+      "round19_wrapper_lambda0": 3.605970621109009,
+      "abs_loss_diff": 0.0,
+      "LOSS_PARITY_PASS": true,
+      "aux_parts": {
+        "L_MSCA": 3.605970621109009,
+        "L_normal_BPR": 0.060817912220954895,
+        "L_CL": 24.068323135375977,
+        "L_reg": 11416037.0,
+        "L_aux": 0.8520532846450806,
+        "L_total": 3.776381254196167
+      },
+      "aux_identity_error": 2.384185793236071e-08,
+      "AUX_LOSS_PASS": true,
+      "normal_negative_present": true,
+      "auxiliary_batch_independent": true,
+      "lambda_hard": 0.2,
+      "TEST_ACCESSED": false
+    }
   },
-  "all_available_pass": true,
+  "all_pass": true,
+  "max_aux_identity_error": 1.9073486329235223e-07,
+  "lambda_hard": 0.2,
   "TEST_ACCESSED": false
 }

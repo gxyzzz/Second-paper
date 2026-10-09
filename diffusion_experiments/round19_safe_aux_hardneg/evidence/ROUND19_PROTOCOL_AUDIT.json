@@ -40,5 +40,13 @@
     "aux_identity_error": 1.9073486329235223e-07,
     "smoke_pass": true
   },
-  "TEST_ACCESSED": false
+  "TEST_ACCESSED": false,
+  "seed1000_preflight": {
+    "generator_hash": "a6fadc12432ffe4f6d5ba33b28be75250070e2d4c5a4a9c484ce3614f3f0d922",
+    "events": 79661,
+    "safe_pool_violations": 0,
+    "loss_parity": 0.0,
+    "aux_identity_error": 2.384185793236071e-08
+  },
+  "all_seed_preflight_pass": true
 }

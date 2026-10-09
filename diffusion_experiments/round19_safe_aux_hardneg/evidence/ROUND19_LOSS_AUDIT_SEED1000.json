@@ -1,0 +1,21 @@
+{
+  "seed": 1000,
+  "direct_calculate_loss": 3.605970621109009,
+  "round19_wrapper_lambda0": 3.605970621109009,
+  "abs_loss_diff": 0.0,
+  "LOSS_PARITY_PASS": true,
+  "aux_parts": {
+    "L_MSCA": 3.605970621109009,
+    "L_normal_BPR": 0.060817912220954895,
+    "L_CL": 24.068323135375977,
+    "L_reg": 11416037.0,
+    "L_aux": 0.8520532846450806,
+    "L_total": 3.776381254196167
+  },
+  "aux_identity_error": 2.384185793236071e-08,
+  "AUX_LOSS_PASS": true,
+  "normal_negative_present": true,
+  "auxiliary_batch_independent": true,
+  "lambda_hard": 0.2,
+  "TEST_ACCESSED": false
+}

@@ -1,0 +1,16 @@
+{
+  "note": "Validation future positives are diagnostic only and were not used to filter or reselect negatives",
+  "seeds": {
+    "999": {
+      "A2": 0.0034019156174288547,
+      "A3": 0.0027156743366682987,
+      "A4": 0.002749149521095643
+    },
+    "1000": {
+      "A2": 0.0033433340446810023,
+      "A3": 0.0032303552972387157,
+      "A4": 0.0029165254432323637
+    }
+  },
+  "TEST_ACCESSED": false
+}
