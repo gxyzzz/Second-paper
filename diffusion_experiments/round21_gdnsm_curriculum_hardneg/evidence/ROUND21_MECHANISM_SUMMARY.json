@@ -1,0 +1,41 @@
+{
+  "verdict": "ROUND21_MECHANISM_FAIL_FORMAL_BLOCKED",
+  "seeds": {
+    "999": {
+      "gates": {
+        "M1": true,
+        "M2": false,
+        "M3": true,
+        "M4": false,
+        "M5": true,
+        "M6": false
+      },
+      "MECHANISM_PASS": false,
+      "M2_p99_ratio": 8.111027398102657,
+      "M4_true_shuffled_cos_mean": 0.9998818850144744
+    },
+    "1000": {
+      "gates": {
+        "M1": true,
+        "M2": false,
+        "M3": false,
+        "M4": false,
+        "M5": false,
+        "M6": true
+      },
+      "MECHANISM_PASS": false,
+      "M2_p99_ratio": 7.919004332862929,
+      "M4_true_shuffled_cos_mean": 0.9998789126984775
+    }
+  },
+  "schedule_terminal": {
+    "alpha_bar_Tminus1": 0.7764856822644867,
+    "sqrt_alpha_bar": 0.8811842498958358,
+    "sqrt_one_minus_alpha_bar": 0.4727730086791264
+  },
+  "formal_validation_started": false,
+  "test_accessed": false,
+  "sports_accessed": false,
+  "electronics_accessed": false,
+  "no_hyperparameter_search": true
+}
