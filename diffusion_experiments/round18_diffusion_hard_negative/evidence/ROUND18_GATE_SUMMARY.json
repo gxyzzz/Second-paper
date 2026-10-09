@@ -1,0 +1,115 @@
+{
+  "protocol": "ROUND18_HCD_HNC_V1",
+  "validation_verdict": "ROUND18_FAIL",
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false,
+  "U_colift": {
+    "F1": {
+      "999": -0.0010406245695871634,
+      "1000": -0.00046740573089256777,
+      "mean": -0.0007540151502398656
+    },
+    "F2": {
+      "999": -0.004627136643720421,
+      "1000": -0.0019105998788922149,
+      "mean": -0.003268868261306318
+    },
+    "F3": {
+      "999": -0.004028709752468157,
+      "1000": -0.0005015721520964449,
+      "mean": -0.0022651409522823013
+    },
+    "F4": {
+      "999": -0.004930597492607511,
+      "1000": -0.0030426426227583023,
+      "mean": -0.003986620057682907
+    }
+  },
+  "U_backbone": {
+    "F1": {
+      "999": -0.00041613989370117594,
+      "1000": 0.0006349092794431169,
+      "mean": 0.00010938469287097047
+    },
+    "F2": {
+      "999": -0.00014596109120198017,
+      "1000": -0.00601696073062352,
+      "mean": -0.00308146091091275
+    },
+    "F3": {
+      "999": -0.0019464172138997813,
+      "1000": -0.0023226101993791656,
+      "mean": -0.0021345137066394737
+    },
+    "F4": {
+      "999": 0.0006378230520999632,
+      "1000": -0.004161883224657283,
+      "mean": -0.00176203008627866
+    }
+  },
+  "incremental_decomposition": {
+    "F1_minus_F0": {
+      "999": -0.0010406245695871634,
+      "1000": -0.00046740573089256777,
+      "mean": -0.0007540151502398656
+    },
+    "F2_minus_F1": {
+      "999": -0.0035865120741332577,
+      "1000": -0.0014431941479996471,
+      "mean": -0.0025148531110664525
+    },
+    "F3_minus_F2": {
+      "999": 0.0005984268912522638,
+      "1000": 0.00140902772679577,
+      "mean": 0.001003727309024017
+    },
+    "F4_minus_F3": {
+      "999": -0.000901887740139354,
+      "1000": -0.0025410704706618575,
+      "mean": -0.0017214791054006057
+    }
+  },
+  "gates": {
+    "DG": true,
+    "INF": true,
+    "U0": true,
+    "HC": false,
+    "SIM_delta_mean": 0.001003727309024017,
+    "DIF": false,
+    "ABS": false,
+    "ABS_per_seed": {
+      "999": false,
+      "1000": false
+    },
+    "STAB": false,
+    "CL": true,
+    "CL_per_seed": {
+      "999": {
+        "primary_positive_count": 4,
+        "PASS": true
+      },
+      "1000": {
+        "primary_positive_count": 4,
+        "PASS": true
+      }
+    }
+  },
+  "round18_pass": false,
+  "expansion_open": false,
+  "seed1001_not_opened": true,
+  "seed1002_not_opened": true,
+  "test_lock": {
+    "authorized_by_user": true,
+    "status": "LOCKED_BEFORE_TEST",
+    "validation_verdict": "ROUND18_FAIL",
+    "method_checkpoint": "F4 epoch4",
+    "matched_control_checkpoint": "F3 epoch4",
+    "seeds": [
+      999,
+      1000
+    ],
+    "purpose": "exploratory Baby Test after Validation lock; Test cannot change method, checkpoint, bands, or hyperparameters",
+    "no_post_test_tuning": true
+  }
+}

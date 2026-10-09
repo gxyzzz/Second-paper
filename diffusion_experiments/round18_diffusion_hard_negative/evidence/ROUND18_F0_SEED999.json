@@ -1,0 +1,26 @@
+{
+  "protocol": "ROUND18_HCD_HNC_V1",
+  "seed": 999,
+  "variant": "F0",
+  "start_model_hash": "051ad10dfd4f709fee04e83a60ff9bcc59ef91cbad0c1f72fdf9d1b72b23fb5b",
+  "checkpoint": "/home/gxy/code/Second-paper/runs/checkpoints/MSCA-Sep-26-2026-12-48-04.pth",
+  "checkpoint_epoch": 37,
+  "backbone_metrics": {
+    "R10": 0.06713416351369554,
+    "N10": 0.03666963423291721,
+    "R20": 0.10347267629088149,
+    "N20": 0.045903188638595514,
+    "R50": 0.16968148034360422,
+    "N50": 0.0591465308936876
+  },
+  "colift_metrics": {
+    "R10": 0.07253278477757778,
+    "N10": 0.03890351109319988,
+    "R20": 0.10686472223242602,
+    "N20": 0.04763411056942936,
+    "R50": 0.1740995359316264,
+    "N50": 0.061050522781505516
+  },
+  "diffusion_inference_calls": 0,
+  "TEST_ACCESSED": false
+}
