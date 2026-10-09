@@ -23,7 +23,7 @@ class TestEvaluator(ValidationEvaluator):
   ztp=self.sem(self.text,self.text_pseudo,pi);ztt=self.sem(self.text,self.text_full,ti);zvp=self.sem(self.visual,self.vis_pseudo,pi);zvt=self.sem(self.visual,self.vis_full,ti)
   zap,_=attribute_z(self.mats,self.pseudo_profiles,self.h.pseudo_users,pi,256,self.aw);zat,_=attribute_z(self.mats,self.full_profiles,self.test_users,ti,256,self.aw)
   bg=fit_backgrounds(pi,ztp,zap,zvp,self.h.n_items);full_scores,_=score_coliftrec(ts,ti,ztt,zat,zvt,bg,self.params,self.enabled);rank=rank_by_score(ti,full_scores);full=metrics_at(rank,self.test_users,self.test_sets)
-  return {'backbone':back,'colift':full,'users':self.test_users,'items':ti,'full_scores':full_scores,'diffusion_inference_calls':0}
+  return {'backbone':back,'colift':full,'test_user_count':int(len(self.test_users)),'candidate_shape':[int(ti.shape[0]),int(ti.shape[1])],'diffusion_inference_calls':0}
 
 def load_ft(seed,variant):
  model,ck,ds,tr,a=load_start(seed,False);p=torch.load(OUT/f'seed{seed}/{variant}/epoch4.pt',map_location='cpu',weights_only=False)
