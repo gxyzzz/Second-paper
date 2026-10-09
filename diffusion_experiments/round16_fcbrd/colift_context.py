@@ -217,3 +217,33 @@ def build_validation_context(seed:int,out_path:Path,audit_path:Path,smoke_users:
         'nan_count':int(np.isnan(ctx).sum()),'inf_count':int(np.isinf(ctx).sum()),'TEST_ACCESSED':False}
     audit_path.parent.mkdir(parents=True,exist_ok=True); audit_path.write_text(json.dumps(ca,indent=2)+'\n')
     return ca
+
+def build_test_context(seed:int, frozen_test_scores:Path, out_path:Path, audit_path:Path):
+    """Build A3 context on a frozen Test candidate set without using Test labels."""
+    cfg=load_dataset_config('baby'); paths=cfg['resolved_paths']; audit,c=_load_model_components(seed)
+    n_users=int(audit['n_users']); histories,_,_,_,_=build_train_histories_and_validation(paths['interaction'],n_users)
+    frozen=np.load(frozen_test_scores); users=frozen['users'].astype(np.int64); items=frozen['items'].astype(np.int32)
+    msca_ref=frozen['msca'].astype(np.float32); full_ref=frozen['full_coliftrec'].astype(np.float32)
+    msca=candidate_dot_scores(c['final_user'],c['final_item'],users,items)
+    raw_diff=float(np.max(np.abs(msca-msca_ref)))
+    zt_raw,_=_semantic_raw(paths['text_feature'],histories,users,items,None,256); zt=_z_ref(zt_raw,zt_raw)
+    zv_raw,_=_semantic_raw(paths['visual_feature'],histories,users,items,None,64); zv=_z_ref(zv_raw,zv_raw)
+    ar,_=_attribute_raw(cfg,histories,users,items,None); za,_=_attribute_z_from_raw(ar,None,cfg['coliftrec']['attribute'].get('weights'))
+    ctx,full_recomputed,_,_,_=_contexts(msca,items,zt,za,zv,_backgrounds(seed),_params(cfg['coliftrec']))
+    full_diff=float(np.max(np.abs(full_recomputed-full_ref)))
+    zmsca_ref=_z_ref(msca_ref,msca_ref); order_ref=np.argsort(-full_ref,axis=1,kind='stable'); rank_ref=np.empty_like(order_ref,dtype=np.int16)
+    rr=np.arange(1,items.shape[1]+1,dtype=np.int16)
+    for r in range(len(order_ref)): rank_ref[r,order_ref[r]]=rr
+    sorted_ref=np.take_along_axis(full_ref,order_ref,axis=1); sd=np.maximum(full_ref.std(1,keepdims=True),1e-12)
+    ctx[:,:,0]=full_ref; ctx[:,:,1]=full_ref-zmsca_ref; ctx[:,:,5]=rank_ref.astype(np.float32)/100.0
+    ctx[:,:,6]=(full_ref-sorted_ref[:,[9]])/sd; ctx[:,:,7]=(full_ref-sorted_ref[:,[19]])/sd
+    out_path.parent.mkdir(parents=True,exist_ok=True)
+    np.savez_compressed(out_path,users=users,items=items,context=ctx,full_scores=full_ref,context_names=np.asarray(CTX_NAMES))
+    ca={'status':'PASS','seed':int(seed),'split':'TEST','users':int(len(users)),'context_shape':list(ctx.shape),'context_names':list(CTX_NAMES),
+        'frozen_test_score_asset':str(frozen_test_scores),'raw_msca_max_abs_diff':raw_diff,'recomputed_full_colift_max_abs_diff':full_diff,
+        'base_score_reference':'frozen test_scores.npz full_coliftrec','rank_reference':'frozen test_scores.npz full_coliftrec',
+        'history_source':'TRAIN only','test_ground_truth_used_for_context':False,'test_candidate_items_frozen_before_round16':True,
+        'context_mean':ctx.reshape(-1,8).mean(0).astype(float).tolist(),'context_std':ctx.reshape(-1,8).std(0).astype(float).tolist(),
+        'context_min':ctx.reshape(-1,8).min(0).astype(float).tolist(),'context_max':ctx.reshape(-1,8).max(0).astype(float).tolist(),
+        'nan_count':int(np.isnan(ctx).sum()),'inf_count':int(np.isinf(ctx).sum()),'TEST_ACCESSED':True}
+    audit_path.parent.mkdir(parents=True,exist_ok=True); audit_path.write_text(json.dumps(ca,indent=2)+'\n'); return ca
