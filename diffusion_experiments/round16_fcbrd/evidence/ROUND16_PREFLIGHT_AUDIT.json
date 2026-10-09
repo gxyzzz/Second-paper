@@ -1,0 +1,453 @@
+{
+  "protocol": "ROUND16_FCBRD_V1",
+  "seeds": {
+    "999": {
+      "base": {
+        "status": "PASS",
+        "stage": "R",
+        "seed": 999,
+        "epochs": 5,
+        "selected_epoch": 5,
+        "selection_used_validation": false,
+        "logs": [
+          {
+            "L_base": 0.017337769269943237,
+            "L_base_text": 0.017364386469125748,
+            "L_base_visual": 0.017311153933405876,
+            "epoch": 1,
+            "batches": 1,
+            "t_range": [
+              1,
+              20
+            ]
+          },
+          {
+            "L_base": 0.017221800982952118,
+            "L_base_text": 0.017258042469620705,
+            "L_base_visual": 0.01718556135892868,
+            "epoch": 2,
+            "batches": 1,
+            "t_range": [
+              1,
+              20
+            ]
+          },
+          {
+            "L_base": 0.01714036986231804,
+            "L_base_text": 0.017141051590442657,
+            "L_base_visual": 0.01713968999683857,
+            "epoch": 3,
+            "batches": 1,
+            "t_range": [
+              1,
+              20
+            ]
+          },
+          {
+            "L_base": 0.017049994319677353,
+            "L_base_text": 0.01709470897912979,
+            "L_base_visual": 0.017005277797579765,
+            "epoch": 4,
+            "batches": 1,
+            "t_range": [
+              1,
+              20
+            ]
+          },
+          {
+            "L_base": 0.016976874321699142,
+            "L_base_text": 0.0170045904815197,
+            "L_base_visual": 0.016949160024523735,
+            "epoch": 5,
+            "batches": 1,
+            "t_range": [
+              1,
+              20
+            ]
+          }
+        ],
+        "parameter_count": 296384,
+        "trainable_parameter_count": 0,
+        "state_dict_sha256": "5cf85da9cd7cd1d99e4c82ae9cc896fb53196e2945d03bc6e473cda96f89646f",
+        "probe_path": "/home/gxy/code/Second-paper/diffusion_experiments/round16_fcbrd/outputs_smoke/seed999/BASE/BASE_REFERENCE_PROBE.npy",
+        "TEST_ACCESSED": false
+      },
+      "base_hash_initial": "5cf85da9cd7cd1d99e4c82ae9cc896fb53196e2945d03bc6e473cda96f89646f",
+      "variants": {
+        "A1": {
+          "forward_backward": true,
+          "loss": 1.1457351446151733,
+          "user_grad_norm": 0.06707705101598474,
+          "frozen_grad_none": true,
+          "max_angle": 0.06255725771188736,
+          "component_gradients": {
+            "L_rec": {
+              "user_grad_norm": 0.06723473138827646,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 0.7858777642250061
+            },
+            "L_identity": {
+              "user_grad_norm": 0.0011932840554183725,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 0.7184520959854126
+            },
+            "L_zero": {
+              "user_grad_norm": 0.00020160352900733497,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 1.0264487855238258e-06
+            },
+            "L_bound": {
+              "user_grad_norm": 0.0,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 0.0
+            },
+            "L_bound_synthetic_excess": {
+              "value": 279.0908203125,
+              "user_grad_norm": 72992.73724091922,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "training_used": false
+            }
+          },
+          "context_dim": 0
+        },
+        "A2": {
+          "forward_backward": true,
+          "loss": 1.0523948669433594,
+          "user_grad_norm": 0.05994154944148662,
+          "frozen_grad_none": true,
+          "max_angle": 0.06255725771188736,
+          "component_gradients": {
+            "L_gain": {
+              "user_grad_norm": 0.06005573573592082,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 0.6926134824752808
+            },
+            "L_identity": {
+              "user_grad_norm": 0.0011820062143775847,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 0.71844881772995
+            },
+            "L_zero": {
+              "user_grad_norm": 0.0002034060730829804,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 1.0468268101249123e-06
+            },
+            "L_bound": {
+              "user_grad_norm": 0.0,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 0.0
+            },
+            "L_bound_synthetic_excess": {
+              "value": 285.2173767089844,
+              "user_grad_norm": 73967.75292747932,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "training_used": false
+            }
+          },
+          "context_dim": 0
+        },
+        "A3": {
+          "forward_backward": true,
+          "loss": 1.0523874759674072,
+          "user_grad_norm": 0.059906495946482535,
+          "frozen_grad_none": true,
+          "max_angle": 0.05934702232480049,
+          "component_gradients": {
+            "L_gain": {
+              "user_grad_norm": 0.060005874123269375,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 0.6926214098930359
+            },
+            "L_identity": {
+              "user_grad_norm": 0.0011788738323334795,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 0.7184478044509888
+            },
+            "L_zero": {
+              "user_grad_norm": 0.00019744566175956585,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 9.928974122885847e-07
+            },
+            "L_bound": {
+              "user_grad_norm": 0.0,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 0.0
+            },
+            "L_bound_synthetic_excess": {
+              "value": 268.15655517578125,
+              "user_grad_norm": 70816.59316612351,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "training_used": false
+            }
+          },
+          "context_dim": 8
+        }
+      },
+      "A0_parity": {
+        "seed": 999,
+        "max_abs_diff": 0.0,
+        "metrics": {
+          "R10": 0.07204165595268708,
+          "N10": 0.038853189228112865,
+          "R20": 0.10700186117131348,
+          "N20": 0.04775785788385501,
+          "R50": 0.17321241842069812,
+          "N50": 0.06098342878657155
+        },
+        "round15": {
+          "R10": 0.07204165595268708,
+          "N10": 0.038853189228112865,
+          "R20": 0.10700186117131348,
+          "N20": 0.04775785788385501,
+          "R50": 0.17321241842069812,
+          "N50": 0.06098342878657155
+        },
+        "PASS": true,
+        "TEST_ACCESSED": false
+      },
+      "base_hash_final": "5cf85da9cd7cd1d99e4c82ae9cc896fb53196e2945d03bc6e473cda96f89646f",
+      "base_probe_max_abs_diff": 0.0,
+      "base_stable": true
+    },
+    "1000": {
+      "base": {
+        "status": "PASS",
+        "stage": "R",
+        "seed": 1000,
+        "epochs": 5,
+        "selected_epoch": 5,
+        "selection_used_validation": false,
+        "logs": [
+          {
+            "L_base": 0.01752316579222679,
+            "L_base_text": 0.017551295459270477,
+            "L_base_visual": 0.017495034262537956,
+            "epoch": 1,
+            "batches": 1,
+            "t_range": [
+              1,
+              20
+            ]
+          },
+          {
+            "L_base": 0.01747084967792034,
+            "L_base_text": 0.01750907301902771,
+            "L_base_visual": 0.017432626336812973,
+            "epoch": 2,
+            "batches": 1,
+            "t_range": [
+              1,
+              20
+            ]
+          },
+          {
+            "L_base": 0.01737634837627411,
+            "L_base_text": 0.017399536445736885,
+            "L_base_visual": 0.017353162169456482,
+            "epoch": 3,
+            "batches": 1,
+            "t_range": [
+              1,
+              20
+            ]
+          },
+          {
+            "L_base": 0.017271365970373154,
+            "L_base_text": 0.017295360565185547,
+            "L_base_visual": 0.01724736951291561,
+            "epoch": 4,
+            "batches": 1,
+            "t_range": [
+              1,
+              20
+            ]
+          },
+          {
+            "L_base": 0.017197635024785995,
+            "L_base_text": 0.01720993034541607,
+            "L_base_visual": 0.01718534156680107,
+            "epoch": 5,
+            "batches": 1,
+            "t_range": [
+              1,
+              20
+            ]
+          }
+        ],
+        "parameter_count": 296384,
+        "trainable_parameter_count": 0,
+        "state_dict_sha256": "0a2581038cd8990522ee479802859765aa8878e0c65d8a4869e1db4830448fcb",
+        "probe_path": "/home/gxy/code/Second-paper/diffusion_experiments/round16_fcbrd/outputs_smoke/seed1000/BASE/BASE_REFERENCE_PROBE.npy",
+        "TEST_ACCESSED": false
+      },
+      "base_hash_initial": "0a2581038cd8990522ee479802859765aa8878e0c65d8a4869e1db4830448fcb",
+      "variants": {
+        "A1": {
+          "forward_backward": true,
+          "loss": 0.7441366910934448,
+          "user_grad_norm": 0.03902343072077114,
+          "frozen_grad_none": true,
+          "max_angle": 0.05595291033387184,
+          "component_gradients": {
+            "L_rec": {
+              "user_grad_norm": 0.039081991335346955,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 0.38462257385253906
+            },
+            "L_identity": {
+              "user_grad_norm": 0.001295839372129314,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 0.718401312828064
+            },
+            "L_zero": {
+              "user_grad_norm": 0.00020892079502649255,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 1.082786525330448e-06
+            },
+            "L_bound": {
+              "user_grad_norm": 0.0,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 0.0
+            },
+            "L_bound_synthetic_excess": {
+              "value": 232.72042846679688,
+              "user_grad_norm": 64729.89493898858,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "training_used": false
+            }
+          },
+          "context_dim": 0
+        },
+        "A2": {
+          "forward_backward": true,
+          "loss": 1.0523080825805664,
+          "user_grad_norm": 0.06517929339372763,
+          "frozen_grad_none": true,
+          "max_angle": 0.05595291033387184,
+          "component_gradients": {
+            "L_gain": {
+              "user_grad_norm": 0.06463242327173804,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 0.6926305890083313
+            },
+            "L_identity": {
+              "user_grad_norm": 0.0013006215494687872,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 0.7184048891067505
+            },
+            "L_zero": {
+              "user_grad_norm": 0.00021546549491421177,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 1.150142907135887e-06
+            },
+            "L_bound": {
+              "user_grad_norm": 0.0,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 0.0
+            },
+            "L_bound_synthetic_excess": {
+              "value": 235.15203857421875,
+              "user_grad_norm": 64763.06101330063,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "training_used": false
+            }
+          },
+          "context_dim": 0
+        },
+        "A3": {
+          "forward_backward": true,
+          "loss": 1.0523141622543335,
+          "user_grad_norm": 0.06479708534710289,
+          "frozen_grad_none": true,
+          "max_angle": 0.05233915522694588,
+          "component_gradients": {
+            "L_gain": {
+              "user_grad_norm": 0.06473450927337968,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 0.6926330327987671
+            },
+            "L_identity": {
+              "user_grad_norm": 0.0013016035556421895,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 0.718399703502655
+            },
+            "L_zero": {
+              "user_grad_norm": 0.00021020635581702545,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 1.1017270935553825e-06
+            },
+            "L_bound": {
+              "user_grad_norm": 0.0,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "value": 0.0
+            },
+            "L_bound_synthetic_excess": {
+              "value": 243.86570739746094,
+              "user_grad_norm": 66366.50494837362,
+              "base_grad_none": true,
+              "backbone_grad_none": true,
+              "training_used": false
+            }
+          },
+          "context_dim": 8
+        }
+      },
+      "A0_parity": {
+        "seed": 1000,
+        "max_abs_diff": 0.0,
+        "metrics": {
+          "R10": 0.0708142624496443,
+          "N10": 0.03815355165438862,
+          "R20": 0.10678727546559894,
+          "N20": 0.04735723911283333,
+          "R50": 0.17236962617394594,
+          "N50": 0.0604613837789636
+        },
+        "round15": {
+          "R10": 0.0708142624496443,
+          "N10": 0.03815355165438862,
+          "R20": 0.10678727546559894,
+          "N20": 0.04735723911283333,
+          "R50": 0.17236962617394594,
+          "N50": 0.0604613837789636
+        },
+        "PASS": true,
+        "TEST_ACCESSED": false
+      },
+      "base_hash_final": "0a2581038cd8990522ee479802859765aa8878e0c65d8a4869e1db4830448fcb",
+      "base_probe_max_abs_diff": 0.0,
+      "base_stable": true
+    }
+  },
+  "TEST_ACCESSED": false,
+  "PASS": true
+}
