@@ -1,0 +1,131 @@
+{
+  "protocol": "ROUND16_FCBRD_V1",
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false,
+  "variants": {
+    "A1": {
+      "per_seed": {
+        "999": {
+          "R": true,
+          "G": false,
+          "I": false,
+          "D": false,
+          "B": true,
+          "U_seed": false,
+          "RND": null
+        },
+        "1000": {
+          "R": true,
+          "G": false,
+          "I": false,
+          "D": false,
+          "B": true,
+          "U_seed": false,
+          "RND": null
+        }
+      },
+      "two_seed_gates": {
+        "R": true,
+        "G": false,
+        "I": false,
+        "D": false,
+        "B": true,
+        "U": false
+      },
+      "U_true": {
+        "999": -0.0031666421719510926,
+        "1000": 0.0028960894104848598
+      },
+      "mean_U_true": -0.0001352763807331164,
+      "all_required_pass": false
+    },
+    "A2": {
+      "per_seed": {
+        "999": {
+          "R": true,
+          "G": false,
+          "I": false,
+          "D": false,
+          "B": true,
+          "U_seed": false,
+          "RND": null
+        },
+        "1000": {
+          "R": true,
+          "G": false,
+          "I": false,
+          "D": false,
+          "B": true,
+          "U_seed": true,
+          "RND": null
+        }
+      },
+      "two_seed_gates": {
+        "R": true,
+        "G": false,
+        "I": false,
+        "D": false,
+        "B": true,
+        "U": false
+      },
+      "U_true": {
+        "999": -0.0013384737669162403,
+        "1000": 0.003070458440062187
+      },
+      "mean_U_true": 0.0008659923365729734,
+      "all_required_pass": false
+    },
+    "A3": {
+      "per_seed": {
+        "999": {
+          "R": true,
+          "G": false,
+          "I": false,
+          "D": false,
+          "B": true,
+          "U_seed": false,
+          "RND": false
+        },
+        "1000": {
+          "R": true,
+          "G": false,
+          "I": false,
+          "D": false,
+          "B": true,
+          "U_seed": false,
+          "RND": false
+        }
+      },
+      "two_seed_gates": {
+        "R": true,
+        "G": false,
+        "I": false,
+        "D": false,
+        "B": true,
+        "U": false,
+        "RND": false
+      },
+      "U_true": {
+        "999": -0.0014164080806869945,
+        "1000": 0.0005864880734199471
+      },
+      "mean_U_true": -0.0004149600036335237,
+      "all_required_pass": false
+    }
+  },
+  "expansion_open": false,
+  "seed1001_not_opened": true,
+  "seed1002_not_opened": true,
+  "validation_verdict": "ROUND16_FAIL",
+  "test_lock": {
+    "authorized_by_user": true,
+    "status": "LOCKED_BEFORE_TEST",
+    "purpose": "EXPLORATORY_TEST_AFTER_VALIDATION_FAIL",
+    "variant": "A3",
+    "reason": "A3 is the pre-registered full Round16 method, not selected using Test",
+    "seed999_checkpoint_epoch": 5,
+    "seed1000_checkpoint_epoch": 4,
+    "test_must_not_change_checkpoint_variant_or_hyperparameters": true
+  }
+}

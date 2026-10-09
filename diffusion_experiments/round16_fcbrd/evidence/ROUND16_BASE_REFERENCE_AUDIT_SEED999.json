@@ -1,0 +1,70 @@
+{
+  "status": "PASS",
+  "stage": "R",
+  "seed": 999,
+  "epochs": 5,
+  "selected_epoch": 5,
+  "selection_used_validation": false,
+  "logs": [
+    {
+      "L_base": 0.016004730112336833,
+      "L_base_text": 0.015969032341421677,
+      "L_base_visual": 0.016040427497877128,
+      "epoch": 1,
+      "batches": 58,
+      "t_range": [
+        1,
+        20
+      ]
+    },
+    {
+      "L_base": 0.01519369393394425,
+      "L_base_text": 0.01508357327688357,
+      "L_base_visual": 0.01530381455889036,
+      "epoch": 2,
+      "batches": 58,
+      "t_range": [
+        1,
+        20
+      ]
+    },
+    {
+      "L_base": 0.014280682734759718,
+      "L_base_text": 0.014125753547353992,
+      "L_base_visual": 0.0144356118579363,
+      "epoch": 3,
+      "batches": 58,
+      "t_range": [
+        1,
+        20
+      ]
+    },
+    {
+      "L_base": 0.013294750535539511,
+      "L_base_text": 0.013113283022338974,
+      "L_base_visual": 0.013476218064797336,
+      "epoch": 4,
+      "batches": 58,
+      "t_range": [
+        1,
+        20
+      ]
+    },
+    {
+      "L_base": 0.012651199041384047,
+      "L_base_text": 0.012473168365400413,
+      "L_base_visual": 0.012829229845825968,
+      "epoch": 5,
+      "batches": 58,
+      "t_range": [
+        1,
+        20
+      ]
+    }
+  ],
+  "parameter_count": 296384,
+  "trainable_parameter_count": 0,
+  "state_dict_sha256": "272b68b9d175dbbdf91b9df3e4c1d5ff1c600a74975fb399ce85ead431522950",
+  "probe_path": "/home/gxy/code/Second-paper/diffusion_experiments/round16_fcbrd/outputs/seed999/BASE/BASE_REFERENCE_PROBE.npy",
+  "TEST_ACCESSED": false
+}
