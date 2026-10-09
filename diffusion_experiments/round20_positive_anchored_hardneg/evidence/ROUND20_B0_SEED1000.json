@@ -1,0 +1,679 @@
+{
+  "protocol": "ROUND20_PA_HCDHN_V1",
+  "seed": 1000,
+  "variant": "B0",
+  "initial_state_hash": "fa1842cf5e9974db9debf609e16add0214727cf522ddbf62c48fd1b882c8de15",
+  "canonical_init_hash": "fa1842cf5e9974db9debf609e16add0214727cf522ddbf62c48fd1b882c8de15",
+  "init_exact": true,
+  "optimizer": "Adam",
+  "learning_rate": 0.001,
+  "weight_decay": 0.0,
+  "scheduler": [
+    1.0,
+    50
+  ],
+  "epochs_limit": 1000,
+  "stopping_step": 20,
+  "valid_metric": "Recall@20",
+  "best_epoch": 45,
+  "best_valid_score": 0.1045,
+  "best_valid_result_original_trainer": {
+    "recall@5": 0.0419,
+    "recall@10": 0.0679,
+    "recall@20": 0.1045,
+    "recall@50": 0.1696,
+    "ndcg@5": 0.0282,
+    "ndcg@10": 0.0367,
+    "ndcg@20": 0.046,
+    "ndcg@50": 0.059,
+    "precision@5": 0.0088,
+    "precision@10": 0.0071,
+    "precision@20": 0.0055,
+    "precision@50": 0.0036,
+    "map@5": 0.0234,
+    "map@10": 0.0268,
+    "map@20": 0.0293,
+    "map@50": 0.0314
+  },
+  "best_checkpoint": "/home/gxy/code/Second-paper/diffusion_experiments/round20_positive_anchored_hardneg/outputs/seed1000/B0/best.pth",
+  "checkpoint_sha256": "9b11dc27a167da397219b381278da794d6a45a253cb54b08872d86f6bbf9ae6a",
+  "evaluation": {
+    "backbone": {
+      "R10": 0.06794720150852834,
+      "N10": 0.03666439176136083,
+      "R20": 0.10445970931442775,
+      "N20": 0.04595478986333477,
+      "R50": 0.16958258335476126,
+      "N50": 0.058964939143150236
+    },
+    "colift": {
+      "R10": 0.07067589905594533,
+      "N10": 0.038151823121972885,
+      "R20": 0.106898700853445,
+      "N20": 0.047416719165294705,
+      "R50": 0.17288248907174072,
+      "N50": 0.06059957394941361
+    },
+    "diffusion_inference_calls": 0
+  },
+  "normal_plan_hashes": {
+    "1": "19b922a25c4183d152c28c43c928ef06f1194545fe207936ee9c2f521c0677ab",
+    "2": "e5e5a51e87d74f84499631429d98e80fade08ed3b29b76b5f8aab0c6ee9c6574",
+    "3": "78dc8bc7fc65e500386524190d992080687344ebdb1f9c71f35e4b65ad0564be",
+    "4": "d44f5eebbbe10b1702a92346ee51ec9ff8522899e9e8abcf0f489ae5404a7f28",
+    "5": "dfd45fc3199fa6a33ba8dcacdb86e4bf3f53569ffba409484e7b2339cfa64ef2",
+    "6": "8d8194b7b91a764e4b1fba452445f0dd28d0f6d7ce81c0b3580799741f89c1a5",
+    "7": "bf66b57d9f55cf0b6c489ee8c08c1bc9b6ae2df006565143c7a21fb624670818",
+    "8": "a4e1df9097bbbf7dac2ca7d9e3763bc94606807b7bc4ece197d4ee1a46965a62",
+    "9": "f34f0bda12fee6f2811d202503814868a489a5782c61fa389a42fa25c9f5ce33",
+    "10": "f9f51d66ca0a865871bf162c89c29b0db946f11457d3961f512d1e2474935d8b",
+    "11": "5b5d115f91bc70a8e758bac357bc28cb8621844760804529b51c7d50ff945824",
+    "12": "c089df65f9822d4138cc58bae982991c3de90ed641b3c9b2d8da6906d129c36f",
+    "13": "dc78874e3a55763e378e9dae00ef92e29109b4c7d6fed0052106cea6e22c93f0",
+    "14": "3777995b3fb11136f0217a68df72077d2c36e25cd5632eb12df98256ee6fb685",
+    "15": "319e4a2a9726671ef73ee824e14a828c70a5e6fce3eed87ab7b5ce9824041f21",
+    "16": "a61738720b2f4c212e5424d3e4c7d85937a2e0e38e422d4c34bbeaca696ddc10",
+    "17": "e32fd3a049d2c3ea5b335afdcbba36bb617ead3e8b5b8a497ff30f6113e7f98d",
+    "18": "48b066f1e0fd1cc5f32f16654dcc1b0b721a13611faed4ad97b0161c5f4c801a",
+    "19": "c3d668b105a543a5c16ec1f18b3f7d6c9b6886f5cf63ce6a1440a74c25fe5997",
+    "20": "ff1a0957003b8f3c52ba177542fac6ae332936f6dccb0a17fb1ab9c07a4e87a0",
+    "21": "7db1ce3b3b8c71ff09e28efc2dcb4793660f68b7349a521b4e1aa22fe12bb357",
+    "22": "01d2a1afb2951cc8f238d92a290a3750fa97f57a12c31875c1917be1adc9d36c",
+    "23": "48fb245dc36dd3e2aeb3d279f0f12084035e87b78e86ff5041da999f0327cbc3",
+    "24": "d97e6a5649795e9530d70fee74e4820dcc2e1503beb0cff39b158ddf1d8ffa89",
+    "25": "f7ed3300a23af8577dd5a63fec8b17596a9d420bc2f23be8953ad81caca31bf1",
+    "26": "d24e8305312771ab3b0949c916a00a2747102fcd8f17961148689f6d985782e4",
+    "27": "2cb7f1e657d0c0c0eeae72c08c9854aecae4342015181f9b99b36d5f421388d8",
+    "28": "05646b866948c3e5fb581986f41cd7075fecfdafe0a40b04888dad166ec68d37",
+    "29": "8dc7a2ab71cb88369fd2d5a65b182aef0fd7583c2b11f1d6c8794914c1c22a36",
+    "30": "d99cec9930a5d6b4d85fca2e4be344913af86db5b57d3ebe75967df0691c7088",
+    "31": "31e6d686f0d651d696b4417b32e72e9cd66f4e3e1d0c31c90099592d2445f83f",
+    "32": "f675c4dfafeb077fec6a41a222a34a835761d9d787c94825ebd575d4971f6002",
+    "33": "1370bc172d773806134c300240a57b54054de45ebcf0d87344a2c0113ef64825",
+    "34": "1dcdd643ffd86aac02c3c1c84a48ff2a6bb41b5193927553435327b0d6650b4d",
+    "35": "e883b661ad36724e1ef10d270adce53f50b0e3a6ac9dd10b710f206977c865ab",
+    "36": "7fc31eb6db391034f055346b5f7018a0a1df98c92d585a5e6d04be9bc0f9de8d",
+    "37": "047389f40a6e0c10973266ea2790446fd196a8e093cad6f6ef5f30194c6d8541",
+    "38": "ddb4d437d4a2eaf590a488ec1b8db5fb4cbc1764c7ea6a510fae3da74a126287",
+    "39": "c67bf871f1804b8e3da61b508336e22579124fe31bb3a07c7899a9956a7759c0",
+    "40": "796cbe890dbeaca1c0e4b407afaaaed07fcfa3883fc630cb4bd6f33ee3085ec9",
+    "41": "5929ee0f852a96f7eea627f842fff27baf83277f17478f00fdcea9431030d64f",
+    "42": "6b6947a5c588137ab72ae515da0ad67e9c395bdb40a92998f14a9a1040b8b544",
+    "43": "b33bc97f877f7643bfaee17565751edf5b928448e3f4f2e6eb7adf226b49d6c3",
+    "44": "509074e30ca22e9a10c555da95cbe9e9a7dce8ecf46cce619a4f23d9ce8b4c36",
+    "45": "2657e0843447021e58e5298eff97d89aea2619d31905b2ebf04ff9001952c558",
+    "46": "072546a30bdbc0062cd69e0046fbc8c2e1f0931667a648d39294ee54ec8f99ba",
+    "47": "a0ec469413e40120c00712c2cb73bb414194f0afb74b3d64dd1abc903ec013c8",
+    "48": "dcb0f440cb917d5b11c7669318abc1409fd722a695439249cf2da6cca1e2ea4f",
+    "49": "72b6768795d8071113edfb494f322d7a700bd3a28336bdac8b0882756ec31784",
+    "50": "93daef1d1896018f7ed422c649f6f4d9e16d8c63618caacdac52346769edff2c",
+    "51": "8cde33ac20ccef6bedc33852aedbaca33bfa614894bc065eee51cced520d5d87",
+    "52": "0663b50d433ba48659588ae9cd65dc1d6947542433c8d7a32e72840bcd59af7d",
+    "53": "f10f5c00116413988d3faefd0c7928192fbb4a061b3e1a8fb003717c3c5bc94b",
+    "54": "0c5a4eaec85cb36ecf48990aa1a3517a34cddef12e71deade812259c344a1190",
+    "55": "a1e0cd8ae466356aa4809e91d14ea2fa0f7207fd3d9510ff7c5b3e5f266b8462",
+    "56": "f1ea58a1752f74f729fc1e9134ae06f8c01b11e7f808ceb493a8766c72af683e",
+    "57": "3c281f5d5e16ad32ea77cb391cf4ea9439c2ed6f5b4f02e106f1c0437d75da4f",
+    "58": "8d68a1bd71bea307628a058e05b765a8f8cb150055c7ec52d3c6fcea1dfe6ce7",
+    "59": "d6244574f8cf2d54cfaa7d97e7214ee471c83c4578fa2efdaac14d349d00a863",
+    "60": "82f59355c61ff55663160aa503042008cf619d0f1dd15b452068e68b0508fa44",
+    "61": "7b45ce4bc9071ecf206b161373deef2b3229713c8f5397c77c464e3828380592",
+    "62": "53d995552d9f7cd959f29db4afb6e32ec4c5208598600c27e1b50db8f760315a",
+    "63": "5fb3d2665d514e54e655f3e929998ec90f4acff1abee783caf8732161daef32e",
+    "64": "313655a20e12a6f10d4401cd8076d048b3756b00e412482c652af427ba6a89e6",
+    "65": "5ec9bf0a73ad921ed2a2bb656d91f17ce91ca2dc702906c9857669b65aaa2fe1",
+    "66": "44141620e608b78fd1bd0f324c8d8dfc7eac9602964a6a02a5b0e59d6e5dcecf",
+    "67": "1309397cb360c861a339809c348ca96db025916b04f92ebded93a8593eba64a2"
+  },
+  "aux_step_positions": {},
+  "aux_exposure": {
+    "1": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "2": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "3": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "4": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "5": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "6": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "7": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "8": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "9": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "10": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "11": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "12": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "13": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "14": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "15": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "16": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "17": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "18": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "19": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "20": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "21": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "22": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "23": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "24": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "25": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "26": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "27": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "28": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "29": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "30": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "31": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "32": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "33": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "34": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "35": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "36": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "37": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "38": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "39": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "40": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "41": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "42": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "43": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "44": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "45": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "46": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "47": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "48": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "49": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "50": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "51": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "52": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "53": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "54": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "55": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "56": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "57": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "58": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "59": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "60": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "61": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "62": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "63": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "64": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "65": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "66": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    },
+    "67": {
+      "unique_auxiliary_events": 0,
+      "used_auxiliary_events": 0,
+      "duplicate_auxiliary_events": 0,
+      "max_event_usage_per_epoch": 0,
+      "normal_optimizer_steps": 58,
+      "auxiliary_optimizer_steps_added": 0
+    }
+  },
+  "historical_teacher_validation": {
+    "R10": 0.06792148795748694,
+    "N10": 0.03667445991326405,
+    "R20": 0.10425400090609657,
+    "N20": 0.04591367105447815,
+    "R50": 0.16943687323219334,
+    "N50": 0.05894270293170376
+  },
+  "historical_R20_relative_difference": 0.001973146416859901,
+  "baseline_reproduction_warning": false,
+  "diffusion_inference_calls": 0,
+  "TEST_ACCESSED": false
+}

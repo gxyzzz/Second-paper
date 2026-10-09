@@ -1,0 +1,265 @@
+{
+  "protocol": "ROUND20_PA_HCDHN_V1",
+  "selection_space": "Frozen Full CoLiftRec after each fresh-trained backbone",
+  "primary_metrics": [
+    "R10",
+    "N10",
+    "R20",
+    "N20"
+  ],
+  "rows": {
+    "999": {
+      "B0": {
+        "best_epoch": 37,
+        "best_valid_score": 0.1033,
+        "checkpoint": "/home/gxy/code/Second-paper/diffusion_experiments/round20_positive_anchored_hardneg/outputs/seed999/B0/best.pth",
+        "checkpoint_sha256": "319ee183b73f0231edf8f3044baf3fa4d7929f600a5ac5fefab3202726bfa044",
+        "backbone": {
+          "R10": 0.06683417208487923,
+          "N10": 0.03654319027963407,
+          "R20": 0.1032669678825503,
+          "N20": 0.04581711537896995,
+          "R50": 0.16970596943983413,
+          "N50": 0.05910749865561589
+        },
+        "colift": {
+          "R10": 0.07219679437730352,
+          "N10": 0.038790403516097964,
+          "R20": 0.10701900353867441,
+          "N20": 0.04765552873188433,
+          "R50": 0.17424953164603454,
+          "N50": 0.06106962979544554
+        }
+      },
+      "A3": {
+        "best_epoch": 35,
+        "best_valid_score": 0.1022,
+        "checkpoint": "/home/gxy/code/Second-paper/diffusion_experiments/round20_positive_anchored_hardneg/outputs/seed999/A3/best.pth",
+        "checkpoint_sha256": "9cd32dcc8fa71572b3507e2043c27d3ebfe1e41ebc613d4981eb0ffe4268e803",
+        "backbone": {
+          "R10": 0.06759272184060049,
+          "N10": 0.03706451829999624,
+          "R20": 0.10218271314697132,
+          "N20": 0.04584857104898814,
+          "R50": 0.1688753994783822,
+          "N50": 0.05920824582930283
+        },
+        "colift": {
+          "R10": 0.07203994171595098,
+          "N10": 0.0389544662743679,
+          "R20": 0.10620908790361093,
+          "N20": 0.04763678859407131,
+          "R50": 0.1732595599309407,
+          "N50": 0.06104722617069624
+        }
+      },
+      "A4": {
+        "best_epoch": 34,
+        "best_valid_score": 0.1036,
+        "checkpoint": "/home/gxy/code/Second-paper/diffusion_experiments/round20_positive_anchored_hardneg/outputs/seed999/A4/best.pth",
+        "checkpoint_sha256": "5f2193ab8f9bd0c24a21386a1e11271c03336eb6b79cd9a776b2d52e090d5274",
+        "backbone": {
+          "R10": 0.0686928944887289,
+          "N10": 0.037513031445198984,
+          "R20": 0.10362867183386597,
+          "N20": 0.046385376096861386,
+          "R50": 0.167842571844886,
+          "N50": 0.05920472668616646
+        },
+        "colift": {
+          "R10": 0.07178452044227308,
+          "N10": 0.0391210049208785,
+          "R20": 0.10712100062447198,
+          "N20": 0.048139402001581476,
+          "R50": 0.1723119543523246,
+          "N50": 0.0611183245827308
+        }
+      },
+      "comparisons": {
+        "A3_vs_B0_U_colift": -0.0014760764609164476,
+        "A4_vs_B0_U_colift": 0.0034797445955532056,
+        "A4_vs_A3_U_colift": 0.00496665677021685,
+        "A4_vs_A3_relative_6": {
+          "R10": -0.003545550809646707,
+          "N10": 0.004275213151108824,
+          "R20": 0.008586014048898059,
+          "N20": 0.010550950690507226,
+          "R50": -0.005469283074445039,
+          "N50": 0.0011646460698437648
+        },
+        "A4_vs_B0_relative_6": {
+          "R10": -0.005710418843195055,
+          "N10": 0.00852276271483838,
+          "R20": 0.0009530745234486354,
+          "N20": 0.010153559987120862,
+          "R50": -0.011119555245898046,
+          "N50": 0.0007973650314954306
+        }
+      }
+    },
+    "1000": {
+      "B0": {
+        "best_epoch": 45,
+        "best_valid_score": 0.1045,
+        "checkpoint": "/home/gxy/code/Second-paper/diffusion_experiments/round20_positive_anchored_hardneg/outputs/seed1000/B0/best.pth",
+        "checkpoint_sha256": "9b11dc27a167da397219b381278da794d6a45a253cb54b08872d86f6bbf9ae6a",
+        "backbone": {
+          "R10": 0.06794720150852834,
+          "N10": 0.03666439176136083,
+          "R20": 0.10445970931442775,
+          "N20": 0.04595478986333477,
+          "R50": 0.16958258335476126,
+          "N50": 0.058964939143150236
+        },
+        "colift": {
+          "R10": 0.07067589905594533,
+          "N10": 0.038151823121972885,
+          "R20": 0.106898700853445,
+          "N20": 0.047416719165294705,
+          "R50": 0.17288248907174072,
+          "N50": 0.06059957394941361
+        }
+      },
+      "A3": {
+        "best_epoch": 36,
+        "best_valid_score": 0.1042,
+        "checkpoint": "/home/gxy/code/Second-paper/diffusion_experiments/round20_positive_anchored_hardneg/outputs/seed1000/A3/best.pth",
+        "checkpoint_sha256": "f1f0e42edbce9499dcadd1afe8101a45996c85ffced89e5674e21f7e5aad3d7c",
+        "backbone": {
+          "R10": 0.06825147852918488,
+          "N10": 0.03713258140727035,
+          "R20": 0.10422228752647882,
+          "N20": 0.04626998368039158,
+          "R50": 0.17081805825955992,
+          "N50": 0.05957069506578141
+        },
+        "colift": {
+          "R10": 0.07257441624116862,
+          "N10": 0.0391075919669651,
+          "R20": 0.1076486794254858,
+          "N20": 0.04802487277072151,
+          "R50": 0.17379623847481904,
+          "N50": 0.06125338559357841
+        }
+      },
+      "A4": {
+        "best_epoch": 33,
+        "best_valid_score": 0.1044,
+        "checkpoint": "/home/gxy/code/Second-paper/diffusion_experiments/round20_positive_anchored_hardneg/outputs/seed1000/A4/best.pth",
+        "checkpoint_sha256": "348278880523f85db0779f22854ee18f0b6bc8826460dc8e571d0cce94306b9b",
+        "backbone": {
+          "R10": 0.06784312284955124,
+          "N10": 0.03707316744136898,
+          "R20": 0.10437093634059434,
+          "N20": 0.046344160874735855,
+          "R50": 0.1700809364630398,
+          "N50": 0.059464611347546284
+        },
+        "colift": {
+          "R10": 0.07257870183300885,
+          "N10": 0.03926215352938773,
+          "R20": 0.10722012024146248,
+          "N20": 0.04805800953141249,
+          "R50": 0.17339461729664862,
+          "N50": 0.061290755931228874
+        }
+      },
+      "comparisons": {
+        "A3_vs_B0_U_colift": 0.017938882398037995,
+        "A4_vs_B0_U_colift": 0.018139302543511066,
+        "A4_vs_A3_U_colift": 0.00018004135664818598,
+        "A4_vs_A3_relative_6": {
+          "R10": 5.9050999817828354e-05,
+          "N10": 0.003952213742876007,
+          "R20": -0.0039810909554163845,
+          "N20": 0.0006899916393152936,
+          "R50": -0.002310873823823315,
+          "N50": 0.0006100942386829107
+        },
+        "A4_vs_B0_relative_6": {
+          "R10": 0.026922936990972087,
+          "N10": 0.02910294493306583,
+          "R20": 0.0030067660827622143,
+          "N20": 0.013524562167244134,
+          "R50": 0.002962290904403751,
+          "N50": 0.011405723452647397
+        }
+      }
+    }
+  },
+  "fairness": {
+    "999": {
+      "common_epochs": 56,
+      "normal_plan_mismatch_epochs": [],
+      "normal_plan_exact": true,
+      "A3": {
+        "duplicate_auxiliary_events_total": 0,
+        "max_event_usage_per_epoch": 1,
+        "auxiliary_optimizer_steps_added_total": 0
+      },
+      "A4": {
+        "duplicate_auxiliary_events_total": 0,
+        "max_event_usage_per_epoch": 1,
+        "auxiliary_optimizer_steps_added_total": 0
+      }
+    },
+    "1000": {
+      "common_epochs": 55,
+      "normal_plan_mismatch_epochs": [],
+      "normal_plan_exact": true,
+      "A3": {
+        "duplicate_auxiliary_events_total": 0,
+        "max_event_usage_per_epoch": 1,
+        "auxiliary_optimizer_steps_added_total": 0
+      },
+      "A4": {
+        "duplicate_auxiliary_events_total": 0,
+        "max_event_usage_per_epoch": 1,
+        "auxiliary_optimizer_steps_added_total": 0
+      }
+    }
+  },
+  "positive_anchor_gate": {
+    "seed999": true,
+    "seed1000": true,
+    "PASS": true
+  },
+  "history_specificity_gate": {
+    "seed999": true,
+    "seed1000": true,
+    "PASS": true
+  },
+  "summary": {
+    "A3_vs_B0_U_colift_per_seed": [
+      -0.0014760764609164476,
+      0.017938882398037995
+    ],
+    "A3_vs_B0_U_colift_mean": 0.008231402968560774,
+    "A4_vs_B0_U_colift_per_seed": [
+      0.0034797445955532056,
+      0.018139302543511066
+    ],
+    "A4_vs_B0_U_colift_mean": 0.010809523569532135,
+    "A4_vs_A3_U_colift_per_seed": [
+      0.00496665677021685,
+      0.00018004135664818598
+    ],
+    "A4_vs_A3_U_colift_mean": 0.0025733490634325183,
+    "A4_ge_A3_seeds": 2,
+    "normal_plan_all_exact": true,
+    "aux_no_duplicate": true
+  },
+  "validation_verdict": "ROUND20_VALIDATION_PASS_WEAK_A4_MARGIN",
+  "interpretation": "Positive-anchored Diffusion no longer systematically underperforms the matched raw-positive control, but the A4-over-A3 margin is small and must be treated as weak Validation evidence until locked Test evaluation.",
+  "test_lock": {
+    "status": "LOCKED_BEFORE_TEST",
+    "baseline": "B0 Validation-selected best checkpoint per seed",
+    "matched_control": "A3 Validation-selected best checkpoint per seed",
+    "method": "A4 Validation-selected best checkpoint per seed",
+    "test_used_for_selection": false,
+    "no_post_test_tuning": true
+  },
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false
+}

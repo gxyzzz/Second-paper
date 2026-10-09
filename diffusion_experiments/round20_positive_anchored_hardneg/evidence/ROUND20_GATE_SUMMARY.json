@@ -1,0 +1,17 @@
+{
+  "validation_verdict": "ROUND20_VALIDATION_PASS_WEAK_A4_MARGIN",
+  "positive_anchor_PASS": true,
+  "history_specificity_PASS": true,
+  "fairness_PASS": true,
+  "A4_vs_A3_U_mean": 0.0025733490634325183,
+  "A4_vs_B0_U_mean": 0.010809523569532135,
+  "test_lock": {
+    "status": "LOCKED_BEFORE_TEST",
+    "baseline": "B0 Validation-selected best checkpoint per seed",
+    "matched_control": "A3 Validation-selected best checkpoint per seed",
+    "method": "A4 Validation-selected best checkpoint per seed",
+    "test_used_for_selection": false,
+    "no_post_test_tuning": true
+  },
+  "TEST_ACCESSED": false
+}
