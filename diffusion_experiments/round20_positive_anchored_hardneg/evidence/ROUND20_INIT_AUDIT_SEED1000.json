@@ -1,0 +1,68 @@
+{
+  "init": {
+    "seed": 1000,
+    "path": "/home/gxy/code/Second-paper/diffusion_experiments/round20_positive_anchored_hardneg/assets/ROUND20_INIT_SEED1000.pt",
+    "file_sha256": "435a63258585716f16a8f1bfa7dee1a7b2f21de761913da301847f80ca818286",
+    "state_hash": "fa1842cf5e9974db9debf609e16add0214727cf522ddbf62c48fd1b882c8de15",
+    "historical_teacher_checkpoint": "/home/gxy/code/Second-paper/runs/backbone_robustness/baby_seed1000/msca/checkpoints/MSCA-Sep-28-2026-11-29-35.pth",
+    "historical_teacher_epoch": 45,
+    "normal_lr": 0.001,
+    "optimizer": "adam",
+    "epochs": 1000,
+    "stopping_step": 20,
+    "valid_metric": "Recall@20",
+    "scheduler": [
+      1.0,
+      50
+    ],
+    "TEST_ACCESSED": false
+  },
+  "audit": {
+    "seed": 1000,
+    "canonical_state_hash": "fa1842cf5e9974db9debf609e16add0214727cf522ddbf62c48fd1b882c8de15",
+    "variants": {
+      "B0": {
+        "state_hash": "fa1842cf5e9974db9debf609e16add0214727cf522ddbf62c48fd1b882c8de15",
+        "optimizer_state_entries": 0,
+        "optimizer_type": "Adam",
+        "lr": 0.001,
+        "weight_decay": 0.0
+      },
+      "A3": {
+        "state_hash": "fa1842cf5e9974db9debf609e16add0214727cf522ddbf62c48fd1b882c8de15",
+        "optimizer_state_entries": 0,
+        "optimizer_type": "Adam",
+        "lr": 0.001,
+        "weight_decay": 0.0
+      },
+      "A4": {
+        "state_hash": "fa1842cf5e9974db9debf609e16add0214727cf522ddbf62c48fd1b882c8de15",
+        "optimizer_state_entries": 0,
+        "optimizer_type": "Adam",
+        "lr": 0.001,
+        "weight_decay": 0.0
+      }
+    },
+    "exact_equal": true,
+    "TEST_ACCESSED": false
+  },
+  "loss": {
+    "seed": 1000,
+    "direct_original_loss": 13.6553373336792,
+    "wrapper_lambda0": 13.6553373336792,
+    "abs_loss_diff": 0.0,
+    "loss_parity_pass": true,
+    "aux_parts": {
+      "L_MSCA": 13.6553373336792,
+      "L_normal_BPR": 0.6929935216903687,
+      "L_CL": 35.28246307373047,
+      "L_reg": 42619772.0,
+      "L_aux": 0.6929763555526733,
+      "L_total": 13.793932914733887
+    },
+    "aux_identity_error": 3.099441528153779e-07,
+    "aux_loss_pass": true,
+    "TEST_ACCESSED": false
+  },
+  "TEST_ACCESSED": false
+}

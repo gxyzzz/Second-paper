@@ -1,0 +1,68 @@
+{
+  "init": {
+    "seed": 999,
+    "path": "/home/gxy/code/Second-paper/diffusion_experiments/round20_positive_anchored_hardneg/assets/ROUND20_INIT_SEED999.pt",
+    "file_sha256": "a876432ae94f7f55b65ba9843c215fe4b2b342611039c93789dff3a50dc4e12a",
+    "state_hash": "3ce580725eb6f68ab159d99e56785ee57bebe2638cccda052fa4a753bfb09a6c",
+    "historical_teacher_checkpoint": "/home/gxy/code/Second-paper/runs/checkpoints/MSCA-Sep-26-2026-12-48-04.pth",
+    "historical_teacher_epoch": 37,
+    "normal_lr": 0.001,
+    "optimizer": "adam",
+    "epochs": 1000,
+    "stopping_step": 20,
+    "valid_metric": "Recall@20",
+    "scheduler": [
+      1.0,
+      50
+    ],
+    "TEST_ACCESSED": false
+  },
+  "audit": {
+    "seed": 999,
+    "canonical_state_hash": "3ce580725eb6f68ab159d99e56785ee57bebe2638cccda052fa4a753bfb09a6c",
+    "variants": {
+      "B0": {
+        "state_hash": "3ce580725eb6f68ab159d99e56785ee57bebe2638cccda052fa4a753bfb09a6c",
+        "optimizer_state_entries": 0,
+        "optimizer_type": "Adam",
+        "lr": 0.001,
+        "weight_decay": 0.0
+      },
+      "A3": {
+        "state_hash": "3ce580725eb6f68ab159d99e56785ee57bebe2638cccda052fa4a753bfb09a6c",
+        "optimizer_state_entries": 0,
+        "optimizer_type": "Adam",
+        "lr": 0.001,
+        "weight_decay": 0.0
+      },
+      "A4": {
+        "state_hash": "3ce580725eb6f68ab159d99e56785ee57bebe2638cccda052fa4a753bfb09a6c",
+        "optimizer_state_entries": 0,
+        "optimizer_type": "Adam",
+        "lr": 0.001,
+        "weight_decay": 0.0
+      }
+    },
+    "exact_equal": true,
+    "TEST_ACCESSED": false
+  },
+  "loss": {
+    "seed": 999,
+    "direct_original_loss": 13.655712127685547,
+    "wrapper_lambda0": 13.655712127685547,
+    "abs_loss_diff": 0.0,
+    "loss_parity_pass": true,
+    "aux_parts": {
+      "L_MSCA": 13.655712127685547,
+      "L_normal_BPR": 0.6929929852485657,
+      "L_CL": 35.35749053955078,
+      "L_reg": 42619772.0,
+      "L_aux": 0.6929787397384644,
+      "L_total": 13.794307708740234
+    },
+    "aux_identity_error": 1.668930053877471e-07,
+    "aux_loss_pass": true,
+    "TEST_ACCESSED": false
+  },
+  "TEST_ACCESSED": false
+}

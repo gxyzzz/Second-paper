@@ -1,0 +1,6 @@
+assets/*.npz
+assets/*.pt
+outputs/
+logs/
+__pycache__/
+*.pyc
