@@ -170,3 +170,46 @@ seed1000 checkpoint: epoch5
 ```
 
 Reason: D2 is the preregistered primary target-aware variant; D3 has lower Validation U on both seeds and fails Gate RB on both, while D2 passes Gate RB on both. This lock does not reclassify D2 as a successful method. No Test result may change the variant, epoch, hyperparameters, or the `ROUND17_FAIL` Validation verdict.
+
+## 6. User-authorized exploratory Baby Test
+
+The Validation verdict and Test candidate were committed in `4a253879590b1a1a40671bb3e26df1504c5799ad` before Test was opened. The frozen September Baby Test Top100 / Full-CoLift scores were reused; `C0_metric_parity_max_abs_diff=0` on both seeds. Decision history is complete TRAIN history only; Test labels are not used to build history/features. D3 and seed1001/1002 were not tested.
+
+### seed999 — D2 epoch1
+
+| Method | R10 | N10 | R20 | N20 | R50 | N50 | U vs C0 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| C0 Full CoLiftRec | 0.07239375 | 0.03979682 | 0.10820199 | 0.04902839 | 0.17597763 | 0.06281241 | 0 |
+| D2 TRUE history | 0.07236803 | 0.03984651 | 0.10831770 | 0.04910873 | 0.17592620 | 0.06285963 | **+0.0900%** |
+| D2 SHUFFLED history | 0.07236803 | 0.03984697 | 0.10831770 | 0.04910927 | 0.17591978 | 0.06285768 | **+0.0906%** |
+| D2 NEGATED basis | 0.07244518 | 0.03982545 | 0.10825342 | 0.04905403 | 0.17615763 | 0.06285758 | +0.0607% |
+
+TRUE has 3/4 positive primary metrics and 4/6 positive overall metrics. However, `SHUFFLED history > TRUE history` on aggregate U, so the positive Test movement is not attributable to correct target-aware history.
+
+### seed1000 — D2 epoch5
+
+| Method | R10 | N10 | R20 | N20 | R50 | N50 | U vs C0 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| C0 Full CoLiftRec | 0.07137727 | 0.03909140 | 0.10755291 | 0.04837593 | 0.17507041 | 0.06207041 | 0 |
+| D2 TRUE history | 0.07118270 | 0.03901688 | 0.10735149 | 0.04830957 | 0.17487027 | 0.06200612 | **-0.1969%** |
+| D2 SHUFFLED history | 0.07134727 | 0.03902324 | 0.10729577 | 0.04824916 | 0.17501476 | 0.06199307 | **-0.1794%** |
+| D2 NEGATED basis | 0.07148012 | 0.03911558 | 0.10767719 | 0.04839936 | 0.17510518 | 0.06206749 | **+0.0925%** |
+
+TRUE has 0/4 positive primary and 0/6 positive overall metrics. It loses to both SHUFFLED history and NEGATED basis. In particular, the negated frozen basis reverses the selected D2 from negative to positive aggregate utility.
+
+### Cross-seed Test summary
+
+```text
+seed999:  Validation -0.0507%  -> Test +0.0900%
+seed1000: Validation +0.2047%  -> Test -0.1969%
+Test mean U_TRUE = -0.0534%
+positive Test seeds = 1/2
+TRUE history > SHUFFLED history = 0/2
+TRUE basis > NEGATED basis = 1/2
+```
+
+Both backbones flip the sign of the Validation utility on Test. Correct history fails its matched shuffle control on both Test seeds, and the correct diffusion basis loses to its negation on seed1000. The exploratory Test therefore strengthens the conclusion that the learned Decision policy is split-specific rather than cross-backbone stable.
+
+No post-Test tuning, variant switching, checkpoint switching, extra seed Test, Sports Test, or Electronics Test was performed.
+
+**Final verdict remains: `ROUND17_FAIL`.**
