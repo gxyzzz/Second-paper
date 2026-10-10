@@ -1,0 +1,27 @@
+{
+  "seed": 1000,
+  "initial_state_exact": true,
+  "warmup_state_epoch9_exact_diagnostic": false,
+  "warmup_validation_metrics_exact": true,
+  "normal_plan_mismatch_epochs": [],
+  "aux_pair_mismatch_epochs": [],
+  "lr_trajectory_exact": true,
+  "normal_optimizer_steps": {
+    "B0": 3480,
+    "C1": 3480,
+    "D1": 3480
+  },
+  "warmup_epochs": {
+    "B0": 10,
+    "C1": 10,
+    "D1": 10
+  },
+  "aux_onset_epoch": {
+    "B0": 10,
+    "C1": 10,
+    "D1": 10
+  },
+  "stale_synthetic_reuse_count_D1": 0,
+  "PASS": true,
+  "TEST_ACCESSED": false
+}
