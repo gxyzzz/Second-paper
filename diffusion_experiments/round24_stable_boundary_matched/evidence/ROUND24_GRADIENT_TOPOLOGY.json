@@ -1,0 +1,21 @@
+{
+  "protocol": "ROUND24_STABLE_BOUNDARY_MATCHED_V1",
+  "C1FULL": {
+    "user_grad_norm": 0.03365909308195114,
+    "positive_item_grad_norm": 0.0139058418571949,
+    "selected_negative_item_grad_norm": 0.0139058418571949
+  },
+  "C1DETACH": {
+    "user_grad_norm": 0.03365909308195114,
+    "positive_item_grad_norm": 0.0139058418571949,
+    "selected_negative_item_grad_norm": 0.0
+  },
+  "D1BHM": {
+    "user_grad_norm": 0.037225715816020966,
+    "positive_item_grad_norm": 0.013904660940170288,
+    "synthetic_negative_requires_grad": false,
+    "synthetic_negative_grad": null
+  },
+  "PASS": true,
+  "TEST_ACCESSED": false
+}
