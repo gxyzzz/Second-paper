@@ -1,0 +1,19 @@
+{
+  "protocol": "ROUND25_CATALOG_ANCHORED_DIFFUSION_V1",
+  "C1FULL": {
+    "user_grad_norm": 0.015410030260682106,
+    "positive_item_grad_norm": 0.0063313706777989864,
+    "selected_real_negative_grad_norm": 0.0063313706777989864
+  },
+  "D2": {
+    "user_grad_norm": 0.015381895005702972,
+    "positive_item_grad_norm": 0.006331391632556915,
+    "selected_real_negative_grad_norm": 0.006331391632556915,
+    "Delta_diff_requires_grad": false,
+    "identity_path_verified": true
+  },
+  "PASS": true,
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false
+}
