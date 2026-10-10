@@ -1,0 +1,17 @@
+{
+  "protocol": "ROUND22_CORRECTED_ONLINE_GDNSM_V1",
+  "issue": "Initial formal JSON persisted margin distributions but omitted explicit p_negative_ge_positive and full epsilon MSE fields from the periodic mechanism record.",
+  "training_protocol_affected": false,
+  "logging_patch_commits": [
+    "bdc39f6"
+  ],
+  "seed999_C1_full_logging_rerun": true,
+  "D1_best_checkpoint_train_only_supplements": [
+    "ROUND22_FORMAL_BEST_MECHANISM_SEED999.json",
+    "ROUND22_FORMAL_BEST_MECHANISM_SEED1000.json"
+  ],
+  "formal_ranking_results_selected_by_validation_unchanged_by_logging_patch": true,
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false
+}

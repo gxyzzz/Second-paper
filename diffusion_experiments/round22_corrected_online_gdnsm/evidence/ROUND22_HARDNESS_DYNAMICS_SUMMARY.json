@@ -1,0 +1,41 @@
+{
+  "seeds": {
+    "999": {
+      "tv_harder_epochs_after_activation": 30,
+      "tv_active_epochs": 30,
+      "all_tv_harder": true,
+      "synthetic_norm_ratio_min": 0.5540631757414726,
+      "synthetic_norm_ratio_median": 0.7844253623343751,
+      "synthetic_norm_ratio_max": 0.8111591002840826,
+      "epoch30_C1_hard_median_margin": 0.2940511703491211,
+      "epoch30_D1_TV_median_margin": 2.934614658355713,
+      "best_checkpoint_p_negative_ge_positive": {
+        "V": 0.001953125,
+        "T": 0.00244140625,
+        "TV": 0.00390625
+      },
+      "best_checkpoint_inverse_norm_ratio": 0.7982703893990158,
+      "best_checkpoint_user_epsilon_advantage": 0.023974164164317236,
+      "best_checkpoint_modality_epsilon_advantage": 0.359307017675359
+    },
+    "1000": {
+      "tv_harder_epochs_after_activation": 30,
+      "tv_active_epochs": 30,
+      "all_tv_harder": true,
+      "synthetic_norm_ratio_min": 0.5427733876844395,
+      "synthetic_norm_ratio_median": 0.7832677398350313,
+      "synthetic_norm_ratio_max": 0.8199617910918919,
+      "epoch30_C1_hard_median_margin": 0.2869894504547119,
+      "epoch30_D1_TV_median_margin": 2.934202194213867,
+      "best_checkpoint_p_negative_ge_positive": {
+        "V": 0.00341796875,
+        "T": 0.00390625,
+        "TV": 0.00390625
+      },
+      "best_checkpoint_inverse_norm_ratio": 0.8060260226485935,
+      "best_checkpoint_user_epsilon_advantage": 0.02475660504350636,
+      "best_checkpoint_modality_epsilon_advantage": 0.35967085035218505
+    }
+  },
+  "TEST_ACCESSED": false
+}

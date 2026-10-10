@@ -1,0 +1,39 @@
+{
+  "seed": 999,
+  "variant": "C1",
+  "first_run": {
+    "best_epoch": 24,
+    "best_metrics": {
+      "R10": 0.07218259070149016,
+      "N10": 0.03923461944979434,
+      "R20": 0.10744805250462233,
+      "N20": 0.04822515918587004,
+      "R50": 0.17467992751227512,
+      "N50": 0.06168452687891541
+    }
+  },
+  "audit_rerun": {
+    "best_epoch": 23,
+    "best_metrics": {
+      "R10": 0.0718928846930904,
+      "N10": 0.03915407926496218,
+      "R20": 0.10761825172342016,
+      "N20": 0.048272923193587315,
+      "R50": 0.17415402417073791,
+      "N50": 0.0615955850299377
+    }
+  },
+  "relative_metric_change": {
+    "R10": -0.004013516356012239,
+    "N10": -0.002052783637553101,
+    "R20": 0.001584013994022843,
+    "N20": 0.0009904375335120055,
+    "R50": -0.003010668420962409,
+    "N50": -0.0014418826483390147
+  },
+  "max_abs_relative_metric_change": 0.004013516356012239,
+  "normal_plan_hashes_equal": true,
+  "aux_pair_hashes_equal": true,
+  "note": "GPU/online-mining numerical path is not byte-exact, but training plans are exact and C1 vs B0 remains positive.",
+  "TEST_ACCESSED": false
+}
