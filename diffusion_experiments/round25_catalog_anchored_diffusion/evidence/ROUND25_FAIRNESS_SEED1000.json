@@ -1,6 +1,6 @@
 {
   "protocol": "ROUND25_CATALOG_ANCHORED_DIFFUSION_V1",
-  "seed": 999,
+  "seed": 1000,
   "same_initial_state": true,
   "same_recommender_steps": true,
   "recommender_steps": 3480,
