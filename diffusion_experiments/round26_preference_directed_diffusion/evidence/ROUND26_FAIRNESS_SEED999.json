@@ -1,0 +1,31 @@
+{
+  "protocol": "ROUND26_PREFERENCE_DIRECTED_DIFFUSION_V1",
+  "seed": 999,
+  "initial_state_exact": true,
+  "normal_plan_mismatch_epochs": [],
+  "aux_pair_mismatch_epochs": [],
+  "rank_offset_mismatch_epochs": [],
+  "lr_trajectory_exact": true,
+  "normal_optimizer_steps": {
+    "B0": 3480,
+    "C1FULL": 3480,
+    "O1": 3480,
+    "D3": 3480
+  },
+  "warmup_epochs": {
+    "B0": 10,
+    "C1FULL": 10,
+    "O1": 10,
+    "D3": 10
+  },
+  "lambda_HN": {
+    "B0": 0.0,
+    "C1FULL": 0.2,
+    "O1": 0.2,
+    "D3": 0.2
+  },
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false,
+  "PASS": true
+}
