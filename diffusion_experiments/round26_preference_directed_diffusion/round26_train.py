@@ -18,6 +18,12 @@ def _calibrate_bands(b,interaction,ids,dirs):
     return deltas,diags
 
 
+def _summarize_calibration(batches):
+    rows=[r for batch in batches for r in batch]; cat=lambda k:np.concatenate([r[k] for r in rows])
+    out={'positive_margin_fraction':float(cat('positive_margin').mean()),'already_hard_no_refine_fraction':float(cat('already_hard_no_refine').mean()),'direction_positive_fraction':float(cat('direction_positive').mean()),'direction_miss_fraction':float(cat('direction_miss').mean()),'applied_refinement_fraction':float(cat('applied_refinement').mean()),'requested_score_shift':c.stats(cat('requested_score_shift')),'actual_score_shift':c.stats(cat('actual_score_shift')),'target_score':c.stats(cat('target_score')),'target_hit_abs_error':c.stats(cat('target_hit_abs_error')),'target_reachable_fraction':float(cat('target_reachable').mean()),'cap_hit_fraction':float(cat('cap_hit').mean()),'angle_deg':c.stats(cat('angle_deg')),'real_negative_margin':c.stats(cat('real_negative_margin')),'refined_negative_margin':c.stats(cat('refined_negative_margin')),'G_hard':c.stats(cat('G_hard')),'target_never_exceeds_positive':bool(cat('target_never_exceeds_positive').all())}
+    out['angle_bound_pass']=bool(out['angle_deg']['max']<=5.01); return out
+
+
 def train_variant(seed,variant):
     if variant not in c.VARIANTS: raise ValueError(variant)
     model,config,td,vd,pack=c.instantiate_shared(seed); events=c.TrainEvents(model); evaluator=c.CachedEvaluator(seed,model)
@@ -75,7 +81,7 @@ def train_variant(seed,variant):
             else:
                 rec['warmup_diffusion']={k:c.stats(np.asarray([x[k] for x in dl])) for k in ('total','rec')}
         elif variant=='O1' and active>0:
-            mech=d.summarize([],cal_batches,None); rec['oracle_mechanism']=mech; mechanism_epochs[str(ep)]=mech
+            mech=_summarize_calibration(cal_batches); rec['oracle_mechanism']=mech; mechanism_epochs[str(ep)]=mech
             if not mech['angle_bound_pass'] or not mech['target_never_exceeds_positive']: raise RuntimeError('oracle calibration implementation failure')
         trajectory.append(rec)
         if score>best:
