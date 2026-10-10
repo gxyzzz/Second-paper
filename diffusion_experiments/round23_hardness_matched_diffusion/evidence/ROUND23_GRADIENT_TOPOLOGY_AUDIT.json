@@ -1,0 +1,21 @@
+{
+  "protocol": "ROUND23_HARDNESS_MATCHED_ONLINE_DIFFUSION_V1",
+  "C1FULL": {
+    "user_grad_norm": 0.02819618582725525,
+    "positive_item_grad_norm": 0.0139057831838727,
+    "selected_negative_item_grad_norm": 0.0139057831838727
+  },
+  "C1DETACH": {
+    "user_grad_norm": 0.02819618582725525,
+    "positive_item_grad_norm": 0.0139057831838727,
+    "selected_negative_item_grad_norm": 0.0
+  },
+  "D1HM": {
+    "user_grad_norm": 0.03287644684314728,
+    "positive_item_grad_norm": 0.01390339806675911,
+    "synthetic_negative_requires_grad": false,
+    "synthetic_negative_grad": null
+  },
+  "PASS": true,
+  "TEST_ACCESSED": false
+}

@@ -1,0 +1,21 @@
+{
+  "protocol": "ROUND23_HARDNESS_MATCHED_ONLINE_DIFFUSION_V1",
+  "stage": "PREFLIGHT_BLOCKED",
+  "block_reason": "TRAJECTORY_CANNOT_MATCH_CURRENT_BOUNDARY",
+  "smoke_pass": true,
+  "gradient_topology_pass": true,
+  "preflight_pass": false,
+  "median_relative_errors": {
+    "V": 1.2588451504707336,
+    "T": 1.3174427151679993,
+    "TV": 1.4360703825950623
+  },
+  "norm_match_exact": true,
+  "user_epsilon_advantage": 0.006964239927624835,
+  "modality_epsilon_advantage": 0.5129267677994979,
+  "FORMAL_RUN": false,
+  "VALIDATION_FREEZE_CREATED": false,
+  "BABY_TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false
+}
