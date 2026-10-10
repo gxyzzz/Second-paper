@@ -46,7 +46,7 @@ def train_variant(seed,variant):
         ev=evaluator.evaluate(model);score=float(ev['colift']['R20'])
         epoch_rec={'epoch':ep,'active_negative_count':active,'normal_loss_mean':float(np.mean(nl)),'aux_loss_mean':float(np.mean(al)),'diff_loss_mean':None if not dl else float(np.mean(dl)),'lr':lr_traj[-1],'evaluation':ev,'full_colift_R20':score}
         if any(margin_acc):
-            epoch_rec['actual_margin']={f.MODES[j] if variant=='D1' else ('Easy','Medium','Hard')[j]:c.stats(np.concatenate(v)) for j,v in enumerate(margin_acc) if v}
+            epoch_rec['actual_margin']={(f.MODES[j] if variant=='D1' else ('Easy','Medium','Hard')[j]):dict(c.stats(np.concatenate(v)),p_negative_ge_positive=float((np.concatenate(v)<=0).mean())) for j,v in enumerate(margin_acc) if v}
         if variant=='D1' and any(norm_acc):
             epoch_rec['synthetic_norm']={f.MODES[j]:c.stats(np.concatenate(v)) for j,v in enumerate(norm_acc) if v}
             epoch_rec['synthetic_p99_real_p99_ratio']=float(max(v['p99'] for v in epoch_rec['synthetic_norm'].values())/s['raw_item_norm']['p99'])
@@ -59,7 +59,7 @@ def train_variant(seed,variant):
             if 'actual_margin' in epoch_rec:log['actual_margin']=epoch_rec['actual_margin']
             if 'synthetic_p99_real_p99_ratio' in epoch_rec:log['synthetic_p99_real_p99_ratio']=epoch_rec['synthetic_p99_real_p99_ratio']
             if variant=='D1':
-                send=c.latent_stats(model);ca=c.condition_audit(model,net,dsched,send,events,seed,n=512);log['true_vs_shuffled_user_advantage']=ca['user_relative_advantage'];log['true_vs_no_modality_advantage']=ca['modality_relative_advantage']
+                send=c.latent_stats(model);ca=c.condition_audit(model,net,dsched,send,events,seed,n=512);log['epsilon_mse']=ca['mse'];log['true_vs_shuffled_user_advantage']=ca['user_relative_advantage'];log['true_vs_no_modality_advantage']=ca['modality_relative_advantage']
             mechanism_logs[str(ep)]=log
         print(json.dumps({'phase':'formal','seed':seed,'variant':variant,'epoch':ep,'g':active,'R20':score,'R10':ev['colift']['R10'],'N10':ev['colift']['N10'],'N20':ev['colift']['N20']}),flush=True)
     out={'protocol':c.PROTOCOL,'seed':seed,'variant':variant,'selected_t0':t0,'initial_state_hash':pack['state_hash'],'warmup_state_hash_epoch9':state_hash_epoch9,'optimizer':'Adam','learning_rate':float(config['learning_rate']),'weight_decay':wd,'scheduler':list(config['learning_rate_scheduler']),'epochs_trained':c.FORMAL_EPOCHS,'warmup_epochs':c.WARMUP_EPOCHS,'aux_onset_epoch':10,'lambda_HN':0. if variant=='B0' else c.LAMBDA_HN,'normal_optimizer_steps_total':int(total_steps),'normal_plan_hashes':normal_hashes,'aux_pair_hashes':pair_hashes,'lr_trajectory':lr_traj,'checkpoint_selection':'Full CoLiftRec Validation R20','best_epoch':int(best_epoch),'best_full_colift_R20':float(best),'best_evaluation':best_eval,'best_checkpoint':str(best_path),'checkpoint_sha256':c.sha256_file(best_path),'trajectory':trajectory,'mechanism_logs':mechanism_logs,'stale_synthetic_reuse_count':int(stale_reuse),'online_generation_count':int(generation_step),'diffusion_inference_at_recommendation_eval':0,'TEST_ACCESSED':False,'SPORTS_ACCESSED':False,'ELECTRONICS_ACCESSED':False}
