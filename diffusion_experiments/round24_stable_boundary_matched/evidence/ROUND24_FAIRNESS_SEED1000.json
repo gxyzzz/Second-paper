@@ -1,0 +1,63 @@
+{
+  "protocol": "ROUND24_STABLE_BOUNDARY_MATCHED_V1",
+  "seed": 1000,
+  "initial_state_exact": true,
+  "warmup_validation_metrics_exact": true,
+  "normal_plan_mismatch_epochs": [],
+  "aux_pair_mismatch_epochs": [],
+  "rank_offset_mismatch_epochs": [],
+  "rank_policy": "same deterministic rank offsets; item IDs intentionally may differ after model divergence",
+  "hard_negative_item_ids_required_exact": false,
+  "lr_trajectory_exact": true,
+  "normal_optimizer_steps": {
+    "B0": 3480,
+    "C1FULL": 3480,
+    "C1DETACH": 3480,
+    "D1BHM": 3480
+  },
+  "warmup_epochs": {
+    "B0": 10,
+    "C1FULL": 10,
+    "C1DETACH": 10,
+    "D1BHM": 10
+  },
+  "aux_onset_epoch": {
+    "B0": 10,
+    "C1FULL": 10,
+    "C1DETACH": 10,
+    "D1BHM": 10
+  },
+  "lambda_HN": {
+    "B0": 0.0,
+    "C1FULL": 0.2,
+    "C1DETACH": 0.2,
+    "D1BHM": 0.2
+  },
+  "optimizer": {
+    "B0": "Adam",
+    "C1FULL": "Adam",
+    "C1DETACH": "Adam",
+    "D1BHM": "Adam"
+  },
+  "scheduler": {
+    "B0": [
+      1.0,
+      50
+    ],
+    "C1FULL": [
+      1.0,
+      50
+    ],
+    "C1DETACH": [
+      1.0,
+      50
+    ],
+    "D1BHM": [
+      1.0,
+      50
+    ]
+  },
+  "D1BHM_stale_synthetic_reuse_count": 0,
+  "PASS": true,
+  "TEST_ACCESSED": false
+}
