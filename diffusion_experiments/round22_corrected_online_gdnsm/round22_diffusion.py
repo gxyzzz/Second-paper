@@ -109,3 +109,28 @@ def generate_partial(net,sched,user,text,visual,t0,generator):
     x=tr[int(t0)]
     b=len(user)
     return {'V':x[:b],'T':x[b:2*b],'TV':x[2*b:]},tr
+
+@torch.no_grad()
+def generate_partial_online(net,sched,user,text,visual,t0,generator):
+    """True partial reverse for formal online training: stop at state t0 and never compute states below t0."""
+    assert 0<int(t0)<T
+    was=net.training
+    net.eval()
+    b=len(user)
+    base=torch.randn((b,DIM),device=user.device,generator=generator)
+    x=torch.cat([base.clone(),base.clone(),base.clone()],0)
+    steps=0
+    for ti in range(T-1,int(t0),-1):
+        tt=torch.full((3*b,),ti,device=user.device,dtype=torch.long)
+        eps=_guided_stacked(net,x,tt,user,text,visual)
+        x0=sched.x0_from_eps(x,tt,eps)
+        mean=sched.posterior_mean(x0,x,tt)
+        base_z=torch.randn((b,DIM),device=user.device,generator=generator)
+        z=torch.cat([base_z.clone(),base_z.clone(),base_z.clone()],0)
+        x=mean+torch.sqrt(torch.clamp(sched.ext(sched.pvar,tt,x),min=1e-12))*z
+        steps+=1
+    if was:
+        net.train()
+    assert steps==(T-1-int(t0))
+    assert torch.isfinite(x).all()
+    return {'V':x[:b],'T':x[b:2*b],'TV':x[2*b:]},steps
