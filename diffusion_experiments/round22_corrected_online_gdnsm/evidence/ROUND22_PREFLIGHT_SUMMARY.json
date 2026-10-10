@@ -1,0 +1,19 @@
+{
+  "protocol": "ROUND22_CORRECTED_ONLINE_GDNSM_V1",
+  "selected_t0": 8,
+  "seed999_pass": true,
+  "seed1000_pass": true,
+  "epsilon_user_advantages": {
+    "999": 0.006407607014360758,
+    "1000": 0.0072196827767281365
+  },
+  "user_condition_same_direction": true,
+  "generation_user_score_effects": {
+    "999": 2.0934483018208994e-06,
+    "1000": 5.711819540010765e-06
+  },
+  "generation_user_effect_same_direction": true,
+  "PREFLIGHT_PASS": true,
+  "FORMAL_ALLOWED": true,
+  "TEST_ACCESSED": false
+}
