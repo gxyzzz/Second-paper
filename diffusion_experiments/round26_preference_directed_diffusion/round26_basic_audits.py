@@ -16,7 +16,7 @@ def objective_sanity():
     sp=np.asarray(diag['positive_score']); sn=np.asarray(diag['real_negative_score']); target=np.asarray(diag['target_score']); margin=np.asarray(diag['real_negative_margin']); lam=np.asarray(diag['lambda_applied'])
     positive_mid=bool(np.all((target[margin>0]>sn[margin>0]-1e-7)&(target[margin>0]<sp[margin>0]+1e-7))) if np.any(margin>0) else True
     hard_same=bool(np.allclose(target[margin<=0],sn[margin<=0])) if np.any(margin<=0) else True
-    no_overshoot=bool(np.all(target<=sp+1e-7))
+    no_overshoot=bool(np.all((margin<=0)|(target<=sp+1e-7)))
     margin_zero_rule=bool(np.allclose(lam[margin<=0],0)) if np.any(margin<=0) else True
     source=inspect.getsource(d.direction_inner_step)
     cap_not_loss=all(x not in source for x in ('calibrate(','THETA_MAX_DEG','cap_hit','angle_deg','score('))

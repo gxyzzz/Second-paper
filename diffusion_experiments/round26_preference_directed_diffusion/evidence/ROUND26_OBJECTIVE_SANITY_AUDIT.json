@@ -1,0 +1,33 @@
+{
+  "protocol": "ROUND26_PREFERENCE_DIRECTED_DIFFUSION_V1",
+  "direction_loss": {
+    "cosines": [
+      -1.0,
+      0.0,
+      0.5,
+      1.0
+    ],
+    "values": [
+      2.0,
+      1.0,
+      0.5,
+      0.0
+    ],
+    "minimum_at_cosine_1": true
+  },
+  "finite_target": {
+    "positive_margin_target_strictly_between_scores": true,
+    "already_hard_target_equals_negative": true,
+    "never_requires_above_positive": true,
+    "margin_nonpositive_lambda_zero": true
+  },
+  "trust_cap_not_in_diffusion_loss": true,
+  "diffusion_loss_terms": [
+    "L_rec",
+    "L_dir"
+  ],
+  "PASS": true,
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false
+}

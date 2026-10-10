@@ -1,0 +1,14 @@
+{
+  "protocol": "ROUND26_PREFERENCE_DIRECTED_DIFFUSION_V1",
+  "C1FULL_real_negative_grad_norm": 0.0063313706777989864,
+  "O1_real_negative_grad_norm": 0.006331495009362698,
+  "O1_delta_requires_grad": false,
+  "D3_real_negative_grad_norm": 0.006331428419798613,
+  "D3_delta_requires_grad": false,
+  "ranking_gradient_to_diffusion_abs_sum": 0.0,
+  "RANKING_SCORE_GRAD_TO_DIFFUSION": 0,
+  "PASS": true,
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false
+}
