@@ -1,0 +1,20 @@
+{
+  "protocol": "ROUND29_POSITIVE_SIDE_USER_CONDITIONED_DIFFUSION_PREFERENCE_PURIFICATION_V1",
+  "seed": 999,
+  "event_count": 118551,
+  "bank_asset": "/home/gxy/code/Second-paper/diffusion_experiments/round29_positive_preference_purification/assets/ROUND29_POSITIVE_FIELD_BANK_SEED999.npz",
+  "bank_sha256": "19c0f7f0f1026ad51089271cd115366fc946b9b6f4cc78730e4129c392bc19ce",
+  "bank_hash": "f8b418609adc5b787d48550a094290719aa6d594b2028f79e3ee3f32366d404e",
+  "field_bank_repeat_exact": true,
+  "CURRENT_POSITIVE_EXCLUDED": true,
+  "K_HISTORY": 8,
+  "MIN_HISTORY": 3,
+  "MIN_COHERENT": 2,
+  "LOCAL_SUPPORT_ROW_Z_FOR_LIFT": false,
+  "CANONICAL_CONTEXT_NORMALIZATION": true,
+  "VALIDATION_USED_FOR_CONSTRUCTION": false,
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false,
+  "PASS": true
+}

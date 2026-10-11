@@ -1,0 +1,27 @@
+{
+  "protocol": "ROUND29_POSITIVE_SIDE_USER_CONDITIONED_DIFFUSION_PREFERENCE_PURIFICATION_V1",
+  "seed": 1000,
+  "CANONICAL_TRAINED_EMBEDDING_LOADED": true,
+  "GENERIC_BACKGROUND_FROM_CANONICAL_REFERENCE": true,
+  "SHARED_INIT_USED_FOR_BG": false,
+  "LOCAL_SUPPORT_ROW_Z_FOR_LIFT": false,
+  "COLIFT_BG_SOURCE": "CANONICAL_FROZEN_TRAINED_BACKBONE",
+  "reference_embedding_asset": "/home/gxy/code/Second-paper/runs/backbone_robustness/baby_seed1000/msca/assets/embeddings.npz",
+  "reference_embedding_sha256": "408d0ba948a9befed677a09bab90e224b55e654fa54603ff9354575413e3535d",
+  "reference_checkpoint": "/home/gxy/code/Second-paper/runs/backbone_robustness/baby_seed1000/msca/checkpoints/MSCA-Sep-28-2026-11-29-35.pth",
+  "reference_checkpoint_epoch": 45,
+  "reference_bank_asset": "/home/gxy/code/Second-paper/diffusion_experiments/round29_positive_preference_purification/assets/ROUND29_COLIFT_REFERENCE_SEED1000.npz",
+  "reference_bank_sha256": "77e34856535b812d1d228548a1dfc4a032a5f450875b5afae3ad8300bf83ed40",
+  "reference_candidate_shape": [
+    19445,
+    100
+  ],
+  "candidate_definition": "canonical trained backbone Top100 with full TRAIN history exclusion",
+  "background_definition": "canonical trained backbone TRAIN pseudo-history Top100 -> official T/A/V z -> fit_backgrounds",
+  "background_frozen_for_round29": true,
+  "VALIDATION_USED_FOR_CONSTRUCTION": false,
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false,
+  "PASS": true
+}
