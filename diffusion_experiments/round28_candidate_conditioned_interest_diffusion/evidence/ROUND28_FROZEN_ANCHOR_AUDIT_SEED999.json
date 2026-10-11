@@ -2,10 +2,16 @@
   "protocol": "ROUND28_CANDIDATE_CONDITIONED_COHERENT_INTEREST_DIFFUSION_V1",
   "seed": 999,
   "TRAIN_ONLY": true,
-  "source": "frozen initial MSCA candidate Top100 reranked by frozen Full CoLiftRec",
+  "source": "canonical frozen trained MSCA candidate Top100 reranked by frozen Full CoLiftRec",
+  "reference_checkpoint": "/home/gxy/code/Second-paper/runs/checkpoints/MSCA-Sep-26-2026-12-48-04.pth",
+  "reference_checkpoint_epoch": 37,
+  "reference_checkpoint_fixed_before_round28": true,
+  "reference_embedding_asset": "/home/gxy/code/Second-paper/runs/assets/msca_baby_seed999/embeddings.npz",
+  "reference_embedding_asset_sha256": "48522f88766ee88f3f4867896f5b26faac7e560ad5d09e7ce8608262355d41cc",
+  "round28_validation_labels_used_for_reference_selection": false,
   "event_count": 118551,
   "anchors_per_event": 4,
-  "bank_hash": "6caf5ccba8d3975a7c013ec4d84ab47815f0f6de0ac9499aeb38db20cff8b7fc",
+  "bank_hash": "2707be5477976a68fe7e45f84833555d22b4cc3810c93b20e4f393c7549eadaf",
   "anchor_rank": {
     "mean": 20.500742296564347,
     "median": 20.5,
@@ -24,7 +30,7 @@
   "TEST_ACCESSED": false,
   "SPORTS_ACCESSED": false,
   "ELECTRONICS_ACCESSED": false,
-  "repeat_hash": "6caf5ccba8d3975a7c013ec4d84ab47815f0f6de0ac9499aeb38db20cff8b7fc",
+  "repeat_hash": "2707be5477976a68fe7e45f84833555d22b4cc3810c93b20e4f393c7549eadaf",
   "repeat_exact": true,
   "PASS": true
 }
