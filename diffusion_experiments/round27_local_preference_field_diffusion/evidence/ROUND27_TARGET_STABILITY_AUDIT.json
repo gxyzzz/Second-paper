@@ -1,0 +1,128 @@
+{
+  "protocol": "ROUND27_LOCAL_PREFERENCE_FIELD_DIFFUSION_V1",
+  "seed": 999,
+  "TRAIN_ONLY": true,
+  "events": 1024,
+  "boundary_targets_per_event": 3,
+  "boundary_bands": [
+    "Easy",
+    "Medium",
+    "Hard"
+  ],
+  "context_audit": {
+    "seed": 999,
+    "TRAIN_ONLY": true,
+    "train_interactions": 118551,
+    "users_with_history": 19445,
+    "K_HISTORY": 5,
+    "MIN_HISTORY": 3,
+    "colift": {
+      "lambda_text": 1.0,
+      "lambda_attribute": 0.75,
+      "lambda_visual": 0.25,
+      "alpha_text": 0.25,
+      "alpha_attribute": 0.15,
+      "alpha_visual": 0.025
+    },
+    "attribute_weights": {
+      "title": 0.45,
+      "brand": 0.2,
+      "description": 0.35
+    },
+    "background_definition": "TRAIN pseudo-history Top100; no Validation/Test interactions",
+    "current_positive_excluded_from_target": true,
+    "TEST_ACCESSED": false,
+    "SPORTS_ACCESSED": false,
+    "ELECTRONICS_ACCESSED": false
+  },
+  "history_support_coverage": {
+    "history_ge3_fraction": 0.845703125,
+    "history_eq5_fraction": 0.61328125,
+    "no_refinement_fraction": 0.154296875
+  },
+  "direction_concentration": {
+    "rho": {
+      "mean": 0.6310459854430519,
+      "median": 0.6051097810268402,
+      "p10": 0.5035949528217316,
+      "p50": 0.6051097810268402,
+      "p90": 0.7936473369598389,
+      "p99": 0.9139696323871612,
+      "min": 0.3926926851272583,
+      "max": 0.9926650524139404
+    },
+    "confidence": {
+      "mean": 0.4560919915093109,
+      "median": 0.5229812264442444,
+      "p10": 0.0,
+      "p50": 0.5229812264442444,
+      "p90": 0.6396970093250275,
+      "p99": 0.7363042128086089,
+      "min": 0.0,
+      "max": 0.8368509411811829
+    }
+  },
+  "bootstrap_stability": {
+    "LPF_direction_cosine": {
+      "mean": 0.10293857173906715,
+      "median": 0.102409478276968,
+      "p10": -0.08207509443163873,
+      "p50": 0.102409478276968,
+      "p90": 0.28974680900573735,
+      "p99": 0.48507048606872627,
+      "min": -0.3417413830757141,
+      "max": 0.6578956842422485
+    },
+    "single_positive_direction_cosine": {
+      "mean": 0.058850899186011135,
+      "median": 0.05625620298087597,
+      "p10": -0.12144289910793304,
+      "p50": 0.05625620298087597,
+      "p90": 0.2354600027203562,
+      "p99": 0.4346698939800264,
+      "min": -0.41117218136787415,
+      "max": 0.6746419668197632
+    },
+    "LPF_minus_single_median": 0.04615327529609203,
+    "LPF_more_stable_by_median": true
+  },
+  "locality": {
+    "mean": 0.1874691054737308,
+    "median": 0.18221347033977509,
+    "p10": 0.11994308233261108,
+    "p50": 0.18221347033977509,
+    "p90": 0.25703793168067934,
+    "p99": 0.36538862049579607,
+    "min": 0.017643237486481667,
+    "max": 0.8468886017799377
+  },
+  "personalized_lift": {
+    "mean": 2.2749982269182807e-10,
+    "median": 0.0001954887993633747,
+    "p10": -0.46307337284088135,
+    "p50": 0.0001954887993633747,
+    "p90": 0.4558097183704376,
+    "p99": 0.673621882200241,
+    "min": -0.8174872398376465,
+    "max": 0.8226317763328552
+  },
+  "personalized_lift_nonzero_fraction": 1.0,
+  "weights_sum": {
+    "mean": 0.9999999924524067,
+    "median": 1.0,
+    "p10": 0.9999999403953552,
+    "p50": 1.0,
+    "p90": 1.0,
+    "p99": 1.0000001192092896,
+    "min": 0.9999998211860657,
+    "max": 1.000000238418579
+  },
+  "current_positive_excluded_all": true,
+  "confidence_in_range": true,
+  "rho_in_range": true,
+  "VALIDATION_HISTORY_ACCESSED": false,
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false,
+  "PASS": true
+}

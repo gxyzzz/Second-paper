@@ -1,0 +1,146 @@
+{
+  "protocol": "ROUND27_C1_REPRO_V1",
+  "tag": "B",
+  "seed": 999,
+  "epochs": 16,
+  "initial_state_hash": "3ce580725eb6f68ab159d99e56785ee57bebe2638cccda052fa4a753bfb09a6c",
+  "normal_plan_hashes": {
+    "0": "9c96432051de6c45aa105a2629860223e7b54ca7dafb25569f86a48a64ed2aa6",
+    "1": "2a56e2a73aa445e7c39e55fe8b1c2699496c477b4faa0b996944cccf567dfb9d",
+    "2": "e8e428e725fd2b3463eff6222dc38c8208693afb63da99393255b223fd01a943",
+    "3": "326c27dd64955eb86a240d875678387e26cd14355cac08d8722cf51f66e4353c",
+    "4": "19ea24a93fa523b69a856a21da14fb2e3ebdab351ab438ba03449acfcd31fdbe",
+    "5": "f0463cbdd8aca4b4613a60c29548b42ddc9f82f4d99dea569450a4bf9d654eb8",
+    "6": "380e58f7839f3f220a5f835b6f9d4a1d7b6e829e29c8de0884d2b17e278826e1",
+    "7": "a20053f6de2b986762010f5b1e4946d6223c0381847fbb68ca9c2733f2c4af4f",
+    "8": "e2a6a4d1880081725be527f8b65d5d498117dd0ca724ed8ea3950112eda0350f",
+    "9": "b61f2a13f9c1f1dd72965d2ca6d424d897d0038e911fa3901f42ea7497a5673c",
+    "10": "72e430415093496a09afe0f8495e2d0f52fba3b58febe34ea1969a48f3c9c843",
+    "11": "16489445477a42e9cb6b742fb6e2626f86ee556da391e124f23e6791554bd35e",
+    "12": "40836887352ee3734a729257e2517586862efb0c5ea72954abf4c41b1518e894",
+    "13": "cbdcd19bf8554d8b7027ec550db20467bbd9b1c983fde39b2c275215a471df2d",
+    "14": "9fb79107a54791036beba00d81d518c5bf8376251a542c4f43dd58d0395f4951",
+    "15": "d34e35f25e6585d6e19bd061e6de2ecc11c36e526a83e32918213c8bab1912dc"
+  },
+  "rank_offset_hashes": {
+    "0": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "1": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "3": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "4": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "5": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "6": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "7": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "8": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "9": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "10": "a2dd6906f04ec9f3286f727e9bb000d7719793d97de12dc0ae99436ea148da0a",
+    "11": "d5992179f297a43ffc96490ac472b23b029127ed6eae51ae3004391506c1d119",
+    "12": "25cadc2040d0ae3e02793cf0fa6f5a833007d3ed3259e0f0a4358830291c5f6b",
+    "13": "76bacecb81b84870068098a081aa2daba3d65f928b0b24d11e74c5d229e5420b",
+    "14": "80bf47532d97129a602430ac6884237b60b4c3b1f5e5ebcc1817e4978f0e3573",
+    "15": "bd0a5ff915b7ff23aada73d6084a43c6160f6fa223a6671041659bb7e68bb3f3"
+  },
+  "selected_real_item_hashes": {
+    "0": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "1": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "2": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "3": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "4": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "5": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "6": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "7": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "8": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "9": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "10": "f644fd2461f7c1d57aa3297f69b32b94d7c95c1d4cf2b7c1efa45d0beb3f319b",
+    "11": "ae2183ade5420d5d9fbefcf3ec7b680803fcd70faf84aa8efbb302847685e937",
+    "12": "b10adb775aaa8f28cfac7d23baa8f9accee2b7f2a2434960536ff351fefe35ee",
+    "13": "2933ca5bdb32823dd6671bc4554f9022ff65614f5aa5813ea78c251b7e26f1cc",
+    "14": "9361ce3252dc1a77607fe7d4cebf48e5491505bd995755981d3a31b3050fa636",
+    "15": "7734f3d6a2a9a4b669f74c9745dfd218c69a07202c7f5663625d3d9662e3e7ea"
+  },
+  "trajectory": [
+    {
+      "epoch": 0,
+      "active_negative_count": 0,
+      "R20": 0.04976221087560763
+    },
+    {
+      "epoch": 1,
+      "active_negative_count": 0,
+      "R20": 0.042493357332647634
+    },
+    {
+      "epoch": 2,
+      "active_negative_count": 0,
+      "R20": 0.038062055369846574
+    },
+    {
+      "epoch": 3,
+      "active_negative_count": 0,
+      "R20": 0.035940687408931166
+    },
+    {
+      "epoch": 4,
+      "active_negative_count": 0,
+      "R20": 0.03438930316276678
+    },
+    {
+      "epoch": 5,
+      "active_negative_count": 0,
+      "R20": 0.03309076883517614
+    },
+    {
+      "epoch": 6,
+      "active_negative_count": 0,
+      "R20": 0.03226364961001114
+    },
+    {
+      "epoch": 7,
+      "active_negative_count": 0,
+      "R20": 0.03187794634439015
+    },
+    {
+      "epoch": 8,
+      "active_negative_count": 0,
+      "R20": 0.031800805691265956
+    },
+    {
+      "epoch": 9,
+      "active_negative_count": 0,
+      "R20": 0.032469358018342324
+    },
+    {
+      "epoch": 10,
+      "active_negative_count": 1,
+      "R20": 0.03351504242735922
+    },
+    {
+      "epoch": 11,
+      "active_negative_count": 1,
+      "R20": 0.034944715865260996
+    },
+    {
+      "epoch": 12,
+      "active_negative_count": 1,
+      "R20": 0.03549755721265107
+    },
+    {
+      "epoch": 13,
+      "active_negative_count": 1,
+      "R20": 0.03692037370360847
+    },
+    {
+      "epoch": 14,
+      "active_negative_count": 1,
+      "R20": 0.042562416584015966
+    },
+    {
+      "epoch": 15,
+      "active_negative_count": 1,
+      "R20": 0.04980004652928283
+    }
+  ],
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false
+}

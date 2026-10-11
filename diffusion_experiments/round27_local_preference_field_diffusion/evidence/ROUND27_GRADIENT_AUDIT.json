@@ -1,0 +1,14 @@
+{
+  "protocol": "ROUND27_LOCAL_PREFERENCE_FIELD_DIFFUSION_V1",
+  "C1_real_negative_grad_norm": 0.0063313706777989864,
+  "T1_real_negative_grad_norm": 0.00633137347176671,
+  "D4_real_negative_grad_norm": 0.0063313706777989864,
+  "T1_delta_requires_grad": false,
+  "D4_delta_requires_grad": false,
+  "ranking_gradient_to_diffusion_abs_sum": 0.0,
+  "RANKING_SCORE_GRAD_TO_DIFFUSION": 0,
+  "PASS": true,
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false
+}

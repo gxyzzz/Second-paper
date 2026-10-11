@@ -1,0 +1,46 @@
+{
+  "protocol": "ROUND27_LOCAL_PREFERENCE_FIELD_DIFFUSION_V1",
+  "seed": 999,
+  "deterministic_algorithms": true,
+  "normal_plan_exact": true,
+  "warmup_state_hash_exact": false,
+  "warmup_state_hash_A": "ccb19b6c9d9108ee0a18ac080ed59b4bd3600245d09a331f1466488282d8ab2b",
+  "warmup_state_hash_B": "38f166ebabcaad76faf864c1b2f3fed95a68425425b26cc6fb76d09d80c159a2",
+  "max_parameter_abs_diff": 9.918585419654846e-07,
+  "max_parameter_relative_diff": 0.0005321203240164848,
+  "score_cross_run_abs_diff": {
+    "mean": 6.795145365561143e-10,
+    "median": 4.5619705127224186e-10,
+    "p10": 7.576718203034828e-11,
+    "p50": 4.5619705127224186e-10,
+    "p90": 1.5328140838414065e-09,
+    "p99": 3.5444838395294967e-09,
+    "min": 2.42861286636753e-17,
+    "max": 2.2333217287659468e-08
+  },
+  "rank_adjacent_gap_A": {
+    "mean": 9.821368457106322e-05,
+    "median": 2.0230862397436437e-05,
+    "p10": 2.3943114318973786e-06,
+    "p50": 2.0230862397436437e-05,
+    "p90": 0.0001573208601461249,
+    "p99": 0.001524454855658376,
+    "min": 1.7899700450151046e-09,
+    "max": 0.02419394694049093
+  },
+  "rank_adjacent_gap_B": {
+    "mean": 9.821368646515375e-05,
+    "median": 2.0230629592072908e-05,
+    "p10": 2.395599819107926e-06,
+    "p50": 2.0230629592072908e-05,
+    "p90": 0.00015731743202956119,
+    "p99": 0.0015244577122676855,
+    "min": 5.217795735409925e-10,
+    "max": 0.024193941088396665
+  },
+  "top100_set_overlap_mean": 1.0,
+  "top100_order_exact_fraction": 1.0,
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false
+}

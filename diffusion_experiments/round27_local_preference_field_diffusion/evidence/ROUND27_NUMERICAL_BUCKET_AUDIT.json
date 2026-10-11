@@ -1,0 +1,33 @@
+{
+  "protocol": "ROUND27_LOCAL_PREFERENCE_FIELD_DIFFUSION_V1",
+  "TRAIN_ONLY": true,
+  "sample_events": 1024,
+  "rows": [
+    {
+      "tau": 1e-08,
+      "top100_order_exact_fraction": 0.9951171875,
+      "adjacent_top100_gap_le_tau_fraction": 0.00052734375
+    },
+    {
+      "tau": 3e-08,
+      "top100_order_exact_fraction": 0.9970703125,
+      "adjacent_top100_gap_le_tau_fraction": 0.00142578125
+    },
+    {
+      "tau": 1e-07,
+      "top100_order_exact_fraction": 0.998046875,
+      "adjacent_top100_gap_le_tau_fraction": 0.0048828125
+    },
+    {
+      "tau": 3e-07,
+      "top100_order_exact_fraction": 0.9990234375,
+      "adjacent_top100_gap_le_tau_fraction": 0.014287109375
+    },
+    {
+      "tau": 1e-06,
+      "top100_order_exact_fraction": 0.99609375,
+      "adjacent_top100_gap_le_tau_fraction": 0.047294921875
+    }
+  ],
+  "TEST_ACCESSED": false
+}

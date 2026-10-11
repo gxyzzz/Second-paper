@@ -1,0 +1,39 @@
+{
+  "protocol": "ROUND27_LOCAL_PREFERENCE_FIELD_DIFFUSION_V1",
+  "TRAIN_ONLY": true,
+  "sample_events": 1024,
+  "method": "connected adjacent-gap <= tau then item-id within component",
+  "rows": [
+    {
+      "tau": 3e-08,
+      "top100_order_exact_fraction": 0.9970703125,
+      "reordered_slot_fraction_A": 0.0015299479166666667,
+      "reordered_slot_fraction_B": 0.0014973958333333334
+    },
+    {
+      "tau": 1e-07,
+      "top100_order_exact_fraction": 0.99609375,
+      "reordered_slot_fraction_A": 0.0053955078125,
+      "reordered_slot_fraction_B": 0.0053955078125
+    },
+    {
+      "tau": 3e-07,
+      "top100_order_exact_fraction": 0.9951171875,
+      "reordered_slot_fraction_A": 0.017301432291666665,
+      "reordered_slot_fraction_B": 0.0173828125
+    },
+    {
+      "tau": 1e-06,
+      "top100_order_exact_fraction": 0.9990234375,
+      "reordered_slot_fraction_A": 0.05689290364583333,
+      "reordered_slot_fraction_B": 0.05694986979166667
+    },
+    {
+      "tau": 3e-06,
+      "top100_order_exact_fraction": 0.998046875,
+      "reordered_slot_fraction_A": 0.14976399739583332,
+      "reordered_slot_fraction_B": 0.14977213541666667
+    }
+  ],
+  "TEST_ACCESSED": false
+}

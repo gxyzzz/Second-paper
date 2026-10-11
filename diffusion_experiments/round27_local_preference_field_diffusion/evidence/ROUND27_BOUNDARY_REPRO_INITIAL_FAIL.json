@@ -1,0 +1,32 @@
+{
+  "protocol": "ROUND27_C1_REPRO_V1",
+  "seed": 999,
+  "initial_state_exact": true,
+  "normal_plan_exact": true,
+  "rank_offset_exact": true,
+  "selected_real_item_hashes_exact": false,
+  "r20_exact": false,
+  "r20_max_abs_diff": 0.0003728464901002898,
+  "mismatch_epochs": {
+    "selected_real_item": [
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "R20": [
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ]
+  },
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false,
+  "C1_REPRODUCIBILITY": "FAIL"
+}
