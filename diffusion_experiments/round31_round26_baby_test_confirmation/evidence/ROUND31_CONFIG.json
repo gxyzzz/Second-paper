@@ -1,0 +1,49 @@
+{
+  "protocol": "ROUND31_ROUND26_FROZEN_BABY_TEST_CONFIRMATION_V1",
+  "protocol_hash": "0027ef69f7c234edc8dbdd5bd0825856237a00c4361fe13d35f010889ed96fd9",
+  "objective": "Frozen Round26 Baby Test confirmation: B0 vs D3 only",
+  "dataset": "Amazon Baby",
+  "source_protocol": "ROUND26_PREFERENCE_DIRECTED_DIFFUSION_V1",
+  "source_protocol_hash": "025c86c326d5877cb6b0fd91cd03efa85ea01c1dc4b8bbe04b1e5ebc3ce77939",
+  "seeds": [
+    999,
+    1000
+  ],
+  "variants": [
+    "B0",
+    "D3"
+  ],
+  "frozen_round26": {
+    "warmup_epochs": 10,
+    "formal_epochs": 60,
+    "lambda_HN": 0.2,
+    "theta_max_deg": 5.0,
+    "half_margin": 0.5,
+    "local_t": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "diff_steps_active": 2,
+    "checkpoint_selection": "Round26 frozen best Full CoLiftRec Validation R20"
+  },
+  "expected_epochs": {
+    "999_B0": 39,
+    "999_D3": 24,
+    "1000_B0": 31,
+    "1000_D3": 22
+  },
+  "validation_mean_U4_D3_vs_B0": 0.010878681572386186,
+  "test_repeats_per_checkpoint": 2,
+  "determinism_tolerance": 1e-12,
+  "test_pipeline": "existing TestEvaluator + evaluate_detail from round20/round18; build_test_eval; Top100; Full CoLiftRec; metrics_at",
+  "diffusion_inference_calls_expected": 0,
+  "test_used_for_selection": false,
+  "no_post_test_tuning": true,
+  "BABY_TEST_OPEN_FOR_ROUND31_ONLY": true,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false,
+  "gpu_policy": "physical GPU0 NVIDIA GeForce RTX 5090"
+}

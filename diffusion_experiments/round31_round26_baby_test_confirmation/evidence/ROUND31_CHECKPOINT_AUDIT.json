@@ -1,0 +1,172 @@
+{
+  "protocol": "ROUND31_ROUND26_FROZEN_BABY_TEST_CONFIRMATION_V1",
+  "protocol_hash": "0027ef69f7c234edc8dbdd5bd0825856237a00c4361fe13d35f010889ed96fd9",
+  "source_protocol": "ROUND26_PREFERENCE_DIRECTED_DIFFUSION_V1",
+  "source_protocol_hash": "025c86c326d5877cb6b0fd91cd03efa85ea01c1dc4b8bbe04b1e5ebc3ce77939",
+  "rows": {
+    "999": {
+      "B0": {
+        "best_epoch": 39,
+        "expected_epoch": 39,
+        "best_checkpoint": "/home/gxy/code/Second-paper/diffusion_experiments/round26_preference_directed_diffusion/outputs/seed999/B0/best.pt",
+        "evidence_checkpoint_sha256": "fc00e034f280c49da1511eb14786e79c4e25e9be6b2660e2b642df5c009bde20",
+        "actual_checkpoint_sha256": "fc00e034f280c49da1511eb14786e79c4e25e9be6b2660e2b642df5c009bde20",
+        "validation_metrics": {
+          "R10": 0.07194565869546585,
+          "N10": 0.03885132496923431,
+          "R20": 0.10713900011020096,
+          "N20": 0.047808846316065884,
+          "R50": 0.17358994010189682,
+          "N50": 0.06106451690699172
+        },
+        "source_protocol": "ROUND26_PREFERENCE_DIRECTED_DIFFUSION_V1",
+        "source_protocol_hash": "025c86c326d5877cb6b0fd91cd03efa85ea01c1dc4b8bbe04b1e5ebc3ce77939",
+        "checkpoint_metadata": {
+          "protocol": "ROUND26_PREFERENCE_DIRECTED_DIFFUSION_V1",
+          "seed": 999,
+          "variant": "B0",
+          "epoch": 39,
+          "TEST_ACCESSED": false
+        },
+        "checks": {
+          "checkpoint_exists": true,
+          "evidence_protocol_exact": true,
+          "evidence_protocol_hash_exact": true,
+          "evidence_seed_exact": true,
+          "evidence_variant_exact": true,
+          "best_epoch_expected": true,
+          "checkpoint_sha256_exact": true,
+          "checkpoint_protocol_exact": true,
+          "checkpoint_seed_exact": true,
+          "checkpoint_variant_exact": true,
+          "checkpoint_epoch_exact": true,
+          "model_state_dict_present": true
+        },
+        "PASS": true
+      },
+      "D3": {
+        "best_epoch": 24,
+        "expected_epoch": 24,
+        "best_checkpoint": "/home/gxy/code/Second-paper/diffusion_experiments/round26_preference_directed_diffusion/outputs/seed999/D3/best.pt",
+        "evidence_checkpoint_sha256": "d369e6bd6274c4e9886a6d91db0c46a3957dc13188321ee3195c194a5498ac3d",
+        "actual_checkpoint_sha256": "d369e6bd6274c4e9886a6d91db0c46a3957dc13188321ee3195c194a5498ac3d",
+        "validation_metrics": {
+          "R10": 0.07200259584420036,
+          "N10": 0.03925706306234683,
+          "R20": 0.10785432661107644,
+          "N20": 0.048393511645867755,
+          "R50": 0.17398566163415735,
+          "N50": 0.061626096729152105
+        },
+        "source_protocol": "ROUND26_PREFERENCE_DIRECTED_DIFFUSION_V1",
+        "source_protocol_hash": "025c86c326d5877cb6b0fd91cd03efa85ea01c1dc4b8bbe04b1e5ebc3ce77939",
+        "checkpoint_metadata": {
+          "protocol": "ROUND26_PREFERENCE_DIRECTED_DIFFUSION_V1",
+          "seed": 999,
+          "variant": "D3",
+          "epoch": 24,
+          "TEST_ACCESSED": false
+        },
+        "checks": {
+          "checkpoint_exists": true,
+          "evidence_protocol_exact": true,
+          "evidence_protocol_hash_exact": true,
+          "evidence_seed_exact": true,
+          "evidence_variant_exact": true,
+          "best_epoch_expected": true,
+          "checkpoint_sha256_exact": true,
+          "checkpoint_protocol_exact": true,
+          "checkpoint_seed_exact": true,
+          "checkpoint_variant_exact": true,
+          "checkpoint_epoch_exact": true,
+          "model_state_dict_present": true
+        },
+        "PASS": true
+      }
+    },
+    "1000": {
+      "B0": {
+        "best_epoch": 31,
+        "expected_epoch": 31,
+        "best_checkpoint": "/home/gxy/code/Second-paper/diffusion_experiments/round26_preference_directed_diffusion/outputs/seed1000/B0/best.pt",
+        "evidence_checkpoint_sha256": "3d099347a4bbb0ce9df143f68bdb96d2c513fb99852b2e1817f84bf08577c944",
+        "actual_checkpoint_sha256": "3d099347a4bbb0ce9df143f68bdb96d2c513fb99852b2e1817f84bf08577c944",
+        "validation_metrics": {
+          "R10": 0.07145587677086776,
+          "N10": 0.03869697361539896,
+          "R20": 0.10777687984424934,
+          "N20": 0.04794087290933564,
+          "R50": 0.17519321896925388,
+          "N50": 0.061445200406503156
+        },
+        "source_protocol": "ROUND26_PREFERENCE_DIRECTED_DIFFUSION_V1",
+        "source_protocol_hash": "025c86c326d5877cb6b0fd91cd03efa85ea01c1dc4b8bbe04b1e5ebc3ce77939",
+        "checkpoint_metadata": {
+          "protocol": "ROUND26_PREFERENCE_DIRECTED_DIFFUSION_V1",
+          "seed": 1000,
+          "variant": "B0",
+          "epoch": 31,
+          "TEST_ACCESSED": false
+        },
+        "checks": {
+          "checkpoint_exists": true,
+          "evidence_protocol_exact": true,
+          "evidence_protocol_hash_exact": true,
+          "evidence_seed_exact": true,
+          "evidence_variant_exact": true,
+          "best_epoch_expected": true,
+          "checkpoint_sha256_exact": true,
+          "checkpoint_protocol_exact": true,
+          "checkpoint_seed_exact": true,
+          "checkpoint_variant_exact": true,
+          "checkpoint_epoch_exact": true,
+          "model_state_dict_present": true
+        },
+        "PASS": true
+      },
+      "D3": {
+        "best_epoch": 22,
+        "expected_epoch": 22,
+        "best_checkpoint": "/home/gxy/code/Second-paper/diffusion_experiments/round26_preference_directed_diffusion/outputs/seed1000/D3/best.pt",
+        "evidence_checkpoint_sha256": "d13817bf6fb7c47e765a5425e48d2e1a0e44216bef3505d05c0ef1df6358db78",
+        "actual_checkpoint_sha256": "d13817bf6fb7c47e765a5425e48d2e1a0e44216bef3505d05c0ef1df6358db78",
+        "validation_metrics": {
+          "R10": 0.07279163452472785,
+          "N10": 0.03926039151418838,
+          "R20": 0.10914606521446328,
+          "N20": 0.048464951408195095,
+          "R50": 0.17488208500165298,
+          "N50": 0.06162379579228833
+        },
+        "source_protocol": "ROUND26_PREFERENCE_DIRECTED_DIFFUSION_V1",
+        "source_protocol_hash": "025c86c326d5877cb6b0fd91cd03efa85ea01c1dc4b8bbe04b1e5ebc3ce77939",
+        "checkpoint_metadata": {
+          "protocol": "ROUND26_PREFERENCE_DIRECTED_DIFFUSION_V1",
+          "seed": 1000,
+          "variant": "D3",
+          "epoch": 22,
+          "TEST_ACCESSED": false
+        },
+        "checks": {
+          "checkpoint_exists": true,
+          "evidence_protocol_exact": true,
+          "evidence_protocol_hash_exact": true,
+          "evidence_seed_exact": true,
+          "evidence_variant_exact": true,
+          "best_epoch_expected": true,
+          "checkpoint_sha256_exact": true,
+          "checkpoint_protocol_exact": true,
+          "checkpoint_seed_exact": true,
+          "checkpoint_variant_exact": true,
+          "checkpoint_epoch_exact": true,
+          "model_state_dict_present": true
+        },
+        "PASS": true
+      }
+    }
+  },
+  "PASS": true,
+  "BABY_TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false
+}
