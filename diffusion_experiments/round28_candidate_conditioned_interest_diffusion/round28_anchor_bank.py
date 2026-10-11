@@ -5,6 +5,7 @@ import numpy as np
 import torch
 
 from diffusion_experiments.round28_candidate_conditioned_interest_diffusion import round28_core as c
+from diffusion_experiments.round18_diffusion_hard_negative import round18_core as r18
 from modules.attribute import attribute_z, build_item_matrices, build_profiles
 from modules.coliftrec import fit_backgrounds, score_coliftrec
 from modules.ranking import semantic_z_for_candidates, topk_from_embeddings
@@ -17,7 +18,8 @@ class FrozenAnchorBank:
         self.seed = int(seed)
         self.events = events
         self.model = model
-        self.path = c.ASSETS / f'ROUND28_FROZEN_ANCHOR_BANK_SEED{seed}.npz'
+        self.path = c.ASSETS / f'ROUND28_FROZEN_TRAINED_ANCHOR_BANK_SEED{seed}.npz'
+        self.reference_audit = r18.checkpoint_info(self.seed)
         self.audit_path = c.EVID / f'ROUND28_FROZEN_ANCHOR_AUDIT_SEED{seed}.json'
         self.cfg = load_dataset_config('baby')
         if self.path.exists() and not force_rebuild:
@@ -66,9 +68,12 @@ class FrozenAnchorBank:
         pusers = self.events.pusers
         self.users = np.asarray([u for u, h in enumerate(histories) if h], dtype=np.int64)
 
-        self.model.eval()
+        # Round28 anchors come from the canonical trained backbone frozen before Round28,
+        # never from the fresh shared initialization used for fair B0/D5 retraining.
+        ref_model, _, _, _, ref_a = r18.load_start(self.seed, freeze=True)
+        ref_model.eval()
         with torch.no_grad():
-            fu, fi = self.model.forward(test=True)
+            fu, fi = ref_model.forward(test=True)
             ci, cs = topk_from_embeddings(fu, fi, self.users, histories, 100, 1024)
             pi, ps = topk_from_embeddings(fu, fi, pusers, pseudo, 100, 1024)
 
@@ -92,6 +97,10 @@ class FrozenAnchorBank:
         full, _ = score_coliftrec(cs, ci, ztf, zaf, zvf, bg, params, enabled)
         order = np.argsort(-full, axis=1, kind='stable')
         self.ranked_top100 = np.take_along_axis(ci, order, axis=1).astype(np.int64)
+
+        del ref_model
+        torch.cuda.empty_cache()
+        gc.collect()
 
         self.event_users = self.events.u.copy()
         self.event_pos = self.events.p.copy()
@@ -173,7 +182,11 @@ class FrozenAnchorBank:
             'protocol': c.PROTOCOL,
             'seed': self.seed,
             'TRAIN_ONLY': True,
-            'source': 'frozen initial MSCA candidate Top100 reranked by frozen Full CoLiftRec',
+            'source': 'canonical frozen trained MSCA candidate Top100 reranked by frozen Full CoLiftRec',
+            'reference_checkpoint': self.reference_audit.get('checkpoint'),
+            'reference_checkpoint_epoch': self.reference_audit.get('checkpoint_epoch'),
+            'reference_checkpoint_fixed_before_round28': True,
+            'round28_validation_labels_used_for_reference_selection': False,
             'event_count': int(len(self.event_users)),
             'anchors_per_event': int(c.N_ANCHORS),
             'bank_hash': self.bank_hash(),
