@@ -1,0 +1,27 @@
+{
+  "protocol": "ROUND29_POSITIVE_SIDE_USER_CONDITIONED_DIFFUSION_PREFERENCE_PURIFICATION_V1",
+  "seed": 999,
+  "CANONICAL_TRAINED_EMBEDDING_LOADED": true,
+  "GENERIC_BACKGROUND_FROM_CANONICAL_REFERENCE": true,
+  "SHARED_INIT_USED_FOR_BG": false,
+  "LOCAL_SUPPORT_ROW_Z_FOR_LIFT": false,
+  "COLIFT_BG_SOURCE": "CANONICAL_FROZEN_TRAINED_BACKBONE",
+  "reference_embedding_asset": "/home/gxy/code/Second-paper/runs/assets/msca_baby_seed999/embeddings.npz",
+  "reference_embedding_sha256": "48522f88766ee88f3f4867896f5b26faac7e560ad5d09e7ce8608262355d41cc",
+  "reference_checkpoint": "/home/gxy/code/Second-paper/runs/checkpoints/MSCA-Sep-26-2026-12-48-04.pth",
+  "reference_checkpoint_epoch": 37,
+  "reference_bank_asset": "/home/gxy/code/Second-paper/diffusion_experiments/round29_positive_preference_purification/assets/ROUND29_COLIFT_REFERENCE_SEED999.npz",
+  "reference_bank_sha256": "3f420fb6c4876dc394f659a420faa514ffc9b070a7fa70ff7194a11faeb2f19f",
+  "reference_candidate_shape": [
+    19445,
+    100
+  ],
+  "candidate_definition": "canonical trained backbone Top100 with full TRAIN history exclusion",
+  "background_definition": "canonical trained backbone TRAIN pseudo-history Top100 -> official T/A/V z -> fit_backgrounds",
+  "background_frozen_for_round29": true,
+  "VALIDATION_USED_FOR_CONSTRUCTION": false,
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false,
+  "PASS": true
+}
