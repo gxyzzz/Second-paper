@@ -3,7 +3,7 @@ import argparse, gc, hashlib, json
 from pathlib import Path
 import numpy as np
 import torch
-from diffusion_experiments.round26_preference_directed_diffusion import round26_core as c26
+from diffusion_experiments.round27_local_preference_field_diffusion import round27_core as c26
 
 RDIR=c26.ROOT/'diffusion_experiments/round27_local_preference_field_diffusion'
 EVID=RDIR/'evidence'; LOGS=RDIR/'logs'; EVID.mkdir(parents=True,exist_ok=True); LOGS.mkdir(parents=True,exist_ok=True)
@@ -27,7 +27,7 @@ def run(tag):
             for x in offs: ho.update(np.asarray(x,dtype=np.int64).tobytes())
             opt.zero_grad(set_to_none=True); b=c26.forward_bundle(model); loss=c26.msca_loss_from_bundle(model,interaction,b)
             if active>0:
-                ids,used,_=c26.mine_current_ids(b,interaction,events,mask,SEED,ep,bi,active)
+                ids,used,_=c26.mine_current_ids_stable(b,interaction,events,mask,SEED,ep,bi,active)
                 for x in ids: hi.update(x.detach().cpu().numpy().astype(np.int64).tobytes())
                 for a,z in zip(offs,used):
                     if not np.array_equal(a,z): raise RuntimeError('rank-offset mismatch')
