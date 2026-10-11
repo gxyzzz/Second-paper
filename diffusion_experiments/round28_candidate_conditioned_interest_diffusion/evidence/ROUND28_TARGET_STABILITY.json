@@ -1,0 +1,162 @@
+{
+  "protocol": "ROUND28_CANDIDATE_CONDITIONED_COHERENT_INTEREST_DIFFUSION_V1",
+  "seed": 999,
+  "TRAIN_ONLY": true,
+  "events": 1024,
+  "anchors_per_event": 4,
+  "context_audit": {
+    "seed": 999,
+    "TRAIN_ONLY": true,
+    "train_interactions": 118551,
+    "users_with_history": 19445,
+    "K_HISTORY": 8,
+    "MIN_HISTORY": 3,
+    "MIN_COHERENT": 2,
+    "colift": {
+      "lambda_text": 1.0,
+      "lambda_attribute": 0.75,
+      "lambda_visual": 0.25,
+      "alpha_text": 0.25,
+      "alpha_attribute": 0.15,
+      "alpha_visual": 0.025
+    },
+    "attribute_weights": {
+      "title": 0.45,
+      "brand": 0.2,
+      "description": 0.35
+    },
+    "background_definition": "TRAIN pseudo-history Top100 only",
+    "current_positive_excluded_from_target": true,
+    "VALIDATION_HISTORY_ACCESSED": false,
+    "TEST_ACCESSED": false,
+    "SPORTS_ACCESSED": false,
+    "ELECTRONICS_ACCESSED": false
+  },
+  "field_statistics": {
+    "history_size": {
+      "mean": 9.0029296875,
+      "median": 6.0,
+      "p10": 2.0,
+      "p50": 6.0,
+      "p90": 19.0,
+      "p99": 39.0,
+      "min": 2.0,
+      "max": 99.0
+    },
+    "candidate_local_support_count": {
+      "mean": 5.6552734375,
+      "median": 6.0,
+      "p10": 2.0,
+      "p50": 6.0,
+      "p90": 8.0,
+      "p99": 8.0,
+      "min": 2.0,
+      "max": 8.0
+    },
+    "personalized_gate_support_count": {
+      "mean": 3.05859375,
+      "median": 3.0,
+      "p10": 0.0,
+      "p50": 3.0,
+      "p90": 4.0,
+      "p99": 4.0,
+      "min": 0.0,
+      "max": 4.0
+    },
+    "coherent_support_count": {
+      "mean": 2.6455078125,
+      "median": 3.0,
+      "p10": 0.0,
+      "p50": 3.0,
+      "p90": 4.0,
+      "p99": 4.0,
+      "min": 0.0,
+      "max": 4.0
+    },
+    "invalid_fraction": 0.15283203125,
+    "rho": {
+      "mean": 0.7174513072532136,
+      "median": 0.7867139875888824,
+      "p10": 0.0,
+      "p50": 0.7867139875888824,
+      "p90": 0.9796122908592224,
+      "p99": 0.9999997019767761,
+      "min": 0.0,
+      "max": 0.9999998807907104
+    },
+    "confidence": {
+      "mean": 0.5388602595412522,
+      "median": 0.590641975402832,
+      "p10": 0.0,
+      "p50": 0.590641975402832,
+      "p90": 0.7816122770309448,
+      "p99": 0.9644264400005341,
+      "min": 0.0,
+      "max": 0.9939627647399902
+    },
+    "semantic_locality": {
+      "mean": 0.18728051544348026,
+      "median": 0.18068629503250122,
+      "p10": 0.11924261301755905,
+      "p50": 0.18068629503250122,
+      "p90": 0.25932173132896424,
+      "p99": 0.39089385092258444,
+      "min": 0.02041391283273697,
+      "max": 0.8378693461418152
+    },
+    "personalized_lift": {
+      "mean": 1.6896102877864152e-09,
+      "median": -0.0022471435368061066,
+      "p10": -0.4587592393159866,
+      "p50": -0.0022471435368061066,
+      "p90": 0.4592677652835846,
+      "p99": 0.69668563902378,
+      "min": -1.0254379510879517,
+      "max": 0.988793134689331
+    },
+    "coherence": {
+      "mean": 0.4372043049599198,
+      "median": 0.22248496115207672,
+      "p10": 0.04607277736067772,
+      "p50": 0.22248496115207672,
+      "p90": 0.999999463558197,
+      "p99": 0.9999997019767761,
+      "min": 0.0001870745763881132,
+      "max": 1.0
+    },
+    "weights_sum": {
+      "mean": 0.8632812455762178,
+      "median": 1.0,
+      "p10": 0.0,
+      "p50": 1.0,
+      "p90": 1.0,
+      "p99": 1.0000001192092896,
+      "min": 0.0,
+      "max": 1.0000001192092896
+    },
+    "current_positive_excluded_all": true
+  },
+  "split_half_direction_stability": {
+    "Round27_LPF_cosine_median": 0.102409478276968,
+    "Round28_coherent_field_cosine": {
+      "mean": 0.17716269031172777,
+      "median": 0.15941623598337173,
+      "p10": 0.027173878625035286,
+      "p50": 0.15941623598337173,
+      "p90": 0.34941058456897756,
+      "p99": 0.611258405447006,
+      "min": -0.2283276468515396,
+      "max": 0.8310849666595459
+    },
+    "improvement_vs_Round27": 0.05700675770640373,
+    "desired_ge_0_15": true,
+    "blocking_if_lt_0_08": false
+  },
+  "CURRENT_POSITIVE_EXCLUDED": true,
+  "VALIDATION_LEAKAGE": "NONE",
+  "TEST_LEAKAGE": "NONE",
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false,
+  "PASS": true
+}

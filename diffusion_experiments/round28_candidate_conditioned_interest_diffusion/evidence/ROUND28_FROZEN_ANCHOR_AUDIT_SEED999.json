@@ -1,0 +1,30 @@
+{
+  "protocol": "ROUND28_CANDIDATE_CONDITIONED_COHERENT_INTEREST_DIFFUSION_V1",
+  "seed": 999,
+  "TRAIN_ONLY": true,
+  "source": "frozen initial MSCA candidate Top100 reranked by frozen Full CoLiftRec",
+  "event_count": 118551,
+  "anchors_per_event": 4,
+  "bank_hash": "6caf5ccba8d3975a7c013ec4d84ab47815f0f6de0ac9499aeb38db20cff8b7fc",
+  "anchor_rank": {
+    "mean": 20.500742296564347,
+    "median": 20.5,
+    "p10": 12.0,
+    "p50": 20.5,
+    "p90": 28.0,
+    "p99": 30.0,
+    "min": 11.0,
+    "max": 30.0
+  },
+  "rank11_20_fraction": 0.5,
+  "rank21_30_fraction": 0.5,
+  "all_anchors_exclude_train_history_and_current_positive": true,
+  "deterministic_schedule": "epoch % 4",
+  "VALIDATION_USED_FOR_CONSTRUCTION": false,
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false,
+  "repeat_hash": "6caf5ccba8d3975a7c013ec4d84ab47815f0f6de0ac9499aeb38db20cff8b7fc",
+  "repeat_exact": true,
+  "PASS": true
+}
