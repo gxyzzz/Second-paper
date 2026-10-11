@@ -1,0 +1,67 @@
+{
+  "protocol": "ROUND28_CANDIDATE_CONDITIONED_COHERENT_INTEREST_DIFFUSION_V1",
+  "protocol_hash": "e399f27d6d62e544861dbe9269a82cafbfa4cc5983ac2b39fea5b1597d753165",
+  "dataset": "Baby",
+  "split": "Validation",
+  "seeds": [
+    999,
+    1000
+  ],
+  "variants": [
+    "B0",
+    "D5"
+  ],
+  "K_HISTORY": 8,
+  "MIN_HISTORY": 3,
+  "MIN_COHERENT": 2,
+  "anchors_per_event": 4,
+  "anchor_regions_1indexed": [
+    [
+      11,
+      20
+    ],
+    [
+      11,
+      20
+    ],
+    [
+      21,
+      30
+    ],
+    [
+      21,
+      30
+    ]
+  ],
+  "warmup_epochs": 10,
+  "formal_epochs": 60,
+  "lambda_HN": 0.2,
+  "trust_angle_deg": 5.0,
+  "HALF_MARGIN": 0.5,
+  "diffusion_loss": {
+    "L_base": 1.0,
+    "L_dir": 0.5,
+    "L_sep": 0.25,
+    "L_bound": 0.05,
+    "sep_margin": 0.2
+  },
+  "ensemble_noise_seeds": [
+    20261011,
+    20261012,
+    20261013
+  ],
+  "device_config": "cuda:0",
+  "requested_gpu_policy": "physical GPU0 = NVIDIA GeForce RTX 5090 when memory permits",
+  "aborted_nonfinal_log": "logs/seed1000_D5_formal_aborted_4060ti.log",
+  "effective_formal_logs": [
+    "logs/seed999_B0_formal.log",
+    "logs/seed999_D5_formal.log",
+    "logs/seed1000_B0_formal.log",
+    "logs/seed1000_D5_formal.log"
+  ],
+  "aborted_attempt_used_for_evidence": false,
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false,
+  "implementation_preflight_head": "0d4cbe1"
+}
