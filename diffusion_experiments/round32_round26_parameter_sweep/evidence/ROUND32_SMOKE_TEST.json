@@ -1,0 +1,20 @@
+{
+  "seed": 999,
+  "B0_Test": {
+    "R10": 0.07265945462782697,
+    "N10": 0.03988175895961401,
+    "R20": 0.10824611319082907,
+    "N20": 0.04902828108707234,
+    "R50": 0.17607191371526676,
+    "N50": 0.06280770047175033
+  },
+  "round31_parity": 0.0,
+  "per_user_shape": [
+    19445,
+    4
+  ],
+  "PASS": true,
+  "TEST_ACCESSED": true,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false
+}

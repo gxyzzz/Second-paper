@@ -1,0 +1,30 @@
+{
+  "protocol": "ROUND32_ROUND26_PARAMETER_SWEEP_V1",
+  "seed": 999,
+  "source": "Round26 B0 Validation-selected checkpoint + Round31 Test reference",
+  "best_epoch": 39,
+  "checkpoint": "/home/gxy/code/Second-paper/diffusion_experiments/round26_preference_directed_diffusion/outputs/seed999/B0/best.pt",
+  "checkpoint_sha256": "fc00e034f280c49da1511eb14786e79c4e25e9be6b2660e2b642df5c009bde20",
+  "Validation": {
+    "R10": 0.07194565869546585,
+    "N10": 0.03885132496923431,
+    "R20": 0.10713900011020096,
+    "N20": 0.047808846316065884,
+    "R50": 0.17358994010189682,
+    "N50": 0.06106451690699172
+  },
+  "Test": {
+    "R10": 0.07265945462782697,
+    "N10": 0.03988175895961401,
+    "R20": 0.10824611319082907,
+    "N20": 0.04902828108707234,
+    "R50": 0.17607191371526676,
+    "N50": 0.06280770047175033
+  },
+  "round31_test_parity_max_abs_error": 0.0,
+  "per_user_asset": "/home/gxy/code/Second-paper/diffusion_experiments/round32_round26_parameter_sweep/assets/ROUND32_B0_TEST_PERUSER_SEED999.npz",
+  "TEST_ACCESSED": true,
+  "BABY_TEST_ROLE": "DEVELOPMENT_BENCHMARK_AFTER_ROUND31",
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false
+}

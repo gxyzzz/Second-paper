@@ -1,0 +1,134 @@
+{
+  "protocol": "ROUND32_ROUND26_PARAMETER_SWEEP_V1",
+  "protocol_hash": "726435641b81352a4fda4f682fb4c1b5a73008d2de4051c174a9d33d5d1df969",
+  "objective": "Round26 boundary-supervision strength robustness sweep",
+  "dataset": "Amazon Baby",
+  "seeds": [
+    999,
+    1000
+  ],
+  "variant_configs": {
+    "R26_BASE": {
+      "lambda_HN": 0.2,
+      "half_margin": 0.5,
+      "theta_max_deg": 5.0,
+      "reuse": true,
+      "group": "REFERENCE"
+    },
+    "L10": {
+      "lambda_HN": 0.1,
+      "half_margin": 0.5,
+      "theta_max_deg": 5.0,
+      "group": "A"
+    },
+    "L15": {
+      "lambda_HN": 0.15,
+      "half_margin": 0.5,
+      "theta_max_deg": 5.0,
+      "group": "A"
+    },
+    "L25": {
+      "lambda_HN": 0.25,
+      "half_margin": 0.5,
+      "theta_max_deg": 5.0,
+      "group": "A"
+    },
+    "M25": {
+      "lambda_HN": 0.2,
+      "half_margin": 0.25,
+      "theta_max_deg": 5.0,
+      "group": "B"
+    },
+    "M35": {
+      "lambda_HN": 0.2,
+      "half_margin": 0.35,
+      "theta_max_deg": 5.0,
+      "group": "B"
+    },
+    "M65": {
+      "lambda_HN": 0.2,
+      "half_margin": 0.65,
+      "theta_max_deg": 5.0,
+      "group": "B"
+    },
+    "T3": {
+      "lambda_HN": 0.2,
+      "half_margin": 0.5,
+      "theta_max_deg": 3.0,
+      "group": "C"
+    },
+    "T4": {
+      "lambda_HN": 0.2,
+      "half_margin": 0.5,
+      "theta_max_deg": 4.0,
+      "group": "C"
+    },
+    "T6": {
+      "lambda_HN": 0.2,
+      "half_margin": 0.5,
+      "theta_max_deg": 6.0,
+      "group": "C"
+    },
+    "C1": {
+      "lambda_HN": 0.15,
+      "half_margin": 0.35,
+      "theta_max_deg": 4.0,
+      "group": "D"
+    },
+    "C2": {
+      "lambda_HN": 0.1,
+      "half_margin": 0.25,
+      "theta_max_deg": 3.0,
+      "group": "D"
+    },
+    "C3": {
+      "lambda_HN": 0.2,
+      "half_margin": 0.35,
+      "theta_max_deg": 4.0,
+      "group": "D"
+    }
+  },
+  "train_variants": [
+    "L10",
+    "L15",
+    "L25",
+    "M25",
+    "M35",
+    "M65",
+    "T3",
+    "T4",
+    "T6",
+    "C1",
+    "C2",
+    "C3"
+  ],
+  "new_formal_jobs": 24,
+  "frozen": {
+    "local_t": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "warmup_epochs": 10,
+    "formal_epochs": 60,
+    "diffusion_active_steps": 2,
+    "checkpoint_selection": "best Full CoLiftRec Validation R20",
+    "candidate_mining": "Round26 original",
+    "boundary_bands": "Round26 original",
+    "optimizer_scheduler": "Round26 original",
+    "Full_CoLiftRec": "frozen"
+  },
+  "R26_BASE_reference": {
+    "Validation_mean_U4": 0.010878681572386186,
+    "Test_mean_U4": 0.004735042786151433,
+    "Test_seed999_U4": 0.0007285488367645069,
+    "Test_seed1000_U4": 0.008741536735538359
+  },
+  "BABY_TEST_ROLE": "DEVELOPMENT_BENCHMARK_AFTER_ROUND31",
+  "BABY_TEST_UNTOUCHED_FINAL_TEST": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false,
+  "FINAL_PARAMETER_SELECTION": "ADVISOR_OR_USER_ONLY"
+}

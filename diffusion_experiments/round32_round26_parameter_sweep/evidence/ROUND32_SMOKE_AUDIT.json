@@ -1,0 +1,27 @@
+{
+  "protocol": "ROUND32_ROUND26_PARAMETER_SWEEP_V1",
+  "variant": "C1",
+  "seed": 999,
+  "config": {
+    "lambda_HN": 0.15,
+    "half_margin": 0.35,
+    "theta_max_deg": 4.0,
+    "group": "D"
+  },
+  "checks": {
+    "lambda_exact": true,
+    "half_margin_exact": true,
+    "theta_exact": true,
+    "warmup_seen": true,
+    "active_seen": true,
+    "aux_loss_positive": true,
+    "theta_cap_pass": true,
+    "requested_shift_nonzero": true,
+    "test_evaluator_parity": true,
+    "test_evaluator_per_user_shape": true
+  },
+  "smoke_metrics_not_used_for_sweep_change": true,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false,
+  "PASS": true
+}
