@@ -1,0 +1,85 @@
+{
+  "protocol": "ROUND31_ROUND26_FROZEN_BABY_TEST_CONFIRMATION_V1",
+  "protocol_hash": "ce57efdd0af5ea49976bd977249ff8fe11a3e73de089f7aa30a912c63d2cec3d",
+  "test_evaluator_source": "diffusion_experiments.round20_positive_anchored_hardneg.run_round20_test.TestEvaluator/evaluate_detail",
+  "test_split": "official Baby Test via build_test_eval",
+  "same_test_users_across_all_checkpoints": true,
+  "same_ground_truth_across_all_checkpoints": true,
+  "same_interaction_file_across_all_checkpoints": true,
+  "same_full_colift_parameters_across_all_checkpoints": true,
+  "same_candidate_shape_across_all_checkpoints": true,
+  "candidate_ids_note": "ordered and set candidate hashes are recorded diagnostically; the blocking reproducibility requirement follows the Round31 guide: all metrics exact within 1e-12 plus identical Test users, ground truth, split, candidate-generation protocol, shape, interaction source and Full CoLift parameters; B0 and D3 candidate outputs may differ because the frozen trained checkpoint is the only intended change",
+  "raw_hashes": {
+    "999": {
+      "B0": {
+        "test_user_hash": "2025f6f937f4fac636a0c587c9f693d00d2efc3c21bd3b75d78e08aa0e5e94b2",
+        "candidate_ids_hash": "98f691dded63797bb931dc0866466eaf1a7dfbb09efac69e21198c13f2129b26",
+        "candidate_set_hash": "2939badf0fba7c03a82a4f1a22767f807b054ec19c81a06a5213cc074b0bbcb0",
+        "ground_truth_hash": "896053d66d7968c3cb90a745f07a7d8cbfc408064e6ddd131b40e10c5e3a58fb",
+        "candidate_shape": [
+          19445,
+          100
+        ],
+        "test_user_count": 19445,
+        "interaction_sha256": "9ef5de9a05949d973928cca113aacba12067ff8f104e310ef28ea42db00c17b1",
+        "colift_params_hash": "33e40f31005a732721a86494d80405c5c715e24b68ed133ba4e5e0ecb751043f",
+        "candidate_protocol": "topk_from_embeddings(frozen checkpoint, TRAIN history exclusion, K=100)",
+        "metric_pipeline": "existing evaluate_detail -> Full CoLiftRec -> metrics_at"
+      },
+      "D3": {
+        "test_user_hash": "2025f6f937f4fac636a0c587c9f693d00d2efc3c21bd3b75d78e08aa0e5e94b2",
+        "candidate_ids_hash": "d78836a535338f4f62e6fd39b64d3c8014608f6bb4dc730e206d7fef0cac2fcc",
+        "candidate_set_hash": "154fbdabbb41b1fd1abd672e067aaa612e1dede47298deac84ce91af3cbbf439",
+        "ground_truth_hash": "896053d66d7968c3cb90a745f07a7d8cbfc408064e6ddd131b40e10c5e3a58fb",
+        "candidate_shape": [
+          19445,
+          100
+        ],
+        "test_user_count": 19445,
+        "interaction_sha256": "9ef5de9a05949d973928cca113aacba12067ff8f104e310ef28ea42db00c17b1",
+        "colift_params_hash": "33e40f31005a732721a86494d80405c5c715e24b68ed133ba4e5e0ecb751043f",
+        "candidate_protocol": "topk_from_embeddings(frozen checkpoint, TRAIN history exclusion, K=100)",
+        "metric_pipeline": "existing evaluate_detail -> Full CoLiftRec -> metrics_at"
+      }
+    },
+    "1000": {
+      "B0": {
+        "test_user_hash": "2025f6f937f4fac636a0c587c9f693d00d2efc3c21bd3b75d78e08aa0e5e94b2",
+        "candidate_ids_hash": "dee37bc4d64204477094b60ce0cd8cf7c31a5c2dcf03770fa76012755c9a6df0",
+        "candidate_set_hash": "e8e6fdd254f1582bc125e5c451ad896eaf31e846649b58789dc4de9d8d01abe8",
+        "ground_truth_hash": "896053d66d7968c3cb90a745f07a7d8cbfc408064e6ddd131b40e10c5e3a58fb",
+        "candidate_shape": [
+          19445,
+          100
+        ],
+        "test_user_count": 19445,
+        "interaction_sha256": "9ef5de9a05949d973928cca113aacba12067ff8f104e310ef28ea42db00c17b1",
+        "colift_params_hash": "33e40f31005a732721a86494d80405c5c715e24b68ed133ba4e5e0ecb751043f",
+        "candidate_protocol": "topk_from_embeddings(frozen checkpoint, TRAIN history exclusion, K=100)",
+        "metric_pipeline": "existing evaluate_detail -> Full CoLiftRec -> metrics_at"
+      },
+      "D3": {
+        "test_user_hash": "2025f6f937f4fac636a0c587c9f693d00d2efc3c21bd3b75d78e08aa0e5e94b2",
+        "candidate_ids_hash": "db46b9c798ddf0e462d1aa192d15de3870373a157ab564ddf5eacae3a6bdf34f",
+        "candidate_set_hash": "a7f89d10fb67c52b34af65f11a6a975ee3646cb7b055c907fdb2360adb2e5eb6",
+        "ground_truth_hash": "896053d66d7968c3cb90a745f07a7d8cbfc408064e6ddd131b40e10c5e3a58fb",
+        "candidate_shape": [
+          19445,
+          100
+        ],
+        "test_user_count": 19445,
+        "interaction_sha256": "9ef5de9a05949d973928cca113aacba12067ff8f104e310ef28ea42db00c17b1",
+        "colift_params_hash": "33e40f31005a732721a86494d80405c5c715e24b68ed133ba4e5e0ecb751043f",
+        "candidate_protocol": "topk_from_embeddings(frozen checkpoint, TRAIN history exclusion, K=100)",
+        "metric_pipeline": "existing evaluate_detail -> Full CoLiftRec -> metrics_at"
+      }
+    }
+  },
+  "all_checkpoint_repeats_exact": true,
+  "diffusion_inference_calls_all_zero": true,
+  "ONLY_CHANGE_B0_VS_D3": "trained frozen checkpoint",
+  "TEST_USED_FOR_SELECTION": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false,
+  "PASS": true
+}

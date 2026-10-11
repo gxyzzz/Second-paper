@@ -1,0 +1,132 @@
+{
+  "protocol": "ROUND31_ROUND26_FROZEN_BABY_TEST_CONFIRMATION_V1",
+  "protocol_hash": "4da5721d7665717b1ec9aa0ab0ef2d683c24e150c1ad746cc055e80f617f193f",
+  "source_protocol": "ROUND26_PREFERENCE_DIRECTED_DIFFUSION_V1",
+  "seed": 1000,
+  "variant": "B0",
+  "source_best_epoch": 31,
+  "source_checkpoint": "/home/gxy/code/Second-paper/diffusion_experiments/round26_preference_directed_diffusion/outputs/seed1000/B0/best.pt",
+  "source_checkpoint_sha256": "3d099347a4bbb0ce9df143f68bdb96d2c513fb99852b2e1817f84bf08577c944",
+  "repeats": [
+    {
+      "repeat": 1,
+      "metrics": {
+        "backbone": {
+          "R10": 0.06772035270235323,
+          "N10": 0.03703098920461277,
+          "R20": 0.10378405885991383,
+          "N20": 0.04631808587404491,
+          "R50": 0.17448297638192214,
+          "N50": 0.06063812057861048
+        },
+        "colift": {
+          "R10": 0.07122588519734317,
+          "N10": 0.03894483221311441,
+          "R20": 0.10729273412225329,
+          "N20": 0.04826928430234158,
+          "R50": 0.17953899518954802,
+          "N50": 0.06295466808335885
+        },
+        "test_user_count": 19445,
+        "candidate_shape": [
+          19445,
+          100
+        ],
+        "diffusion_inference_calls": 0
+      },
+      "protocol_audit": {
+        "test_user_hash": "2025f6f937f4fac636a0c587c9f693d00d2efc3c21bd3b75d78e08aa0e5e94b2",
+        "candidate_ids_hash": "dee37bc4d64204477094b60ce0cd8cf7c31a5c2dcf03770fa76012755c9a6df0",
+        "candidate_set_hash": "e8e6fdd254f1582bc125e5c451ad896eaf31e846649b58789dc4de9d8d01abe8",
+        "ground_truth_hash": "896053d66d7968c3cb90a745f07a7d8cbfc408064e6ddd131b40e10c5e3a58fb",
+        "candidate_shape": [
+          19445,
+          100
+        ],
+        "test_user_count": 19445,
+        "interaction_sha256": "9ef5de9a05949d973928cca113aacba12067ff8f104e310ef28ea42db00c17b1",
+        "colift_params_hash": "33e40f31005a732721a86494d80405c5c715e24b68ed133ba4e5e0ecb751043f",
+        "candidate_protocol": "topk_from_embeddings(frozen checkpoint, TRAIN history exclusion, K=100)",
+        "metric_pipeline": "existing evaluate_detail -> Full CoLiftRec -> metrics_at"
+      }
+    },
+    {
+      "repeat": 2,
+      "metrics": {
+        "backbone": {
+          "R10": 0.06772035270235323,
+          "N10": 0.03703098920461277,
+          "R20": 0.10378405885991383,
+          "N20": 0.04631808587404491,
+          "R50": 0.17448297638192214,
+          "N50": 0.06063812057861048
+        },
+        "colift": {
+          "R10": 0.07122588519734317,
+          "N10": 0.03894483221311441,
+          "R20": 0.10729273412225329,
+          "N20": 0.04826928430234158,
+          "R50": 0.17953899518954802,
+          "N50": 0.06295466808335885
+        },
+        "test_user_count": 19445,
+        "candidate_shape": [
+          19445,
+          100
+        ],
+        "diffusion_inference_calls": 0
+      },
+      "protocol_audit": {
+        "test_user_hash": "2025f6f937f4fac636a0c587c9f693d00d2efc3c21bd3b75d78e08aa0e5e94b2",
+        "candidate_ids_hash": "62df1918a9acc81bc6861d484f41c2f8a616b45427db7c57500515249f214f14",
+        "candidate_set_hash": "e8e6fdd254f1582bc125e5c451ad896eaf31e846649b58789dc4de9d8d01abe8",
+        "ground_truth_hash": "896053d66d7968c3cb90a745f07a7d8cbfc408064e6ddd131b40e10c5e3a58fb",
+        "candidate_shape": [
+          19445,
+          100
+        ],
+        "test_user_count": 19445,
+        "interaction_sha256": "9ef5de9a05949d973928cca113aacba12067ff8f104e310ef28ea42db00c17b1",
+        "colift_params_hash": "33e40f31005a732721a86494d80405c5c715e24b68ed133ba4e5e0ecb751043f",
+        "candidate_protocol": "topk_from_embeddings(frozen checkpoint, TRAIN history exclusion, K=100)",
+        "metric_pipeline": "existing evaluate_detail -> Full CoLiftRec -> metrics_at"
+      }
+    }
+  ],
+  "canonical_metrics": {
+    "backbone": {
+      "R10": 0.06772035270235323,
+      "N10": 0.03703098920461277,
+      "R20": 0.10378405885991383,
+      "N20": 0.04631808587404491,
+      "R50": 0.17448297638192214,
+      "N50": 0.06063812057861048
+    },
+    "colift": {
+      "R10": 0.07122588519734317,
+      "N10": 0.03894483221311441,
+      "R20": 0.10729273412225329,
+      "N20": 0.04826928430234158,
+      "R50": 0.17953899518954802,
+      "N50": 0.06295466808335885
+    },
+    "test_user_count": 19445,
+    "candidate_shape": [
+      19445,
+      100
+    ],
+    "diffusion_inference_calls": 0
+  },
+  "repeat_backbone_max_abs_error": 0.0,
+  "repeat_colift_max_abs_error": 0.0,
+  "repeat_candidate_protocol_exact": true,
+  "repeat_ordered_candidate_hash_exact": false,
+  "repeat_candidate_set_hash_exact": true,
+  "REPRODUCIBILITY_PASS": true,
+  "test_used_for_selection": false,
+  "no_post_test_tuning": true,
+  "TEST_ACCESSED": true,
+  "BABY_TEST_STATUS": "OPENED_FOR_ROUND31_FROZEN_CONFIRMATION",
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false
+}
