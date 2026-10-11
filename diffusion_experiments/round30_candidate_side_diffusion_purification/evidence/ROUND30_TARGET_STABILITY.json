@@ -1,0 +1,29 @@
+{
+  "protocol": "ROUND30_FROZEN_BACKBONE_CANDIDATE_SIDE_DIFFUSION_PURIFICATION_V1",
+  "seed": 999,
+  "TRAIN_ONLY": true,
+  "sampled_events": 1024,
+  "valid_split_events": 980,
+  "history_rounds": {
+    "Round27": 0.102409,
+    "Round28": 0.169605,
+    "Round29": 0.169504
+  },
+  "Round30_split_half_cosine": {
+    "mean": 0.3599023030690697,
+    "median": 0.33073876798152924,
+    "p10": 0.11592950820922852,
+    "p50": 0.33073876798152924,
+    "p90": 0.6560480058193208,
+    "p99": 0.8889019507169725,
+    "min": -0.17432060837745667,
+    "max": 0.9455360770225525
+  },
+  "median_ge_0_12": true,
+  "blocking_lt_0_08": false,
+  "preflight_Q2_pass": true,
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false,
+  "PASS": true
+}

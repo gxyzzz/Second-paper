@@ -1,0 +1,130 @@
+{
+  "protocol": "ROUND30_FROZEN_BACKBONE_CANDIDATE_SIDE_DIFFUSION_PURIFICATION_V1",
+  "protocol_hash": "daf126ed9ed873281621542586c556da7883b702d0f19dacc3aa6938188c2dbc",
+  "dataset": "Amazon Baby",
+  "split": "Validation",
+  "seeds": [
+    999,
+    1000
+  ],
+  "variant": "D7",
+  "baseline_source": "ROUND28_B0",
+  "baselines": {
+    "999": {
+      "baseline_source": "ROUND28_B0",
+      "baseline_protocol": "ROUND28_CANDIDATE_CONDITIONED_COHERENT_INTEREST_DIFFUSION_V1",
+      "baseline_protocol_hash": "e399f27d6d62e544861dbe9269a82cafbfa4cc5983ac2b39fea5b1597d753165",
+      "baseline_checkpoint": "/home/gxy/code/Second-paper/diffusion_experiments/round28_candidate_conditioned_interest_diffusion/outputs/seed999/B0/best.pt",
+      "baseline_checkpoint_sha256": "0d15c34d882e877719bff15291cb61943707031705b75edb9737c5c84ef577d7",
+      "baseline_best_epoch": 42,
+      "baseline_best_evaluation": {
+        "backbone": {
+          "R10": 0.06738701343226929,
+          "N10": 0.03679303729327933,
+          "R20": 0.10286412224956838,
+          "N20": 0.045829659848521956,
+          "R50": 0.16761031502996013,
+          "N50": 0.05879244094324434
+        },
+        "colift": {
+          "R10": 0.0716614627337178,
+          "N10": 0.0388188156890753,
+          "R20": 0.10677472480378113,
+          "N20": 0.047779979531136184,
+          "R50": 0.17220359010150726,
+          "N50": 0.060828713634903234
+        },
+        "diffusion_inference_calls": 0
+      },
+      "baseline_trajectory_source": "/home/gxy/code/Second-paper/diffusion_experiments/round28_candidate_conditioned_interest_diffusion/evidence/ROUND28_B0_SEED999.json"
+    },
+    "1000": {
+      "baseline_source": "ROUND28_B0",
+      "baseline_protocol": "ROUND28_CANDIDATE_CONDITIONED_COHERENT_INTEREST_DIFFUSION_V1",
+      "baseline_protocol_hash": "e399f27d6d62e544861dbe9269a82cafbfa4cc5983ac2b39fea5b1597d753165",
+      "baseline_checkpoint": "/home/gxy/code/Second-paper/diffusion_experiments/round28_candidate_conditioned_interest_diffusion/outputs/seed1000/B0/best.pt",
+      "baseline_checkpoint_sha256": "c978b783592225f1b6fd78af1db6df59b0f1c71a2307ebb65e93d87ce41e52c3",
+      "baseline_best_epoch": 31,
+      "baseline_best_evaluation": {
+        "backbone": {
+          "R10": 0.06603460309297286,
+          "N10": 0.03568296156970872,
+          "R20": 0.10165093242233894,
+          "N20": 0.04476091933472171,
+          "R50": 0.17006887558314654,
+          "N50": 0.058464300684106414
+        },
+        "colift": {
+          "R10": 0.07127588191357798,
+          "N10": 0.03852825957927931,
+          "R20": 0.10817543988539105,
+          "N20": 0.047924413296688576,
+          "R50": 0.17521893252029527,
+          "N50": 0.06133902055617519
+        },
+        "diffusion_inference_calls": 0
+      },
+      "baseline_trajectory_source": "/home/gxy/code/Second-paper/diffusion_experiments/round28_candidate_conditioned_interest_diffusion/evidence/ROUND28_B0_SEED1000.json"
+    }
+  },
+  "STD_FLOOR": 0.0001,
+  "K_HISTORY": 8,
+  "MIN_HISTORY": 3,
+  "MIN_COHERENT": 2,
+  "anchor_bands": [
+    [
+      1,
+      10
+    ],
+    [
+      11,
+      30
+    ],
+    [
+      31,
+      60
+    ],
+    [
+      61,
+      100
+    ]
+  ],
+  "warmup_epochs": 10,
+  "active_epochs": 30,
+  "formal_epochs": 40,
+  "checkpoint_selection": "FINAL_EPOCH_39_ONLY",
+  "trust_angle_deg": 5.0,
+  "purification_topk": 30,
+  "diffusion_loss": {
+    "L_base": 1.0,
+    "L_dir": 0.5,
+    "L_sep": 0.25,
+    "L_proj": 0.25,
+    "L_bound": 0.05,
+    "sep_margin": 0.2
+  },
+  "ensemble_noise_seeds": [
+    20261011,
+    20261012,
+    20261013
+  ],
+  "local_t": [
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "diff_steps_active": 2,
+  "RECOMMENDER_OPTIMIZER": false,
+  "RANKING_TRAINING_LOSS": false,
+  "ADDITIONAL_RANKING_NETWORK": false,
+  "CANDIDATE_SET_CHANGED": false,
+  "COLIFT_PARAMETERS_CHANGED": false,
+  "BACKBONE_CHANGED": false,
+  "device_config": "cuda:0",
+  "requested_gpu_policy": "physical GPU0 = NVIDIA GeForce RTX 5090",
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false
+}

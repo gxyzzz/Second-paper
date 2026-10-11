@@ -1,0 +1,19 @@
+{
+  "protocol": "ROUND30_FROZEN_BACKBONE_CANDIDATE_SIDE_DIFFUSION_PURIFICATION_V1",
+  "protocol_hash": "daf126ed9ed873281621542586c556da7883b702d0f19dacc3aa6938188c2dbc",
+  "ROUND30_STATUS": "PREFLIGHT_BLOCKED",
+  "FORMAL_RUN": false,
+  "FORMAL_ALLOWED": false,
+  "BLOCK_REASONS": [
+    "USER_SHORTCUT_Q4_FAIL"
+  ],
+  "Q1_q_pass": true,
+  "Q2_target_stability_pass": true,
+  "Q3_true_shuffled_pass": true,
+  "Q4_shortcut_pass": false,
+  "Q5_interface_pass": true,
+  "BABY_TEST_ALLOWED_AUTOMATICALLY": false,
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false
+}

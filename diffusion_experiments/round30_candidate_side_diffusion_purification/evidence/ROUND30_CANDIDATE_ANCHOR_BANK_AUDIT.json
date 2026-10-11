@@ -1,0 +1,48 @@
+{
+  "protocol": "ROUND30_FROZEN_BACKBONE_CANDIDATE_SIDE_DIFFUSION_PURIFICATION_V1",
+  "seed": 999,
+  "users": 19445,
+  "anchors_per_user": 4,
+  "event_count": 77780,
+  "anchor_bands": [
+    [
+      1,
+      10
+    ],
+    [
+      11,
+      30
+    ],
+    [
+      31,
+      60
+    ],
+    [
+      61,
+      100
+    ]
+  ],
+  "rank_stats": {
+    "mean": 38.02323219336591,
+    "median": 30.5,
+    "p10": 5.0,
+    "p50": 30.5,
+    "p90": 84.0,
+    "p99": 99.0,
+    "min": 1.0,
+    "max": 100.0
+  },
+  "bands_exact": true,
+  "TRAIN_HISTORY_COLLISION_COUNT": 0,
+  "deterministic_repeat_exact": true,
+  "determinism_definition": "recompute hash(user,seed,band) ranks against immutable frozen Full-CoLift Top100 source bank",
+  "frozen_bank_hash": "b5ea6f317c7bf9ba57744358f7f3d63066c81e11787d3952eca1c0c1913f0b51",
+  "frozen_bank_sha256": "3320a24bc11af0363f06049635b80c25cdbfaa9f23ef14ae65323666c4a86556",
+  "candidate_source": "FROZEN_ROUND28_B0_TOP100_RERANKED_BY_FROZEN_FULL_COLIFT",
+  "anchor_semantics": "UNLABELED_CANDIDATE_ANCHOR_NOT_NEGATIVE",
+  "VALIDATION_USED_FOR_CONSTRUCTION": false,
+  "TEST_ACCESSED": false,
+  "SPORTS_ACCESSED": false,
+  "ELECTRONICS_ACCESSED": false,
+  "PASS": true
+}
