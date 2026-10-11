@@ -20,6 +20,12 @@ class FrozenAnchorBank:
         self.model = model
         self.path = c.ASSETS / f'ROUND28_FROZEN_TRAINED_ANCHOR_BANK_SEED{seed}.npz'
         self.reference_audit = r18.checkpoint_info(self.seed)
+        if self.seed == 999:
+            self.reference_embedding_asset = c.ROOT / 'runs/assets/msca_baby_seed999/embeddings.npz'
+        else:
+            self.reference_embedding_asset = c.ROOT / f'runs/backbone_robustness/baby_seed{self.seed}/msca/assets/embeddings.npz'
+        if not self.reference_embedding_asset.exists():
+            raise FileNotFoundError(self.reference_embedding_asset)
         self.audit_path = c.EVID / f'ROUND28_FROZEN_ANCHOR_AUDIT_SEED{seed}.json'
         self.cfg = load_dataset_config('baby')
         if self.path.exists() and not force_rebuild:
@@ -68,14 +74,18 @@ class FrozenAnchorBank:
         pusers = self.events.pusers
         self.users = np.asarray([u for u, h in enumerate(histories) if h], dtype=np.int64)
 
-        # Round28 anchors come from the canonical trained backbone frozen before Round28,
-        # never from the fresh shared initialization used for fair B0/D5 retraining.
-        ref_model, _, _, _, ref_a = r18.load_start(self.seed, freeze=True)
-        ref_model.eval()
+        # Use the canonical embeddings exported from the already-frozen trained checkpoint.
+        # Re-running CUDA sparse graph propagation can differ at tiny floating-point scale;
+        # the exported frozen embeddings are the exact pre-Round28 reference representation.
+        ez = np.load(self.reference_embedding_asset)
+        fu = torch.as_tensor(ez['final_user'], device=self.model.device, dtype=torch.float32)
+        fi = torch.as_tensor(ez['final_item'], device=self.model.device, dtype=torch.float32)
+        old_tf32 = torch.backends.cuda.matmul.allow_tf32
+        torch.backends.cuda.matmul.allow_tf32 = False
         with torch.no_grad():
-            fu, fi = ref_model.forward(test=True)
             ci, cs = topk_from_embeddings(fu, fi, self.users, histories, 100, 1024)
             pi, ps = topk_from_embeddings(fu, fi, pusers, pseudo, 100, 1024)
+        torch.backends.cuda.matmul.allow_tf32 = old_tf32
 
         ztp, _ = semantic_z_for_candidates(p['text_feature'], pseudo, pusers, pi, 256)
         ztf, _ = semantic_z_for_candidates(p['text_feature'], histories, self.users, ci, 256)
@@ -98,7 +108,7 @@ class FrozenAnchorBank:
         order = np.argsort(-full, axis=1, kind='stable')
         self.ranked_top100 = np.take_along_axis(ci, order, axis=1).astype(np.int64)
 
-        del ref_model
+        del fu, fi, ez
         torch.cuda.empty_cache()
         gc.collect()
 
@@ -186,6 +196,8 @@ class FrozenAnchorBank:
             'reference_checkpoint': self.reference_audit.get('checkpoint'),
             'reference_checkpoint_epoch': self.reference_audit.get('checkpoint_epoch'),
             'reference_checkpoint_fixed_before_round28': True,
+            'reference_embedding_asset': str(self.reference_embedding_asset),
+            'reference_embedding_asset_sha256': c.sha256_file(self.reference_embedding_asset),
             'round28_validation_labels_used_for_reference_selection': False,
             'event_count': int(len(self.event_users)),
             'anchors_per_event': int(c.N_ANCHORS),
@@ -204,7 +216,7 @@ class FrozenAnchorBank:
 def build_anchor_audit(seed=999):
     model, config, td, vd, pack = c.instantiate_shared(seed)
     events = c.TrainEvents(model)
-    bank = FrozenAnchorBank(seed, model, events, persist=True)
+    bank = FrozenAnchorBank(seed, model, events, persist=True, force_rebuild=True)
     a1 = bank.provenance_audit()
     h1 = bank.bank_hash()
     bank2 = FrozenAnchorBank(seed, model, events, persist=False, force_rebuild=True)
