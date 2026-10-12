@@ -1,7 +1,7 @@
 model: CoLiftRecDiffusion
 backbone:
   model: MSCA
-  seed: 999
+  seed: 1000
 
 common:
   top_l: 100

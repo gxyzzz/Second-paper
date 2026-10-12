@@ -1,0 +1,11 @@
+{
+  "dataset": "elec",
+  "seed": 1000,
+  "path": "/home/gxy/code/Second-paper/diffusion_experiments/round33_seed1000_cross_domain/assets/elec_seed1000_init.pt",
+  "sha256": "8de8f5031da941bdae7ce4ef0a9f22bb7ebaa75bf6cbf59d31980739549f55ae",
+  "state_hash": "513ed94673b758627a4b6936d8e03ba3f3dc42608efaa37972dea11955565437",
+  "n_users": 192403,
+  "n_items": 63001,
+  "train_interactions": 1254441,
+  "steps_per_epoch": 613
+}

@@ -1,7 +1,7 @@
 # general
 gpu_id: 0
 use_gpu: True
-seed: [999]
+seed: [1000]
 
 # multi-modal raw features
 data_path: '../data/'

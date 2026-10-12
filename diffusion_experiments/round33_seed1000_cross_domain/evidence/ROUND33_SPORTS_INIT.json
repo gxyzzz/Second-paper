@@ -1,0 +1,11 @@
+{
+  "dataset": "sports",
+  "seed": 1000,
+  "path": "/home/gxy/code/Second-paper/diffusion_experiments/round33_seed1000_cross_domain/assets/sports_seed1000_init.pt",
+  "sha256": "7f95e90701ec5862f6c00e140050bcb2d8ff7553de0925229cd369e7295858fb",
+  "state_hash": "584ef0688fffd0437718db189aefd69ed4da21305c79066ee1bc6e6038ef857d",
+  "n_users": 35598,
+  "n_items": 18357,
+  "train_interactions": 218409,
+  "steps_per_epoch": 107
+}

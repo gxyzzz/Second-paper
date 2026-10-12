@@ -1,0 +1,22 @@
+{
+  "protocol": "ROUND33_SEED1000_CROSS_DOMAIN_M25_V1",
+  "decision_source": "User decision 2026-10-12: all subsequent experiments and ablations use seed1000 only",
+  "seed": 1000,
+  "datasets": ["baby", "sports", "elec"],
+  "baby_policy": "reuse completed Round32 seed1000 B0/M25 checkpoints and Test evidence; no duplicate training",
+  "cross_domain_policy": "Sports and Electronics each run one frozen transfer configuration; no domain-specific parameter search",
+  "transferred_configuration": {
+    "source": "Baby Round32 M25 seed1000, highest completed seed1000 Test U4 when transfer was authorized",
+    "lambda_HN": 0.20,
+    "half_margin": 0.25,
+    "theta_max_deg": 5.0,
+    "local_t": [1,2,3,4,5],
+    "warmup_epochs": 10,
+    "formal_epochs": 60,
+    "diffusion_active_steps": 2
+  },
+  "ablation": ["MSCA", "MSCA+Full CoLiftRec", "MSCA+Full CoLiftRec+Diffusion"],
+  "checkpoint_selection": "Validation Full CoLiftRec R20 only",
+  "sports_elec_test_policy": "single evaluation after Validation-selected checkpoints; Test is not used for tuning",
+  "diffusion_inference_calls": 0
+}
