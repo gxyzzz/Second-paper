@@ -17,7 +17,7 @@ def build_parser():
     parser.add_argument('--dataset', '-d', type=str, default='baby', help='name of datasets')
     parser.add_argument(
         '--stage', choices=['msca', 'coliftrec', 'full'], default='msca',
-        help='pipeline depth; default preserves the upstream MSCA training entrypoint',
+        help='publication pipeline depth: MSCA, MSCA+CoLiftRec, or full seed1000 PDBR',
     )
     parser.add_argument('--gpu-id', type=int, default=0)
     parser.add_argument('--epochs', type=int)
@@ -27,7 +27,7 @@ def build_parser():
     parser.add_argument('--checkpoint')
     parser.add_argument(
         '--smoke', action='store_true',
-        help='engineering smoke only; never treated as publication evidence',
+        help='engineering smoke only; exercises warmup/boundary training and never accesses formal Test',
     )
     parser.add_argument('--dry-run', action='store_true')
     return parser

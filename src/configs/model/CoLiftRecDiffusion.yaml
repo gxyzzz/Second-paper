@@ -1,7 +1,8 @@
 model: CoLiftRecDiffusion
+
 backbone:
   model: MSCA
-  seed: 999
+  seed: 1000
 
 common:
   top_l: 100
@@ -13,83 +14,41 @@ common:
       title: 0.45
       brand: 0.20
       description: 0.35
+  diffusion:
+    method: preference_directed_boundary_refinement
+    lambda_hn: 0.20
+    half_margin: 0.25
+    theta_max_deg: 5.0
+    local_t: [1, 2, 3, 4, 5]
+    warmup_epochs: 10
+    formal_epochs: 60
+    active_steps: 2
+    inference_enabled: false
+    checkpoint_selection: best_full_coliftrec_validation_r20
+    optimizer:
+      name: Adam
+      lr: 0.001
+    network:
+      hidden: 256
+      dropout: 0.1
+    bands:
+      - [60, 100]
+      - [30, 60]
+      - [10, 30]
 
 datasets:
   baby:
     coliftrec:
-      text: {lambda: 1.0, alpha: 0.25}
-      attribute: {lambda: 0.75, alpha: 0.15}
-      visual: {lambda: 0.25, alpha: 0.025}
-    diffusion:
-      training_protocol: m31_fixed_all_items
-      train_scope: all_catalog_items
-      epochs: 80
-      checkpoint_selection: final_epoch
-      architecture: {hidden: 1024, bottleneck: 512, time_dim: 64}
-      schedule: {diffusion_steps: 50, cosine_s: 0.008}
-      loss: {lambda_ctr: 0.1, recon_text_weight: 0.5, recon_visual_weight: 0.5}
-      classifier_free: {p_uncond: 0.15}
-      optimizer: {name: AdamW, lr: 0.001, weight_decay: 0.0001}
-      train_batch: 512
-      monitor_batch: 512
-      beta: 0.5
-      training_seed: 20261501
-      t_edit: 3
-      guidance: 2.0
-      rho_text: 0.25
-      rho_visual: 1.0
-      purification_seeds: [20261001, 20261002, 20261003, 20261004]
-
+      text: {enabled: true, lambda: 1.0, alpha: 0.25}
+      attribute: {enabled: true, lambda: 0.75, alpha: 0.15}
+      visual: {enabled: true, lambda: 0.25, alpha: 0.025}
   sports:
     coliftrec:
-      text: {lambda: 0.0, alpha: 0.25}
-      attribute: {lambda: 1.0, alpha: 0.20}
-      visual: {lambda: 1.0, alpha: 0.025}
-    diffusion:
-      training_protocol: m31_fixed_all_items
-      train_scope: all_catalog_items
-      epochs: 80
-      checkpoint_selection: final_epoch
-      architecture: {hidden: 1024, bottleneck: 512, time_dim: 64}
-      schedule: {diffusion_steps: 50, cosine_s: 0.008}
-      loss: {lambda_ctr: 0.1, recon_text_weight: 0.5, recon_visual_weight: 0.5}
-      classifier_free: {p_uncond: 0.15}
-      optimizer: {name: AdamW, lr: 0.001, weight_decay: 0.0001}
-      train_batch: 512
-      monitor_batch: 512
-      beta: 1.0
-      training_seed: 20261101
-      t_edit: 5
-      guidance: 1.5
-      rho_text: 0.75
-      rho_visual: 0.75
-      purification_seeds: [20261001, 20261002, 20261003, 20261004]
-
+      text: {enabled: true, lambda: 0.0, alpha: 0.25}
+      attribute: {enabled: true, lambda: 1.0, alpha: 0.20}
+      visual: {enabled: true, lambda: 1.0, alpha: 0.025}
   elec:
     coliftrec:
-      text: {lambda: 1.0, alpha: 0.20}
-      attribute: {lambda: 1.0, alpha: 0.20}
-      visual: {lambda: 0.25, alpha: 0.025}
-    diffusion:
-      training_protocol: m32_train_monitor
-      train_scope: train_interaction_items
-      architecture: {hidden: 1024, bottleneck: 512, time_dim: 64}
-      schedule: {diffusion_steps: 50, cosine_s: 0.008}
-      loss: {lambda_ctr: 0.1, recon_text_weight: 0.5, recon_visual_weight: 0.5}
-      classifier_free: {p_uncond: 0.15}
-      optimizer: {name: AdamW, lr: 0.001, weight_decay: 0.0001}
-      train_batch: 512
-      monitor_batch: 512
-      beta: 0.5
-      training_seed: 20261621
-      t_edit: 7
-      guidance: 2.0
-      rho_text: 1.0
-      rho_visual: 1.0
-      split_seed: 20261101
-      monitor_noise_seed: 20261131
-      max_epochs: 80
-      min_epochs: 25
-      patience: 8
-      checkpoint_selection: best_monitor
-      purification_seeds: [20261141, 20261142, 20261143, 20261144]
+      text: {enabled: true, lambda: 1.0, alpha: 0.20}
+      attribute: {enabled: true, lambda: 1.0, alpha: 0.20}
+      visual: {enabled: true, lambda: 0.25, alpha: 0.025}
