@@ -1,0 +1,6 @@
+{
+  "initial_state_exact": true,
+  "normal_plan_exact": true,
+  "lr_trajectory_exact": true,
+  "PASS": true
+}
