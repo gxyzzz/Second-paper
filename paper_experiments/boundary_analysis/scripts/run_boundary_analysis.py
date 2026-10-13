@@ -87,9 +87,9 @@ def run(dataset, gpu_id):
         row = {
             "group": code, "group_name": name, "user_count": int(len(idx)),
             "baseline_mean_best_positive_rank": None if code == "G4" else float(b_rank[idx].mean()),
-            "full_mean_best_positive_rank": float(f_rank[idx].mean()),
+            "full_mean_best_positive_rank": None if code == "G4" else float(f_rank[idx].mean()),
             "baseline_median_best_positive_rank": None if code == "G4" else float(np.median(b_rank[idx])),
-            "full_median_best_positive_rank": float(np.median(f_rank[idx])),
+            "full_median_best_positive_rank": None if code == "G4" else float(np.median(f_rank[idx])),
             "mean_rank_improvement": None if code == "G4" else float((b_rank[idx] - f_rank[idx]).mean()),
             "median_rank_improvement": None if code == "G4" else float(np.median(b_rank[idx] - f_rank[idx])),
         }
