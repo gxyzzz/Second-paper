@@ -226,7 +226,8 @@ def evaluate_test(dataset, gpu_id, run_dir, train_result, variant):
 
 def run(dataset, variant, gpu_id, smoke):
     if variant in BABY_ONLY and dataset!="baby": raise ValueError(f"{variant} is Baby-only")
-    run_dir=ROOT/f"paper_experiments/pdbr_ablation/outputs/{dataset}/{variant}"
+    base_dir=ROOT/f"paper_experiments/pdbr_ablation/outputs/{dataset}/{variant}"
+    run_dir=base_dir/"smoke" if smoke else base_dir
     run_dir.mkdir(parents=True,exist_ok=True); init=_prepare_shared_init(dataset,gpu_id,run_dir)
     probe,_,_,_,_=pp.instantiate_shared(dataset,gpu_id,run_dir)
     evaluator=pp.DomainEvaluator(dataset,probe,split="validation",max_users=128 if smoke else None)
