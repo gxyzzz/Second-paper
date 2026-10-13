@@ -1,0 +1,7 @@
+dataset,branch,epochs_run,best_epoch,max_epochs
+Baby,Baseline,53,31,60
+Baby,PDBR,45,23,60
+Sports,Baseline,60,57,60
+Sports,PDBR,50,28,60
+Electronics,Baseline,45,23,60
+Electronics,PDBR,39,17,60
