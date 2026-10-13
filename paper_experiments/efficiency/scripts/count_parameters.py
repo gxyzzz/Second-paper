@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -19,6 +20,9 @@ def nparams(module, trainable_only=True):
 
 
 def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--gpu-id", type=int, default=0)
+    args = ap.parse_args()
     out = {"seed": 1000, "datasets": {}, "definitions": {
         "coliftrec_trainable_parameters": 0,
         "pdbr_inference_parameters": 0,
@@ -27,7 +31,7 @@ def main():
     diff = PreferenceDiffusion()
     diff_params = nparams(diff)
     for dataset in ("baby", "sports", "elec"):
-        model, _, info = load_model(dataset, "b0", gpu_id=1 if dataset != "elec" else 0)
+        model, _, info = load_model(dataset, "b0", gpu_id=args.gpu_id)
         backbone = nparams(model)
         out["datasets"][dataset] = {
             "backbone_trainable_parameters": backbone,

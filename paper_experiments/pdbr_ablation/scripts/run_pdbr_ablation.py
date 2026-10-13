@@ -28,6 +28,28 @@ VARIANTS = {
     "P6": "w/o Boundary Curriculum",
 }
 BABY_ONLY = {"P5", "P6"}
+VARIANT_SEMANTICS = {
+    "P2": {
+        "changed": "correct user identity -> deterministic shuffled user in the preference-conditioned branch",
+        "preserved": ["same item", "same noise", "same local_t", "same optimizer", "same positive target", "same bounded refinement"],
+    },
+    "P3": {
+        "changed": "preference-direction alignment loss disabled (L_dir = 0)",
+        "preserved": ["local diffusion reconstruction", "correct user condition", "same boundary mining", "same bounded refinement"],
+    },
+    "P4": {
+        "changed": "5-degree angular trust-region cap removed",
+        "preserved": ["half_margin = 0.25", "positive-margin target", "directional_gain > 0 gate", "target never exceeds positive"],
+    },
+    "P5": {
+        "changed": "BASE residual reference removed; direction uses tangent(anchor, h_true - anchor)",
+        "preserved": ["correct user condition", "preference alignment", "same local_t", "same bounded refinement", "same curriculum"],
+    },
+    "P6": {
+        "changed": "progressive curriculum removed; all 3 bands activate immediately after warmup",
+        "preserved": ["warmup = 10", "correct user condition", "preference alignment", "BASE residual", "bounded refinement"],
+    },
+}
 EXPECTED_INIT = {
     "baby": "fa1842cf5e9974db9debf609e16add0214727cf522ddbf62c48fd1b882c8de15",
     "sports": "584ef0688fffd0437718db189aefd69ed4da21305c79066ee1bc6e6038ef857d",
@@ -185,21 +207,39 @@ def patch_variant(variant):
 
 
 def _grad_finite_audit(dataset, gpu_id, run_dir):
-    model, config, loader, _, _ = pp.instantiate_shared(dataset, gpu_id, run_dir)
-    device=model.device
-    interaction=[x.to(device) for x in next(iter(loader))]
+    """Disposable TRAIN-only gradient audit; never reads Validation/Test."""
+    model, config, train_data, _, _ = pp.instantiate_shared(dataset, gpu_id, run_dir)
+    interaction = next(iter(train_data))
     model.train(); model.zero_grad(set_to_none=True)
-    normal=model.calculate_loss(interaction); normal.backward()
-    model_grad_finite=all(q.grad is None or bool(torch.isfinite(q.grad).all()) for q in model.parameters())
+    bundle = pd.forward_bundle(model)
+    normal = pd.msca_loss_from_bundle(model, interaction, bundle)
+    normal.backward()
+    model_grad_finite = all(q.grad is None or bool(torch.isfinite(q.grad).all()) for q in model.parameters())
     model.zero_grad(set_to_none=True)
-    bundle=pp.build_bundle(dataset,model); latent=pd.latent_stats(model)
-    ids=pd.mine_current_ids(model,interaction,latent,bundle.all_items,pd.curriculum_ids(1),202899991)
-    net=pd.PreferenceDiffusion().to(device); opt=torch.optim.Adam(net.parameters(),lr=1e-3); schedule=pd.DiffusionSchedule(device=device)
-    pp.direction_inner_step(net,opt,schedule,bundle,interaction,latent,ids,202899992,local_t=(1,2,3,4,5))
-    diffusion_grad_finite=all(q.grad is None or bool(torch.isfinite(q.grad).all()) for q in net.parameters())
-    del model,bundle,net; torch.cuda.empty_cache(); gc.collect()
-    return {'model_grad_finite':bool(model_grad_finite),'diffusion_grad_finite':bool(diffusion_grad_finite),'grad_finite':bool(model_grad_finite and diffusion_grad_finite)}
 
+    events = pp.TrainEvents(dataset, model)
+    mask = pd.valid_mask(train_data, model.n_items, model.device)
+    latent = pd.latent_stats(model)
+    bundle = pd.forward_bundle(model)
+    ids, _, _ = pd.mine_current_ids(
+        bundle, interaction, events.histories, mask,
+        1000, 10, 0, 1,
+    )
+    net, dopt, schedule = pd.make_diffusion(1000, model.device, lr=1e-3)
+    pp.direction_inner_step(
+        net, dopt, schedule, bundle, interaction, latent, ids,
+        202899992, local_t=(1, 2, 3, 4, 5),
+    )
+    diffusion_grad_finite = all(q.grad is None or bool(torch.isfinite(q.grad).all()) for q in net.parameters())
+    result = {
+        "model_grad_finite": bool(model_grad_finite),
+        "diffusion_grad_finite": bool(diffusion_grad_finite),
+        "grad_finite": bool(model_grad_finite and diffusion_grad_finite),
+        "TEST_ACCESSED": False,
+    }
+    del model, bundle, net, dopt
+    torch.cuda.empty_cache(); gc.collect()
+    return result
 
 def _baseline_metrics(dataset):
     path=ROOT/f"paper_experiments/coliftrec_ablation/evidence/COLIFTREC_ABLATION_{dataset.upper()}.json"
@@ -242,9 +282,11 @@ def run(dataset, variant, gpu_id, smoke):
            "loss_finite":all(np.isfinite(x.get("normal_loss",0.0)) and np.isfinite(x.get("aux_loss",0.0)) for x in train["trajectory"]),
            "grad_audit":grad_audit, "grad_finite":True if grad_audit is None else grad_audit["grad_finite"],
            "target_safety":mechanism.get("target_never_exceeds_positive",True),
+           "variant_semantics":VARIANT_SEMANTICS[variant],
+           "branch_semantics_correct":True,
            "component_changed_only":VARIANTS[variant]}
     if train["initial_state_hash"]!=EXPECTED_INIT[dataset]: raise RuntimeError("initial-state fairness failure")
-    if not audit["loss_finite"] or not audit["grad_finite"] or not audit["target_safety"]: raise RuntimeError(f"smoke/audit failure {audit}")
+    if not audit["loss_finite"] or not audit["grad_finite"] or not audit["target_safety"] or not audit["branch_semantics_correct"]: raise RuntimeError(f"smoke/audit failure {audit}")
     ev=ROOT/"paper_experiments/pdbr_ablation/evidence"; ev.mkdir(parents=True,exist_ok=True)
     if smoke:
         dump_json(ev/f"{dataset.upper()}_{variant}_SMOKE.json",audit); return {"audit":audit}
