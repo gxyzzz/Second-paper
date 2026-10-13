@@ -20,7 +20,7 @@ def batch_to_device(batch,device): return [x.to(device) for x in batch]
 
 def run_baseline(dataset,gpu_id,run_dir):
     _prepare_shared_init(dataset,gpu_id,run_dir)
-    model,config,_,loader,_=pp.instantiate_shared(dataset,gpu_id,run_dir)
+    model,config,loader,_,_=pp.instantiate_shared(dataset,gpu_id,run_dir)
     opt=torch.optim.Adam(model.parameters(),lr=float(config['learning_rate']))
     device=model.device; it=cycle(loader)
     def step():
@@ -37,7 +37,7 @@ def run_baseline(dataset,gpu_id,run_dir):
 
 def run_pdbr(dataset,gpu_id,run_dir):
     _prepare_shared_init(dataset,gpu_id,run_dir)
-    model,config,_,loader,_=pp.instantiate_shared(dataset,gpu_id,run_dir)
+    model,config,loader,_,_=pp.instantiate_shared(dataset,gpu_id,run_dir)
     device=model.device; bundle=pp.build_bundle(dataset,model); latent=latent_stats(model)
     net=PreferenceDiffusion().to(device); schedule=DiffusionSchedule(device=device)
     opt=torch.optim.Adam(model.parameters(),lr=float(config['learning_rate'])); dopt=torch.optim.Adam(net.parameters(),lr=1e-3)

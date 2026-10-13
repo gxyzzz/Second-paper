@@ -185,7 +185,7 @@ def patch_variant(variant):
 
 
 def _grad_finite_audit(dataset, gpu_id, run_dir):
-    model, config, _, loader, _ = pp.instantiate_shared(dataset, gpu_id, run_dir)
+    model, config, loader, _, _ = pp.instantiate_shared(dataset, gpu_id, run_dir)
     device=model.device
     interaction=[x.to(device) for x in next(iter(loader))]
     model.train(); model.zero_grad(set_to_none=True)
