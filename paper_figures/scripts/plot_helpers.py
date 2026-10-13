@@ -1,73 +1,84 @@
+from __future__ import annotations
+
 from pathlib import Path
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from plot_style import *
+from matplotlib.lines import Line2D
 
-FIGSIZE=(3.3,2.55)
+from plot_style import (
+    paper_style, save_figure, clean_axes,
+    VALIDATION, TEST, NEUTRAL_LIGHT, NEUTRAL_DARK, GRID, PAPER,
+)
 
-def grouped_gain(csv_path,outbase,total=False):
-    apply_style(); d=pd.read_csv(csv_path); fig,ax=plt.subplots(figsize=FIGSIZE)
-    x=np.arange(len(d)); w=.33
-    ax.bar(x-w/2,d.iloc[:,1],w,label='CoLiftRec',color=COLIFT,hatch='//',edgecolor='white',linewidth=.4)
-    ax.bar(x+w/2,d.iloc[:,2],w,label='PDBR',color=PDBR,hatch='..',edgecolor='white',linewidth=.4)
-    ax.set_xticks(x); ax.set_xticklabels(d.iloc[:,0]); ax.set_ylabel('Relative Improvement (%)'); ax.set_ylim(bottom=0)
-    if total and d.shape[1]>3:
-        top=np.maximum(d.iloc[:,1].to_numpy(),d.iloc[:,2].to_numpy())
-        for xi,y,t in zip(x,top,d.iloc[:,3]): ax.text(xi,y+.28,f'Total +{t:.2f}%',ha='center',va='bottom',fontsize=7.2)
-        ax.set_ylim(0,max(top)*1.28)
-    ax.legend(frameon=False,ncol=2,loc='upper left'); finish(ax); save(fig,outbase)
 
-def sensitivity(csv_path,outbase,xlabel):
-    apply_style(); d=pd.read_csv(csv_path).sort_values('parameter_value'); fig,ax=plt.subplots(figsize=FIGSIZE)
-    ax.plot(d.parameter_value,d.validation_u4,marker='o',label='Validation',color=VALIDATION)
-    ax.plot(d.parameter_value,d.test_u4,marker='s',linestyle='--',label='Test',color=TEST)
-    ax.axhline(0,color=GRID,linewidth=.7); ax.set_xlabel(xlabel); ax.set_ylabel('U4 Improvement over B0 (%)')
-    ax.legend(frameon=False); finish(ax); save(fig,outbase)
+def load_csv(path: Path | str) -> pd.DataFrame:
+    return pd.read_csv(path)
 
-def training(csv_path,outbase):
-    apply_style(); d=pd.read_csv(csv_path); fig,ax=plt.subplots(figsize=FIGSIZE)
-    ax.plot(d.epoch,d.baseline_colift_r20,label='Baseline',color=BASELINE)
-    ax.plot(d.epoch,d.pdbr_colift_r20,label='PDBR',color=PDBR)
-    be=int(d.loc[d.baseline_colift_r20.idxmax(),'epoch']); pe=int(d.loc[d.pdbr_colift_r20.idxmax(),'epoch'])
-    ax.axvline(be,color=BASELINE,linestyle=':',linewidth=.8,alpha=.7); ax.axvline(pe,color=PDBR,linestyle=':',linewidth=.8,alpha=.7)
-    ax.set_xlabel('Epoch'); ax.set_ylabel('Validation R@20'); ax.legend(frameon=False); finish(ax); save(fig,outbase)
 
-def preference_alignment(csv_path,outbase):
-    apply_style(); d=pd.read_csv(csv_path); fig,ax=plt.subplots(figsize=FIGSIZE)
-    ax.plot(d.epoch,d.a_true_median,label='TRUE user',color=TRUE,marker='o',markevery=max(1,len(d)//8))
-    ax.plot(d.epoch,d.a_shuf_median,label='SHUFFLED user',color=SHUFFLED,linestyle='--',marker='s',markevery=max(1,len(d)//8))
-    ax.set_xlabel('Epoch'); ax.set_ylabel('Alignment with Preference Direction'); ax.legend(frameon=False); finish(ax); save(fig,outbase)
+def pct(value: float, digits: int = 2) -> str:
+    return f"{value:+.{digits}f}%"
 
-def probability(csv_path,outbase):
-    apply_style(); d=pd.read_csv(csv_path); fig,ax=plt.subplots(figsize=FIGSIZE)
-    ax.plot(d.epoch,d.p_delta_positive,color=PDBR,marker='o',markevery=max(1,len(d)//8))
-    ax.axhline(.5,color=BASELINE,linestyle='--',linewidth=.9,alpha=.65)
-    ax.set_ylim(0,1); ax.set_xlabel('Epoch'); ax.set_ylabel(r'$P(A_{true} > A_{shuffled})$'); finish(ax); save(fig,outbase)
 
-def geometry(csv_path,outbase):
-    apply_style(); d=pd.read_csv(csv_path); fig,ax=plt.subplots(figsize=FIGSIZE)
-    x=np.arange(len(d)); w=.23
-    for off,col,label,color,hatch in [(-w,'applied_refinement_fraction','Applied',PDBR,'//'),(0,'target_reachable_fraction','Reachable',COLIFT,'..'),(w,'cap_hit_fraction','Cap hit',BASELINE,'xx')]:
-        ax.bar(x+off,100*d[col],w,label=label,color=color,hatch=hatch,edgecolor='white',linewidth=.3)
-    ax.set_xticks(x); ax.set_xticklabels(d.dataset); ax.set_ylabel('Fraction (%)'); ax.set_ylim(bottom=0); ax.legend(frameon=False,ncol=3,fontsize=6.6); finish(ax); save(fig,outbase)
+def validation_test_dumbbell(
+    csv_path: Path | str,
+    outbase: Path | str,
+    *,
+    parameter_label: str,
+    formal_value: float,
+    value_formatter,
+    figsize=(3.6, 2.55),
+) -> None:
+    """Paired Validation/Test comparison for one discrete hyperparameter sweep."""
+    d = load_csv(csv_path).sort_values("parameter_value", ascending=False).reset_index(drop=True)
+    y = np.arange(len(d))
 
-def efficiency(csv_path,outbase):
-    apply_style(); d=pd.read_csv(csv_path); fig,ax=plt.subplots(figsize=FIGSIZE)
-    order=['Baby','Sports','Electronics']; x=np.arange(3); w=.33
-    b=[float(d[(d.dataset==z)&(d.branch=='Baseline')].epochs_run.iloc[0]) for z in order]
-    p=[float(d[(d.dataset==z)&(d.branch=='PDBR')].epochs_run.iloc[0]) for z in order]
-    ax.bar(x-w/2,b,w,label='Baseline',color=BASELINE,hatch='//',edgecolor='white',linewidth=.3)
-    ax.bar(x+w/2,p,w,label='PDBR',color=PDBR,hatch='..',edgecolor='white',linewidth=.3)
-    ax.axhline(60,color=GRID,linestyle='--',linewidth=.8); ax.set_xticks(x); ax.set_xticklabels(order); ax.set_ylabel('Training Epochs'); ax.set_ylim(0,65); ax.legend(frameon=False); finish(ax); save(fig,outbase)
+    with paper_style():
+        fig, ax = plt.subplots(figsize=figsize, layout="constrained")
+        for i, row in d.iterrows():
+            formal = np.isclose(float(row.parameter_value), formal_value)
+            ax.plot(
+                [row.validation_u4, row.test_u4], [y[i], y[i]],
+                color=NEUTRAL_DARK if formal else NEUTRAL_LIGHT,
+                linewidth=1.45 if formal else 1.0,
+                zorder=1,
+            )
+            marker_size = 6.0 if formal else 5.1
+            edge_width = 1.25 if formal else 0.95
+            ax.plot(row.validation_u4, y[i], marker="o", markersize=marker_size,
+                    markerfacecolor=VALIDATION, markeredgecolor=VALIDATION,
+                    markeredgewidth=edge_width, linestyle="none", zorder=3)
+            ax.plot(row.test_u4, y[i], marker="s", markersize=marker_size,
+                    markerfacecolor=PAPER, markeredgecolor=TEST,
+                    markeredgewidth=edge_width, linestyle="none", zorder=3)
 
-def band_alignment(csv_path,outbase):
-    apply_style(); d=pd.read_csv(csv_path); fig,ax=plt.subplots(figsize=FIGSIZE); x=np.arange(len(d)); w=.34
-    ax.bar(x-w/2,d.A_true_mean,w,label='TRUE user',color=TRUE,hatch='//',edgecolor='white',linewidth=.3)
-    ax.bar(x+w/2,d.A_shuf_mean,w,label='SHUFFLED user',color=SHUFFLED,hatch='..',edgecolor='white',linewidth=.3)
-    ax.axhline(0,color=GRID,linewidth=.7); ax.set_xticks(x); ax.set_xticklabels(d.band); ax.set_ylabel('Mean Preference Alignment'); ax.legend(frameon=False); finish(ax); save(fig,outbase)
+        labels = []
+        for value in d.parameter_value:
+            text = value_formatter(float(value))
+            if np.isclose(float(value), formal_value):
+                text += "  (formal)"
+            labels.append(text)
+        ax.set_yticks(y, labels)
+        for tick, value in zip(ax.get_yticklabels(), d.parameter_value):
+            if np.isclose(float(value), formal_value):
+                tick.set_fontweight("semibold")
 
-def band_shift(csv_path,outbase):
-    apply_style(); d=pd.read_csv(csv_path); fig,ax=plt.subplots(figsize=FIGSIZE); x=np.arange(len(d))
-    ax.bar(x,d.actual_score_shift_mean,width=.52,color=PDBR,hatch='//',edgecolor='white',linewidth=.3)
-    ax.set_xticks(x); ax.set_xticklabels(d.band); ax.set_ylabel('Mean Actual Score Shift'); ax.set_ylim(bottom=0); finish(ax); save(fig,outbase)
+        all_values = np.r_[d.validation_u4.to_numpy(), d.test_u4.to_numpy()]
+        xmin = min(-0.05, float(all_values.min()) - 0.22)
+        xmax = float(all_values.max()) + 0.28
+        ax.set_xlim(xmin, xmax)
+        ax.axvline(0, color=GRID, linewidth=0.8, linestyle="--", zorder=0)
+        ax.set_xlabel("U4 improvement over B0 (%)")
+        ax.set_ylabel(parameter_label)
+        clean_axes(ax, grid_axis="x", hide_left=True)
+
+        handles = [
+            Line2D([], [], marker="o", linestyle="none", color=VALIDATION,
+                   markerfacecolor=VALIDATION, markersize=5.2, label="Validation"),
+            Line2D([], [], marker="s", linestyle="none", color=TEST,
+                   markerfacecolor=PAPER, markeredgecolor=TEST, markersize=5.2, label="Test"),
+        ]
+        ax.legend(handles=handles, loc="lower left", bbox_to_anchor=(0.0, 1.015),
+                  ncol=2, handletextpad=0.35, columnspacing=1.0, borderaxespad=0.0)
+        save_figure(fig, outbase)
+        plt.close(fig)
