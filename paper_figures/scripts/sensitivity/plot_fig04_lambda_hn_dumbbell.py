@@ -11,5 +11,5 @@ if __name__ == "__main__":
         parameter_label=r"$\lambda_{HN}$",
         formal_value=0.20,
         value_formatter=lambda v: f"{v:.2f}",
-        figsize=(3.6, 2.55),
+        figsize=(3.5, 2.55),
     )

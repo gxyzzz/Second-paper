@@ -11,5 +11,5 @@ if __name__ == "__main__":
         parameter_label=r"$\theta_{max}$ (deg)",
         formal_value=5.0,
         value_formatter=lambda v: f"{v:.0f}",
-        figsize=(3.6, 2.55),
+        figsize=(3.5, 2.55),
     )

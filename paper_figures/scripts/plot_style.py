@@ -4,6 +4,10 @@ from pathlib import Path
 import matplotlib as mpl
 from matplotlib import font_manager
 from matplotlib.colors import LinearSegmentedColormap
+import json
+import os
+import sys
+from PIL import Image, ImageOps
 
 # Okabe-Ito chromatic system for semantic consistency.
 OI_BLUE = "#0072B2"
@@ -49,10 +53,10 @@ def _pick_serif() -> str:
 SERIF = _pick_serif()
 
 BASE_RC = {
-    "font.family": SERIF,
+    "font.family": "DejaVu Sans",
     "font.size": 8.0,
-    "axes.labelsize": 8.4,
-    "axes.titlesize": 8.4,
+    "axes.labelsize": 8.0,
+    "axes.titlesize": 8.5,
     "axes.labelcolor": TEXT,
     "axes.edgecolor": NEUTRAL_DARK,
     "axes.linewidth": 0.65,
@@ -76,6 +80,9 @@ BASE_RC = {
     "savefig.facecolor": PAPER,
     "figure.facecolor": PAPER,
     "axes.facecolor": PAPER,
+    "svg.fonttype": "none",
+    "figure.constrained_layout.w_pad": 0.055,
+    "figure.constrained_layout.h_pad": 0.055,
 }
 
 
@@ -96,8 +103,29 @@ def clean_axes(ax, grid_axis: str | None = None, *, hide_left: bool = False) -> 
 
 
 def save_figure(fig, outbase: Path | str, *, dpi: int = 400) -> None:
-    """Export vector PDF and 400-dpi PNG without changing physical dimensions."""
+    """Audit before vector export; keep visual review artifacts under /tmp."""
     outbase = Path(outbase)
     outbase.parent.mkdir(parents=True, exist_ok=True)
+    qa_dir = Path(os.environ.get("PAPER_FIGURE_QA_DIR", "/tmp/second_paper_figure_qa"))
+    qa_dir.mkdir(parents=True, exist_ok=True)
+    skill = Path(os.environ.get("SCIPILOT_FIGURE_SKILL", str(Path.home() / ".codex/skills/scipilot-figure-skill")))
+    fig.canvas.draw()
+    if not (skill / "scripts/visual_qa.py").exists():
+        raise RuntimeError("Install SciPilot or set SCIPILOT_FIGURE_SKILL before audited export")
+    sys.path.insert(0, str(skill / "scripts"))
+    from visual_qa import audit_layout, render_preview
+    issues = audit_layout(fig)
+    render_preview(fig, str(qa_dir / (outbase.name + ".png")), dpi=160)
+    record = {"basename": outbase.name, "size_inches": list(fig.get_size_inches()), "issues": issues}
+    (qa_dir / (outbase.name + ".json")).write_text(json.dumps(record, indent=2) + "\n")
+    if issues:
+        raise RuntimeError(f"Resolve layout audit before export: {outbase.name}: {issues}")
     fig.savefig(outbase.with_suffix(".pdf"), facecolor=PAPER, dpi=dpi)
+    fig.savefig(outbase.with_suffix(".svg"), facecolor=PAPER, dpi=dpi)
     fig.savefig(outbase.with_suffix(".png"), facecolor=PAPER, dpi=dpi)
+    with Image.open(qa_dir / (outbase.name + ".png")) as preview:
+        ImageOps.grayscale(preview).save(qa_dir / (outbase.name + "_gray.png"))
+
+
+def panel_title(ax, letter, title):
+    ax.set_title(f"({letter})  {title}", loc="left", fontweight="semibold", pad=9)

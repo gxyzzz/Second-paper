@@ -27,7 +27,7 @@ def validation_test_dumbbell(
     parameter_label: str,
     formal_value: float,
     value_formatter,
-    figsize=(3.6, 2.55),
+    figsize=(3.5, 2.55),
 ) -> None:
     """Paired Validation/Test comparison for one discrete hyperparameter sweep."""
     d = load_csv(csv_path).sort_values("parameter_value", ascending=False).reset_index(drop=True)
@@ -56,7 +56,8 @@ def validation_test_dumbbell(
         for value in d.parameter_value:
             text = value_formatter(float(value))
             if np.isclose(float(value), formal_value):
-                text += "  (formal)"
+                variant = d.loc[np.isclose(d.parameter_value, formal_value), "variant"].iloc[0]
+                text += "*" if variant == "M25" else "†"
             labels.append(text)
         ax.set_yticks(y, labels)
         for tick, value in zip(ax.get_yticklabels(), d.parameter_value):
@@ -68,8 +69,10 @@ def validation_test_dumbbell(
         xmax = float(all_values.max()) + 0.28
         ax.set_xlim(xmin, xmax)
         ax.axvline(0, color=GRID, linewidth=0.8, linestyle="--", zorder=0)
-        ax.set_xlabel("U4 improvement over B0 (%)")
+        ax.set_xlabel("Gain over CoLiftRec (%)")
         ax.set_ylabel(parameter_label)
+        reference = d.loc[np.isclose(d.parameter_value, formal_value), "variant"].iloc[0]
+        ax.set_title("Baby · " + ("margin sweep" if reference == "M25" else "reference-config sweep"), loc="left", pad=32, fontsize=8)
         clean_axes(ax, grid_axis="x", hide_left=True)
 
         handles = [

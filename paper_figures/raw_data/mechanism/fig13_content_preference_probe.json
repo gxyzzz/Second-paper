@@ -1,0 +1,25 @@
+{
+  "protocol": "TRAIN_ONLY_CHRONOLOGICAL_LAST_ITEM_CONTENT_PROBE",
+  "dataset": "Baby",
+  "diagnostic_seed": 20261013,
+  "trained_model_seed": null,
+  "eligible_users": 19445,
+  "sampled_users": 2000,
+  "catalog_size": 7047,
+  "profile": "mean of normalized raw features of earlier TRAIN items, then L2-normalize",
+  "candidates": "TRAIN-observed catalog, excluding earlier TRAIN history",
+  "target": "last chronological TRAIN item, absent from earlier TRAIN history",
+  "tie_break": "ascending itemID",
+  "TEST_EVALUATED": false,
+  "TEST_LABELS_USED": false,
+  "VALIDATION_LABELS_USED": false,
+  "model_updates": 0,
+  "parameter_selection": false,
+  "cpu_only": true,
+  "interaction_sha256": "9ef5de9a05949d973928cca113aacba12067ff8f104e310ef28ea42db00c17b1",
+  "feature_sha256": {
+    "text_feat.npy": "6667f2ad655c9ecc97cb3383f58988864ef51ec0b39c158b15986c66769f2dc4",
+    "image_feat.npy": "36c3be592b98506189a7d5de71b21577cf626f0293b539d861534673b3e9fd70"
+  },
+  "interpretation": "Motivation probe, not held-out generalization or proof of negative preference."
+}

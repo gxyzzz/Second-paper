@@ -21,7 +21,10 @@ for path in RAW.rglob('*.csv'):
 prov=rows(RAW/'PROVENANCE.csv')
 valid_ds={'Baby','Sports','Electronics','Baby/Sports/Electronics'}
 for r in prov:
-    if r['seed']!='1000': fail(f"non-seed1000 provenance: {r}")
+    if r['figure_id'] in ('ContentProbe','ContentPairs'):
+        if r['seed'] != 'N/A' or r['split'] != 'TRAIN leave-one-out diagnostic':
+            fail(f"invalid content-probe provenance: {r}")
+    elif r['seed']!='1000': fail(f"non-seed1000 provenance: {r}")
     if r['dataset'] not in valid_ds: fail(f"invalid dataset {r['dataset']}")
     p=ROOT/r['source_path']
     if not p.exists():
@@ -59,6 +62,40 @@ if band_path.exists():
     if not {'Fig15','Fig16'} <= ids: fail('missing Fig15/Fig16 provenance rows')
 
 cfg=yaml.safe_load((ROOT/'src/configs/model/CoLiftRecDiffusion.yaml').read_text())['common']['diffusion']
+sample_path=RAW/'mechanism/fig15_16_sample_diagnostics.csv'
+if sample_path.exists():
+    import pandas as pd
+    sd=pd.read_csv(sample_path)
+    meta=json.loads((RAW/'mechanism/ADVANCED_DIAGNOSTICS_PROTOCOL.json').read_text())
+    if meta['TEST_EVALUATED'] or meta['MODEL_UPDATES']!=0: fail('advanced diagnostics protocol violated')
+    if sd.isna().any().any():fail('missing sample diagnostics')
+    if len(sd)!=3*meta['event_sample_count']:fail('sample/band count mismatch')
+    if sd.groupby('event_index').band.nunique().min()!=3:fail('missing paired bands')
+    if ((sd.userID==sd.shuffled_userID).mean())>.01:fail('SHUFFLED control contaminated by repeated users')
+    if (sd.angle_deg>5.01).any():fail('angle cap violation')
+    pos=sd.real_negative_margin>0
+    if (sd.loc[pos,'refined_negative_margin']<.75*sd.loc[pos,'real_negative_margin']-1e-5).any():
+        fail('margin cap violation')
+    tr=pd.read_csv(RAW/'performance/fig17_validation_rank_transitions.csv')
+    if tr.duplicated(['userID','itemID']).any():fail('duplicate Validation related item')
+    for col in ['baseline_rank_top100','full_rank_top100']:
+        if not tr[col].between(1,101).all():fail('invalid censored rank')
+    if meta['validation_parity']['absolute_difference']>5e-5 or meta['validation_parity']['B0_absolute_difference']>5e-5:
+        fail('CPU Validation parity mismatch')
+    ab=pd.read_csv(RAW/'performance/fig18_colift_modality_ablation.csv')
+    if list(ab.variant)!=['MSCA','T','A','V','TA','TV','AV','TAV']:fail('CoLift ablation coverage/order mismatch')
+    for key in ('R10','N10','R20','N20','R50','N50'):
+        tav=float(ab.loc[ab.variant=='TAV',key].iloc[0])
+        if abs(tav-meta['validation_metrics']['B0'][key])>1e-12:fail('TAV does not match frozen B0 evaluation')
+probe=RAW/'mechanism/fig13_content_preference_probe.csv'
+if probe.exists():
+    meta=json.loads(probe.with_suffix('.json').read_text())
+    if meta['TEST_LABELS_USED'] or meta['VALIDATION_LABELS_USED'] or meta['model_updates']!=0:
+        fail('content-probe protocol violated')
+    for r in rows(probe):
+        if not 0 <= float(r['retrieval_fraction']) <= 1: fail('invalid content retrieval fraction')
+        if abs(float(r['retrieval_fraction'])-int(r['hit_count'])/int(r['user_count']))>1e-12:
+            fail('content-probe hit/count mismatch')
 if not (float(cfg['lambda_hn'])==.20 and float(cfg['half_margin'])==.25 and float(cfg['theta_max_deg'])==5.0): fail('current M25 config mismatch')
 if errors:
     print('VALIDATION FAIL')

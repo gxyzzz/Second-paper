@@ -1,0 +1,17 @@
+dataset,modality,top_k,retrieval_fraction,hit_count,user_count,catalog_size
+Baby,Text,1,0.0025,5,2000,7047
+Baby,Text,5,0.0105,21,2000,7047
+Baby,Text,10,0.016,32,2000,7047
+Baby,Text,20,0.0225,45,2000,7047
+Baby,Text,50,0.037,74,2000,7047
+Baby,Text,100,0.061,122,2000,7047
+Baby,Text,200,0.097,194,2000,7047
+Baby,Text,500,0.1785,357,2000,7047
+Baby,Visual,1,0.001,2,2000,7047
+Baby,Visual,5,0.003,6,2000,7047
+Baby,Visual,10,0.003,6,2000,7047
+Baby,Visual,20,0.0045,9,2000,7047
+Baby,Visual,50,0.0075,15,2000,7047
+Baby,Visual,100,0.02,40,2000,7047
+Baby,Visual,200,0.0395,79,2000,7047
+Baby,Visual,500,0.0965,193,2000,7047

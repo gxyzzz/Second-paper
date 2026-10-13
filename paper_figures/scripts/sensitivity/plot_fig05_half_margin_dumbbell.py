@@ -8,8 +8,8 @@ if __name__ == "__main__":
     validation_test_dumbbell(
         ROOT / "paper_figures/raw_data/sensitivity/fig06_half_margin_sensitivity.csv",
         ROOT / "paper_figures/figures/supplementary/fig05_half_margin_dumbbell",
-        parameter_label="Half-margin",
+        parameter_label=r"Margin fraction $\eta$",
         formal_value=0.25,
         value_formatter=lambda v: f"{v:.2f}",
-        figsize=(3.6, 2.55),
+        figsize=(3.5, 2.55),
     )

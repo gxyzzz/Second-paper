@@ -1,0 +1,9 @@
+{
+  "protocol": "EXISTING_CONTENT_PROBE_PAIRED_RANK_EXPORT",
+  "source_npz_sha256": "87cb0d4524118896e6595d03e13d86c29ee7cbd076c831b98b85910fad3fea48",
+  "users": 2000,
+  "model_seed": null,
+  "diagnostic_seed": 20261013,
+  "TEST_LABELS_USED": false,
+  "same_protocol_as": "fig13_content_preference_probe.json"
+}

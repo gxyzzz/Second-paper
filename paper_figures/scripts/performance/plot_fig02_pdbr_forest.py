@@ -1,45 +1,27 @@
 from pathlib import Path
 import sys
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "paper_figures/scripts"))
-from plot_style import paper_style, save_figure, clean_axes, PDBR, GRID
-
-DATA = ROOT / "paper_figures/raw_data/performance/pdbr_bootstrap_ci.csv"
+from plot_style import paper_style, save_figure, clean_axes, PDBR, NEUTRAL_LIGHT
 OUT = ROOT / "paper_figures/figures/main/fig02_pdbr_cross_domain_forest"
-
-
 def main():
-    d = pd.read_csv(DATA).set_index("dataset").loc[["Electronics", "Sports", "Baby"]]
-    y = np.arange(len(d))
-    point = d.point_u4.to_numpy(float)
-    low = d.ci95_low.to_numpy(float)
-    high = d.ci95_high.to_numpy(float)
-    xerr = np.vstack([point - low, high - point])
-
+    d = pd.read_csv(ROOT / "paper_figures/raw_data/performance/pdbr_bootstrap_ci.csv").set_index("dataset").loc[["Baby", "Sports", "Electronics"]]
     with paper_style():
-        fig, ax = plt.subplots(figsize=(4.15, 2.35), layout="constrained")
-        ax.axvline(0, color=GRID, linewidth=0.9, linestyle="--", zorder=0)
-        ax.errorbar(point, y, xerr=xerr, fmt="D", markersize=5.2,
-                    color=PDBR, ecolor=PDBR, elinewidth=1.35, capsize=3.0,
-                    capthick=1.0, zorder=3)
-        for yi, p, lo, hi in zip(y, point, low, high):
-            ax.text(hi + 0.14, yi, f"{p:.2f}  [{lo:.2f}, {hi:.2f}]",
-                    va="center", ha="left", fontsize=7.1)
-
-        ax.set_yticks(y, d.index)
-        ax.set_xlim(-0.35, 6.0)
-        ax.set_ylim(-0.55, len(d) - 0.45)
-        ax.set_xlabel("PDBR U4 improvement over CoLiftRec (%)")
-        clean_axes(ax, grid_axis="x", hide_left=True)
-        ax.text(0.99, 0.99, "point estimate [95% bootstrap CI]",
-                transform=ax.transAxes, ha="right", va="top", fontsize=6.8)
+        fig, ax = plt.subplots(figsize=(3.5, 2.4), layout="constrained")
+        for yi, (_, r) in zip([2,1,0], d.iterrows()):
+            ax.errorbar(r.point_u4, yi, xerr=[[r.point_u4-r.ci95_low],[r.ci95_high-r.point_u4]], fmt="D", ms=4.7,
+                        color=PDBR, elinewidth=1.4, capsize=3, capthick=.9)
+            ax.text(r.point_u4, yi+.23, f"+{r.point_u4:.2f}%", ha="center", va="bottom", fontsize=7.5, color=PDBR)
+        ax.axvline(0, color=NEUTRAL_LIGHT, lw=.8)
+        ax.set_yticks([2,1,0], d.index)
+        ax.set_xlim(-.25, 5.2)
+        ax.set_ylim(-.45,2.95)
+        ax.set_xticks([0,1,2,3,4,5])
+        ax.set_xlabel("PDBR gain over CoLiftRec (%)")
+        ax.set_title("Paired user bootstrap · 95% CI", loc="left", pad=9, fontsize=8)
+        clean_axes(ax, "x", hide_left=True)
         save_figure(fig, OUT)
         plt.close(fig)
-
-
-if __name__ == "__main__":
-    main()
+if __name__ == "__main__": main()

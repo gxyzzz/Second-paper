@@ -1,0 +1,66 @@
+{
+  "protocol": "FROZEN_BABY_CPU_DIAGNOSTICS",
+  "seed": 1000,
+  "sampling_seed": 20261013,
+  "event_sample_count": 4096,
+  "unique_sample_users": 3585,
+  "rows": 12288,
+  "batch_order": "uniform sampled events in random order, never user-sorted",
+  "shuffled_same_user_fraction": 0.0,
+  "checkpoint_sha256": "b72786ce4873d659868da950f5d618330cd4fc1486a638eb2cfd8267c18c7820",
+  "baseline_checkpoint_sha256": "3d099347a4bbb0ce9df143f68bdb96d2c513fb99852b2e1817f84bf08577c944",
+  "checkpoint_epoch": 23,
+  "active_training_bands_at_checkpoint": [
+    "Easy",
+    "Medium"
+  ],
+  "replayed_bands": [
+    "Easy",
+    "Medium",
+    "Hard"
+  ],
+  "CPU_ADAPTER": "Tensor.cuda() remapped to cpu only during constructor; graph loads map_location=cpu",
+  "CPU_RNG_CUDA_PARITY_CLAIM": false,
+  "VALIDATION": true,
+  "TEST_EVALUATED": false,
+  "MODEL_UPDATES": 0,
+  "VALIDATION_USERS": 19445,
+  "validation_parity": {
+    "stored_M25_R20": 0.10914006538588696,
+    "cpu_M25_R20": 0.10914006538588696,
+    "absolute_difference": 0.0,
+    "stored_B0_R20": 0.10777687984424934,
+    "cpu_B0_R20": 0.10777687984424934,
+    "B0_absolute_difference": 0.0
+  },
+  "validation_metrics": {
+    "B0": {
+      "R10": 0.07145587677086776,
+      "N10": 0.03869697361539896,
+      "R20": 0.10777687984424934,
+      "N20": 0.04794087290933564,
+      "R50": 0.17519321896925388,
+      "N50": 0.061445200406503156
+    },
+    "M25": {
+      "R10": 0.07335488373801566,
+      "N10": 0.03962151638475392,
+      "R20": 0.10914006538588696,
+      "N20": 0.048696958019617695,
+      "R50": 0.1746537241793091,
+      "N50": 0.06183474325796225
+    }
+  },
+  "rank_censoring": "101 denotes >100, not an exact catalog rank",
+  "colift_ablation": "same frozen B0 checkpoint/candidates/backgrounds/weights, enabled modalities only",
+  "torch_version": "2.7.0+cu128",
+  "input_sha256": {
+    "data/baby/baby.inter": "9ef5de9a05949d973928cca113aacba12067ff8f104e310ef28ea42db00c17b1",
+    "data/baby/text_feat.npy": "6667f2ad655c9ecc97cb3383f58988864ef51ec0b39c158b15986c66769f2dc4",
+    "data/baby/image_feat.npy": "36c3be592b98506189a7d5de71b21577cf626f0293b539d861534673b3e9fd70",
+    "data/baby/metadata_text_cache.jsonl": "eb8d5937b574af8d5b54f4a406a790c8770c3ba4f0fd0e5183a570adb634a789",
+    "data/baby/text_adj_10_True.pt": "1fd8cbc926edf993c1593894b35143a25a0dfd12a7f68a8be7399c62eee6ce18",
+    "data/baby/image_adj_10_True.pt": "be070f784e1e58f0232cd89542615301f9eda6b041f120fe93986f3b57a762d7"
+  },
+  "collector_sha256": "3e3dc7e9d942dc53164df963576b8bc0e264dbea2091cf9745b73f985859e414"
+}

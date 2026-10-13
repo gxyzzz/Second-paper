@@ -42,15 +42,22 @@ def main():
     norm = mpl.colors.Normalize(vmin=0, vmax=vmax)
 
     with paper_style():
-        fig, axes = plt.subplots(1, 2, figsize=(6.8, 2.45), layout="constrained")
+        fig, axes = plt.subplots(1, 2, figsize=(7.0, 2.65), layout="constrained")
         for ax, values, cmap, header, panel in [
-            (axes[0], left, BLUE_SEQ, "CoLiftRec vs Backbone", "(a)"),
-            (axes[1], right, VERMILLION_SEQ, "PDBR vs CoLiftRec", "(b)"),
+            (axes[0], left, "Blues", "CoLiftRec vs MSCA", "(a)"),
+            (axes[1], right, "Blues", "PDBR vs CoLiftRec", "(b)"),
         ]:
-            im = ax.imshow(values, cmap=cmap, norm=norm, aspect="auto", interpolation="nearest")
+            im = ax.pcolormesh(np.arange(5)-.5, np.arange(4)-.5, values,
+                               cmap=cmap, norm=norm, shading="flat", edgecolors="white", linewidth=1.8)
+            ax.set_xlim(-.5,3.5)
+            ax.set_ylim(2.5,-.5)
             ax.set_xticks(np.arange(len(METRICS)), METRICS)
             ax.set_yticks(np.arange(len(DATASETS)), DATASETS)
             ax.tick_params(length=0)
+            ax.set_xticks(np.arange(-.5, 4, 1), minor=True)
+            ax.set_yticks(np.arange(-.5, 3, 1), minor=True)
+            ax.grid(which="minor", color="white", linewidth=2.5)
+            ax.tick_params(which="minor", length=0)
             for spine in ax.spines.values():
                 spine.set_visible(False)
             annotate(ax, values, vmax)
@@ -58,6 +65,10 @@ def main():
                     fontsize=8.8, fontweight="bold")
             ax.text(0.5, 1.08, header, transform=ax.transAxes, ha="center", va="bottom",
                     fontsize=8.3)
+        cb = fig.colorbar(im, ax=list(axes), shrink=.86, pad=.025, ticks=[0,2,4,6])
+        cb.set_label("Relative gain (%)", fontsize=8)
+        cb.outline.set_visible(False)
+        cb.solids.set_rasterized(False)
         save_figure(fig, OUT)
         plt.close(fig)
 
