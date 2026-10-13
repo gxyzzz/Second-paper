@@ -68,7 +68,10 @@ half_margin       = 0.25
 theta_max_deg     = 5.0
 local_t           = [1, 2, 3, 4, 5]
 warmup_epochs     = 10
-formal_epochs     = 60
+max_epochs        = 60
+early_stopping    = inherit_msca
+eval_step         = 1
+stopping_step     = 20
 diffusion_steps   = 2 per active training batch
 inference_enabled = false
 ```
@@ -79,7 +82,7 @@ The requested score movement is at most 25% of the current positive-candidate ma
 L_total = L_normal + 0.20 * L_boundary
 ```
 
-Boundary bands and curriculum are frozen in the formal runtime.
+Boundary bands and curriculum are frozen in the formal runtime. Training uses the native MSCA early-stopping rule: Validation is checked every epoch and training stops after 21 consecutive checks without a new best R@20 (`cur_step > stopping_step`, with `stopping_step=20`).
 
 ## 6. Overall framework
 
@@ -168,9 +171,9 @@ A formal full run executes:
 
 ```text
 1. Create shared seed1000 initialization
-2. Train baseline recommender for 60 epochs
+2. Train baseline recommender for up to 60 epochs with MSCA early stopping
 3. Select baseline checkpoint using Validation Full CoLiftRec R@20
-4. Train the PDBR branch from the same initialization for 60 epochs
+4. Train the PDBR branch from the same initialization for up to 60 epochs with MSCA early stopping
 5. Apply bounded preference-directed boundary auxiliary supervision during training
 6. Select full checkpoint using Validation Full CoLiftRec R@20
 7. Freeze both selected checkpoints

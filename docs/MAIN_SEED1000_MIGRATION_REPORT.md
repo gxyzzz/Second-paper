@@ -50,7 +50,8 @@ half_margin     = 0.25
 theta_max_deg   = 5.0
 local_t         = [1,2,3,4,5]
 warmup_epochs   = 10
-formal_epochs   = 60
+max_epochs      = 60
+early_stopping  = inherit_msca (eval_step=1, stopping_step=20)
 active_steps    = 2
 inference       = disabled
 ```

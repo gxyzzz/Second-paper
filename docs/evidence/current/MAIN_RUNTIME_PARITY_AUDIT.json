@@ -2,6 +2,7 @@
   "status": "PASS",
   "checks": {
     "seed1000": true,
+    "msca_early_stopping_policy": true,
     "baby_m25": true,
     "baby_colift": true,
     "baby_msca_override": true,

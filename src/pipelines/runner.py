@@ -48,6 +48,7 @@ def _logger_config(dataset, gpu_id):
 
 def _dry_run_payload(dataset, stage, gpu_id, run_dir):
     cfg = load_dataset_config(dataset); diffusion = cfg["diffusion"]; colift = cfg["coliftrec"]
+    msca_cfg = _logger_config(dataset, gpu_id)
     return {
         "dataset": dataset,
         "seed": 1000,
@@ -61,6 +62,13 @@ def _dry_run_payload(dataset, stage, gpu_id, run_dir):
             "visual": {"lambda": colift["visual"]["lambda"], "alpha": colift["visual"]["alpha"]},
             "top_l": colift["top_l"],
         },
+        "training_control": {
+            "max_epochs": int(cfg["diffusion"]["max_epochs"]),
+            "early_stopping": "MSCA native early_stopping",
+            "eval_step": int(msca_cfg["eval_step"]),
+            "stopping_step": int(msca_cfg["stopping_step"]),
+            "stop_condition": "cur_step > stopping_step",
+        },
         "Diffusion": {
             "method": "Preference-Directed Diffusion Boundary Refinement",
             "lambda_HN": diffusion["lambda_hn"],
@@ -68,7 +76,7 @@ def _dry_run_payload(dataset, stage, gpu_id, run_dir):
             "theta_max_deg": diffusion["theta_max_deg"],
             "local_t": diffusion["local_t"],
             "warmup_epochs": diffusion["warmup_epochs"],
-            "formal_epochs": diffusion["formal_epochs"],
+            "max_epochs": diffusion["max_epochs"],
             "active_steps": diffusion["active_steps"],
             "inference_enabled": diffusion["inference_enabled"],
         },

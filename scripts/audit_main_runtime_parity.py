@@ -46,11 +46,12 @@ def main():
     checks = {}
     overall = yaml.safe_load((ROOT/'src/configs/overall.yaml').read_text())
     checks['seed1000'] = overall['seed'] == [1000]
+    checks['msca_early_stopping_policy'] = (int(overall['eval_step']) == 1 and int(overall['stopping_step']) == 20)
     for ds in ('baby','sports','elec'):
         cfg = load_dataset_config(ds); d = cfg['diffusion']; c = cfg['coliftrec']
         checks[f'{ds}_m25'] = (d['lambda_hn']==.20 and d['half_margin']==.25 and d['theta_max_deg']==5.0 and
-            d['local_t']==[1,2,3,4,5] and d['warmup_epochs']==10 and d['formal_epochs']==60 and
-            d['active_steps']==2 and d['inference_enabled'] is False)
+            d['local_t']==[1,2,3,4,5] and d['warmup_epochs']==10 and d['max_epochs']==60 and
+            d['active_steps']==2 and d['inference_enabled'] is False and d['early_stopping']=='inherit_msca')
         checks[f'{ds}_colift'] = all(close(c[m]['lambda'],EXPECTED_COLIFT[ds][m][0]) and
             close(c[m]['alpha'],EXPECTED_COLIFT[ds][m][1]) for m in EXPECTED_COLIFT[ds])
         msca = yaml.safe_load((ROOT/f'src/configs/model/MSCA/{ds}.yaml').read_text())

@@ -51,7 +51,8 @@ half_margin   = 0.25
 theta_max     = 5 degrees
 local_t       = [1,2,3,4,5]
 warmup        = 10 epochs
-formal train  = 60 epochs
+max train     = 60 epochs
+early stopping= inherit MSCA (eval_step=1, stopping_step=20)
 active steps  = 2
 ```
 

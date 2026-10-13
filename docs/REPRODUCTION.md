@@ -12,7 +12,8 @@ half_margin   = 0.25
 theta_max     = 5 degrees
 local_t       = [1,2,3,4,5]
 warmup        = 10 epochs
-formal train  = 60 epochs
+max train     = 60 epochs
+early stopping= inherit MSCA (eval_step=1, stopping_step=20)
 active steps  = 2
 Test diffusion calls = 0
 ```
@@ -73,7 +74,9 @@ The Diffusion network is not called during Test.
 
 ## Validation and Test discipline
 
-Formal training budget is 60 epochs. The final checkpoint is not forced to epoch 60: Validation Full CoLiftRec R@20 selects the best checkpoint. Test never selects the epoch, checkpoint, seed, candidate boundary, CoLiftRec parameter, or PDBR parameter.
+Formal training uses `max_epochs = 60`, `eval_step = 1`, and the native MSCA `stopping_step = 20`. The final checkpoint is not forced to epoch 60: Validation Full CoLiftRec R@20 selects the best checkpoint. Test never selects the epoch, checkpoint, seed, candidate boundary, CoLiftRec parameter, or PDBR parameter.
+
+A replay over the previously completed 60-epoch seed1000 trajectories confirms that this early-stopping policy preserves the original global-best checkpoint for all six Baby/Sports/Electronics B0/M25 branches. See `docs/evidence/current/EARLY_STOPPING_RETRO_AUDIT.json`.
 
 ## Smoke
 

@@ -28,7 +28,7 @@ from pipelines.msca_assets import build_train_histories_and_validation
 from utils.configurator import Config
 from utils.dataloader import EvalDataLoader, TrainDataLoader
 from utils.dataset import RecDataset
-from utils.utils import init_seed
+from utils.utils import early_stopping, init_seed
 
 ROOT = Path(__file__).resolve().parents[2]
 SEED = 1000
@@ -230,8 +230,10 @@ def _save_best(model, diffusion, run_dir, branch, epoch, score):
 def train_baseline(dataset, evaluator, gpu_id, run_dir, smoke=False, selection="colift"):
     model, config, train_data, _, pack = instantiate_shared(dataset, gpu_id, run_dir)
     optimizer, scheduler, weight_decay = _optimizer(model, config)
-    epochs = [0] if smoke else list(range(int(load_dataset_config(dataset)["diffusion"]["formal_epochs"])))
+    epochs = [0] if smoke else list(range(int(load_dataset_config(dataset)["diffusion"]["max_epochs"])))
     best_score = -float("inf"); best_epoch = None; best_eval = None; best_path = None
+    cur_step = 0; stopped_early = False; stop_epoch = None
+    stopping_step = int(config["stopping_step"]); eval_step = int(config["eval_step"])
     plan_hashes = {}; lr_trajectory = []; trajectory = []
     for epoch in epochs:
         digest = hashlib.sha256(); losses = []; lr_trajectory.append(float(optimizer.param_groups[0]["lr"])); model.train()
@@ -248,14 +250,24 @@ def train_baseline(dataset, evaluator, gpu_id, run_dir, smoke=False, selection="
         evaluation = evaluator.evaluate(model)
         score = float(evaluation[selection]["R20"])
         trajectory.append({"epoch": epoch, "loss": float(np.mean(losses)), "evaluation": evaluation})
-        if not smoke and score > best_score:
-            best_score = score; best_epoch = epoch; best_eval = evaluation
-            best_path = _save_best(model, None, run_dir, "baseline", epoch, score)
+        if not smoke:
+            best_score, cur_step, stop_flag, update_flag = early_stopping(
+                score, best_score, cur_step, max_step=stopping_step, bigger=True
+            )
+            trajectory[-1]["early_stopping_step"] = int(cur_step)
+            if update_flag:
+                best_epoch = epoch; best_eval = evaluation
+                best_path = _save_best(model, None, run_dir, "baseline", epoch, score)
+            if stop_flag:
+                stopped_early = True; stop_epoch = int(epoch)
+                break
     result = {
         "dataset": dataset, "seed": SEED, "branch": "baseline", "selection": f"Validation {selection} R20",
         "initial_state_hash": pack["state_hash"], "normal_plan_hashes": plan_hashes,
-        "lr_trajectory": lr_trajectory, "epochs_trained": len(epochs), "weight_decay": weight_decay,
-        "best_epoch": best_epoch, "best_evaluation": best_eval,
+        "lr_trajectory": lr_trajectory, "epochs_trained": len(trajectory), "max_epochs": len(epochs),
+        "stopping_step": stopping_step, "eval_step": eval_step,
+        "stopped_early": stopped_early, "stop_epoch": stop_epoch, "final_no_improve_steps": int(cur_step),
+        "weight_decay": weight_decay, "best_epoch": best_epoch, "best_evaluation": best_eval,
         "best_checkpoint": None if best_path is None else str(best_path),
         "checkpoint_sha256": None if best_path is None else sha256_file(best_path),
         "trajectory": trajectory, "TEST_ACCESSED": False,
@@ -281,8 +293,10 @@ def train_full(dataset, evaluator, gpu_id, run_dir, smoke=False):
     diffusion_cfg = load_dataset_config(dataset)["diffusion"]
     network, diffusion_optimizer, diffusion_schedule = make_diffusion(SEED, model.device, lr=float(diffusion_cfg["optimizer"]["lr"]))
     mask = valid_mask(train_data, model.n_items, model.device)
-    epochs = [0, 10] if smoke else list(range(int(diffusion_cfg["formal_epochs"])))
+    epochs = [0, 10] if smoke else list(range(int(diffusion_cfg["max_epochs"])))
     best_score = -float("inf"); best_epoch = None; best_eval = None; best_path = None
+    cur_step = 0; stopped_early = False; stop_epoch = None
+    stopping_step = int(config["stopping_step"]); eval_step = int(config["eval_step"])
     plan_hashes = {}; pair_hashes = {}; offset_hashes = {}; lr_trajectory = []; trajectory = []
     lambda_hn = float(diffusion_cfg["lambda_hn"]); half_margin = float(diffusion_cfg["half_margin"])
     theta = float(diffusion_cfg["theta_max_deg"]); active_steps = int(diffusion_cfg["active_steps"])
@@ -341,9 +355,17 @@ def train_full(dataset, evaluator, gpu_id, run_dir, smoke=False):
                 raise RuntimeError("bounded refinement audit failed")
             record["mechanism"] = mechanism
         trajectory.append(record)
-        if not smoke and score > best_score:
-            best_score = score; best_epoch = epoch; best_eval = evaluation
-            best_path = _save_best(model, network, run_dir, "full", epoch, score)
+        if not smoke:
+            best_score, cur_step, stop_flag, update_flag = early_stopping(
+                score, best_score, cur_step, max_step=stopping_step, bigger=True
+            )
+            trajectory[-1]["early_stopping_step"] = int(cur_step)
+            if update_flag:
+                best_epoch = epoch; best_eval = evaluation
+                best_path = _save_best(model, network, run_dir, "full", epoch, score)
+            if stop_flag:
+                stopped_early = True; stop_epoch = int(epoch)
+                break
     result = {
         "dataset": dataset, "seed": SEED, "branch": "full",
         "method": "Preference-Directed Diffusion Boundary Refinement",
@@ -351,8 +373,10 @@ def train_full(dataset, evaluator, gpu_id, run_dir, smoke=False):
                    "local_t": list(local_t), "active_steps": active_steps},
         "initial_state_hash": pack["state_hash"], "normal_plan_hashes": plan_hashes,
         "pair_hashes": pair_hashes, "rank_offset_hashes": offset_hashes, "lr_trajectory": lr_trajectory,
-        "epochs_trained": len(epochs), "weight_decay": weight_decay,
-        "best_epoch": best_epoch, "best_evaluation": best_eval,
+        "epochs_trained": len(trajectory), "max_epochs": len(epochs),
+        "stopping_step": stopping_step, "eval_step": eval_step,
+        "stopped_early": stopped_early, "stop_epoch": stop_epoch, "final_no_improve_steps": int(cur_step),
+        "weight_decay": weight_decay, "best_epoch": best_epoch, "best_evaluation": best_eval,
         "best_checkpoint": None if best_path is None else str(best_path),
         "checkpoint_sha256": None if best_path is None else sha256_file(best_path),
         "trajectory": trajectory, "checkpoint_selection": "best Full CoLiftRec Validation R20",
@@ -459,10 +483,19 @@ def run_publication_pipeline(dataset, stage, run_dir, gpu_id=0, smoke=False):
     if stage in ("coliftrec", "full"):
         validation["CoLiftRec_vs_MSCA"] = delta_pack(baseline["best_evaluation"]["colift"], baseline["best_evaluation"]["backbone"])
     if full is not None:
+        common_epochs = min(int(baseline["epochs_trained"]), int(full["epochs_trained"]))
         fairness = {
             "initial_state_exact": baseline["initial_state_hash"] == full["initial_state_hash"],
-            "normal_plan_exact": baseline["normal_plan_hashes"] == full["normal_plan_hashes"],
-            "lr_trajectory_exact": baseline["lr_trajectory"] == full["lr_trajectory"],
+            "common_epochs": common_epochs,
+            "normal_plan_common_prefix_exact": all(
+                baseline["normal_plan_hashes"].get(str(epoch)) == full["normal_plan_hashes"].get(str(epoch))
+                for epoch in range(common_epochs)
+            ),
+            "lr_common_prefix_exact": baseline["lr_trajectory"][:common_epochs] == full["lr_trajectory"][:common_epochs],
+            "early_stopping_policy_exact": (
+                baseline["stopping_step"] == full["stopping_step"]
+                and baseline["eval_step"] == full["eval_step"]
+            ),
         }
         fairness["PASS"] = bool(all(fairness.values()))
         if not fairness["PASS"]: raise RuntimeError(f"baseline/full fairness failure: {fairness}")

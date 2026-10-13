@@ -5,6 +5,7 @@ import torch
 from modules.preference_diffusion import LinearDDPM, branches, calibrate, preference_direction, tangent
 from pipelines.dataset_config import load_dataset_config
 from pipelines.preference_pipeline import DomainEvaluator
+from utils.utils import early_stopping
 
 
 class PreferenceDiffusionTests(unittest.TestCase):
@@ -40,8 +41,20 @@ class PreferenceDiffusionTests(unittest.TestCase):
         self.assertEqual(cfg['method'], 'preference_directed_boundary_refinement')
         self.assertEqual(cfg['lambda_hn'], .20); self.assertEqual(cfg['half_margin'], .25)
         self.assertEqual(cfg['theta_max_deg'], 5.0); self.assertEqual(cfg['local_t'], [1, 2, 3, 4, 5])
-        self.assertEqual(cfg['warmup_epochs'], 10); self.assertEqual(cfg['formal_epochs'], 60)
+        self.assertEqual(cfg['warmup_epochs'], 10); self.assertEqual(cfg['max_epochs'], 60)
         self.assertEqual(cfg['active_steps'], 2); self.assertFalse(cfg['inference_enabled'])
+
+
+    def test_early_stopping_matches_msca_semantics(self):
+        best = 1.0; cur_step = 0
+        for _ in range(20):
+            best, cur_step, stop, update = early_stopping(.9, best, cur_step, max_step=20, bigger=True)
+            self.assertFalse(stop); self.assertFalse(update)
+        self.assertEqual(cur_step, 20)
+        best, cur_step, stop, update = early_stopping(.9, best, cur_step, max_step=20, bigger=True)
+        self.assertTrue(stop); self.assertEqual(cur_step, 21); self.assertFalse(update)
+        best, cur_step, stop, update = early_stopping(1.1, best, cur_step, max_step=20, bigger=True)
+        self.assertFalse(stop); self.assertTrue(update); self.assertEqual(cur_step, 0)
 
     def test_test_evaluator_has_no_diffusion_call(self):
         source = inspect.getsource(DomainEvaluator.evaluate)

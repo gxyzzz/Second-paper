@@ -1,0 +1,65 @@
+{
+  "status": "PASS",
+  "policy": {
+    "max_epochs": 60,
+    "eval_step": 1,
+    "stopping_step": 20,
+    "stop_condition": "cur_step > stopping_step",
+    "semantics": "native MSCA early_stopping"
+  },
+  "historical_60_epoch_replay": {
+    "Baby": {
+      "B0": {
+        "global_best_epoch": 31,
+        "early_stop_best_epoch": 31,
+        "stop_epoch": 52,
+        "epochs_run": 53,
+        "same_best": true
+      },
+      "M25": {
+        "global_best_epoch": 23,
+        "early_stop_best_epoch": 23,
+        "stop_epoch": 44,
+        "epochs_run": 45,
+        "same_best": true
+      }
+    },
+    "Sports": {
+      "B0": {
+        "global_best_epoch": 57,
+        "early_stop_best_epoch": 57,
+        "stop_epoch": null,
+        "epochs_run": 60,
+        "same_best": true
+      },
+      "M25": {
+        "global_best_epoch": 28,
+        "early_stop_best_epoch": 28,
+        "stop_epoch": 49,
+        "epochs_run": 50,
+        "same_best": true
+      }
+    },
+    "Electronics": {
+      "B0": {
+        "global_best_epoch": 23,
+        "early_stop_best_epoch": 23,
+        "stop_epoch": 44,
+        "epochs_run": 45,
+        "same_best": true
+      },
+      "M25": {
+        "global_best_epoch": 17,
+        "early_stop_best_epoch": 17,
+        "stop_epoch": 38,
+        "epochs_run": 39,
+        "same_best": true
+      }
+    }
+  },
+  "all_six_branches_preserve_global_best": true,
+  "total_epochs_old": 360,
+  "total_epochs_replayed_with_early_stopping": 292,
+  "epochs_saved": 68,
+  "note": "Replay is based on the previously completed seed1000 Validation R20 trajectories. It does not reopen Test or perform parameter search."
+}

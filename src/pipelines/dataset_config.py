@@ -46,7 +46,9 @@ def _runtime_diffusion(method_diff: dict) -> dict:
     d["theta_max_deg"] = float(d["theta_max_deg"])
     d["local_t"] = [int(value) for value in d["local_t"]]
     d["warmup_epochs"] = int(d["warmup_epochs"])
-    d["formal_epochs"] = int(d["formal_epochs"])
+    d["max_epochs"] = int(d["max_epochs"])
+    if d.get("early_stopping") != "inherit_msca":
+        raise ValueError("current publication runtime requires MSCA-native early stopping")
     d["active_steps"] = int(d["active_steps"])
     d["inference_enabled"] = bool(d["inference_enabled"])
     if d["inference_enabled"]:

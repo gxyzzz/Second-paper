@@ -21,7 +21,8 @@ common:
     theta_max_deg: 5.0
     local_t: [1, 2, 3, 4, 5]
     warmup_epochs: 10
-    formal_epochs: 60
+    max_epochs: 60
+    early_stopping: inherit_msca
     active_steps: 2
     inference_enabled: false
     checkpoint_selection: best_full_coliftrec_validation_r20
