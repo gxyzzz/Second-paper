@@ -1,227 +1,270 @@
 # Second-paper
 
-Official reproducibility repository for our multimodal recommendation study built on MSCA / MMRec.
-The publication pipeline combines a frozen MSCA backbone with **CoLiftRec** and **Condition-Adaptive Diffusion Semantic Purification**.
+Official reproducibility repository for the current multimodal recommendation method built on a generic multimodal recommender backbone, **CoLiftRec**, and **Preference-Directed Diffusion Boundary Refinement (PDBR)**.
 
-## Introduction
+All current formal results use **seed1000**.
 
-The repository keeps MSCA as an independently runnable backbone and adds two post-backbone stages:
+## 1. Project introduction
 
-1. **CoLiftRec** removes item-generic multimodal relevance from user-item semantic scores and retains the user-specific lift used for candidate reranking.
-2. **Diffusion Semantic Purification** edits native text and visual item features under collaborative conditions, then blends the purified features back with fixed, dataset-specific coefficients.
+The method addresses two different sources of ranking error. First, multimodal content relevance can contain item-generic semantic similarity that is not equivalent to a user's preference. Second, after this generic component is reduced, difficult candidates remain around the Top-100 ranking boundary. The current pipeline therefore separates semantic debiasing from preference-directed boundary supervision.
 
-The final publication seed is **999** for Baby, Sports, and Electronics. Publication-facing method parameters are frozen in:
+## 2. Current method
 
 ```text
-src/configs/model/CoLiftRecDiffusion.yaml
+Multimodal Recommender Backbone
+  -> Top-100 candidates / representations
+  -> Full CoLiftRec
+  -> Preference-Directed Diffusion Boundary Refinement (training only)
+  -> Validation-selected recommender checkpoint
+  -> frozen Test evaluation
 ```
 
-## Overall Framework
+Diffusion provides preference-directed boundary supervision during training; the final recommender absorbs this supervision, while Test inference uses no additional Diffusion sampling.
+
+```text
+diffusion_inference_calls = 0
+```
+
+## 3. CoLiftRec
+
+For modality `m`, original relevance contains both generic semantic relevance and user-specific preference. CoLiftRec estimates an item-generic semantic background and constructs the personalized lift
+
+```text
+L_ui^m = z_ui^m - lambda_m * mu_i^m
+```
+
+before combining the enabled text, attribute, and visual lifts with the backbone score. Its purpose is to reduce the interference of generic content similarity in personalized recommendation.
+
+Frozen dataset-specific parameters are stored in `src/configs/model/CoLiftRecDiffusion.yaml`.
+
+## 4. Preference-Directed Diffusion Boundary Refinement
+
+After CoLiftRec, behaviorally plausible and semantically similar candidates can still be hard to distinguish near the ranking boundary. PDBR uses the current user, the boundary candidate representation, and the observed positive to learn a **user-conditioned local preference direction**.
+
+The Diffusion network uses three conditions during training:
+
+```text
+BASE     = zero-user condition
+TRUE     = current-user condition
+SHUFFLED = shuffled-user condition
+```
+
+The preference direction is the tangent component of
+
+```text
+positive_embedding - boundary_candidate_embedding
+```
+
+around the boundary candidate. The resulting candidate refinement is deliberately small and bounded.
+
+## 5. Bounded boundary supervision
+
+The frozen M25 configuration is:
+
+```text
+seed              = 1000
+lambda_HN         = 0.20
+half_margin       = 0.25
+theta_max_deg     = 5.0
+local_t           = [1, 2, 3, 4, 5]
+warmup_epochs     = 10
+formal_epochs     = 60
+diffusion_steps   = 2 per active training batch
+inference_enabled = false
+```
+
+The requested score movement is at most 25% of the current positive-candidate margin, subject to an angular trust region of 5 degrees. The recommender objective is
+
+```text
+L_total = L_normal + 0.20 * L_boundary
+```
+
+Boundary bands and curriculum are frozen in the formal runtime.
+
+## 6. Overall framework
+
+For a full formal run, two fair branches start from the same seed1000 initialization and the same normal training plan:
+
+```text
+Shared seed1000 initialization
+  |-- Baseline branch -> Validation-selected checkpoint
+  |      |-- MSCA Test
+  |      `-- MSCA + Full CoLiftRec Test
+  |
+  `-- Full branch -> PDBR boundary supervision -> Validation-selected checkpoint
+         `-- MSCA + Full CoLiftRec + PDBR Test
+```
+
+This design preserves the successful experimental protocol. The full branch is not continued from the baseline branch's best checkpoint.
+
+## 7. seed1000 policy
+
+Baby, Sports, and Electronics all use:
+
+```text
+seed = 1000
+```
+
+The same policy is used for the three-stage ablation:
 
 ```text
 MSCA
-  -> current-run embeddings / Top-100 candidates
-  -> Full CoLiftRec
-  -> Condition-Adaptive Diffusion Semantic Purification
-  -> Validation / Test evaluation
+MSCA + CoLiftRec
+MSCA + CoLiftRec + PDBR
 ```
 
-Runtime code does not depend on archived development scripts, historical checkpoints, old ranking caches, or legacy purified features.
+Historical experiment branches and evidence are preserved separately and are not rewritten by the current runtime.
 
-## Environment
-
-The upstream MSCA repository was released for Python 3.8.10 and PyTorch 1.11.0+cu113. The current RTX 5090 research server has also been validated with Python 3.9 and PyTorch 2.7.0+cu128.
-
-```bash
-pip install -r requirements.txt
-```
-
-See `docs/REPRODUCTION.md` and `PROVENANCE.md` for details.
-
-## Dataset
+## 8. Datasets
 
 Supported publication datasets:
 
-- Baby
-- Sports
-- Electronics (`elec` internally)
+- Baby (`baby`)
+- Sports (`sports`)
+- Electronics (`elec`)
 
-Place local interaction, text, visual, and metadata assets under `data/<dataset>/`. Large datasets, checkpoints, caches, purified arrays, and runtime outputs are intentionally excluded from Git.
+Local data assets live under `data/<dataset>/` and are not committed.
 
-Dataset metadata is defined under `src/configs/dataset/`; method parameters are kept separate.
+## 9. Terminal commands
 
-## Quick Start
-
-The primary interface keeps the original MMRec/MSCA command style. Run from the repository root:
+Run from the repository root after activating the `gume` environment.
 
 ```bash
-# MSCA
-python src/main.py -m MSCA -d baby
+cd /home/gxy/code/Second-paper
+conda activate gume
 
-# MSCA + Full CoLiftRec
+python src/main.py -m MSCA -d baby --stage full
+python src/main.py -m MSCA -d sports --stage full
+python src/main.py -m MSCA -d elec --stage full
+```
+
+Individual stages are also supported:
+
+```bash
+python src/main.py -m MSCA -d baby --stage msca
 python src/main.py -m MSCA -d baby --stage coliftrec
-
-# Full method: MSCA + CoLiftRec + Diffusion
 python src/main.py -m MSCA -d baby --stage full
 ```
 
-Replace `baby` with `sports` or `elec` for the other publication datasets.
-
-Each **formal** command performs:
-
-```text
-TRAIN
--> Validation-based model/checkpoint selection
--> freeze the selected current run
--> Test evaluation exactly once
--> paper-ready final log summary
-```
-
-Test never controls the epoch, checkpoint, seed, or any CoLiftRec/Diffusion parameter.
-
-The legacy source-directory form remains valid:
-
-```bash
-cd src
-python main.py -m MSCA -d baby
-```
-
-## Training and Evaluation
-
-`--stage msca` trains MSCA, selects the best checkpoint using Validation, reloads/exports that checkpoint, and evaluates the frozen MSCA run on Test.
-
-`--stage coliftrec` runs MSCA -> current-run assets -> Full CoLiftRec -> Validation -> one frozen Test evaluation.
-
-`--stage full` additionally trains Diffusion using the frozen dataset protocol, performs purification and final Validation, then evaluates MSCA, MSCA + CoLiftRec, and MSCA + CoLiftRec + Diffusion on the same Test split.
-
-For normal usage, inspect the complete experiment log under:
-
-```text
-./log/
-```
-
-Example: `log/MSCA-CoLiftRec-Diffusion-baby-<timestamp>.log`.
-
-The end of a formal log contains `Best Epoch`, explicit `VALIDATION RESULT` / `TEST RESULT` blocks, Diffusion selected-epoch information when applicable, and the final paper-ready metrics.
-
-`--smoke` is engineering-only and **does not evaluate Test**:
+Engineering smoke:
 
 ```bash
 python src/main.py -m MSCA -d baby --stage full --smoke
 ```
 
-`--dry-run` only resolves configuration and paths; it performs no training, Validation, or Test.
+Smoke uses small batches, exercises warmup and active boundary refinement, and never accesses formal Test.
 
-## Run Directory and Reproducibility Metadata
+Configuration-only dry-run:
 
-Each invocation creates a unique internal workspace by default:
-
-```text
-runs/reproduction/<dataset>/<run_id>/
-├── run_manifest.json
-├── resolved_config.yaml
-├── msca/
-├── coliftrec/
-├── diffusion/
-├── validation/
-├── test/
-└── summary.json
+```bash
+python src/main.py -m MSCA -d baby --stage full --dry-run
 ```
 
-These files are machine-readable reproducibility metadata and runtime artifacts. Normal users generally only need the log under `./log/`.
+See `TERMINAL_COMMANDS.md` for the complete command set.
 
-For a formal run, `summary.json` records the relevant fields, including `best_epoch`, `best_valid_score`, `MSCA_VALIDATION`, `MSCA_TEST`, `COLIFTREC_VALIDATION`, `COLIFTREC_TEST`, `FULL_VALIDATION`, `FULL_TEST`, `TEST_RUN_COUNT`, and `TEST_RUN_COMPLETED`.
+## 10. Training / Validation / Test workflow
 
-Later stages use the MSCA checkpoint bound to the current run; they do not scan other historical checkpoints. `--checkpoint` remains an advanced explicit override.
-
-A formal run may evaluate Test only once. If the same run directory already has `TEST_RUN_COMPLETED = true`, a second formal Test attempt is rejected. A new normal invocation receives a new run ID and may perform its own single Test evaluation.
-
-## Configuration
-
-Normal experiments should change YAML, not Python.
+A formal full run executes:
 
 ```text
-src/configs/dataset/*.yaml
-  -> dataset file names / data metadata
-
-src/configs/model/MSCA.yaml and src/configs/model/MSCA/
-  -> upstream MSCA backbone parameters
-
-src/configs/model/CoLiftRecDiffusion.yaml
-  -> frozen CoLiftRec + Diffusion publication parameters
+1. Create shared seed1000 initialization
+2. Train baseline recommender for 60 epochs
+3. Select baseline checkpoint using Validation Full CoLiftRec R@20
+4. Train the PDBR branch from the same initialization for 60 epochs
+5. Apply bounded preference-directed boundary auxiliary supervision during training
+6. Select full checkpoint using Validation Full CoLiftRec R@20
+7. Freeze both selected checkpoints
+8. Evaluate Test exactly once
 ```
 
-Resolved MSCA, CoLiftRec, Diffusion, dataset, stage, GPU, seed, and timestamp values are echoed at the start of the log and also saved to `resolved_config.yaml`.
+Test never selects an epoch, checkpoint, seed, CoLiftRec parameter, or Diffusion parameter. PDBR is not called during Test ranking.
 
-## Advanced Utilities
+## 11. Three-domain Test results
 
-`scripts/reproduce.py` and `src/test.py` remain available for advanced automation or independent evaluation of an existing run/checkpoint, but ordinary complete experiments do not require them.
-
-See `docs/REPRODUCTION.md` for the detailed workflow. Publication evidence is under `docs/evidence/final/`.
-
-## Results
-
-Frozen Test results below are generated from `docs/evidence/final/three_domain_final_results.json`. All three datasets use publication seed **999**.
-
-### Baby
+### Baby — seed1000
 
 | Method | R@10 | N@10 | R@20 | N@20 | R@50 | N@50 |
 |---|---:|---:|---:|---:|---:|---:|
-| MSCA | 0.069759 | 0.038059 | 0.103836 | 0.046852 | 0.171405 | 0.060570 |
-| MSCA + CoLiftRec | 0.072394 | 0.039797 | 0.108202 | 0.049028 | 0.175978 | 0.062812 |
-| MSCA + CoLiftRec + Diffusion | 0.072617 | 0.039913 | 0.108416 | 0.049120 | 0.176445 | 0.062944 |
+| MSCA | 0.067720 | 0.037031 | 0.103784 | 0.046318 | 0.174483 | 0.060638 |
+| MSCA + CoLiftRec | 0.071226 | 0.038945 | 0.107293 | 0.048269 | 0.179539 | 0.062955 |
+| MSCA + CoLiftRec + PDBR | **0.072726** | **0.039750** | **0.110479** | **0.049464** | 0.179375 | **0.063351** |
 
-### Sports
-
-| Method | R@10 | N@10 | R@20 | N@20 | R@50 | N@50 |
-|---|---:|---:|---:|---:|---:|---:|
-| MSCA | 0.080495 | 0.043785 | 0.120169 | 0.054024 | 0.189231 | 0.068063 |
-| MSCA + CoLiftRec | 0.084598 | 0.045690 | 0.124505 | 0.055997 | 0.195191 | 0.070356 |
-| MSCA + CoLiftRec + Diffusion | 0.084884 | 0.045984 | 0.125412 | 0.056422 | 0.194709 | 0.070499 |
-
-### Electronics
+### Sports — seed1000
 
 | Method | R@10 | N@10 | R@20 | N@20 | R@50 | N@50 |
 |---|---:|---:|---:|---:|---:|---:|
-| MSCA | 0.050197 | 0.028330 | 0.073294 | 0.034295 | 0.116487 | 0.043069 |
-| MSCA + CoLiftRec | 0.051303 | 0.028810 | 0.075537 | 0.035069 | 0.119473 | 0.044008 |
-| MSCA + CoLiftRec + Diffusion | 0.051502 | 0.029007 | 0.075621 | 0.035255 | 0.119898 | 0.044264 |
+| MSCA | 0.078633 | 0.042836 | 0.117032 | 0.052734 | 0.189671 | 0.067531 |
+| MSCA + CoLiftRec | 0.083048 | 0.044891 | 0.124388 | 0.055527 | 0.195963 | 0.070075 |
+| MSCA + CoLiftRec + PDBR | **0.086167** | **0.046832** | **0.126438** | **0.057239** | **0.197375** | **0.071669** |
 
-For Baby, seed1000 remains preserved as the pre-registered canonical backbone of the dedicated multiseed robustness experiment; it is not used to choose the publication result after Test. The publication table uses the pre-declared unified seed999 policy across all three datasets.
+### Electronics — seed1000
 
-## Repository Structure
+| Method | R@10 | N@10 | R@20 | N@20 | R@50 | N@50 |
+|---|---:|---:|---:|---:|---:|---:|
+| MSCA | 0.049395 | 0.027998 | 0.072552 | 0.033973 | 0.116521 | 0.042912 |
+| MSCA + CoLiftRec | 0.050878 | 0.028767 | 0.074946 | 0.034986 | 0.119535 | 0.044051 |
+| MSCA + CoLiftRec + PDBR | **0.053055** | **0.029549** | **0.078976** | **0.036249** | **0.123687** | **0.045357** |
+
+## 12. Improvement summary
+
+`U4` is the mean relative change over R@10, N@10, R@20, and N@20.
+
+| Dataset | CoLiftRec vs MSCA | PDBR vs CoLiftRec | Full vs MSCA |
+|---|---:|---:|---:|
+| Baby | +4.48% | **+2.40%** | +6.99% |
+| Sports | +5.50% | **+3.20%** | +8.87% |
+| Electronics | +3.01% | **+4.00%** | +7.13% |
+
+PDBR is **4/4 positive on the four primary Test metrics for all three datasets**. Sports and Electronics are also 6/6 positive over the six reported metrics; Baby is 5/6 positive.
+
+Machine-readable current references are stored under `docs/evidence/current/`.
+
+## 13. Repository structure
 
 ```text
 Second-paper/
 ├── README.md
-├── LICENSE
 ├── PROVENANCE.md
-├── requirements.txt
-├── data/
-├── images/
+├── TERMINAL_COMMANDS.md
 ├── src/
 │   ├── main.py
-│   ├── test.py
 │   ├── models/
 │   ├── modules/
+│   │   ├── coliftrec.py
+│   │   └── preference_diffusion.py
 │   ├── pipelines/
+│   │   ├── dataset_config.py
+│   │   ├── preference_pipeline.py
+│   │   └── runner.py
 │   └── configs/
 ├── scripts/
-│   ├── reproduce.py
-│   └── reproduce_all.sh
-├── experiments/
-│   └── archive/
+│   └── audit_main_runtime_parity.py
 ├── tests/
+│   └── test_preference_diffusion.py
 └── docs/
     ├── REPRODUCTION.md
-    └── evidence/
-        ├── final/
-        └── archive/
+    ├── MAIN_SEED1000_MIGRATION_REPORT.md
+    └── evidence/current/
 ```
 
-`experiments/archive/` preserves development and diagnostic scripts for traceability, but the formal runtime has no dependency on it.
+Development experiment history is intentionally separate from the formal `src/` runtime. The current runtime does not import experiment code.
 
-## Acknowledgement
+## 14. Reproducibility
+
+The formal configuration is frozen in `src/configs/model/CoLiftRecDiffusion.yaml`. Dataset-specific MSCA overrides remain under `src/configs/model/MSCA/`.
+
+The following gates are provided:
+
+```bash
+python scripts/audit_main_runtime_parity.py
+python -m unittest -v tests.test_preference_diffusion
+python src/main.py -m MSCA -d baby --stage full --dry-run
+python src/main.py -m MSCA -d baby --stage full --smoke
+```
+
+The deterministic parity audit checks the frozen seed, CoLiftRec parameters, PDBR parameters, boundary curriculum, MSCA overrides, zero Test-time Diffusion calls, and absence of runtime dependency on experiment implementations.
+
+## 15. Acknowledgement
 
 This repository is built upon **MSCA** and the **MMRec** framework. We thank the original authors and maintainers for their work.
 
@@ -230,7 +273,3 @@ This repository is built upon **MSCA** and the **MMRec** framework. We thank the
 - MMRec: `enoche/MMRec`
 
 The upstream GNU GPL v3.0 license is retained in `LICENSE`.
-
-## Citation
-
-The citation entry for this work will be added after the paper metadata is finalized. For the MSCA backbone, please cite the original MSCA paper described by the upstream project.

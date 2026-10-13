@@ -1,89 +1,107 @@
-# Source and Data Provenance
+# Source and Method Provenance
 
 ## Upstream source
 
 - Upstream repository: `https://github.com/recomall/MSCA`
-- Frozen source commit: `48455de8efa943e16d49db665e7f2fcb0c6c5e17`
-- Import method: tracked files were exported from the Git object at the frozen commit (`git archive`), not copied from a mutable sibling working tree.
+- Frozen upstream commit: `48455de8efa943e16d49db665e7f2fcb0c6c5e17`
 - The upstream `LICENSE` is retained unchanged.
-- The repository keeps the upstream MMRec/MSCA structure and vanilla MSCA as an independently runnable backbone.
+- The repository keeps vanilla MSCA as an independently runnable backbone.
 
-## Publication pipeline provenance
+## Current publication pipeline
 
-The publication-facing pipeline is:
+The current publication-facing pipeline is:
 
 ```text
-MSCA
+Multimodal Recommender Backbone
 -> Full CoLiftRec
--> Condition-Adaptive Diffusion Semantic Purification
+-> Preference-Directed Diffusion Boundary Refinement (training only)
+-> frozen recommender Test inference
 ```
 
-The unified publication backbone seed is `999` for Baby, Sports, and Electronics.
-Frozen method parameters are stored only in:
+All current formal results use `seed = 1000` for Baby, Sports, and Electronics.
+
+Current scientific parameters are frozen in:
 
 ```text
 src/configs/model/CoLiftRecDiffusion.yaml
 ```
 
-MSCA backbone parameters remain under `src/configs/model/MSCA.yaml` and `src/configs/model/MSCA/`.
-
-The publication-facing frozen evidence is under:
+Dataset-specific MSCA settings remain in:
 
 ```text
-docs/evidence/final/
+src/configs/model/MSCA/
 ```
 
-The pre-refactor repository snapshot is recorded in:
+## Current Diffusion semantics
+
+PDBR is a training-time auxiliary mechanism. It learns user-conditioned local preference directions from BASE / TRUE / SHUFFLED conditions, performs tangent-space refinement around boundary candidates, and applies a bounded auxiliary ranking loss.
+
+Formal Test inference does not sample from or call the Diffusion network:
 
 ```text
-docs/evidence/repository_refactor_pre_snapshot.json
+diffusion_inference_calls = 0
 ```
 
-## Baby robustness history
+## Frozen current configuration
 
-The dedicated Baby multiseed robustness experiment pre-registered seed1000 as its canonical backbone using MSCA Validation R@20 before opening the four-seed Test evaluation.
+```text
+seed          = 1000
+lambda_HN     = 0.20
+half_margin   = 0.25
+theta_max     = 5 degrees
+local_t       = [1,2,3,4,5]
+warmup        = 10 epochs
+formal train  = 60 epochs
+active steps  = 2
+```
 
-That historical decision is preserved and is not rewritten.
+No parameter sweep is part of the current `main` runtime.
 
-For publication tables, seed999 is used as the unified seed across Baby, Sports, and Electronics. The publication-seed policy is therefore separate from the dedicated multiseed robustness experiment and is not selected from its Test outcomes.
+## Successful evidence provenance
 
-## Canonical local data assets
+The current result references originate from the preserved experimental evidence:
 
-Dataset files are local inputs and are not committed. The publication runtime expects per-dataset assets under `data/<dataset>/`, including:
+```text
+Baby:        Round32 M25 seed1000 evidence
+Sports:      Round33 frozen seed1000 cross-domain transfer
+Electronics: Round33 frozen seed1000 cross-domain transfer
+```
 
-- interaction file
-- text features
-- visual features
-- metadata text cache
+The experiment history is preserved for scientific provenance. The formal runtime under `src/` does not import from it.
 
-For Baby, the audited canonical assets include:
+Machine-readable current parity/result references are copied into:
 
-- `data/baby/baby.inter`
-- `data/baby/text_feat.npy`, shape `(7050, 384)`, dtype `float32`
-- `data/baby/image_feat.npy`, shape `(7050, 4096)`, dtype `float64`
+```text
+docs/evidence/current/MAIN_RUNTIME_PARITY_AUDIT.json
+docs/evidence/current/THREE_DOMAIN_SEED1000_RESULTS.json
+```
 
-Baby SHA256 values recorded during the original data audit:
+## Current three-domain summary
 
-- `text_feat.npy`: `6667f2ad655c9ecc97cb3383f58988864ef51ec0b39c158b15986c66769f2dc4`
-- `image_feat.npy`: `36c3be592b98506189a7d5de71b21577cf626f0293b539d861534673b3e9fd70`
-- `baby.inter`: `9ef5de9a05949d973928cca113aacba12067ff8f104e310ef28ea42db00c17b1`
+| Dataset | CoLiftRec vs MSCA | PDBR vs CoLiftRec | Full vs MSCA |
+|---|---:|---:|---:|
+| Baby | +4.48% | +2.40% | +6.99% |
+| Sports | +5.50% | +3.20% | +8.87% |
+| Electronics | +3.01% | +4.00% | +7.13% |
+
+PDBR is 4/4 positive on the primary Test metrics for all three datasets.
+
+## Historical preservation policy
+
+Historical experiment branches, evidence, checkpoints, and diagnostic outputs are not rewritten by the main-runtime migration. They remain provenance only. The current method documentation describes the seed1000/PDBR runtime; older development methods are not used by the publication pipeline.
 
 ## Runtime artifact policy
-
-The final runtime must not depend on historical checkpoints, old Top-100 caches, old purified features, archived development scripts, or sibling repositories.
 
 Generated assets remain local and untracked, including:
 
 - `runs/`
 - checkpoints (`*.pt`, `*.pth`)
 - cached rankings
-- large `*.npy` / `*.npz`
-- purified feature arrays
+- large feature arrays
+- experiment evidence/output directories
 
-Development scripts are preserved under `experiments/archive/` for traceability only. Formal runtime code under `src/` and `scripts/` must not import from or read that archive.
+The current runtime uses only formal code/configuration under `src/` plus the local dataset assets.
 
 ## Environment compatibility
 
-The frozen upstream source was authored for Python 3.8.10, PyTorch 1.11.0+cu113, and NumPy 1.21.5.
-
-The current RTX 5090 research server has also been validated with Python 3.9.25, PyTorch 2.7.0+cu128, and NumPy 2.0.2. NumPy 2.x removes the deprecated `np.float` alias, so `src/utils/metrics.py` carries only the semantics-preserving `np.float` to builtin `float` compatibility patch already validated in the server workspace. No metric definition or scientific formula is changed.
+The frozen upstream source was authored for Python 3.8.10 and an older PyTorch/CUDA stack. The current RTX 5090 research environment has been validated with the `gume` environment using Python 3.9 and PyTorch 2.7.0+cu128.

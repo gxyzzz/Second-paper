@@ -1,196 +1,166 @@
 # Reproduction
 
-The normal user workflow is intentionally MMRec/MSCA-like:
+## Current frozen protocol
+
+All current formal experiments use seed1000 and the frozen configuration in `src/configs/model/CoLiftRecDiffusion.yaml`.
 
 ```text
-edit YAML
--> python src/main.py ...
--> live terminal + one project-level log
--> Validation-based selection
--> one frozen Test evaluation
--> paper-ready final summary
+CoLiftRec
++ Preference-Directed Diffusion Boundary Refinement
+lambda_HN     = 0.20
+half_margin   = 0.25
+theta_max     = 5 degrees
+local_t       = [1,2,3,4,5]
+warmup        = 10 epochs
+formal train  = 60 epochs
+active steps  = 2
+Test diffusion calls = 0
 ```
-
-Frozen method parameters remain in `src/configs/model/CoLiftRecDiffusion.yaml`. MSCA keeps its upstream parameters in `src/configs/model/MSCA.yaml` and `src/configs/model/MSCA/`.
 
 ## Primary CLI
 
 ```bash
-# MSCA
-python src/main.py -m MSCA -d baby
+cd /home/gxy/code/Second-paper
+conda activate gume
 
-# MSCA + CoLiftRec
-python src/main.py -m MSCA -d baby --stage coliftrec
-
-# MSCA + CoLiftRec + Diffusion
 python src/main.py -m MSCA -d baby --stage full
+python src/main.py -m MSCA -d sports --stage full
+python src/main.py -m MSCA -d elec --stage full
 ```
-
-The same interface applies to `sports` and `elec`.
-
-A non-smoke, non-dry formal run is:
-
-```text
-TRAIN
--> Validation selection
--> freeze current-run checkpoint/config
--> Test exactly once
--> final log summary
-```
-
-Test is evaluation-only. It never controls early stopping, best epoch, checkpoint selection, seed, `lambda`, `alpha`, `beta`, `rho`, guidance, or any other scientific choice.
 
 ## Stage behavior
 
 ### `--stage msca`
 
-```text
-MSCA training
--> Validation every eval_step
--> best Validation checkpoint
--> best epoch read from that actual checkpoint
--> current-run asset export
--> MSCA Test
+Train the seed1000 backbone and select the checkpoint using backbone Validation R@20, then freeze and evaluate Test once.
+
+```bash
+python src/main.py -m MSCA -d baby --stage msca
 ```
 
 ### `--stage coliftrec`
 
-```text
-MSCA Validation-selected checkpoint
--> current-run assets
--> frozen Full CoLiftRec
--> CoLiftRec Validation
--> one Test evaluation
-```
+Train the baseline seed1000 branch, select using Full CoLiftRec Validation R@20, then evaluate both backbone and Full CoLiftRec on Test.
 
-The final log contains both MSCA and MSCA + CoLiftRec Validation/Test metrics and the CoLiftRec Test delta versus MSCA.
+```bash
+python src/main.py -m MSCA -d baby --stage coliftrec
+```
 
 ### `--stage full`
 
+Create one shared seed1000 initialization and train two fair branches:
+
 ```text
-MSCA Validation-selected checkpoint
--> current-run assets
--> Full CoLiftRec
--> CoLiftRec Validation
--> frozen Diffusion training protocol
--> frozen Diffusion checkpoint selection
--> purification
--> Full Validation
--> one Test evaluation
+baseline branch:
+  normal MSCA training
+  -> best Full CoLiftRec Validation R@20
+
+full branch:
+  same initialization / same normal training plan
+  + training-time PDBR boundary supervision
+  -> best Full CoLiftRec Validation R@20
 ```
 
-The single Test evaluator reports MSCA, MSCA + CoLiftRec, and MSCA + CoLiftRec + Diffusion on the same users, same Test split, same current-run MSCA checkpoint, and same frozen candidate/scoring protocol.
+After both checkpoints are frozen, one Test evaluation reports:
 
-## Smoke and dry-run
+```text
+MSCA
+MSCA + Full CoLiftRec
+MSCA + Full CoLiftRec + PDBR
+```
 
-Engineering smoke never accesses Test:
+The Diffusion network is not called during Test.
+
+## Validation and Test discipline
+
+Formal training budget is 60 epochs. The final checkpoint is not forced to epoch 60: Validation Full CoLiftRec R@20 selects the best checkpoint. Test never selects the epoch, checkpoint, seed, candidate boundary, CoLiftRec parameter, or PDBR parameter.
+
+## Smoke
 
 ```bash
 python src/main.py -m MSCA -d baby --stage full --smoke
 ```
 
-Expected manifest state:
+Smoke is engineering-only. It runs a tiny baseline path plus epoch0 warmup and epoch10 active boundary refinement. It performs no formal Test and writes `TEST_ACCESSED = false`.
 
-```text
-TEST_ACCESSED = false
-TEST_RUN_COUNT = 0
-TEST_RUN_COMPLETED = false
-```
-
-Dry-run performs only configuration/path resolution:
+## Dry-run
 
 ```bash
 python src/main.py -m MSCA -d baby --stage full --dry-run
+python src/main.py -m MSCA -d sports --stage full --dry-run
+python src/main.py -m MSCA -d elec --stage full --dry-run
 ```
 
-It performs no training, Validation, or Test.
+Dry-run resolves dataset, seed, backbone, CoLiftRec parameters, PDBR parameters, GPU, and paths without training or evaluation.
 
-## Project-level log
+## Logs and run directories
 
-Every invocation writes one main log to:
+Human-readable logs are written under `log/`, for example:
 
 ```text
-Second-paper/log/
+MSCA-CoLiftRec-PreferenceDiffusion-baby-<timestamp>.log
 ```
 
-Typical names:
+Formal full logs include the three Test metric blocks, stage-to-stage relative improvements, selected epochs, and:
 
 ```text
-MSCA-baby-<timestamp>.log
-MSCA-CoLiftRec-baby-<timestamp>.log
-MSCA-CoLiftRec-Diffusion-baby-<timestamp>.log
+Diffusion inference calls = 0
 ```
 
-The same messages are shown live in the terminal.
-
-At the beginning, the log records server, working directory, dataset, stage, GPU, resolved MSCA configuration, CoLiftRec parameters, and Diffusion parameters.
-
-At the end, a formal log contains a `FINAL EXPERIMENT RESULT` block with `Best Epoch`, `Best Validation Score`, explicit `VALIDATION RESULT` and `TEST RESULT` sections, and for Full runs the Diffusion selected-epoch/checkpoint-selection metadata plus all paper-ready metrics.
-
-Metric values are printed to six decimals while machine-readable JSON retains full float precision.
-
-For normal usage, inspect the log file under `./log/`.
-
-## Internal run directory
-
-The internal workspace remains:
+Machine-readable runtime artifacts are written under:
 
 ```text
-runs/reproduction/<dataset>/<run_id>/
-├── run_manifest.json
-├── resolved_config.yaml
-├── msca/
-├── coliftrec/
-├── diffusion/
-├── validation/
-├── test/
-└── summary.json
+runs/publication/<dataset>/<run_id>/
 ```
 
-These are machine-readable reproducibility artifacts. They are not the main human-facing result location.
+A formal run evaluates Test only after Validation selection and records one Test completion marker.
 
-## Current-run binding and Test guard
+## Deterministic parity audit
 
-MSCA checkpoints generated during normal training are stored under the current run directory. Later stages use the checkpoint bound in `run_manifest.json`; they do not scan historical runs by modification time.
+Before expensive formal retraining, run:
 
-After a successful formal Test:
+```bash
+env PYTHONPATH=src:. python scripts/audit_main_runtime_parity.py
+```
+
+The audit checks:
+
+- seed1000 policy;
+- dataset-specific MSCA overrides;
+- frozen CoLiftRec parameters;
+- frozen M25/PDBR parameters;
+- ranking boundary bands and curriculum;
+- Test-time Diffusion disabled;
+- no `src/` dependency on experiment implementations.
+
+Current audit output:
 
 ```text
-TEST_RUN_COUNT = 1
-TEST_RUN_COMPLETED = true
+docs/evidence/current/MAIN_RUNTIME_PARITY_AUDIT.json
 ```
 
-is recorded. A completed formal run directory is protected from later formal or smoke overwrite; a second formal/smoke invocation is rejected before training/Test begins. Dry-run remains allowed because it performs no evaluation.
-
-A fresh ordinary invocation receives a new run ID and therefore represents a new experiment with its own single Test evaluation and its own log.
-
-## Best epoch and Diffusion selection metadata
-
-MSCA `best_epoch` and `best_valid_score` are read from the actual Validation-selected checkpoint state.
-
-For Baby/Sports, frozen Diffusion selection is `checkpoint_selection = final_epoch`, so the formal log records the actual final selected epoch.
-
-For Electronics, frozen Diffusion selection is `checkpoint_selection = best_monitor`, so the formal log records the actual best monitor epoch, best monitor objective, and patience metadata from training evidence.
-
-## Advanced helpers
-
-`scripts/reproduce.py` remains an automation/advanced helper and reuses the same main runner for shared stages.
-
-`src/test.py` remains available for independent evaluation of an existing checkpoint/run.
-
-Ordinary complete experiments do not require either helper.
-
-## Publication parity
-
-The automatic formal Test path in `src/pipelines/runner.py` calls the existing frozen `pipelines.publication_eval.evaluate_test` evaluator rather than maintaining a second Test implementation.
-
-Frozen three-domain parity evidence remains under `docs/evidence/final/ranking_parity_audit.json` and requires, for Baby, Sports, and Electronics:
+Current three-domain result reference:
 
 ```text
-metric_max_abs_diff = 0
-ranked_items_exact = true
+docs/evidence/current/THREE_DOMAIN_SEED1000_RESULTS.json
 ```
 
-The publication seed remains `999` for all three domains, including Baby.
+## Unit tests
 
-See `docs/evidence/final/main_formal_test_log_parity_audit.json` for the final CLI/Test/log integration audit.
+The repository uses Python standard-library `unittest`, so no extra testing package is required:
+
+```bash
+env PYTHONPATH=src:. python -m unittest -v tests.test_preference_diffusion
+```
+
+The tests cover tangent orthogonality, BASE/TRUE/SHUFFLED branches, the 25% margin target, 5-degree angular cap, target safety, frozen M25 config, and the no-Diffusion Test evaluator.
+
+## Current result references
+
+| Dataset | CoLiftRec vs MSCA | PDBR vs CoLiftRec | Full vs MSCA |
+|---|---:|---:|---:|
+| Baby | +4.48% | +2.40% | +6.99% |
+| Sports | +5.50% | +3.20% | +8.87% |
+| Electronics | +3.01% | +4.00% | +7.13% |
+
+These are the frozen successful seed1000 references used for main-runtime parity. This migration does not initiate a new parameter search.
