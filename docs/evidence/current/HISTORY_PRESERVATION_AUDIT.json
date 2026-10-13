@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "task_start_guard": "2026-10-13 10:35:00 +0800",
+  "files_modified_after_guard": 0,
+  "current_file_count": 1908,
+  "current_total_bytes": 44103897273,
+  "current_path_size_mtime_manifest_sha256": "809817882fdd3892de183d443c9b54e9cbea5846cb6f772df8f488a93045f249",
+  "runtime_dependency_on_diffusion_experiments": false,
+  "historical_branch_refs": {
+    "exp/round26-preference-directed-diffusion-20261010": "2826d8c5584c0664b8b65c201e746e5c81b94f6c",
+    "exp/round31-round26-baby-test-confirmation-20261011": "f3e76013e9cc2df64518897aa5a7267f15179323",
+    "exp/round32-round26-parameter-sweep-20261011": "8520b5a9db80a6af8610eebb6a098c2ba455cde4",
+    "exp/round33-seed1000-cross-domain-20261012": "27a10f26d03f929285c038b590a2e9f9c9074432"
+  },
+  "note": "No file under diffusion_experiments has an mtime newer than the task-start guard. No migration commit adds, deletes, or edits this directory; historical experiment branches were not rebased or force-pushed."
+}

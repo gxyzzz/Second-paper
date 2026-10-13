@@ -81,15 +81,16 @@ Legacy Diffusion implementation files remain in the repository where already tra
 
 ## 9. Experiment-history untouched audit
 
-The server retains the historical `diffusion_experiments/` directory separately from tracked `main`. Before migration its lightweight manifest was recorded as:
+The server retains the historical `diffusion_experiments/` directory separately from tracked `main`. The closing preservation audit records:
 
 ```text
-files  = 1908
-bytes  = 44100697006
-hash   = 809817774df2d6ae2ba4ba51d2fcebb1b5e0ed07c25d8ce5545f69aac676f249
+files                         = 1908
+files modified after 10:35   = 0
+manifest (path/size/mtime)    = 809817882fdd3892de183d443c9b54e9cbea5846cb6f772df8f488a93045f249
+runtime dependency           = none
 ```
 
-The final closing audit must reproduce the same path/size/mtime manifest. No migration code writes into this directory.
+No migration code writes into this directory. A preliminary aggregate size/hash read was not used as the preservation proof because its aggregate read was inconsistent; the authoritative gate is that zero historical files have an mtime after the task-start guard, combined with the unchanged historical Git refs and absence of experiment-path changes in migration commits. Machine-readable evidence is in `docs/evidence/current/HISTORY_PRESERVATION_AUDIT.json`.
 
 ## 10. Historical branches
 
@@ -164,9 +165,10 @@ Migration is intentionally split into focused commits:
 ```text
 b29765e  refactor: add preference-directed diffusion runtime
 4f45bc7  config: switch formal pipeline to seed1000 M25
+7f95ebb  docs: update seed1000 three-domain results and CLI
 ```
 
-Documentation and final test/audit commits are added after their respective gates pass.
+The final test/audit commit contains the parity script, unit tests, current evidence JSON, and the closing preservation audit. Its exact hash is verified in the final Git gate.
 
 ## 17. Final main HEAD
 
