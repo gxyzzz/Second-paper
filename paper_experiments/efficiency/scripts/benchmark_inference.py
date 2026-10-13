@@ -87,8 +87,13 @@ def main():
         m=re.search(r"^model name\s*:\s*(.+)$",text,re.MULTILINE); cpu=m.group(1).strip() if m else "unknown"
     batch_sizes={}
     for d in ds:
-        _, cfg, _ = load_model(d, "b0", a.gpu_id)
-        batch_sizes[d]=int(cfg["train_batch_size"]); del _
+        probe, cfg, _info = load_model(d, "b0", a.gpu_id)
+        batch_sizes[d]={
+            "train_batch_size": int(cfg["train_batch_size"]),
+            "eval_batch_size": int(cfg["eval_batch_size"]),
+        }
+        del probe
+        torch.cuda.empty_cache()
     env={"gpu_name":torch.cuda.get_device_name(a.gpu_id),"cuda_version":torch.version.cuda,"pytorch_version":torch.__version__,"python_version":platform.python_version(),"cpu":cpu,"batch_size":batch_sizes,"datasets":ds,"seed":1000,"commit":subprocess.check_output(["git","rev-parse","HEAD"],cwd=ROOT,text=True).strip(),"timestamp":time.strftime("%Y-%m-%dT%H:%M:%S%z"),"checkpoint_sha":cps}
     (ev/"ENVIRONMENT.json").write_text(json.dumps(env,indent=2)+"\n",encoding="utf-8")
     print(f"wrote {ev/'INFERENCE_BENCHMARK.csv'}")
