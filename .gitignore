@@ -44,3 +44,6 @@ Thumbs.db
 
 # Search master/launcher logs
 log/search/*.log
+
+# Local reference papers
+/Second-paper参考文献/

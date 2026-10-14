@@ -1,0 +1,662 @@
+% WWW 2027 research-track draft.
+% Main working file for the Second-paper manuscript.
+\documentclass[sigconf,anonymous,review]{acmart}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{multirow}
+
+\setcopyright{none}
+\settopmatter{printacmref=false}
+\renewcommand\footnotetextcopyrightpermission[1]{}
+
+\acmConference[WWW '27]{Proceedings of the ACM Web Conference 2027}{May 10--14, 2027}{Dublin, Ireland}
+
+\newcommand{\rowz}{\operatorname{RowZ}}
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\methodname}{CoLiftRec}
+\newcommand{\pdbr}{PDBR}
+\newcommand{\sg}{\operatorname{sg}}
+
+\begin{document}
+
+\title{Beyond Semantic Similarity: Personalized Content Lifting and Preference-Directed Diffusion for Multimodal Recommendation}
+
+\author{Anonymous Author(s)}
+\affiliation{%
+  \institution{Anonymous Institution}
+  \country{Anonymous}
+}
+
+\begin{abstract}
+Multimodal recommender systems combine behavioral signals with images, text, and item attributes, yet high content affinity can partly reflect item-specific regularities shared across users rather than evidence that is uniquely informative for one user's ranking.
+At the same time, backbone training benefits from supervision on high-ranked unobserved candidates, for which random negatives can be uninformative and unconstrained perturbations can be difficult to control.
+We study these issues with two complementary components that act at different stages of the ranking pipeline.
+At candidate scoring time, \emph{CoLiftRec} estimates a candidate-conditioned item background from training-only pseudo Top-100 contexts and residualizes textual, attribute, and visual affinities before combining them with the backbone score.
+During backbone training, \emph{Preference-Directed Diffusion Boundary Refinement} (\pdbr) mines real unobserved candidates from rank bands within the current Top-100 pool and uses conditional diffusion to estimate local perturbation directions. The candidates are used as training negatives after score-margin and angular constraints bound the displacement, and the displacement is detached before it contributes auxiliary pairwise supervision.
+The two components are not a serial training chain: \pdbr\ mines with the current backbone score, whereas CoLiftRec reranks candidates produced by a selected checkpoint.
+Diffusion is never called during validation or test ranking.
+Instantiated with MSCA on three Amazon domains, the full configuration improves Recall@20 over MSCA by 6.45\%, 8.04\%, and 8.85\% on Baby, Sports, and Electronics, respectively, while individual mechanism ablations remain dataset-dependent.
+\end{abstract}
+
+\ccsdesc[500]{Information systems~Recommender systems}
+\ccsdesc[300]{Information systems~Multimedia and multimodal retrieval}
+\ccsdesc[300]{Information systems~Web applications}
+
+\keywords{multimodal recommendation, candidate score calibration, hard negative mining, personalized ranking, training-time diffusion}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:introduction}
+
+Multimodal recommender systems exploit images, text, metadata, and other item content to complement sparse behavioral feedback, and recent work has substantially improved the way these signals are encoded, aligned, and propagated \cite{wei2019mmgcn,zhang2021lattice,zhou2023bm3,wei2023mmssl,zhou2023freedom,guo2024lgmrec}.
+However, richer content representations do not remove a basic mismatch between \emph{content affinity} and \emph{personalized ranking}.
+Pretrained visual and textual features primarily describe items; a candidate can match many users' histories because it expresses category-prototypical or otherwise broadly shared content patterns, even when that affinity is not uniquely informative for a particular user's ranking.
+Preference-oriented multimodal methods increasingly recognize this gap by injecting behavioral supervision into alignment or feature adaptation \cite{xv2024damrs,li2024whotoalign,liu2024alignrec,xu2025mentor,fan2025befa}.
+Our question is complementary: given a multimodal ranker and its candidate set, can content affinity be calibrated relative to how broadly an item matches training-user contexts rather than being used only in absolute form?
+
+We operationalize this idea as \emph{candidate-conditioned item background calibration}.
+For a fixed backbone checkpoint, if an item repeatedly receives high standardized content affinity when it appears in training-only pseudo Top-$L$ candidate lists, we treat that recurring component as an item background within this ranking context.
+This is a statistical correction, not a claim that a causal confounder or ``pure preference'' has been identified.
+Our first component, \methodname, subtracts a shrunk estimate of this background from text, attribute, and visual affinity and then combines the residualized signals with the backbone score.
+The resulting \emph{content lift} should therefore be read as a relative candidate score: it asks whether an item is more compatible with the current user's history than its candidate-context background would suggest.
+
+A separate issue arises during backbone training.
+Pairwise objectives such as BPR \cite{rendle2009bpr} depend strongly on the negatives used for supervision, while uniformly sampled negatives can devote substantial training effort to items that the current model already ranks far below its leading candidates.
+Recent diffusion-based recommenders explore denoising and generative training signals \cite{jiang2024diffmm}, and GDNSM combines conditional diffusion with preference guidance and an easy-to-hard schedule for difficulty-aware negative generation \cite{ma2025gdnsm}.
+We instead focus on \emph{real rank-band candidates used as negatives}: items already present in the current backbone's Top-100 unseen candidate pool.
+Throughout this paper, ``boundary'' is an operational term for local separation among these high-ranked candidates, not a mathematical claim that every sampled band is centered on a particular evaluation cutoff $K$.
+Because an unobserved item is not necessarily a true negative, we also avoid interpreting hardening as false-negative-safe; the design only controls the amount of movement in the backbone score and latent coordinates.
+
+These considerations lead to two complementary components placed at different stages rather than a serial processing chain.
+At candidate scoring time, \methodname\ reranks the Top-100 produced by a selected backbone checkpoint using background-calibrated content scores.
+During backbone training, \emph{Preference-Directed Diffusion Boundary Refinement} (\pdbr) mines candidates from predefined rank bands of the current backbone Top-100 and uses them as negatives; mining relies on the \emph{current backbone dot-product scores}, not \methodname\ scores.
+A conditional diffusion network estimates a local user-conditioned residual around each mined real item; a positive-conditioned tangent target guides the direction, and explicit score-margin and angular limits bound the applied displacement.
+The displacement is then stopped from carrying gradients into the diffusion module and is used only to construct an auxiliary pairwise loss for the backbone.
+Consequently, \pdbr\ changes the learned backbone but makes zero diffusion calls during validation or test ranking; \methodname\ remains the candidate-scoring component used after candidate generation.
+
+Our contributions are summarized as follows:
+\begin{itemize}
+    \item We introduce \methodname, a candidate-score calibration mechanism that estimates item backgrounds from training-only pseudo ranking contexts and residualizes multimodal affinity before Top-$L$ reranking. The correction is explicitly formulated as a relative score rather than as an identified causal preference signal.
+    \item We propose \pdbr, a training-only auxiliary mechanism that anchors perturbations to real rank-band candidates used as training negatives, estimates a local direction from conditional diffusion, and bounds hardening with the current positive margin and an angular trust region. Its novelty lies in the anchored local construction and control geometry, not in preference conditioning, curriculum scheduling, or diffusion individually.
+    \item We instantiate the framework with the published MSCA multimodal recommender \cite{li2026msca} and evaluate it on Baby, Sports, and Electronics. The complete configuration improves Recall@20 over MSCA by 6.45\%--8.85\% across the three domains while requiring no diffusion call at ranking time; component ablations show that the contribution of individual controls is dataset-dependent rather than uniformly monotonic.
+\end{itemize}
+
+\section{Related Work}
+\label{sec:related}
+
+\subsection{Multimodal Recommendation}
+
+Early content-aware recommenders such as VBPR incorporate visual information into pairwise personalized ranking \cite{he2016vbpr}.
+Subsequent work increasingly models multimodal structure with graph-based and self-supervised objectives: MMGCN propagates modality-specific signals over user--item graphs \cite{wei2019mmgcn}, LATTICE learns latent item--item structures from multimodal content \cite{zhang2021lattice}, BM3 and MMSSL strengthen multimodal representations through bootstrap or self-supervised learning \cite{zhou2023bm3,wei2023mmssl}, and FREEDOM denoises graph structures for recommendation \cite{zhou2023freedom}.
+Recent methods further study multi-view propagation, local/global graph learning, modality balancing, spectral fusion, and cross-modal alignment \cite{yu2023mgcn,guo2024lgmrec,zhang2024modalitybalanced,ong2025smore,cao2025otrec,xu2025cohesion}.
+Our experiments instantiate MSCA, which combines collaborative, structural, textual, and visual views with semantic contrastive alignment \cite{li2026msca}.
+We inherit its representation interface and base training objective; our contribution is not a replacement multimodal backbone, but score calibration after candidate generation and additional training supervision for that backbone.
+
+\subsection{Preference-Oriented Multimodal Learning}
+
+A growing body of work explicitly questions whether stronger content representation alone is sufficient for personalized ranking.
+Feedback-oriented alignment uses behavioral signals to align multimodal content with recommendation objectives \cite{xv2024damrs,li2024whotoalign}, AlignRec jointly aligns and trains multimodal representations \cite{liu2024alignrec}, and MENTOR emphasizes preserving interaction information during multimodal alignment \cite{xu2025mentor}.
+Behavior-guided adapters such as BeFA reconstruct or transform content features using user behavior \cite{fan2025befa}; other studies address attribute disentanglement, individualized graph information, collaborative--multimodal interaction, or counterfactual denoising from related perspectives \cite{li2024attribute,yu2025pgl,xu2025stair,wen2025dance}.
+Empirical analyses also report that the contribution of multimodal representations can be weaker or more indirect than commonly assumed \cite{pomo2025leverage}.
+
+Our work addresses the same broad preference-alignment concern at two different locations.
+\methodname\ does not retrain a content encoder to make every representation behavioral; it performs score-level residualization inside a selected Top-$L$ candidate set using an item background estimated from training-only candidate contexts.
+\pdbr, in contrast, operates during backbone optimization and changes the supervision supplied by real high-ranked unobserved candidates used as negatives.
+Thus the first component is a candidate-score residualization/calibration mechanism, whereas the second is a training-time refinement mechanism; we do not claim score residualization itself as a new statistical primitive.
+
+\subsection{Hard Negatives and Diffusion for Recommendation}
+
+Pairwise ranking objectives such as BPR are sensitive to the negatives used for contrastive supervision \cite{rendle2009bpr}.
+For a mature ranker, randomly sampled negatives may be easy relative to the items the model already places near the front of the candidate list, motivating hard-negative mining and curriculum strategies. Non-diffusion methods such as MixGCF already synthesize informative hard negatives by mixing graph representations \cite{huang2021mixgcf}, illustrating that hard-negative construction itself is not specific to diffusion.
+Diffusion models have also been introduced into recommendation as flexible denoising or generative mechanisms; DiffMM is a representative multimodal example \cite{jiang2024diffmm}.
+Most closely related to our training component, GDNSM uses conditional diffusion, user-preference guidance, and easy-to-hard scheduling to generate multimodal negatives at different difficulty levels \cite{ma2025gdnsm}.
+We therefore do not treat preference conditioning, diffusion, or curriculum scheduling themselves as novel ingredients.
+
+The distinction of \pdbr\ is the object and geometry of refinement.
+Rather than starting from a free latent sample, each update is anchored to an actual item currently ranked in a predefined band of the backbone's Top-100 candidate pool.
+Under the same noised anchor and content condition, the method forms a TRUE--BASE reconstruction residual, projects that residual onto the anchor's local tangent space, and trains it toward a direction defined by the observed positive item.
+The final displacement is additionally clipped by the current backbone score margin and an angular cap.
+This construction makes diffusion a local direction estimator for controlled perturbation of real candidates; it does not imply that alternative diffusion samplers lack preference information or that the proposed constraints are universally accuracy-improving.
+
+\section{Methodology}
+\label{sec:method}
+
+\subsection{Problem Formulation and Framework}
+
+Let $\mathcal{U}$ and $\mathcal{I}$ denote the user and item sets, and let $\mathcal{H}^{\mathrm{tr}}_u\subset\mathcal{I}$ be the TRAIN interaction history of user $u$.
+An item outside $\mathcal{H}^{\mathrm{tr}}_u$ is \emph{unobserved}; it should not be interpreted as a known negative preference.
+We write the backbone recommender abstractly as $f_{\Theta}$, which produces a final user embedding $\mathbf{e}_u\in\mathbb{R}^d$, a final item embedding $\mathbf{e}_i\in\mathbb{R}^d$, and the dot-product score
+\begin{equation}
+    b_{ui}=\mathbf{e}_u^{\top}\mathbf{e}_i.
+\end{equation}
+All experiments in this work instantiate $f_{\Theta}$ with MSCA \cite{li2026msca}; we inherit its multimodal representations and base training loss rather than claiming cross-backbone generality.
+For a selected checkpoint, the backbone retrieves the top-$L$ items from $\mathcal{I}\setminus\mathcal{H}^{\mathrm{tr}}_u$ under $b_{ui}$, yielding a candidate set $\mathcal{C}_u$; our formal implementation uses $L=100$.
+Any subsequent reranking can only change the order inside $\mathcal{C}_u$ and cannot recover an item excluded by backbone retrieval.
+
+Our framework contains two complementary components at different stages.
+\methodname\ is a candidate-scoring module: for a selected backbone checkpoint, it calibrates raw multimodal affinity and reranks $\mathcal{C}_u$.
+\pdbr\ is a training-time module: while optimizing the backbone, it mines negatives from the \emph{current backbone score} $b_{ui}$ and supplies an additional pairwise loss.
+\methodname\ scores are not used for \pdbr\ mining, and \pdbr\ is absent from inference.
+
+% TODO(figure): the framework figure should show two distinct paths:
+% (1) training: backbone -> rank-band mining -> PDBR auxiliary loss -> backbone update;
+% (2) ranking: selected backbone -> Top-100 -> CoLiftRec reranking.
+
+\subsection{Personalized Content Lifting}
+\label{sec:colift}
+
+\subsubsection{Candidate-context semantic affinity.}
+For text and visual modalities $m\in\{\mathrm{T},\mathrm{V}\}$, let $\mathbf{x}_i^m$ denote the raw item content feature used by \methodname.
+We use $\varepsilon_c=10^{-12}$ for the content-scoring numerical guard and define
+\begin{equation}
+    \operatorname{nrm}_{\varepsilon_c}(\mathbf{v})
+    =
+    \frac{\mathbf{v}}
+    {\max(\|\mathbf{v}\|_2,\varepsilon_c)}.
+\end{equation}
+The history profile is
+\begin{equation}
+    \mathbf{p}_u^m
+    =
+    \operatorname{nrm}_{\varepsilon_c}\!\left(
+    \frac{1}{|\mathcal{H}^{\mathrm{tr}}_u|}
+    \sum_{j\in\mathcal{H}^{\mathrm{tr}}_u}
+    \operatorname{nrm}_{\varepsilon_c}(\mathbf{x}_j^m)
+    \right),
+\end{equation}
+and the raw user--candidate affinity is
+\begin{equation}
+    a_{ui}^m
+    =
+    \left(\mathbf{p}_u^m\right)^{\top}
+    \operatorname{nrm}_{\varepsilon_c}(\mathbf{x}_i^m).
+\end{equation}
+Because score scales differ across users and modalities, we standardize each candidate row.
+For any per-user candidate score $q_{ui}$ over $i\in\mathcal{C}_u$, define
+\begin{align}
+    \mu_u(q) &= \frac{1}{L}\sum_{i\in\mathcal{C}_u}q_{ui},\\
+    \sigma_u(q) &=
+    \sqrt{\frac{1}{L}\sum_{i\in\mathcal{C}_u}
+    \left(q_{ui}-\mu_u(q)\right)^2},\\
+    \operatorname{RowZ}_u(q_{ui})
+    &=
+    \frac{q_{ui}-\mu_u(q)}
+    {\max(\sigma_u(q),\varepsilon_c)}.
+    \label{eq:rowz}
+\end{align}
+We write $z_{ui}^{m}=\operatorname{RowZ}_u(a_{ui}^{m})$ for $m\in\{\mathrm{T},\mathrm{V}\}$.
+
+The attribute branch is constructed separately from item metadata.
+Title and description use TF--IDF representations and brand uses a categorical one-hot representation.
+For field $f\in\{\mathrm{title},\mathrm{brand},\mathrm{desc}\}$, let $z_{ui}^{f}$ be the row-standardized history--candidate similarity computed in that field.
+The combined attribute score is
+\begin{equation}
+    z_{ui}^{\mathrm{A}}
+    =
+    \operatorname{RowZ}_u\!\left(
+      0.45 z_{ui}^{\mathrm{title}}
+      +0.20 z_{ui}^{\mathrm{brand}}
+      +0.35 z_{ui}^{\mathrm{desc}}
+    \right).
+    \label{eq:attribute}
+\end{equation}
+Thus text, attribute, and visual branches all enter the next step in a comparable per-user standardized coordinate.
+
+\subsubsection{Training-only candidate-conditioned item background.}
+The purpose of background estimation is not to recover an intrinsic or causal item effect.
+Instead, for a given backbone checkpoint, we estimate how strongly an item tends to match user histories \emph{when that item appears in the backbone's training-only candidate contexts}.
+For every TRAIN user with at least two interactions, we sort the TRAIN history by timestamp and construct a pseudo history $\mathcal{H}^{-}_u$ by removing its last TRAIN item.
+The backbone itself remains trained on the full TRAIN split; this pseudo leave-one-history construction is used only to form profiles, masks, and pseudo Top-$L$ candidate lists for background estimation.
+
+Let $\mathcal{P}_i^m$ be the multiset of row-standardized affinity observations $z_{ui}^m$ collected whenever item $i$ appears in these pseudo candidate lists, and let $\bar z^m$ be the global mean over all pseudo observations in modality $m$.
+We use one-observation shrinkage,
+\begin{equation}
+    \widetilde{\mu}_i^m
+    =
+    \frac{
+        \sum_{z\in\mathcal{P}_i^m} z + \bar z^m
+    }{
+        |\mathcal{P}_i^m|+1
+    }.
+    \label{eq:background}
+\end{equation}
+Equation~\eqref{eq:background} is a candidate-conditioned item background: items observed many times are estimated mainly from their pseudo-candidate affinities, whereas an item never observed in the pseudo pool falls back to $\bar z^m$.
+Because the pseudo candidate lists depend on the backbone checkpoint, these backgrounds are recomputed for the checkpoint being evaluated rather than treated as checkpoint-independent constants.
+
+\subsubsection{Residualized multimodal score.}
+For modality $m\in\{\mathrm{T},\mathrm{A},\mathrm{V}\}$, we define
+\begin{equation}
+    \ell_{ui}^{m}
+    =
+    z_{ui}^{m}
+    -
+    \lambda_m\widetilde{\mu}_i^m,
+    \qquad
+    \widehat{\ell}_{ui}^{m}
+    =
+    \operatorname{RowZ}_u(\ell_{ui}^{m}).
+    \label{eq:lift}
+\end{equation}
+The quantity $\widehat{\ell}_{ui}^{m}$ is a residualized candidate affinity; it may still contain shared or noisy factors and is not assumed to equal a pure latent preference.
+The backbone candidate scores are standardized in the same coordinate,
+$\widehat b_{ui}=\operatorname{RowZ}_u(b_{ui})$,
+and the final reranking score is
+\begin{equation}
+    s_{ui}^{\mathrm{lift}}
+    =
+    \widehat b_{ui}
+    +
+    \sum_{m\in\{\mathrm{T},\mathrm{A},\mathrm{V}\}}
+    \alpha_m\widehat{\ell}_{ui}^{m}.
+    \label{eq:colift-score}
+\end{equation}
+Here $\lambda_m$ controls the amount of item-background subtraction and $\alpha_m$ controls the contribution of the resulting modality branch.
+The frozen configurations are
+\begin{align*}
+\text{Baby: }&\boldsymbol{\lambda}=(1.0,0.75,0.25),
+&\boldsymbol{\alpha}=(0.25,0.15,0.025),\\
+\text{Sports: }&\boldsymbol{\lambda}=(0,1.0,1.0),
+&\boldsymbol{\alpha}=(0.25,0.20,0.025),\\
+\text{Electronics: }&\boldsymbol{\lambda}=(1.0,1.0,0.25),
+&\boldsymbol{\alpha}=(0.20,0.20,0.025),
+\end{align*}
+where each tuple follows $(\mathrm{T},\mathrm{A},\mathrm{V})$.
+In particular, $\lambda_m=0$ means that the corresponding branch uses its standardized affinity without background subtraction; therefore the method does not assume that every modality in every domain requires a nonzero correction.
+Setting a branch-specific $\alpha_m=0$ disables that modality, and when all $\alpha_m=0$, Eq.~\eqref{eq:colift-score} is ranking-equivalent to the original backbone candidate order because row standardization preserves the within-row ordering (with stable handling of ties).
+
+\subsection{Preference-Directed Diffusion Boundary Refinement}
+\label{sec:pdbr}
+
+Complementary to candidate-score calibration, \pdbr\ augments backbone training with controlled perturbations of real high-ranked negatives.
+It does not consume \methodname\ scores: mining uses the current backbone dot-product $b_{ui}$, and the resulting auxiliary supervision changes $\Theta$ before any candidate-score reranking is applied.
+
+\subsubsection{Rank-band mining and curriculum.}
+For each training batch, the eligible catalog contains items that occur in TRAIN.
+For user $u$, we exclude every item in $\mathcal{H}^{\mathrm{tr}}_u$ and the current positive item $i^+$, score the remaining eligible items with the current backbone, and retrieve the Top-100 list.
+We partition that list into three relative-difficulty bands,
+\begin{equation}
+\begin{aligned}
+    \mathcal{B}_{\mathrm{easy}} &: \text{ranks }61\text{--}100,\\
+    \mathcal{B}_{\mathrm{medium}} &: \text{ranks }31\text{--}60,\\
+    \mathcal{B}_{\mathrm{hard}} &: \text{ranks }11\text{--}30.
+\end{aligned}
+\label{eq:bands}
+\end{equation}
+These intervals define an operational rank-band notion of the current decision region; they are not all mathematical neighborhoods of a specific evaluation cutoff such as $K=10$ or $K=20$.
+The current Top-10 is excluded as a conservative design choice rather than because those items are known false negatives or known positives.
+
+Using zero-based epoch indices, the curriculum activates no band for epochs $0$--$9$, Easy for $10$--$19$, Easy+Medium for $20$--$29$, and all three bands from epoch $30$ onward.
+For each active band and user, one item is selected by a fixed pseudo-random rank-offset protocol.
+Let $K\in\{0,1,2,3\}$ denote the number of active bands in the current epoch.
+Because the Top-100 list is recomputed from the evolving backbone at every batch, the selected negatives track the model's current ranking rather than a fixed cache.
+
+\subsubsection{Local conditional diffusion.}
+The diffusion module works in the backbone latent spaces, which are distinct from the raw text and visual features used by \methodname.
+At the beginning of each epoch, we compute a vector mean $\boldsymbol{\mu}_q$ and a scalar root-mean-square scale
+\begin{equation}
+    r_q
+    =
+    \sqrt{
+      \frac{1}{N_q d}
+      \sum_{n=1}^{N_q}
+      \left\|\mathbf{q}_n-\boldsymbol{\mu}_q\right\|_2^2
+    }
+\end{equation}
+for the final item embeddings, final user embeddings, and MSCA's learned text and visual item views.
+These statistics are refreshed once per epoch and held fixed while the backbone continues to update within that epoch.
+A vector is standardized as
+$z_q(\mathbf{q})=(\mathbf{q}-\boldsymbol{\mu}_q)/r_q$ and mapped back by the corresponding inverse transformation.
+
+We use a 25-entry linear DDPM schedule indexed by $t\in\{0,\ldots,24\}$, with
+$\beta_t$ increasing from $10^{-4}$ to $0.02$,
+$\alpha_t=1-\beta_t$, and
+$\bar\alpha_t=\prod_{j=0}^{t}\alpha_j$.
+The local training configuration samples only implementation indices
+$t\in\{1,2,3,4,5\}$; index $0$ exists in the schedule but is not sampled.
+For a standardized anchor $\mathbf{x}_0$, we draw
+\begin{equation}
+    \mathbf{x}_t
+    =
+    \sqrt{\bar\alpha_t}\mathbf{x}_0
+    +
+    \sqrt{1-\bar\alpha_t}\boldsymbol{\epsilon},
+    \qquad
+    \boldsymbol{\epsilon}\sim\mathcal{N}(\mathbf{0},\mathbf{I}).
+    \label{eq:qsample}
+\end{equation}
+A lightweight predictor $\epsilon_{\phi}$ takes the concatenation of $\mathbf{x}_t$, a sinusoidal time embedding, the standardized user condition, and the standardized learned text and visual conditions from MSCA.
+
+For the same anchor, $t$, content conditions, and forward noise $\boldsymbol{\epsilon}$, we evaluate three user conditions:
+BASE uses the zero vector, TRUE uses the standardized current user embedding, and SHUFFLED uses a one-position cyclic roll of the users within the corresponding batch block.
+The shared forward noise does not imply that every source of training randomness is tied across branches; in particular, the diffusion MLP uses ordinary dropout during optimization.
+For branch $c\in\{0,u,\pi(u)\}$, the clean-state estimate is
+\begin{equation}
+    \widehat{\mathbf{x}}_0^{\,c}
+    =
+    \frac{
+      \mathbf{x}_t
+      -
+      \sqrt{1-\bar\alpha_t}\,
+      \epsilon_{\phi}(\mathbf{x}_t,t,c)
+    }{
+      \sqrt{\bar\alpha_t}
+    }.
+    \label{eq:x0pred}
+\end{equation}
+
+To match the implementation scale, define the mean-squared error over a batch of $B'$ latent vectors of dimension $d$ as
+\begin{equation}
+    \operatorname{MSE}(\mathbf{A},\mathbf{B})
+    =
+    \frac{1}{B'd}
+    \sum_{n=1}^{B'}
+    \sum_{r=1}^{d}
+    (A_{nr}-B_{nr})^2.
+\end{equation}
+The three-condition reconstruction loss is
+\begin{equation}
+\begin{split}
+    \mathcal{L}_{\mathrm{rec}}
+    =\frac{1}{3}\big(&
+    \operatorname{MSE}(\epsilon_{\phi}^{0},\boldsymbol{\epsilon})
+    +\operatorname{MSE}(\epsilon_{\phi}^{u},\boldsymbol{\epsilon})\\
+    &+\operatorname{MSE}(\epsilon_{\phi}^{\pi(u)},\boldsymbol{\epsilon})
+    \big).
+    \label{eq:diff-rec}
+\end{split}
+\end{equation}
+During the first ten epochs, no rank band is active and this reconstruction objective is trained on the batch's positive item states.
+Once the curriculum activates, the same local reconstruction objective is applied to the mined negative anchors and is combined with the directional objective below.
+
+\subsubsection{Preference-directed local direction.}
+Let $\widehat{\mathbf{e}}_i^{0}$ and $\widehat{\mathbf{e}}_i^{u}$ denote the BASE and TRUE clean-state estimates after inverse standardization to the backbone item-embedding coordinate.
+For PDBR, we use $\varepsilon_d=10^{-8}$. For an anchor $\mathbf{e}_i$, define the numerically protected tangent projection
+\begin{equation}
+    \Pi_i(\mathbf{v})
+    =
+    \mathbf{v}
+    -
+    \frac{\mathbf{v}^{\top}\mathbf{e}_i}
+    {\|\mathbf{e}_i\|_2^2+\varepsilon_d}
+    \mathbf{e}_i,
+    \label{eq:tangent}
+\end{equation}
+and the protected normalization
+\begin{equation}
+    \operatorname{unit}_{\varepsilon_d}(\mathbf{v})
+    =
+    \frac{\mathbf{v}}{\|\mathbf{v}\|_2+\varepsilon_d}.
+\end{equation}
+The positive-conditioned target direction is
+\begin{equation}
+    \mathbf{d}^{\star}_{u,i}
+    =
+    \operatorname{unit}_{\varepsilon_d}\!\left(
+      \Pi_i(\mathbf{e}_{i^+}-\mathbf{e}_i)
+    \right),
+    \label{eq:prefdir}
+\end{equation}
+while the diffusion-induced direction is
+\begin{equation}
+    \mathbf{d}_{u,i}
+    =
+    \operatorname{unit}_{\varepsilon_d}\!\left(
+      \Pi_i(\widehat{\mathbf{e}}_i^{u}-\widehat{\mathbf{e}}_i^{0})
+    \right).
+    \label{eq:diffdir}
+\end{equation}
+The TRUE--BASE difference is an operational user-conditioned residual under matched anchor, timestep, content condition, and forward noise; we do not interpret it as a causal user effect.
+Likewise, $\mathbf{d}^{\star}_{u,i}$ is defined by the observed training positive and should not be read as the unknown geometric ground truth of user preference.
+
+Let $\mathcal{V}$ contain examples for which both pre-normalization tangent vectors in Eqs.~\eqref{eq:prefdir} and~\eqref{eq:diffdir} have norm greater than $\varepsilon_d$.
+The direction loss is
+\begin{equation}
+    \mathcal{L}_{\mathrm{dir}}
+    =
+    \begin{cases}
+    \displaystyle
+    \frac{1}{|\mathcal{V}|}
+    \sum_{(u,i)\in\mathcal{V}}
+    \left(1-\mathbf{d}_{u,i}^{\top}\mathbf{d}^{\star}_{u,i}\right),
+    & |\mathcal{V}|>0,\\[6pt]
+    0, & |\mathcal{V}|=0.
+    \end{cases}
+    \label{eq:dirloss}
+\end{equation}
+For active rank bands, the diffusion network is optimized with
+\begin{equation}
+    \mathcal{L}_{\mathrm{diff}}
+    =
+    \mathcal{L}_{\mathrm{rec}}
+    +
+    \mathcal{L}_{\mathrm{dir}}.
+\end{equation}
+Backbone representations are detached during this diffusion update.
+The SHUFFLED branch participates in $\mathcal{L}_{\mathrm{rec}}$ and in identity-sensitivity diagnostics, but there is no explicit TRUE-vs-SHUFFLED ranking term in $\mathcal{L}_{\mathrm{dir}}$.
+The formal configuration performs two diffusion optimizer updates per active backbone batch; these are optimizer steps on the local objective, not two reverse-diffusion sampling steps.
+After those updates, the diffusion network is placed in evaluation mode to estimate $\mathbf{d}_{u,i}$ for calibration, disabling dropout during direction prediction.
+
+\subsubsection{Bounded displacement of mined candidates.}
+We use the learned direction only when it can increase the current user's backbone score while the observed positive still has a larger backbone score.
+For positive $i^+$ and a mined unobserved candidate $i$ used as a training negative, define
+\begin{equation}
+    m_{u,i}
+    =
+    \mathbf{e}_u^{\top}\mathbf{e}_{i^+}
+    -
+    \mathbf{e}_u^{\top}\mathbf{e}_{i},
+    \qquad
+    g_{u,i}
+    =
+    \mathbf{e}_u^{\top}\mathbf{d}_{u,i}.
+\end{equation}
+A displacement is eligible only if $m_{u,i}>0$ and $g_{u,i}>0$.
+For an eligible pair, the requested score increase is
+\begin{equation}
+    \Delta s_{u,i}^{\mathrm{req}}
+    =
+    \rho m_{u,i},
+    \qquad
+    \rho=0.25,
+\end{equation}
+which corresponds to the step
+\begin{equation}
+    \gamma_{\mathrm{req}}
+    =
+    \frac{\rho m_{u,i}}
+    {g_{u,i}+\varepsilon_d}.
+\end{equation}
+We also cap the displacement magnitude by
+\begin{equation}
+    \gamma_{\max}
+    =
+    \tan(\theta_{\max})\|\mathbf{e}_i\|_2,
+    \qquad
+    \theta_{\max}=5^{\circ}.
+\end{equation}
+Under the ideal non-degenerate case where the projected direction is exactly tangent and unit normalized, this cap corresponds to an angular deviation no greater than $\theta_{\max}$.
+The implementation uses $\varepsilon_d$-protected projection and normalization, so the property is numerical rather than an exact symbolic identity and is audited with a small tolerance.
+
+The applied step and displacement are
+\begin{equation}
+    \gamma_{u,i}
+    =
+    \begin{cases}
+      \min(\gamma_{\mathrm{req}},\gamma_{\max}),
+      & m_{u,i}>0,\;g_{u,i}>0,\\
+      0, & \text{otherwise},
+    \end{cases}
+    \qquad
+    \Delta\mathbf{e}_{u,i}
+    =
+    \gamma_{u,i}\mathbf{d}_{u,i}.
+    \label{eq:bounded-delta}
+\end{equation}
+For an eligible pair,
+\begin{equation}
+    0
+    \leq
+    \mathbf{e}_u^{\top}\Delta\mathbf{e}_{u,i}
+    \leq
+    \rho m_{u,i}
+    <
+    m_{u,i},
+    \label{eq:score-bound}
+\end{equation}
+so the perturbed negative retains at least $(1-\rho)m_{u,i}$ of the original positive--negative margin in the \emph{backbone dot-product coordinate}.
+Equation~\eqref{eq:score-bound} does not guarantee that the unobserved item is a true negative, that content semantics are preserved, or that the final \methodname\ score obeys the same margin.
+When the eligibility test fails, $\Delta\mathbf{e}_{u,i}=\mathbf{0}$; the original mined candidate is still kept in the auxiliary loss rather than discarded.
+
+\subsection{Alternating Optimization and Diffusion-Free Inference}
+\label{sec:optimization}
+
+MSCA supplies the base objective inherited by both the baseline and Full training branches \cite{li2026msca}.
+Using compact notation for its collaborative--structural and collaborative--modality contrastive terms, we write
+\begin{equation}
+\begin{split}
+    \mathcal{L}_{\mathrm{base}}
+    =
+    \mathcal{L}_{\mathrm{BPR}}
+    +\lambda_{\mathrm{cl}}\big(
+       \mathcal{L}_{C_u}+\mathcal{L}_{C_i}
+       +\mathcal{L}_{M_u}+\mathcal{L}_{M_i}
+    \big)
+    +\lambda_{\mathrm{reg}}\mathcal{L}_{\mathrm{reg}}.
+    \label{eq:base-loss}
+\end{split}
+\end{equation}
+The ordinary BPR term in Eq.~\eqref{eq:base-loss} uses the backbone's normal training negatives; \pdbr\ adds a second supervision term without replacing the inherited objective.
+
+For batch size $B$ and $K>0$ active rank bands, let $i^-_{u,k}$ denote the mined unobserved item used as a negative for user $u$ and band $k$.
+The refined negative used by the backbone is
+\begin{equation}
+    \widetilde{\mathbf{e}}_{u,k}^{-}
+    =
+    \mathbf{e}_{i^-_{u,k}}(\Theta)
+    +
+    \sg\!\left(\Delta\mathbf{e}_{u,i^-_{u,k}}\right),
+    \label{eq:stopgrad-refine}
+\end{equation}
+where $\sg(\cdot)$ denotes stop-gradient.
+Thus the original negative embedding remains differentiable with respect to $\Theta$; only the calibrated displacement is treated as a constant during the backbone update.
+The auxiliary loss is averaged over both users and active bands,
+\begin{equation}
+    \mathcal{L}_{\mathrm{HN}}
+    =
+    -\frac{1}{BK}
+    \sum_{u=1}^{B}
+    \sum_{k=1}^{K}
+    \log\sigma\!\left(
+      \mathbf{e}_u^{\top}\mathbf{e}_{i^+}
+      -
+      \mathbf{e}_u^{\top}\widetilde{\mathbf{e}}_{u,k}^{-}
+    \right),
+    \qquad K>0,
+    \label{eq:auxbpr}
+\end{equation}
+with $\mathcal{L}_{\mathrm{HN}}=0$ when $K=0$.
+The backbone objective is
+\begin{equation}
+    \mathcal{L}_{\mathrm{rank}}
+    =
+    \mathcal{L}_{\mathrm{base}}
+    +
+    \lambda_{\mathrm{HN}}\mathcal{L}_{\mathrm{HN}},
+    \qquad
+    \lambda_{\mathrm{HN}}=0.20.
+    \label{eq:totalrank}
+\end{equation}
+
+Training alternates the two parameter updates rather than backpropagating one joint objective through all modules.
+At the start of an epoch, we refresh latent statistics and determine the active curriculum bands.
+For each batch, we first run the backbone and mine rank-band candidates.
+During warm-up, the diffusion optimizer receives $\mathcal{L}_{\mathrm{rec}}$ on positive item states; after warm-up, it performs two updates on detached backbone states using $\mathcal{L}_{\mathrm{diff}}$ over mined negatives.
+The updated diffusion network is then evaluated to predict directions, Eq.~\eqref{eq:bounded-delta} produces a detached displacement, and the backbone optimizer updates $\Theta$ with Eq.~\eqref{eq:totalrank}.
+Therefore diffusion losses do not update the backbone, and ranking losses do not update the diffusion network through the displacement.
+
+Within the formal module-comparison protocol, baseline and Full branches share the seed-1000 initialization, ordinary training-pair plan, and learning-rate schedule prefix, but they are trained and selected as separate checkpoints.
+For the formal Full-stage module comparison, both the baseline and Full branches select their own checkpoints by Validation \methodname\ Recall@20.
+Because different trained checkpoints can retrieve different Top-100 pools, the overall Full-vs-baseline difference is not interpretable as same-pool reranking alone.
+
+At validation and test ranking, \pdbr\ is removed completely: the selected backbone generates Top-100 candidates and \methodname\ reranks that pool with Eq.~\eqref{eq:colift-score}.
+No diffusion parameter or diffusion forward call is required at ranking time.
+This statement concerns diffusion overhead only; \methodname\ still requires history profiles, checkpoint-dependent pseudo backgrounds, and candidate-score computation.
+
+\section{Experiments}
+\label{sec:experiments}
+
+% This section remains a scaffold until all publication experiments and figures
+% are frozen. The prose above may use only the already frozen three-domain main
+% comparison; do not infer missing ablation values.
+%
+% RQ1 Overall effectiveness:
+%   - Baby / Sports / Electronics, formal seed=1000.
+%   - Report the published MSCA backbone, candidate-score calibration, and Full.
+%   - State checkpoint selection precisely: in the module-comparison pipeline,
+%     baseline and Full are trained separately and selected with Validation
+%     CoLiftRec R@20. Their Top-100 pools may differ.
+%   - Do not claim SOTA or cross-backbone generality without a separate fair
+%     benchmark protocol.
+%
+% RQ2 Candidate-score calibration:
+%   - Report C0/C1 and modality ablations across all three domains.
+%   - Background subtraction is not uniformly monotonic; separate the benefit
+%     of multimodal score fusion from the benefit of background subtraction.
+%
+% RQ3 PDBR mechanism:
+%   - Report P2--P6 exactly as completed. Shuffled-user, direction alignment,
+%     and angular clipping are control/design choices whose metric effects can
+%     be dataset-dependent. Do not convert diagnostic alignment into a claim of
+%     causal necessity.
+%
+% RQ4 Ranking behavior:
+%   - Report cutoff rescue and loss/transition counts. rank=101 is a censored
+%     Top-100-outside marker, not an exact full-catalog rank.
+%
+% RQ5 Efficiency:
+%   - Separate backbone-training overhead, CoLiftRec reranking cost, and PDBR.
+%   - diffusion_inference_calls=0 means zero diffusion ranking overhead; it does
+%     not mean the complete framework has zero reranking cost.
+%
+% Statistical reporting:
+%   - If using current paired-user bootstrap, state 1,000 resamples and the
+%     fixed checkpoint/seed. Do not describe this as cross-seed stability.
+
+\subsection{Experimental Setup}
+% TODO: fill only after all publication evidence is frozen.
+
+\subsection{Overall Performance}
+% TODO: main table.
+
+\subsection{Ablation Study}
+% TODO: CoLiftRec and PDBR ablations.
+
+\subsection{Boundary Analysis}
+% TODO: boundary-rescue figure/table.
+
+\subsection{Efficiency Analysis}
+% TODO: training overhead and zero-diffusion inference.
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+We studied preference-sensitive multimodal ranking through two complementary mechanisms that operate at different stages.
+\methodname\ calibrates candidate scores by subtracting a candidate-conditioned item background from multimodal affinity, while \pdbr\ modifies backbone training by perturbing real rank-band candidates and using the perturbed versions as auxiliary negatives.
+The implementation deliberately keeps these roles separate: \pdbr\ mines with the backbone score and disappears at ranking time, whereas \methodname\ reranks the Top-100 produced by the selected checkpoint.
+
+With MSCA as the instantiated backbone, the complete configuration improves Recall@20 by 6.45\%--8.85\% across Baby, Sports, and Electronics relative to the corresponding MSCA comparison checkpoints, while requiring zero diffusion calls during validation or test ranking.
+At the same time, current ablations show that background subtraction, correct-user conditioning, directional alignment, and angular clipping do not yield uniformly monotonic metric gains on every domain.
+We therefore interpret these elements as explicit calibration and control choices whose individual empirical contributions are dataset-dependent, rather than as mechanisms already proven necessary in all settings.
+
+The current evidence is limited to one backbone family and a fixed formal seed configuration, and unobserved items remain only implicit negatives rather than verified dislikes.
+Accordingly, the score-margin and angular construction should be read as a bounded training rule in the backbone coordinate, not as a guarantee of semantic preservation or false-negative safety.
+These limitations define the scope of the present claims and motivate future evaluation across additional backbones and sampling regimes.
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+\end{document}
