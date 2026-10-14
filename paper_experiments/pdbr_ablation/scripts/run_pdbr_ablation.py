@@ -60,6 +60,23 @@ INIT_SOURCE = {
     "elec": ROOT / "diffusion_experiments/round33_seed1000_cross_domain/assets/elec_seed1000_init.pt",
 }
 
+_ORIGINAL_MAKE_CONFIG = pp._make_config
+
+def _enable_physical_gpu_mapping(physical_gpu: int) -> None:
+    """Map the selected physical GPU to the process-local logical cuda:0.
+
+    MMRec Config sets CUDA_VISIBLE_DEVICES from gpu_id. After that selection,
+    exactly one CUDA device is visible and must be addressed as cuda:0.
+    This is paper-experiment launcher plumbing only; it does not change the method.
+    """
+    physical_gpu = int(physical_gpu)
+    def _mapped(dataset, _gpu_id, run_dir):
+        config = _ORIGINAL_MAKE_CONFIG(dataset, physical_gpu, run_dir)
+        config["gpu_id"] = physical_gpu
+        config["device"] = torch.device("cuda:0")
+        return config
+    pp._make_config = _mapped
+
 
 def _prepare_shared_init(dataset: str, gpu_id: int, run_dir: Path) -> dict:
     if dataset == "baby":
@@ -300,6 +317,7 @@ def run(dataset, variant, gpu_id, smoke):
 
 def main():
     ap=argparse.ArgumentParser(); ap.add_argument("--dataset",choices=["baby","sports","elec"],required=True); ap.add_argument("--variant",choices=list(VARIANTS),required=True); ap.add_argument("--gpu-id",type=int,default=0); ap.add_argument("--smoke",action="store_true"); a=ap.parse_args()
+    _enable_physical_gpu_mapping(a.gpu_id)
     result=run(a.dataset,a.variant,a.gpu_id,a.smoke); print(json.dumps(result,indent=2,default=str))
 
 if __name__=="__main__": main()
