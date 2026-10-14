@@ -10,6 +10,6 @@ for dataset in ('BABY','SPORTS','ELEC'):
 fields = ['dataset','variant','variant_name',*ALL,'delta_u4_vs_backbone','delta_u4_vs_full_colift','checkpoint_sha','seed']
 out = ev / 'COLIFTREC_ABLATION_SUMMARY.csv'
 with out.open('w', newline='', encoding='utf-8') as f:
-    w = csv.DictWriter(f, fieldnames=fields, extrasaction='ignore')
+    w = csv.DictWriter(f, fieldnames=fields, extrasaction='ignore', lineterminator=chr(10))
     w.writeheader(); w.writerows(rows)
 print(f'wrote {out} rows={len(rows)}')

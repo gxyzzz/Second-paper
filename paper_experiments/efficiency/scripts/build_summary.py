@@ -19,6 +19,6 @@ def main():
             rows.append({'dataset':d,'method':method,'train_params':trainp,'deploy_params':deploy,'train_ms_per_batch':t.get('ms_per_batch'),'peak_vram_GB':t.get('peak_cuda_allocated_GB'),'inference_ms_per_user':q.get('median_ms_per_user'),'diffusion_inference_calls':q.get('diffusion_inference_calls','0')})
     fields=['dataset','method','train_params','deploy_params','train_ms_per_batch','peak_vram_GB','inference_ms_per_user','diffusion_inference_calls']
     with (ev/'EFFICIENCY_SUMMARY.csv').open('w',newline='') as f:
-        w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows(rows)
+        w=csv.DictWriter(f,fieldnames=fields,lineterminator=chr(10));w.writeheader();w.writerows(rows)
     print('wrote',ev/'EFFICIENCY_SUMMARY.csv')
 if __name__=='__main__':main()

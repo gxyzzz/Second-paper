@@ -1,0 +1,52 @@
+{
+  "seed": 1000,
+  "datasets": {
+    "baby": {
+      "backbone_trainable_parameters": 33579072,
+      "coliftrec_trainable_parameters": 0,
+      "pdbr_diffusion_trainable_parameters": 164416,
+      "MSCA_total_training_parameters": 33579072,
+      "MSCA_plus_CoLiftRec_total_training_parameters": 33579072,
+      "MSCA_plus_CoLiftRec_plus_PDBR_total_training_parameters": 33743488,
+      "MSCA_deployed_inference_parameters": 33579072,
+      "MSCA_plus_CoLiftRec_deployed_inference_parameters": 33579072,
+      "MSCA_plus_CoLiftRec_plus_PDBR_deployed_inference_parameters": 33579072,
+      "PDBR_training_time_parameters": 164416,
+      "PDBR_inference_time_parameters": 0,
+      "checkpoint_sha": "3d099347a4bbb0ce9df143f68bdb96d2c513fb99852b2e1817f84bf08577c944"
+    },
+    "sports": {
+      "backbone_trainable_parameters": 85991872,
+      "coliftrec_trainable_parameters": 0,
+      "pdbr_diffusion_trainable_parameters": 164416,
+      "MSCA_total_training_parameters": 85991872,
+      "MSCA_plus_CoLiftRec_total_training_parameters": 85991872,
+      "MSCA_plus_CoLiftRec_plus_PDBR_total_training_parameters": 86156288,
+      "MSCA_deployed_inference_parameters": 85991872,
+      "MSCA_plus_CoLiftRec_deployed_inference_parameters": 85991872,
+      "MSCA_plus_CoLiftRec_plus_PDBR_deployed_inference_parameters": 85991872,
+      "PDBR_training_time_parameters": 164416,
+      "PDBR_inference_time_parameters": 0,
+      "checkpoint_sha": "79cdc2fa5c14846cd33718c21cf41f74e1fdd01fc1d9e668b5731407665d1f32"
+    },
+    "elec": {
+      "backbone_trainable_parameters": 298889728,
+      "coliftrec_trainable_parameters": 0,
+      "pdbr_diffusion_trainable_parameters": 164416,
+      "MSCA_total_training_parameters": 298889728,
+      "MSCA_plus_CoLiftRec_total_training_parameters": 298889728,
+      "MSCA_plus_CoLiftRec_plus_PDBR_total_training_parameters": 299054144,
+      "MSCA_deployed_inference_parameters": 298889728,
+      "MSCA_plus_CoLiftRec_deployed_inference_parameters": 298889728,
+      "MSCA_plus_CoLiftRec_plus_PDBR_deployed_inference_parameters": 298889728,
+      "PDBR_training_time_parameters": 164416,
+      "PDBR_inference_time_parameters": 0,
+      "checkpoint_sha": "695c37330e2b337cf46fbd43a78510c524d0c0bbc84c21d45537d2d5ec0b40b6"
+    }
+  },
+  "definitions": {
+    "coliftrec_trainable_parameters": 0,
+    "pdbr_inference_parameters": 0,
+    "note": "PDBR diffusion is training-only and is not deployed for ranking inference."
+  }
+}

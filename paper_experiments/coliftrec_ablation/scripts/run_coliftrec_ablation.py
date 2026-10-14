@@ -98,7 +98,7 @@ def main():
     out.parent.mkdir(parents=True, exist_ok=True)
     fields = ["dataset", "variant", "variant_name", *ALL, "delta_u4_vs_backbone", "delta_u4_vs_full_colift", "checkpoint_sha", "seed"]
     with out.open("w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=fields); w.writeheader(); w.writerows(all_rows)
+        w = csv.DictWriter(f, fieldnames=fields, lineterminator=chr(10)); w.writeheader(); w.writerows(all_rows)
     print(f"wrote {out}")
 
 

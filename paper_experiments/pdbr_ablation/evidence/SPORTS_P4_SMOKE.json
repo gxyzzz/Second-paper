@@ -1,0 +1,35 @@
+{
+  "dataset": "sports",
+  "variant": "P4",
+  "variant_name": "w/o Angular Bound",
+  "seed": 1000,
+  "smoke": true,
+  "canonical_initialization": {
+    "source": "/home/gxy/code/Second-paper/diffusion_experiments/round33_seed1000_cross_domain/assets/sports_seed1000_init.pt",
+    "state_hash": "584ef0688fffd0437718db189aefd69ed4da21305c79066ee1bc6e6038ef857d",
+    "seed": 1000
+  },
+  "initial_state_hash": "584ef0688fffd0437718db189aefd69ed4da21305c79066ee1bc6e6038ef857d",
+  "same_optimizer_lr_early_stopping_as_publication_runtime": true,
+  "TEST_ACCESSED": false,
+  "loss_finite": true,
+  "grad_audit": {
+    "model_grad_finite": true,
+    "diffusion_grad_finite": true,
+    "grad_finite": true,
+    "TEST_ACCESSED": false
+  },
+  "grad_finite": true,
+  "target_safety": true,
+  "variant_semantics": {
+    "changed": "5-degree angular trust-region cap removed",
+    "preserved": [
+      "half_margin = 0.25",
+      "positive-margin target",
+      "directional_gain > 0 gate",
+      "target never exceeds positive"
+    ]
+  },
+  "branch_semantics_correct": true,
+  "component_changed_only": "w/o Angular Bound"
+}

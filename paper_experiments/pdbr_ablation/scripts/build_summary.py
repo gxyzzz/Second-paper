@@ -46,6 +46,6 @@ def main():
     out=ROOT/'paper_experiments/pdbr_ablation/evidence/PDBR_ABLATION_SUMMARY.csv'
     fields=['dataset','variant','variant_name','best_epoch',*ALL,'u4_vs_colift_baseline','primary_positive_count','overall_positive_count','diffusion_inference_calls','checkpoint_sha']
     with out.open('w',newline='',encoding='utf-8') as f:
-        w=csv.DictWriter(f,fieldnames=fields,extrasaction='ignore');w.writeheader();w.writerows(rows)
+        w=csv.DictWriter(f,fieldnames=fields,extrasaction='ignore',lineterminator=chr(10));w.writeheader();w.writerows(rows)
     print('wrote',out,'rows',len(rows))
 if __name__=='__main__':main()

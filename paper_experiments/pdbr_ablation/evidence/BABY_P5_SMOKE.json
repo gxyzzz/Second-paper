@@ -1,0 +1,36 @@
+{
+  "dataset": "baby",
+  "variant": "P5",
+  "variant_name": "w/o BASE Residual",
+  "seed": 1000,
+  "smoke": true,
+  "canonical_initialization": {
+    "source": "/home/gxy/code/Second-paper/paper_experiments/pdbr_ablation/outputs/_baby_init_audit/assets/shared_seed1000_init.pt",
+    "state_hash": "fa1842cf5e9974db9debf609e16add0214727cf522ddbf62c48fd1b882c8de15",
+    "seed": 1000
+  },
+  "initial_state_hash": "fa1842cf5e9974db9debf609e16add0214727cf522ddbf62c48fd1b882c8de15",
+  "same_optimizer_lr_early_stopping_as_publication_runtime": true,
+  "TEST_ACCESSED": false,
+  "loss_finite": true,
+  "grad_audit": {
+    "model_grad_finite": true,
+    "diffusion_grad_finite": true,
+    "grad_finite": true,
+    "TEST_ACCESSED": false
+  },
+  "grad_finite": true,
+  "target_safety": true,
+  "variant_semantics": {
+    "changed": "BASE residual reference removed; direction uses tangent(anchor, h_true - anchor)",
+    "preserved": [
+      "correct user condition",
+      "preference alignment",
+      "same local_t",
+      "same bounded refinement",
+      "same curriculum"
+    ]
+  },
+  "branch_semantics_correct": true,
+  "component_changed_only": "w/o BASE Residual"
+}

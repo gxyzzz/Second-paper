@@ -1,0 +1,81 @@
+{
+  "audit": {
+    "dataset": "baby",
+    "variant": "P4",
+    "variant_name": "w/o Angular Bound",
+    "seed": 1000,
+    "smoke": false,
+    "canonical_initialization": {
+      "source": "/home/gxy/code/Second-paper/paper_experiments/pdbr_ablation/outputs/_baby_init_audit/assets/shared_seed1000_init.pt",
+      "state_hash": "fa1842cf5e9974db9debf609e16add0214727cf522ddbf62c48fd1b882c8de15",
+      "seed": 1000
+    },
+    "initial_state_hash": "fa1842cf5e9974db9debf609e16add0214727cf522ddbf62c48fd1b882c8de15",
+    "same_optimizer_lr_early_stopping_as_publication_runtime": true,
+    "TEST_ACCESSED": false,
+    "loss_finite": true,
+    "grad_audit": null,
+    "grad_finite": true,
+    "target_safety": true,
+    "variant_semantics": {
+      "changed": "5-degree angular trust-region cap removed",
+      "preserved": [
+        "half_margin = 0.25",
+        "positive-margin target",
+        "directional_gain > 0 gate",
+        "target never exceeds positive"
+      ]
+    },
+    "branch_semantics_correct": true,
+    "component_changed_only": "w/o Angular Bound"
+  },
+  "training": {
+    "best_epoch": 22,
+    "stop_epoch": 43,
+    "epochs_trained": 44,
+    "stopping_step": 20,
+    "eval_step": 1,
+    "checkpoint_selection": "best Full CoLiftRec Validation R20",
+    "checkpoint_sha": "25ac70e1f54beca8c8df10d155cf624d920a97a0357f7f6d6dc98edde5fd42bf",
+    "config": {
+      "lambda_hn": 0.2,
+      "half_margin": 0.25,
+      "theta_max_deg": 5.0,
+      "local_t": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "active_steps": 2
+    }
+  },
+  "test": {
+    "dataset": "baby",
+    "variant": "P4",
+    "variant_name": "w/o Angular Bound",
+    "seed": 1000,
+    "best_epoch": 22,
+    "R10": 0.0718802338486062,
+    "N10": 0.03933241557244634,
+    "R20": 0.1086996735158216,
+    "N20": 0.04884835460863641,
+    "R50": 0.17918696443124318,
+    "N50": 0.06307179450147558,
+    "u4_vs_colift_baseline": 0.011062204051877404,
+    "relative_delta": {
+      "R10": 0.009186950073699286,
+      "N10": 0.00995211270165442,
+      "R20": 0.013113091068824793,
+      "N20": 0.011996662363331119,
+      "R50": -0.0019607481813807793,
+      "N50": 0.0018604882160865766
+    },
+    "primary_positive_count": 4,
+    "overall_positive_count": 5,
+    "diffusion_inference_calls": 0,
+    "checkpoint_sha": "25ac70e1f54beca8c8df10d155cf624d920a97a0357f7f6d6dc98edde5fd42bf",
+    "TEST_USED_FOR_SELECTION": false
+  }
+}

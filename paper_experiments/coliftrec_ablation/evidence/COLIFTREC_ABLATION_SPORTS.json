@@ -1,0 +1,108 @@
+{
+  "dataset": "sports",
+  "seed": 1000,
+  "checkpoint": {
+    "path": "/home/gxy/code/Second-paper/diffusion_experiments/round33_seed1000_cross_domain/outputs/sports/B0/best.pt",
+    "sha256": "79cdc2fa5c14846cd33718c21cf41f74e1fdd01fc1d9e668b5731407665d1f32",
+    "epoch": 57
+  },
+  "same_candidate_set_for_all_variants": true,
+  "candidate_shape": [
+    35598,
+    100
+  ],
+  "TEST_USED_FOR_SELECTION": false,
+  "NO_TRAINING": true,
+  "variants": [
+    {
+      "dataset": "sports",
+      "variant": "C0",
+      "variant_name": "Backbone",
+      "R10": 0.07863348618657905,
+      "N10": 0.042835616552535045,
+      "R20": 0.11703231276592142,
+      "N20": 0.05273389032083483,
+      "R50": 0.18967140342287817,
+      "N50": 0.06753103747125477,
+      "delta_u4_vs_backbone": 0.0,
+      "delta_u4_vs_full_colift": -0.05209428956393479,
+      "checkpoint_sha": "79cdc2fa5c14846cd33718c21cf41f74e1fdd01fc1d9e668b5731407665d1f32",
+      "seed": 1000
+    },
+    {
+      "dataset": "sports",
+      "variant": "C1",
+      "variant_name": "w/o Generic Background Removal",
+      "R10": 0.08298592439204272,
+      "N10": 0.04476547722389561,
+      "R20": 0.12363260331193923,
+      "N20": 0.05522622809116604,
+      "R50": 0.19536867596449592,
+      "N50": 0.06982841444048142,
+      "delta_u4_vs_backbone": 0.05101584231938336,
+      "delta_u4_vs_full_colift": -0.003757783091269875,
+      "checkpoint_sha": "79cdc2fa5c14846cd33718c21cf41f74e1fdd01fc1d9e668b5731407665d1f32",
+      "seed": 1000
+    },
+    {
+      "dataset": "sports",
+      "variant": "C2",
+      "variant_name": "w/o Text Lift",
+      "R10": 0.08114751631311552,
+      "N10": 0.04438102268980246,
+      "R20": 0.12211288845369415,
+      "N20": 0.05496430406276957,
+      "R50": 0.19563293639646237,
+      "N50": 0.06993444333187948,
+      "delta_u4_vs_backbone": 0.038439117303385395,
+      "delta_u4_vs_full_colift": -0.01566667282908919,
+      "checkpoint_sha": "79cdc2fa5c14846cd33718c21cf41f74e1fdd01fc1d9e668b5731407665d1f32",
+      "seed": 1000
+    },
+    {
+      "dataset": "sports",
+      "variant": "C3",
+      "variant_name": "w/o Attribute Lift",
+      "R10": 0.07994038589647895,
+      "N10": 0.04355719618162829,
+      "R20": 0.120329470533836,
+      "N20": 0.05393179416152795,
+      "R50": 0.192149382834955,
+      "N50": 0.06854584560212902,
+      "delta_u4_vs_backbone": 0.021088632734272996,
+      "delta_u4_vs_full_colift": -0.032121507159134505,
+      "checkpoint_sha": "79cdc2fa5c14846cd33718c21cf41f74e1fdd01fc1d9e668b5731407665d1f32",
+      "seed": 1000
+    },
+    {
+      "dataset": "sports",
+      "variant": "C4",
+      "variant_name": "w/o Visual Lift",
+      "R10": 0.08257937845625357,
+      "N10": 0.04469032469922451,
+      "R20": 0.12381608963228719,
+      "N20": 0.05531525833476171,
+      "R50": 0.19571373280289509,
+      "N50": 0.06994388831404887,
+      "delta_u4_vs_backbone": 0.05009872763130007,
+      "delta_u4_vs_full_colift": -0.004630525974265738,
+      "checkpoint_sha": "79cdc2fa5c14846cd33718c21cf41f74e1fdd01fc1d9e668b5731407665d1f32",
+      "seed": 1000
+    },
+    {
+      "dataset": "sports",
+      "variant": "C5",
+      "variant_name": "Full CoLiftRec",
+      "R10": 0.08304756955313168,
+      "N10": 0.04489102030022973,
+      "R20": 0.12438806308897324,
+      "N20": 0.05552711930733725,
+      "R50": 0.1959628104664342,
+      "N50": 0.07007544123471121,
+      "delta_u4_vs_backbone": 0.05498477881053228,
+      "delta_u4_vs_full_colift": 0.0,
+      "checkpoint_sha": "79cdc2fa5c14846cd33718c21cf41f74e1fdd01fc1d9e668b5731407665d1f32",
+      "seed": 1000
+    }
+  ]
+}

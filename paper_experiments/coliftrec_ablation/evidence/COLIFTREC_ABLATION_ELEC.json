@@ -1,0 +1,108 @@
+{
+  "dataset": "elec",
+  "seed": 1000,
+  "checkpoint": {
+    "path": "/home/gxy/code/Second-paper/diffusion_experiments/round33_seed1000_cross_domain/outputs/elec/B0/best.pt",
+    "sha256": "695c37330e2b337cf46fbd43a78510c524d0c0bbc84c21d45537d2d5ec0b40b6",
+    "epoch": 23
+  },
+  "same_candidate_set_for_all_variants": true,
+  "candidate_shape": [
+    192403,
+    100
+  ],
+  "TEST_USED_FOR_SELECTION": false,
+  "NO_TRAINING": true,
+  "variants": [
+    {
+      "dataset": "elec",
+      "variant": "C0",
+      "variant_name": "Backbone",
+      "R10": 0.04939546491652155,
+      "N10": 0.027998182905188334,
+      "R20": 0.07255186999191038,
+      "N20": 0.03397306287033052,
+      "R50": 0.11652136670271755,
+      "N50": 0.04291160437533057,
+      "delta_u4_vs_backbone": 0.0,
+      "delta_u4_vs_full_colift": -0.029190696411969065,
+      "checkpoint_sha": "695c37330e2b337cf46fbd43a78510c524d0c0bbc84c21d45537d2d5ec0b40b6",
+      "seed": 1000
+    },
+    {
+      "dataset": "elec",
+      "variant": "C1",
+      "variant_name": "w/o Generic Background Removal",
+      "R10": 0.05096894736476264,
+      "N10": 0.02884472826221783,
+      "R20": 0.07491034691950842,
+      "N20": 0.03502771310753395,
+      "R50": 0.1189651609027807,
+      "N50": 0.043994118354370115,
+      "delta_u4_vs_backbone": 0.0314104247899849,
+      "delta_u4_vs_full_colift": 0.0013013421408442694,
+      "checkpoint_sha": "695c37330e2b337cf46fbd43a78510c524d0c0bbc84c21d45537d2d5ec0b40b6",
+      "seed": 1000
+    },
+    {
+      "dataset": "elec",
+      "variant": "C2",
+      "variant_name": "w/o Text Lift",
+      "R10": 0.050573046227858576,
+      "N10": 0.02866094180840085,
+      "R20": 0.07456969069385397,
+      "N20": 0.03485671759619613,
+      "R50": 0.11913923051494575,
+      "N50": 0.04392531302048749,
+      "delta_u4_vs_backbone": 0.02533348191617709,
+      "delta_u4_vs_full_colift": -0.004599428174422698,
+      "checkpoint_sha": "695c37330e2b337cf46fbd43a78510c524d0c0bbc84c21d45537d2d5ec0b40b6",
+      "seed": 1000
+    },
+    {
+      "dataset": "elec",
+      "variant": "C3",
+      "variant_name": "w/o Attribute Lift",
+      "R10": 0.049831527275649996,
+      "N10": 0.028256147880977397,
+      "R20": 0.07311755215032456,
+      "N20": 0.03427186755507506,
+      "R50": 0.1176603291052781,
+      "N50": 0.043340904730413736,
+      "delta_u4_vs_backbone": 0.008658473014989287,
+      "delta_u4_vs_full_colift": -0.02078402481961409,
+      "checkpoint_sha": "695c37330e2b337cf46fbd43a78510c524d0c0bbc84c21d45537d2d5ec0b40b6",
+      "seed": 1000
+    },
+    {
+      "dataset": "elec",
+      "variant": "C4",
+      "variant_name": "w/o Visual Lift",
+      "R10": 0.050863620646935066,
+      "N10": 0.028768903087289882,
+      "R20": 0.07495425895596629,
+      "N20": 0.034995664033314736,
+      "R50": 0.11952314796568801,
+      "N50": 0.04405921731132486,
+      "delta_u4_vs_backbone": 0.03011576222588724,
+      "delta_u4_vs_full_colift": 4.230163273368118e-05,
+      "checkpoint_sha": "695c37330e2b337cf46fbd43a78510c524d0c0bbc84c21d45537d2d5ec0b40b6",
+      "seed": 1000
+    },
+    {
+      "dataset": "elec",
+      "variant": "C5",
+      "variant_name": "Full CoLiftRec",
+      "R10": 0.050877776409117115,
+      "N10": 0.028767010406350855,
+      "R20": 0.0749459461710206,
+      "N20": 0.03498619233476763,
+      "R50": 0.11953486279473938,
+      "N50": 0.04405142288858374,
+      "delta_u4_vs_backbone": 0.030072162896416933,
+      "delta_u4_vs_full_colift": 0.0,
+      "checkpoint_sha": "695c37330e2b337cf46fbd43a78510c524d0c0bbc84c21d45537d2d5ec0b40b6",
+      "seed": 1000
+    }
+  ]
+}

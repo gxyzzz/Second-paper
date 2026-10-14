@@ -1,0 +1,37 @@
+{
+  "dataset": "elec",
+  "variant": "P2",
+  "variant_name": "w/ Shuffled User",
+  "seed": 1000,
+  "smoke": true,
+  "canonical_initialization": {
+    "source": "/home/gxy/code/Second-paper/diffusion_experiments/round33_seed1000_cross_domain/assets/elec_seed1000_init.pt",
+    "state_hash": "513ed94673b758627a4b6936d8e03ba3f3dc42608efaa37972dea11955565437",
+    "seed": 1000
+  },
+  "initial_state_hash": "513ed94673b758627a4b6936d8e03ba3f3dc42608efaa37972dea11955565437",
+  "same_optimizer_lr_early_stopping_as_publication_runtime": true,
+  "TEST_ACCESSED": false,
+  "loss_finite": true,
+  "grad_audit": {
+    "model_grad_finite": true,
+    "diffusion_grad_finite": true,
+    "grad_finite": true,
+    "TEST_ACCESSED": false
+  },
+  "grad_finite": true,
+  "target_safety": true,
+  "variant_semantics": {
+    "changed": "correct user identity -> deterministic shuffled user in the preference-conditioned branch",
+    "preserved": [
+      "same item",
+      "same noise",
+      "same local_t",
+      "same optimizer",
+      "same positive target",
+      "same bounded refinement"
+    ]
+  },
+  "branch_semantics_correct": true,
+  "component_changed_only": "w/ Shuffled User"
+}

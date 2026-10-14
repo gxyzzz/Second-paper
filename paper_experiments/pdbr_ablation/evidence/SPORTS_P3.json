@@ -1,0 +1,81 @@
+{
+  "audit": {
+    "dataset": "sports",
+    "variant": "P3",
+    "variant_name": "w/o Preference Alignment",
+    "seed": 1000,
+    "smoke": false,
+    "canonical_initialization": {
+      "source": "/home/gxy/code/Second-paper/diffusion_experiments/round33_seed1000_cross_domain/assets/sports_seed1000_init.pt",
+      "state_hash": "584ef0688fffd0437718db189aefd69ed4da21305c79066ee1bc6e6038ef857d",
+      "seed": 1000
+    },
+    "initial_state_hash": "584ef0688fffd0437718db189aefd69ed4da21305c79066ee1bc6e6038ef857d",
+    "same_optimizer_lr_early_stopping_as_publication_runtime": true,
+    "TEST_ACCESSED": false,
+    "loss_finite": true,
+    "grad_audit": null,
+    "grad_finite": true,
+    "target_safety": true,
+    "variant_semantics": {
+      "changed": "preference-direction alignment loss disabled (L_dir = 0)",
+      "preserved": [
+        "local diffusion reconstruction",
+        "correct user condition",
+        "same boundary mining",
+        "same bounded refinement"
+      ]
+    },
+    "branch_semantics_correct": true,
+    "component_changed_only": "w/o Preference Alignment"
+  },
+  "training": {
+    "best_epoch": 29,
+    "stop_epoch": 50,
+    "epochs_trained": 51,
+    "stopping_step": 20,
+    "eval_step": 1,
+    "checkpoint_selection": "best Full CoLiftRec Validation R20",
+    "checkpoint_sha": "970559a8f804970aa70c9090292d697bccdc7860758e51aa3a1b43a9048c8bcd",
+    "config": {
+      "lambda_hn": 0.2,
+      "half_margin": 0.25,
+      "theta_max_deg": 5.0,
+      "local_t": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "active_steps": 2
+    }
+  },
+  "test": {
+    "dataset": "sports",
+    "variant": "P3",
+    "variant_name": "w/o Preference Alignment",
+    "seed": 1000,
+    "best_epoch": 29,
+    "R10": 0.0875286153939449,
+    "N10": 0.04719597696501256,
+    "R20": 0.126809904159053,
+    "N20": 0.057316402087376546,
+    "R50": 0.19664795239968,
+    "N50": 0.07150831232823067,
+    "u4_vs_colift_baseline": 0.03924920347687987,
+    "relative_delta": {
+      "R10": 0.05395757955260035,
+      "N10": 0.051345606523695665,
+      "R20": 0.019470044069642298,
+      "N20": 0.03222358376158117,
+      "R50": 0.003496285502412418,
+      "N50": 0.020447550072787826
+    },
+    "primary_positive_count": 4,
+    "overall_positive_count": 6,
+    "diffusion_inference_calls": 0,
+    "checkpoint_sha": "970559a8f804970aa70c9090292d697bccdc7860758e51aa3a1b43a9048c8bcd",
+    "TEST_USED_FOR_SELECTION": false
+  }
+}

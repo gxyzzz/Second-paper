@@ -1,0 +1,82 @@
+{
+  "audit": {
+    "dataset": "baby",
+    "variant": "P6",
+    "variant_name": "w/o Boundary Curriculum",
+    "seed": 1000,
+    "smoke": false,
+    "canonical_initialization": {
+      "source": "/home/gxy/code/Second-paper/paper_experiments/pdbr_ablation/outputs/_baby_init_audit/assets/shared_seed1000_init.pt",
+      "state_hash": "fa1842cf5e9974db9debf609e16add0214727cf522ddbf62c48fd1b882c8de15",
+      "seed": 1000
+    },
+    "initial_state_hash": "fa1842cf5e9974db9debf609e16add0214727cf522ddbf62c48fd1b882c8de15",
+    "same_optimizer_lr_early_stopping_as_publication_runtime": true,
+    "TEST_ACCESSED": false,
+    "loss_finite": true,
+    "grad_audit": null,
+    "grad_finite": true,
+    "target_safety": true,
+    "variant_semantics": {
+      "changed": "progressive curriculum removed; all 3 bands activate immediately after warmup",
+      "preserved": [
+        "warmup = 10",
+        "correct user condition",
+        "preference alignment",
+        "BASE residual",
+        "bounded refinement"
+      ]
+    },
+    "branch_semantics_correct": true,
+    "component_changed_only": "w/o Boundary Curriculum"
+  },
+  "training": {
+    "best_epoch": 21,
+    "stop_epoch": 42,
+    "epochs_trained": 43,
+    "stopping_step": 20,
+    "eval_step": 1,
+    "checkpoint_selection": "best Full CoLiftRec Validation R20",
+    "checkpoint_sha": "7e53e09209b7608ff8e080273c2f9ca1f467d56b191122c2c84cade8231e83bd",
+    "config": {
+      "lambda_hn": 0.2,
+      "half_margin": 0.25,
+      "theta_max_deg": 5.0,
+      "local_t": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "active_steps": 2
+    }
+  },
+  "test": {
+    "dataset": "baby",
+    "variant": "P6",
+    "variant_name": "w/o Boundary Curriculum",
+    "seed": 1000,
+    "best_epoch": 21,
+    "R10": 0.07267184388423784,
+    "N10": 0.03964882708500905,
+    "R20": 0.10786820747607584,
+    "N20": 0.04869163415881693,
+    "R50": 0.17533705716014794,
+    "N50": 0.06237523882278522,
+    "u4_vs_colift_baseline": 0.013122799671011529,
+    "relative_delta": {
+      "R10": 0.020301027960388195,
+      "N10": 0.018076721143443025,
+      "R20": 0.005363581779608972,
+      "N20": 0.00874986780060592,
+      "R50": -0.023404041138605527,
+      "N50": -0.009203912564615604
+    },
+    "primary_positive_count": 4,
+    "overall_positive_count": 4,
+    "diffusion_inference_calls": 0,
+    "checkpoint_sha": "7e53e09209b7608ff8e080273c2f9ca1f467d56b191122c2c84cade8231e83bd",
+    "TEST_USED_FOR_SELECTION": false
+  }
+}

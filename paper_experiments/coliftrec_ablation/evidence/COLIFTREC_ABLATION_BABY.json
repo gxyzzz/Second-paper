@@ -1,0 +1,108 @@
+{
+  "dataset": "baby",
+  "seed": 1000,
+  "checkpoint": {
+    "path": "/home/gxy/code/Second-paper/diffusion_experiments/round26_preference_directed_diffusion/outputs/seed1000/B0/best.pt",
+    "sha256": "3d099347a4bbb0ce9df143f68bdb96d2c513fb99852b2e1817f84bf08577c944",
+    "epoch": 31
+  },
+  "same_candidate_set_for_all_variants": true,
+  "candidate_shape": [
+    19445,
+    100
+  ],
+  "TEST_USED_FOR_SELECTION": false,
+  "NO_TRAINING": true,
+  "variants": [
+    {
+      "dataset": "baby",
+      "variant": "C0",
+      "variant_name": "Backbone",
+      "R10": 0.06772035270235323,
+      "N10": 0.03703098920461277,
+      "R20": 0.10378405885991383,
+      "N20": 0.04631808587404491,
+      "R50": 0.17448297638192214,
+      "N50": 0.06063812057861048,
+      "delta_u4_vs_backbone": 0.0,
+      "delta_u4_vs_full_colift": -0.04287115161715551,
+      "checkpoint_sha": "3d099347a4bbb0ce9df143f68bdb96d2c513fb99852b2e1817f84bf08577c944",
+      "seed": 1000
+    },
+    {
+      "dataset": "baby",
+      "variant": "C1",
+      "variant_name": "w/o Generic Background Removal",
+      "R10": 0.07134988165458724,
+      "N10": 0.03911964822615462,
+      "R20": 0.10748944278771999,
+      "N20": 0.04842292250402716,
+      "R50": 0.17912157854430932,
+      "N50": 0.06294213469334993,
+      "delta_u4_vs_backbone": 0.047786186712750964,
+      "delta_u4_vs_full_colift": 0.002811506032894753,
+      "checkpoint_sha": "3d099347a4bbb0ce9df143f68bdb96d2c513fb99852b2e1817f84bf08577c944",
+      "seed": 1000
+    },
+    {
+      "dataset": "baby",
+      "variant": "C2",
+      "variant_name": "w/o Text Lift",
+      "R10": 0.07059169923530942,
+      "N10": 0.0384623847809924,
+      "R20": 0.10572635030464808,
+      "N20": 0.047528150132635165,
+      "R50": 0.1782469504724583,
+      "N50": 0.062227945796524645,
+      "delta_u4_vs_backbone": 0.03147346877722158,
+      "delta_u4_vs_full_colift": -0.012811289220330282,
+      "checkpoint_sha": "3d099347a4bbb0ce9df143f68bdb96d2c513fb99852b2e1817f84bf08577c944",
+      "seed": 1000
+    },
+    {
+      "dataset": "baby",
+      "variant": "C3",
+      "variant_name": "w/o Attribute Lift",
+      "R10": 0.06989571912045557,
+      "N10": 0.03826509659424207,
+      "R20": 0.10627447750101389,
+      "N20": 0.0476594166418971,
+      "R50": 0.17760331580079589,
+      "N50": 0.062109608189545966,
+      "delta_u4_vs_backbone": 0.029601100061465973,
+      "delta_u4_vs_full_colift": -0.014563568345181598,
+      "checkpoint_sha": "3d099347a4bbb0ce9df143f68bdb96d2c513fb99852b2e1817f84bf08577c944",
+      "seed": 1000
+    },
+    {
+      "dataset": "baby",
+      "variant": "C4",
+      "variant_name": "w/o Visual Lift",
+      "R10": 0.07162873083032509,
+      "N10": 0.03912953029978841,
+      "R20": 0.10748301439995964,
+      "N20": 0.04837037738420528,
+      "R50": 0.17943271251191026,
+      "N50": 0.06298331829906226,
+      "delta_u4_vs_backbone": 0.048583220649839616,
+      "delta_u4_vs_full_colift": 0.003566567459060855,
+      "checkpoint_sha": "3d099347a4bbb0ce9df143f68bdb96d2c513fb99852b2e1817f84bf08577c944",
+      "seed": 1000
+    },
+    {
+      "dataset": "baby",
+      "variant": "C5",
+      "variant_name": "Full CoLiftRec",
+      "R10": 0.07122588519734317,
+      "N10": 0.03894483221311441,
+      "R20": 0.10729273412225329,
+      "N20": 0.04826928430234158,
+      "R50": 0.17953899518954802,
+      "N50": 0.06295466808335885,
+      "delta_u4_vs_backbone": 0.04484513686550382,
+      "delta_u4_vs_full_colift": 0.0,
+      "checkpoint_sha": "3d099347a4bbb0ce9df143f68bdb96d2c513fb99852b2e1817f84bf08577c944",
+      "seed": 1000
+    }
+  ]
+}

@@ -78,7 +78,7 @@ def main():
     ev=ROOT/"paper_experiments/efficiency/evidence"; ev.mkdir(parents=True,exist_ok=True)
     fields=["dataset","method","users","median_seconds","mean_seconds","std_seconds","median_ms_per_user","mean_ms_per_user","peak_cuda_allocated_GB","diffusion_inference_calls","all_repeats_seconds"]
     with (ev/"INFERENCE_BENCHMARK.csv").open("w",newline="",encoding="utf-8") as f:
-        w=csv.DictWriter(f,fieldnames=fields); w.writeheader();
+        w=csv.DictWriter(f,fieldnames=fields,lineterminator=chr(10)); w.writeheader();
         for row in rows:
             rr=dict(row); rr["all_repeats_seconds"]=json.dumps(rr["all_repeats_seconds"]); w.writerow(rr)
     cpu=platform.processor().strip()

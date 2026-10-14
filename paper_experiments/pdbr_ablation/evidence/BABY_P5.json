@@ -1,0 +1,82 @@
+{
+  "audit": {
+    "dataset": "baby",
+    "variant": "P5",
+    "variant_name": "w/o BASE Residual",
+    "seed": 1000,
+    "smoke": false,
+    "canonical_initialization": {
+      "source": "/home/gxy/code/Second-paper/paper_experiments/pdbr_ablation/outputs/_baby_init_audit/assets/shared_seed1000_init.pt",
+      "state_hash": "fa1842cf5e9974db9debf609e16add0214727cf522ddbf62c48fd1b882c8de15",
+      "seed": 1000
+    },
+    "initial_state_hash": "fa1842cf5e9974db9debf609e16add0214727cf522ddbf62c48fd1b882c8de15",
+    "same_optimizer_lr_early_stopping_as_publication_runtime": true,
+    "TEST_ACCESSED": false,
+    "loss_finite": true,
+    "grad_audit": null,
+    "grad_finite": true,
+    "target_safety": true,
+    "variant_semantics": {
+      "changed": "BASE residual reference removed; direction uses tangent(anchor, h_true - anchor)",
+      "preserved": [
+        "correct user condition",
+        "preference alignment",
+        "same local_t",
+        "same bounded refinement",
+        "same curriculum"
+      ]
+    },
+    "branch_semantics_correct": true,
+    "component_changed_only": "w/o BASE Residual"
+  },
+  "training": {
+    "best_epoch": 22,
+    "stop_epoch": 43,
+    "epochs_trained": 44,
+    "stopping_step": 20,
+    "eval_step": 1,
+    "checkpoint_selection": "best Full CoLiftRec Validation R20",
+    "checkpoint_sha": "0bf05d44f3d1e013399e453101a71d6791113d51854b9c6d5c5df897adf63fc9",
+    "config": {
+      "lambda_hn": 0.2,
+      "half_margin": 0.25,
+      "theta_max_deg": 5.0,
+      "local_t": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "active_steps": 2
+    }
+  },
+  "test": {
+    "dataset": "baby",
+    "variant": "P5",
+    "variant_name": "w/o BASE Residual",
+    "seed": 1000,
+    "best_epoch": 22,
+    "R10": 0.07207614661844544,
+    "N10": 0.039455593384190614,
+    "R20": 0.1094179387082447,
+    "N20": 0.049093713481930076,
+    "R50": 0.17846227085105973,
+    "N50": 0.06304435776157895,
+    "u4_vs_colift_baseline": 0.015484962474078719,
+    "relative_delta": {
+      "R10": 0.011937533928100413,
+      "N10": 0.013114992209523807,
+      "R20": 0.019807534996450715,
+      "N20": 0.01707978876223994,
+      "R50": -0.005997161437555913,
+      "N50": 0.0014246708139472068
+    },
+    "primary_positive_count": 4,
+    "overall_positive_count": 5,
+    "diffusion_inference_calls": 0,
+    "checkpoint_sha": "0bf05d44f3d1e013399e453101a71d6791113d51854b9c6d5c5df897adf63fc9",
+    "TEST_USED_FOR_SELECTION": false
+  }
+}

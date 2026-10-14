@@ -63,7 +63,7 @@ def run(dataset, gpu_id):
     user_csv = out_dir / f"{dataset}_user_rank_transitions.csv"
     with user_csv.open("w", newline="", encoding="utf-8") as f:
         fields = ["user_id", "baseline_best_positive_rank", "full_best_positive_rank", "group", "cross_top10", "cross_top20", "enter_top100"]
-        w = csv.DictWriter(f, fieldnames=fields); w.writeheader()
+        w = csv.DictWriter(f, fieldnames=fields, lineterminator=chr(10)); w.writeheader()
         for user, br, fr, group in zip(users, b_rank, f_rank, group_codes):
             w.writerow({
                 "user_id": int(user), "baseline_best_positive_rank": int(br), "full_best_positive_rank": int(fr),
@@ -125,7 +125,7 @@ def run(dataset, gpu_id):
         "baseline_N20", "full_N20", "delta_N20_absolute",
     ]
     with csv_path.open("w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=fields, extrasaction="ignore"); w.writeheader(); w.writerows(rows)
+        w = csv.DictWriter(f, fieldnames=fields, extrasaction="ignore", lineterminator=chr(10)); w.writeheader(); w.writerows(rows)
     summary = {
         "dataset": dataset, "seed": 1000,
         "baseline_checkpoint": base["checkpoint"], "full_checkpoint": full["checkpoint"],

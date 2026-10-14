@@ -204,7 +204,7 @@ def main():
         'active_boundary_bands', 'active_steps',
     ]
     with (ev / 'TRAINING_BENCHMARK.csv').open('w', newline='', encoding='utf-8') as f:
-        writer = csv.DictWriter(f, fieldnames=fields, extrasaction='ignore')
+        writer = csv.DictWriter(f, fieldnames=fields, extrasaction='ignore', lineterminator=chr(10))
         writer.writeheader(); writer.writerows(rows)
     (ev / 'TRAINING_OVERHEAD.json').write_text(json.dumps(overhead, indent=2) + '\n', encoding='utf-8')
     print('wrote', ev / 'TRAINING_BENCHMARK.csv')

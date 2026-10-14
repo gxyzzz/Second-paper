@@ -1,0 +1,69 @@
+{
+  "audit": {
+    "dataset": "baby",
+    "variant": "P2",
+    "variant_name": "w/ Shuffled User",
+    "seed": 1000,
+    "smoke": false,
+    "canonical_initialization": {
+      "source": "/home/gxy/code/Second-paper/paper_experiments/pdbr_ablation/outputs/_baby_init_audit/assets/shared_seed1000_init.pt",
+      "state_hash": "fa1842cf5e9974db9debf609e16add0214727cf522ddbf62c48fd1b882c8de15",
+      "seed": 1000
+    },
+    "initial_state_hash": "fa1842cf5e9974db9debf609e16add0214727cf522ddbf62c48fd1b882c8de15",
+    "same_optimizer_lr_early_stopping_as_publication_runtime": true,
+    "TEST_ACCESSED": false,
+    "loss_finite": true,
+    "target_safety": true,
+    "component_changed_only": "w/ Shuffled User"
+  },
+  "training": {
+    "best_epoch": 22,
+    "stop_epoch": 43,
+    "epochs_trained": 44,
+    "stopping_step": 20,
+    "eval_step": 1,
+    "checkpoint_selection": "best Full CoLiftRec Validation R20",
+    "checkpoint_sha": "33a17325b9781d777bd60f573e61f0ddab5b430236962b0b7fa9f8c2d9666fd8",
+    "config": {
+      "lambda_hn": 0.2,
+      "half_margin": 0.25,
+      "theta_max_deg": 5.0,
+      "local_t": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "active_steps": 2
+    }
+  },
+  "test": {
+    "dataset": "baby",
+    "variant": "P2",
+    "variant_name": "w/ Shuffled User",
+    "seed": 1000,
+    "best_epoch": 22,
+    "R10": 0.07165615861810258,
+    "N10": 0.03939568021032125,
+    "R20": 0.1090948050834911,
+    "N20": 0.049042076054493754,
+    "R50": 0.17713551284006415,
+    "N50": 0.06279321779323062,
+    "u4_vs_colift_baseline": 0.012605848815842566,
+    "relative_delta": {
+      "R10": 0.006040969790228148,
+      "N10": 0.011576580808968595,
+      "R20": 0.016795834088676204,
+      "N20": 0.016010010575497325,
+      "R50": -0.013386965583417674,
+      "N50": -0.0025645483495275777
+    },
+    "primary_positive_count": 4,
+    "overall_positive_count": 4,
+    "diffusion_inference_calls": 0,
+    "checkpoint_sha": "33a17325b9781d777bd60f573e61f0ddab5b430236962b0b7fa9f8c2d9666fd8",
+    "TEST_USED_FOR_SELECTION": false
+  }
+}

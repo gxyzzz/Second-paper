@@ -1,0 +1,69 @@
+{
+  "audit": {
+    "dataset": "baby",
+    "variant": "P3",
+    "variant_name": "w/o Preference Alignment",
+    "seed": 1000,
+    "smoke": false,
+    "canonical_initialization": {
+      "source": "/home/gxy/code/Second-paper/paper_experiments/pdbr_ablation/outputs/_baby_init_audit/assets/shared_seed1000_init.pt",
+      "state_hash": "fa1842cf5e9974db9debf609e16add0214727cf522ddbf62c48fd1b882c8de15",
+      "seed": 1000
+    },
+    "initial_state_hash": "fa1842cf5e9974db9debf609e16add0214727cf522ddbf62c48fd1b882c8de15",
+    "same_optimizer_lr_early_stopping_as_publication_runtime": true,
+    "TEST_ACCESSED": false,
+    "loss_finite": true,
+    "target_safety": true,
+    "component_changed_only": "w/o Preference Alignment"
+  },
+  "training": {
+    "best_epoch": 23,
+    "stop_epoch": 44,
+    "epochs_trained": 45,
+    "stopping_step": 20,
+    "eval_step": 1,
+    "checkpoint_selection": "best Full CoLiftRec Validation R20",
+    "checkpoint_sha": "a44f0148ce36947751588911a9aadffdbd6099e53838a8940c4ae75cbeaca0e3",
+    "config": {
+      "lambda_hn": 0.2,
+      "half_margin": 0.25,
+      "theta_max_deg": 5.0,
+      "local_t": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "active_steps": 2
+    }
+  },
+  "test": {
+    "dataset": "baby",
+    "variant": "P3",
+    "variant_name": "w/o Preference Alignment",
+    "seed": 1000,
+    "best_epoch": 23,
+    "R10": 0.07307040392537952,
+    "N10": 0.03987759111329128,
+    "R20": 0.11023005836196888,
+    "N20": 0.04943730944374264,
+    "R50": 0.17925804403305048,
+    "N50": 0.06335906438460792,
+    "u4_vs_colift_baseline": 0.025355588867983198,
+    "relative_delta": {
+      "R10": 0.025896746989185135,
+      "N10": 0.023950774651502443,
+      "R20": 0.027376730248748163,
+      "N20": 0.024198103582497056,
+      "R50": -0.0015648475485836651,
+      "N50": 0.006423611045230257
+    },
+    "primary_positive_count": 4,
+    "overall_positive_count": 5,
+    "diffusion_inference_calls": 0,
+    "checkpoint_sha": "a44f0148ce36947751588911a9aadffdbd6099e53838a8940c4ae75cbeaca0e3",
+    "TEST_USED_FOR_SELECTION": false
+  }
+}

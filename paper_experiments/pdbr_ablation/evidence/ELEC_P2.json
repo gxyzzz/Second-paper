@@ -1,0 +1,83 @@
+{
+  "audit": {
+    "dataset": "elec",
+    "variant": "P2",
+    "variant_name": "w/ Shuffled User",
+    "seed": 1000,
+    "smoke": false,
+    "canonical_initialization": {
+      "source": "/home/gxy/code/Second-paper/diffusion_experiments/round33_seed1000_cross_domain/assets/elec_seed1000_init.pt",
+      "state_hash": "513ed94673b758627a4b6936d8e03ba3f3dc42608efaa37972dea11955565437",
+      "seed": 1000
+    },
+    "initial_state_hash": "513ed94673b758627a4b6936d8e03ba3f3dc42608efaa37972dea11955565437",
+    "same_optimizer_lr_early_stopping_as_publication_runtime": true,
+    "TEST_ACCESSED": false,
+    "loss_finite": true,
+    "grad_audit": null,
+    "grad_finite": true,
+    "target_safety": true,
+    "variant_semantics": {
+      "changed": "correct user identity -> deterministic shuffled user in the preference-conditioned branch",
+      "preserved": [
+        "same item",
+        "same noise",
+        "same local_t",
+        "same optimizer",
+        "same positive target",
+        "same bounded refinement"
+      ]
+    },
+    "branch_semantics_correct": true,
+    "component_changed_only": "w/ Shuffled User"
+  },
+  "training": {
+    "best_epoch": 16,
+    "stop_epoch": 37,
+    "epochs_trained": 38,
+    "stopping_step": 20,
+    "eval_step": 1,
+    "checkpoint_selection": "best Full CoLiftRec Validation R20",
+    "checkpoint_sha": "f4689fe674dc57d7ed03238ec55adf7050cb467660c99fba536f705676d680ac",
+    "config": {
+      "lambda_hn": 0.2,
+      "half_margin": 0.25,
+      "theta_max_deg": 5.0,
+      "local_t": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "active_steps": 2
+    }
+  },
+  "test": {
+    "dataset": "elec",
+    "variant": "P2",
+    "variant_name": "w/ Shuffled User",
+    "seed": 1000,
+    "best_epoch": 16,
+    "R10": 0.052987613739384716,
+    "N10": 0.029393799371522863,
+    "R20": 0.07885197041430272,
+    "N20": 0.0360827026088326,
+    "R50": 0.12411364725183185,
+    "N50": 0.045313573097100227,
+    "u4_vs_colift_baseline": 0.03667907988219532,
+    "relative_delta": {
+      "R10": 0.0414687409548332,
+      "N10": 0.021788463810394166,
+      "R20": 0.05211788552737586,
+      "N20": 0.031341229236178034,
+      "R50": 0.038305012864363996,
+      "N50": 0.0286517466577358
+    },
+    "primary_positive_count": 4,
+    "overall_positive_count": 6,
+    "diffusion_inference_calls": 0,
+    "checkpoint_sha": "f4689fe674dc57d7ed03238ec55adf7050cb467660c99fba536f705676d680ac",
+    "TEST_USED_FOR_SELECTION": false
+  }
+}
