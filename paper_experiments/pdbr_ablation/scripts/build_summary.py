@@ -3,7 +3,7 @@ import csv,json,subprocess,sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[3]
 sys.path.insert(0,str(ROOT/'src')); sys.path.insert(0,str(ROOT))
-from paper_experiments.common import ALL, PRIMARY, relative_u4
+from paper_experiments.common import ALL, PRIMARY, checkpoint_info, relative_u4
 
 ROUND33='exp/round33-seed1000-cross-domain-20261012'
 ROUND32='exp/round32-round26-parameter-sweep-20261011'
@@ -18,10 +18,12 @@ def c5(dataset):
 def p1(dataset):
     if dataset=='baby':
         x=git_json(ROUND32,'diffusion_experiments/round32_round26_parameter_sweep/evidence/ROUND32_M25_SEED1000.json')
-        return x['Test'],int(x['best_epoch']),x['checkpoint_sha256']
+        info=checkpoint_info(dataset,'p1')
+        return x['Test'],int(info['epoch']),info['sha256']
     name='SPORTS' if dataset=='sports' else 'ELEC'
     x=git_json(ROUND33,f'diffusion_experiments/round33_seed1000_cross_domain/evidence/ROUND33_{name}_TEST.json')
-    return x['M25_result']['colift'],int(x['M25_best_epoch']),None
+    info=checkpoint_info(dataset,'p1')
+    return x['M25_result']['colift'],int(info['epoch']),info['sha256']
 
 def row(dataset,variant,name,m,best_epoch=None,sha=None):
     base=c5(dataset); bm={k:float(base[k]) for k in ALL}
@@ -34,7 +36,7 @@ def row(dataset,variant,name,m,best_epoch=None,sha=None):
 def main():
     rows=[]
     for d in ['baby','sports','elec']:
-        base=c5(d); rows.append(row(d,'P0','CoLiftRec baseline',base,best_epoch=base.get('best_epoch'),sha=base['checkpoint_sha']))
+        base=c5(d); binfo=checkpoint_info(d,'b0'); rows.append(row(d,'P0','CoLiftRec baseline',base,best_epoch=binfo['epoch'],sha=binfo['sha256']))
         m,e,s=p1(d); rows.append(row(d,'P1','Full PDBR (M25)',m,e,s))
         variants=['P2','P3','P4']+(['P5','P6'] if d=='baby' else [])
         for v in variants:
