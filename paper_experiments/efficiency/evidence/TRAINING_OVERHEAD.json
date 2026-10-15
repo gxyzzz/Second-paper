@@ -1,0 +1,20 @@
+[
+  {
+    "dataset": "baby",
+    "time_overhead_percent": 277.92505723337734,
+    "memory_overhead_percent": 3.066751100850751,
+    "benchmark_scope": "full-active upper-bound, not whole-training average"
+  },
+  {
+    "dataset": "sports",
+    "time_overhead_percent": 263.273137525997,
+    "memory_overhead_percent": 1.2634180500507686,
+    "benchmark_scope": "full-active upper-bound, not whole-training average"
+  },
+  {
+    "dataset": "elec",
+    "time_overhead_percent": 200.89014154661658,
+    "memory_overhead_percent": 1.105732898799805,
+    "benchmark_scope": "full-active upper-bound, not whole-training average"
+  }
+]

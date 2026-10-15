@@ -1,0 +1,10 @@
+dataset,method,ms_per_batch,samples_per_second,peak_cuda_allocated_GB,peak_cuda_reserved_GB,timed_batches,warmup_batches,batch_size_config,benchmark_mode,active_boundary_bands,active_steps
+baby,MSCA,47.53975547850132,42981.710348174805,0.713836669921875,0.88671875,100,20,2048,normal MSCA training,,
+baby,MSCA+CoLiftRec,47.53975547850132,42981.710348174805,0.713836669921875,0.88671875,100,20,2048,same training as MSCA; CoLiftRec is post-hoc,,
+baby,MSCA+CoLiftRec+PDBR,179.66464810073376,11373.077684455471,0.7357282638549805,1.048828125,100,20,2048,full-active upper-bound training benchmark,3,2
+sports,MSCA,50.83503296133131,40144.16596429321,1.7622795104980469,1.94921875,100,20,2048,normal MSCA training,,
+sports,MSCA+CoLiftRec,50.83503296133131,40144.16596429321,1.7622795104980469,1.94921875,100,20,2048,same training as MSCA; CoLiftRec is post-hoc,,
+sports,MSCA+CoLiftRec+PDBR,184.67001920100302,11050.683856694568,1.7845444679260254,2.052734375,100,20,2048,full-active upper-bound training benchmark,3,2
+elec,MSCA,72.38650545012206,28292.566235445294,6.268818378448486,7.548828125,100,20,2048,normal MSCA training,,
+elec,MSCA+CoLiftRec,72.38650545012206,28292.566235445294,6.268818378448486,7.548828125,100,20,2048,same training as MSCA; CoLiftRec is post-hoc,,
+elec,MSCA+CoLiftRec+PDBR,217.8038587095216,9402.95554052307,6.338134765625,7.5234375,100,20,2048,full-active upper-bound training benchmark,3,2

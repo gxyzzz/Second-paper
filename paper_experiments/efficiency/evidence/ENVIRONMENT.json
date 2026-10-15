@@ -1,0 +1,43 @@
+{
+  "gpu_name": "NVIDIA GeForce RTX 5090",
+  "cuda_version": "12.8",
+  "pytorch_version": "2.7.0+cu128",
+  "python_version": "3.9.25",
+  "cpu": "x86_64",
+  "batch_size": {
+    "baby": {
+      "train_batch_size": 2048,
+      "eval_batch_size": 4096
+    },
+    "sports": {
+      "train_batch_size": 2048,
+      "eval_batch_size": 4096
+    },
+    "elec": {
+      "train_batch_size": 2048,
+      "eval_batch_size": 4096
+    }
+  },
+  "datasets": [
+    "baby",
+    "sports",
+    "elec"
+  ],
+  "seed": 1000,
+  "commit": "820d612d47952fee32e79c28564871484f74f10d",
+  "timestamp": "2026-10-15T11:36:30+0800",
+  "checkpoint_sha": {
+    "baby": {
+      "b0": "3d099347a4bbb0ce9df143f68bdb96d2c513fb99852b2e1817f84bf08577c944",
+      "p1": "b72786ce4873d659868da950f5d618330cd4fc1486a638eb2cfd8267c18c7820"
+    },
+    "sports": {
+      "b0": "79cdc2fa5c14846cd33718c21cf41f74e1fdd01fc1d9e668b5731407665d1f32",
+      "p1": "2b35652573e91f3526d85193baed4987a39414234453bd40b1cf4f9873402fd1"
+    },
+    "elec": {
+      "b0": "695c37330e2b337cf46fbd43a78510c524d0c0bbc84c21d45537d2d5ec0b40b6",
+      "p1": "b0ff6e52f718b7dd80db63357f8b5861420b483e87067b20515d26448572a232"
+    }
+  }
+}
